@@ -1,5 +1,6 @@
 package be.alexandre01.inazuma_eleven.roles.raimon;
 
+import be.alexandre01.inazuma.uhc.InazumaUHC;
 import be.alexandre01.inazuma.uhc.presets.IPreset;
 import be.alexandre01.inazuma.uhc.presets.Preset;
 import be.alexandre01.inazuma.uhc.roles.Role;
@@ -12,9 +13,12 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.minecraft.server.v1_8_R3.Tuple;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -79,11 +83,20 @@ public class Nathan extends Role implements Listener {
         dribble_rafale.setItemstack(dr.toItemStack());
         addRoleItem(dribble_rafale);
 
-        dribble_rafale.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.COOLDOWN,60*10)));
+        //dribble_rafale.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.COOLDOWN,60*10)));
         dribble_rafale.setRightClick(player -> {
-            
+            Location location = player.getLocation().clone();
+            location.setPitch(location.getPitch()/8f);
+            System.out.println(location.getPitch());
+
+            player.setVelocity( location.getDirection().normalize().multiply(10));
+            InazumaUHC.get.noFallDamager.addPlayer(player,1000*4);
+
         });
     }
+
+
+
     private void addEffectAfter(Player player,long l, PotionEffect... potionEffects){
         Bukkit.getScheduler().runTaskLaterAsynchronously(inazumaUHC, new Runnable() {
             @Override
@@ -91,7 +104,7 @@ public class Nathan extends Role implements Listener {
                 for (PotionEffect p: potionEffects){
                     player.addPotionEffect(p, true);
                 }
-                player.sendMessage(getPreset().prefixName() + "Vous êtes essoufflé");
+                player.sendMessage(getPreset().prefixName() + "Vous êtes essoufflé...");
             }
         },l);
     }
