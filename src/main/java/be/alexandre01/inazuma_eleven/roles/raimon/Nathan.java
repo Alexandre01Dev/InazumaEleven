@@ -87,11 +87,9 @@ public class Nathan extends Role implements Listener {
         dribble_rafale.setRightClick(player -> {
             Location location = player.getLocation().clone();
             location.setPitch(location.getPitch()/8f);
-            System.out.println(location.getPitch());
 
-            player.setVelocity( location.getDirection().normalize().multiply(10));
+            player.setVelocity( location.getDirection().normalize().multiply(7.5d));
             InazumaUHC.get.noFallDamager.addPlayer(player,1000*4);
-
         });
     }
 
