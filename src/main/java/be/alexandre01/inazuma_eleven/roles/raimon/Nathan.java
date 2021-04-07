@@ -83,15 +83,13 @@ public class Nathan extends Role implements Listener {
         dribble_rafale.setItemstack(dr.toItemStack());
         addRoleItem(dribble_rafale);
 
-        //dribble_rafale.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.COOLDOWN,60*10)));
+        dribble_rafale.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.COOLDOWN,60*10)));
         dribble_rafale.setRightClick(player -> {
             Location location = player.getLocation().clone();
             location.setPitch(location.getPitch()/8f);
-            System.out.println(location.getPitch());
 
-            player.setVelocity( location.getDirection().normalize().multiply(10));
+            player.setVelocity( location.getDirection().normalize().multiply(7.5d));
             InazumaUHC.get.noFallDamager.addPlayer(player,1000*4);
-
         });
     }
 
