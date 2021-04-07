@@ -45,7 +45,7 @@ public class Torch  extends Role implements Listener {
         CustomComponentBuilder c = new CustomComponentBuilder("");
         addDescription("§8- §7Vous disposez d'une commande qui est le §5/inachat§7 qui vous permettre de dialoguer avec votre frère §bGazelle§7, mais attention §c§lByron§7 peut lire vos messages...");
         addDescription(" ");
-        c.append("§8- §7Vous disposez également d'une épée nommé ");
+        c.append("§8- §7Vous disposez d'une épée nommé ");
 
         BaseComponent fire_swordButton = new TextComponent("§4§lEruption§7-§4§lSolaire §7*§8Curseur§7*");
 

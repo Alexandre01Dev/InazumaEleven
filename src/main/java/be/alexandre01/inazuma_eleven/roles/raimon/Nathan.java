@@ -83,7 +83,7 @@ public class Nathan extends Role implements Listener {
         dribble_rafale.setItemstack(dr.toItemStack());
         addRoleItem(dribble_rafale);
 
-        //dribble_rafale.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.COOLDOWN,60*10)));
+        dribble_rafale.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.COOLDOWN,60*10)));
         dribble_rafale.setRightClick(player -> {
             Location location = player.getLocation().clone();
             location.setPitch(location.getPitch()/8f);
