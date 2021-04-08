@@ -5,8 +5,8 @@ import be.alexandre01.inazuma.uhc.InazumaUHC;
 import be.alexandre01.inazuma.uhc.scoreboard.IScoreBoard;
 import be.alexandre01.inazuma.uhc.scoreboard.ObjectiveSign;
 import be.alexandre01.inazuma.uhc.scoreboard.PersonalScoreboard;
+import be.alexandre01.inazuma.uhc.utils.Episode;
 import be.alexandre01.inazuma_eleven.InazumaEleven;
-import be.alexandre01.inazuma_eleven.objects.Episode;
 import org.bukkit.World;
 
 public class GameScoreboard {
@@ -41,7 +41,7 @@ public class GameScoreboard {
                     objectiveSign.setLine(4, "§r§l§8»§8§m------------§l§8«");
                     objectiveSign.setLine(5, "§7Joueurs §l» §e" + InazumaUHC.get.getRemainingPlayers().size());
                     objectiveSign.setLine(6,"§7Episode §l» §e"+ Episode.getEpisode());
-                    objectiveSign.setLine(7, "§7Temps §l» §e" + InazumaEleven.totalTimeValue);
+                    objectiveSign.setLine(7, "§7Temps §l» §e" + inazuma.totalTimeValue);
                     objectiveSign.setLine(8,    "§r§8§m*----§7§m--§7§m--§8§m----*");
                     objectiveSign.setLine(9, "§7"+ inazuma.pvpText+" §l» §e" + inazuma.pvpValue);
                     if(inazuma.hasNether()){

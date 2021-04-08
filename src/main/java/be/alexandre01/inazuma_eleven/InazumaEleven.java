@@ -34,7 +34,6 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class InazumaEleven extends PresetData implements IPreset{
-    public static String totalTimeValue ="";
     @Getter
     BallonInv ballonInv;
     public InazumaEleven(){

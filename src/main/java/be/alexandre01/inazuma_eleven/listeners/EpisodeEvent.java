@@ -1,11 +1,11 @@
 package be.alexandre01.inazuma_eleven.listeners;
 
 import be.alexandre01.inazuma.uhc.InazumaUHC;
+import be.alexandre01.inazuma.uhc.custom_events.episode.EpisodeChangeEvent;
 import be.alexandre01.inazuma.uhc.presets.Preset;
 
+import be.alexandre01.inazuma.uhc.utils.Episode;
 import be.alexandre01.inazuma.uhc.utils.TitleUtils;
-import be.alexandre01.inazuma_eleven.custom_events.EpisodeChangeEvent;
-import be.alexandre01.inazuma_eleven.objects.Episode;
 import net.minecraft.server.v1_8_R3.World;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
