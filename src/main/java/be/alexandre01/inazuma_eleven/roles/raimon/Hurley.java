@@ -55,13 +55,14 @@ public class Hurley extends Role implements Listener {
             @Override
             public void a(Player player) {
                     player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0,false,false), true);
-                    ItemStack it = new ItemStack(Material.ENCHANTED_BOOK);
-                    EnchantmentStorageMeta meta = (EnchantmentStorageMeta) it.getItemMeta();
-                    meta.addStoredEnchant(Enchantment.DEPTH_STRIDER,2,true);
-                    it.setItemMeta(meta);
-                    player.getInventory().addItem(it);
             }
         });
+
+        RoleItem depthItem = new RoleItem();
+        ItemBuilder depthBuilder = new ItemBuilder(Material.ENCHANTED_BOOK);
+        depthBuilder.addEnchant(Enchantment.DEPTH_STRIDER,2);
+        depthBuilder.setName("§eEnchanted Book");
+        depthItem.setItemstack(depthBuilder.toItemStack());
 
         RoleItem roleItem = new RoleItem();
         ItemBuilder itemBuilder = new ItemBuilder(Material.BLAZE_ROD);
@@ -100,14 +101,6 @@ public class Hurley extends Role implements Listener {
             }, 20 * 90);
         });
         addRoleItem(roleItem);
-    }
-
-    @EventHandler
-    public void onSneak(PlayerToggleSneakEvent event){
-        if(event.isSneaking()){
-            if(getPlayers().contains(event.getPlayer())){
-                event.getPlayer().sendMessage("HEllo");
-            }
-        }
+        addRoleItem(depthItem);
     }
 }

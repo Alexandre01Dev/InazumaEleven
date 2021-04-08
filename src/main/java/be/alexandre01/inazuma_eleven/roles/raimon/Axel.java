@@ -38,7 +38,7 @@ public class Axel extends Role implements Listener {
         BaseComponent tornadeButton = new TextComponent("§4§lTornade §c§lDe §4§lFeu§7 §7*§8Curseur§7*");
 
         BaseComponent tornadeDesc = new TextComponent();
-        tornadeDesc.addExtra("§e- §9Utilisation par §eEpisode\n");
+        tornadeDesc.addExtra("§e- §9Utilisation §6illimité §7[Cooldown de §a10 minutes§7]\n");
         tornadeDesc.addExtra("§e- §9Donne §b§lSpeed 2§7 pendant §a1 minute 30");
         tornadeButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,tornadeDesc.getExtra().toArray(new BaseComponent[0])));
         c.append(tornadeButton);
