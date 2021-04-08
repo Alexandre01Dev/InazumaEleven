@@ -129,7 +129,7 @@ public class Gazelle extends Role implements Listener {
             Player gazelle = (Player) event.getDamager();
             Player player = (Player) event.getEntity();
             Role role = inazumaUHC.rm.getRole(gazelle);
-
+            if(role != null){
             if(role.getClass().equals(Gazelle.class)){
                 if(!isValidItem(gazelle.getItemInHand()))
                     return;
@@ -150,6 +150,7 @@ public class Gazelle extends Role implements Listener {
                         gazelle.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez d'atteindre votre limite d'utilisation de ton §b§lImpact§7-§b§lNordique§7 pour cette §eépisode.");
                     }
                 }
+            }
             }
         }
 

@@ -24,8 +24,6 @@ import be.alexandre01.inazuma_eleven.objects.BallonInv;
 import be.alexandre01.inazuma_eleven.roles.alius.*;
 import be.alexandre01.inazuma_eleven.roles.raimon.*;
 import be.alexandre01.inazuma_eleven.roles.solo.Byron;
-import be.alexandre01.inazuma_eleven.timers.EpisodeTimeTimer;
-import be.alexandre01.inazuma_eleven.timers.EpisodeTimer;
 import lombok.Getter;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -66,8 +64,9 @@ public class InazumaEleven extends PresetData implements IPreset{
         new Solo("Solo","§c");
 
         //INITIALIZE ROLES
+        //new Byron(this);
         new Nathan(this);
-        /*new Axel(this);
+        new Axel(this);
         new Darren(this);
         new Hurley(this);
         new Jack(this);
@@ -88,7 +87,7 @@ public class InazumaEleven extends PresetData implements IPreset{
         new Dvalin(this);
         new David(this);
         new Caleb(this);
-        new Bellatrix(this);*/
+        new Bellatrix(this);
       //  new Bellatrix(this);
 
         playerSize = Role.getRoles().size();
@@ -138,8 +137,6 @@ public class InazumaEleven extends PresetData implements IPreset{
     @Override
     public ArrayList<Timer> getTimers() {
         if(timers.isEmpty()){
-            timers.add(new EpisodeTimer());
-            timers.add(new EpisodeTimeTimer());
         }
         return timers;
     }

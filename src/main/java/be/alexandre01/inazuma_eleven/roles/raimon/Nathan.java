@@ -22,13 +22,13 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-public class Nathan extends Role implements Listener {
+public class Nathan extends Role {
     public Nathan(IPreset preset) {
         super("Nathan Swift",preset);
         setRoleCategory(Raimon.class);
         setRoleToSpoil(Mark.class);
 
-        addListener(this);
+
         addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
         addDescription("§8- §7Vous possédez l’effet §b§lSpeed 1§7.");
         addDescription(" ");
@@ -69,12 +69,23 @@ public class Nathan extends Role implements Listener {
         ItemBuilder itemBuilder = new ItemBuilder(Material.FEATHER).setName("§b§lSwitch §lSpeed");
         roleItem.setItemstack(itemBuilder.toItemStack());
 
-        roleItem.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.COOLDOWN,150*10)));
+        roleItem.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.COOLDOWN,60*10)));
 
         roleItem.setRightClick(player -> {
             player.sendMessage(Preset.instance.p.prefixName()+" Vous venez d'utiliser la §b§lSwitch §lSpeed§7.");
             player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 150*20, 1,false,false), true);
-            addEffectAfter(player, 150*20,  new PotionEffect(PotionEffectType.SLOW_DIGGING, 30*20, 0,false,false), new PotionEffect(PotionEffectType.SLOW, 15*20, 1,false,false));
+            addEffectAfter(player, 150 * 20, new action() {
+                @Override
+                public void a() {
+                    player.sendMessage(getPreset().prefixName() + "Vous êtes essoufflé...");
+                }
+            }, new PotionEffect(PotionEffectType.SLOW_DIGGING, 30*20, 0,false,false), new PotionEffect(PotionEffectType.SLOW, 15*20, 1,false,false));
+            addEffectAfter(player, 180 * 20, new action() {
+                @Override
+                public void a() {
+                    player.sendMessage(getPreset().prefixName() + "Vous avez récupéré votre speed...");
+                }
+            }, new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0, false, false));
         });
         addRoleItem(roleItem);
 
@@ -88,22 +99,26 @@ public class Nathan extends Role implements Listener {
             Location location = player.getLocation().clone();
             location.setPitch(location.getPitch()/8f);
 
-            player.setVelocity( location.getDirection().normalize().multiply(7.5d));
+            player.setVelocity( location.getDirection().normalize().multiply(2.5d));
             InazumaUHC.get.noFallDamager.addPlayer(player,1000*4);
         });
     }
 
 
 
-    private void addEffectAfter(Player player,long l, PotionEffect... potionEffects){
+    private void addEffectAfter(Player player,long l,action a, PotionEffect... potionEffects){
         Bukkit.getScheduler().runTaskLaterAsynchronously(inazumaUHC, new Runnable() {
             @Override
             public void run() {
                 for (PotionEffect p: potionEffects){
                     player.addPotionEffect(p, true);
                 }
-                player.sendMessage(getPreset().prefixName() + "Vous êtes essoufflé...");
+                a.a();
             }
+
         },l);
+    }
+    public interface action{
+        public void a();
     }
 }

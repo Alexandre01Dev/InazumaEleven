@@ -137,7 +137,7 @@ public class Torch  extends Role implements Listener {
             Player torch = (Player) event.getDamager();
             Player player = (Player) event.getEntity();
             Role role = inazumaUHC.rm.getRole(torch);
-
+            if(role != null){
             if(role.getClass().equals(Torch.class)){
                 if(!isValidItem(torch.getItemInHand()))
                     return;
@@ -158,6 +158,7 @@ public class Torch  extends Role implements Listener {
                     }
                 }
             }
+        }
         }
     }
 
