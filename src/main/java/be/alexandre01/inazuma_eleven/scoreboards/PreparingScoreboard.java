@@ -2,6 +2,7 @@ package be.alexandre01.inazuma_eleven.scoreboards;
 
 import be.alexandre01.inazuma.uhc.presets.Preset;
 
+import be.alexandre01.inazuma.uhc.presets.PresetData;
 import be.alexandre01.inazuma.uhc.scoreboard.IScoreBoard;
 import be.alexandre01.inazuma.uhc.scoreboard.ObjectiveSign;
 import be.alexandre01.inazuma.uhc.scoreboard.PersonalScoreboard;
@@ -10,9 +11,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 
 public class PreparingScoreboard {
-    InazumaEleven inazuma;
+    PresetData inazuma;
     String scenario;
-    public PreparingScoreboard(InazumaEleven inazuma){
+    public PreparingScoreboard(PresetData inazuma){
         this.inazuma = inazuma;
         setScoreboard();
         if(inazuma.hasScenario()){

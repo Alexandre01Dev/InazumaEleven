@@ -2,6 +2,8 @@ package be.alexandre01.inazuma_eleven.scoreboards;
 
 import be.alexandre01.inazuma.uhc.InazumaUHC;
 
+import be.alexandre01.inazuma.uhc.presets.IPreset;
+import be.alexandre01.inazuma.uhc.presets.PresetData;
 import be.alexandre01.inazuma.uhc.scoreboard.IScoreBoard;
 import be.alexandre01.inazuma.uhc.scoreboard.ObjectiveSign;
 import be.alexandre01.inazuma.uhc.scoreboard.PersonalScoreboard;
@@ -10,11 +12,10 @@ import be.alexandre01.inazuma_eleven.InazumaEleven;
 import org.bukkit.World;
 
 public class GameScoreboard {
-    InazumaEleven inazuma;
+    PresetData inazuma;
     String scenario;
-    public GameScoreboard(InazumaEleven inazuma){
+    public GameScoreboard(PresetData inazuma){
         this.inazuma = inazuma;
-        setScoreboard();
         if(inazuma.hasScenario()){
             if(!inazuma.getScenarios().isEmpty()){
             if(inazuma.getScenarios().size()> 1){
