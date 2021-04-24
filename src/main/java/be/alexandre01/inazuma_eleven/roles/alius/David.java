@@ -60,7 +60,7 @@ public class David extends Role implements Listener {
                 Bukkit.getScheduler().runTaskLater(inazumaUHC, new Runnable() {
                     @Override
                     public void run() {
-                        InazumaUHC.get.dm.addEffectPourcentage(player, DamageManager.EffectType.INCREASE_DAMAGE,2,125);
+                        InazumaUHC.get.dm.addEffectPourcentage(player, DamageManager.EffectType.INCREASE_DAMAGE,2,117);
 
                         if(bukkitTask != null){
                             bukkitTask.cancel();
@@ -170,10 +170,8 @@ public class David extends Role implements Listener {
         }
         if(accepted){
             getPlayers().forEach(player -> {
-                if (player.getMaxHealth()>8){
                     player.sendMessage(Preset.instance.p.prefixName()+" Vous avez perdu §c§l0.5 §4❤§7 permanent suite à avoir accepté le §c§lManchot §c§lEmpereur §4§lN°1§7.");
                     PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth()-1);
-                }
             });
             return;
         }

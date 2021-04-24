@@ -63,6 +63,7 @@ public class Hurley extends Role implements Listener {
         depthBuilder.addEnchant(Enchantment.DEPTH_STRIDER,2);
         depthBuilder.setName("§eEnchanted Book");
         depthItem.setItemstack(depthBuilder.toItemStack());
+        depthItem.setPlaceableItem(true);
 
         RoleItem roleItem = new RoleItem();
         ItemBuilder itemBuilder = new ItemBuilder(Material.BLAZE_ROD);
@@ -92,11 +93,11 @@ public class Hurley extends Role implements Listener {
                player.sendMessage("§e-§9 "+  firstLetter+sb.toString());
             }
 
-            player.sendMessage(Preset.instance.p.prefixName()+" §cAttention§7, celui-ci sera prévenu dans 1 minute et 30 secondes que ton rôle à regarder ses effets.");
+            player.sendMessage(Preset.instance.p.prefixName()+" §cAttention§7, celui-ci sera prévenu dans 1 minute et 30 secondes que votre rôle a regardé ses effets.");
             Bukkit.getScheduler().runTaskLaterAsynchronously(inazumaUHC, new BukkitRunnable() {
                 @Override
                 public void run() {
-                    rightClicked.sendMessage(Preset.instance.p.prefixName() +" Tu viens d'apprendre qu'"+getRoleCategory().getPrefixColor()+getName()+"§7 connait désormais tes effets.");
+                    rightClicked.sendMessage(Preset.instance.p.prefixName() +" Vous venez d'apprendre qu'"+getRoleCategory().getPrefixColor()+getName()+"§7 connait désormais vos effets.");
                 }
             }, 20 * 90);
         });

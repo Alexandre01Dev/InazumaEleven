@@ -8,6 +8,7 @@ import be.alexandre01.inazuma.uhc.roles.Role;
 import be.alexandre01.inazuma.uhc.roles.RoleItem;
 import be.alexandre01.inazuma.uhc.utils.CustomComponentBuilder;
 import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
+import be.alexandre01.inazuma.uhc.utils.PatchedEntity;
 import be.alexandre01.inazuma_eleven.categories.Alius;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -48,27 +49,21 @@ public class Joseph extends Role {
         morsure.setSlot(7);
         morsure.deployVerificationsOnRightClick(morsure.generateVerification(new Tuple<>(RoleItem.VerificationType.COOLDOWN,60*10)));
         morsure.setRightClick(new RoleItem.RightClick() {
-            int i = 0;
+            public int morsure = 0;
             @Override
             public void execute(Player player) {
-                i++;
-                switch (i){
+                morsure++;
+                switch (morsure){
                     case 1:
-                        addEffectAfter(player,2*20*60,2*60*20,PotionEffectType.WEAKNESS);
-                        break;
-                    case 2:
-                        addEffectAfter(player,2*20*60,5*60*20,PotionEffectType.WEAKNESS);
-                        break;
-                    case 3:
-                        addEffectAfter(player,2*20*60,Integer.MAX_VALUE,PotionEffectType.WEAKNESS);
+                        PatchedEntity.setMaxHealthInSilent(player,player.getMaxHealth()-4);
                         break;
                     default:
-                        player.sendMessage(Preset.instance.p.prefixName()+" Tu as déjà atteint la limite d'utilisation");
+                        player.sendMessage(Preset.instance.p.prefixName()+" Vous avez déjà atteint la limite d'utilisation");
                         return;
                 }
                 player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 2*60*20, 1,false,false), true);
                 inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.RESISTANCE,2,125);
-                player.sendMessage(Preset.instance.p.prefixName()+" Tu viens de recevoir l'effet RESISTANCE pendant 2 minutes.");
+                player.sendMessage(Preset.instance.p.prefixName()+" Vous venez de recevoir l'effet RESISTANCE pendant 2 minutes.");
             }
         });
         addRoleItem(morsure);

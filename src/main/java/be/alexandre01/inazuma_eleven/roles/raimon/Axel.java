@@ -30,7 +30,7 @@ public class Axel extends Role implements Listener {
 
         addListener(this);
         addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
-        addDescription("§8- §7Vous possédez l’effet §6§l§4§lForce 1 §7ainsi que §6§lFire Résistance§7.");
+        addDescription("§8- §7Vous possédez l’effet §4§lForce 1 §7ainsi que §6§lFire Résistance§7.");
         addDescription(" ");
         CustomComponentBuilder c = new CustomComponentBuilder("");
         c.append("§8- §7Vous possédez également la ");

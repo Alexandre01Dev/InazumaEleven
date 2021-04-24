@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="InazumaEleven" />
+        <module name="InazumaEleven V1" />
       </profile>
     </annotationProcessing>
   </component>

@@ -43,40 +43,15 @@ public class Shawn extends Role {
         addDescription("§8- §7Les attaques de §cTorch§7, §bGazelle§7 et §6Axel§7 ne vous atteignent pas.");
 
         setRoleToSpoil(Axel.class);
+        setRoleToSpoil(Aiden.class);
         setRoleCategory(Raimon.class);
         onLoad(new load() {
             @Override
             public void a(Player player) {
-                inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.RESISTANCE,1,115);
+                inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.RESISTANCE,1,110);
                 player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 0,false,false), true);
             }
 
         });
-
-        ItemBuilder itemBuilder = new ItemBuilder(Material.PACKED_ICE);
-        itemBuilder.setName("§3Blizzard Eternel");
-
-        RoleItem blizzardEternel = new RoleItem();
-
-
-        blizzardEternel.deployVerificationsOnRightClickOnPlayer(blizzardEternel.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
-        blizzardEternel.setRightClickOnPlayer(15,new RoleItem.RightClickOnPlayer() {
-            @Override
-            public void execute(Player player, Player rightClicked) {
-                player.sendMessage(Preset.instance.p.prefixName()+"Vous avez utilisé votre §3Blizzard Eternel§7 sur §c"+ rightClicked.getName());
-                if(!inazumaUHC.rm.getRole(rightClicked).getClass().equals(Torch.class) && !inazumaUHC.rm.getRole(rightClicked).getClass().equals(Axel.class) &&  !inazumaUHC.rm.getRole(rightClicked).getClass().equals(Gazelle.class)){
-                    rightClicked.addPotionEffect(new PotionEffect(PotionEffectType.SLOW,20*10,1));
-                    rightClicked.sendMessage(Preset.instance.p.prefixName()+"§7Vous avez été touché par le §3Blizzard Eternel");
-                }
-                if(inazumaUHC.rm.getRole(rightClicked).getClass().equals(Torch.class) && inazumaUHC.rm.getRole(rightClicked).getClass().equals(Axel.class) &&  inazumaUHC.rm.getRole(rightClicked).getClass().equals(Gazelle.class)){
-                    rightClicked.sendMessage(Preset.instance.p.prefixName()+"Vous avez été touché par le §3Blizzard Eternel§7, mais en vain");
-                }
-                player.sendMessage(Preset.instance.p.prefixName()+"§7Vous avez utilisé votre §3Blizzard Eternel §7sur" + rightClicked.getName());
-            }
-        });
-
-        blizzardEternel.setItemstack(itemBuilder.toItemStack());
-        addRoleItem(blizzardEternel);
-
     }
 }
