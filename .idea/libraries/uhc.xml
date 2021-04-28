@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="uhc">
+    <CLASSES />
+    <JAVADOC>
+      <root url="file://$PROJECT_DIR$/../../javadoc/be/alexandre01/inazuma/uhc" />
+    </JAVADOC>
+    <SOURCES />
+  </library>
+</component>

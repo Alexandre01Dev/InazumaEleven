@@ -1,0 +1,27 @@
+<component name="libraryTable">
+  <library name="commands">
+    <CLASSES />
+    <JAVADOC>
+      <root url="file://$PROJECT_DIR$/../../javadoc/be/alexandre01/inazuma/uhc/commands" />
+      <root url="file://$PROJECT_DIR$/../../javadoc/be/alexandre01/inazuma/uhc/commands/test" />
+      <root url="file://$PROJECT_DIR$/../../javadoc/be/alexandre01/inazuma/uhc/config" />
+      <root url="file://$PROJECT_DIR$/../../javadoc/be/alexandre01/inazuma/uhc/custom_events" />
+      <root url="file://$PROJECT_DIR$/../../javadoc/be/alexandre01/inazuma/uhc/generations" />
+      <root url="file://$PROJECT_DIR$/../../javadoc/be/alexandre01/inazuma/uhc/host" />
+      <root url="file://$PROJECT_DIR$/../../javadoc/be/alexandre01/inazuma/uhc/listeners" />
+      <root url="file://$PROJECT_DIR$/../../javadoc/be/alexandre01/inazuma/uhc/managers" />
+      <root url="file://$PROJECT_DIR$/../../javadoc/be/alexandre01/inazuma/uhc/modules" />
+      <root url="file://$PROJECT_DIR$/../../javadoc/be/alexandre01/inazuma/uhc/presets" />
+      <root url="file://$PROJECT_DIR$/../../javadoc/be/alexandre01/inazuma/uhc/roles" />
+      <root url="file://$PROJECT_DIR$/../../javadoc/be/alexandre01/inazuma/uhc/scenarios" />
+      <root url="file://$PROJECT_DIR$/../../javadoc/be/alexandre01/inazuma/uhc/scoreboard" />
+      <root url="file://$PROJECT_DIR$/../../javadoc/be/alexandre01/inazuma/uhc/spectators" />
+      <root url="file://$PROJECT_DIR$/../../javadoc/be/alexandre01/inazuma/uhc/state" />
+      <root url="file://$PROJECT_DIR$/../../javadoc/be/alexandre01/inazuma/uhc/teams" />
+      <root url="file://$PROJECT_DIR$/../../javadoc/be/alexandre01/inazuma/uhc/timers" />
+      <root url="file://$PROJECT_DIR$/../../javadoc/be/alexandre01/inazuma/uhc/utils" />
+      <root url="file://$PROJECT_DIR$/../../javadoc/be/alexandre01/inazuma/uhc/worlds" />
+    </JAVADOC>
+    <SOURCES />
+  </library>
+</component>
