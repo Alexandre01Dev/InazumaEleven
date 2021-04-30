@@ -88,9 +88,7 @@ public class InazumaEleven extends PresetData implements IPreset{
         new Dvalin(this);
         new David(this);
         new Bellatrix(this);*/
-        new Aiden(this);
-        new Shawn(this);
-        new Dvalin(this);
+        new Mark(this);
       //  new Bellatrix(this);
 
         playerSize = Role.getRoles().size();

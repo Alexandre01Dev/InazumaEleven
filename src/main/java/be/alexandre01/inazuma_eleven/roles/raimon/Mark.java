@@ -20,25 +20,29 @@ import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import net.minecraft.server.v1_8_R3.Tuple;
 import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import static java.lang.Math.cos;
-import static java.lang.Math.sin;
+import static java.lang.Math.*;
 
 public class Mark extends Role implements Listener {
 
     int death = 0;
     int time = 0;
-    int total = death + time;
+    int minage = 0;
+    float multiplicateur = 1;
+    public int corrupttest = 0;
+    int total = death + time + minage;
 
     public Mark(IPreset preset) {
         super("Mark Evans",preset);
@@ -72,17 +76,9 @@ public class Mark extends Role implements Listener {
         ItemBuilder itemBuilder = new ItemBuilder(Material.BOOK).setName("§6§lCahier de §7§lDavid §lEvans");
 
             roleItem.setRightClick(player -> {
-                if (total < 100){
-                    player.sendMessage(Preset.instance.p.prefixName()+" §7NAN");
-                }
-                else if (total >= 100){
-                    player.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez d'apprendre la §6§lMain §lMagique§7 grâce au §6§lCahier de §7§lDavid §lEvans§7 vous possédez l’effet §6§lRésistance 2§7.");
-                    inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.RESISTANCE,2,120);
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 1,false,false), true);
-                    roleItem.updateItem(new ItemStack(Material.AIR));
-
-
-                }
+                roleItem.updateItem(new ItemStack(Material.AIR));
+                player.updateInventory();
+                multiplicateur = 1,25f;
             });
         roleItem.setItemstack(itemBuilder.toItemStack());
         addRoleItem(roleItem);
@@ -90,9 +86,7 @@ public class Mark extends Role implements Listener {
         onLoad(new load() {
             @Override
             public void a(Player player) {
-
                 inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.RESISTANCE,1,110);
-                player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 0,false,false), true);
 
                 //Timer
 
@@ -101,8 +95,8 @@ public class Mark extends Role implements Listener {
                         @Override
                         public void run(){
 
-                            time = time + 5;
-                            player.sendMessage(Preset.instance.p.prefixName()+" Vous gagné §65 points§7.");
+                            time = time + 25 * multiplicateur;
+                            player.sendMessage(Preset.instance.p.prefixName()+" Vous gagné §625 points§7.");
 
                         }
                     }.runTaskTimerAsynchronously(InazumaUHC.getGet(), 20*60*10, 20*60*10);
@@ -113,15 +107,64 @@ public class Mark extends Role implements Listener {
                         @Override
                         public void run(){
 
-                            int total = death + time;
+                            int total = death + time + minage;
 
-                            if (total < 100){
+                            if (total >= 100){
+                                player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1,1);
+                                player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 0,false,false), true);
 
-                                TitleUtils.sendActionBar(player,"§3§lEntrainement §f§l: §c§l" + String.valueOf(total) + "%");
+                                if (total >= 200){
+                                    player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1,1);
+                                    corrupttest++;
+
+                                    if (total >= 300){
+                                        player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1,1);
+                                        player.getInventory().addItem(new ItemStack(Material.GOLDEN_APPLE, 2));
+                                        player.updateInventory();
+
+                                        if (total >= 400){
+                                            player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1,1);
+                                            player.setMaxHealth(player.getMaxHealth()+2);
+
+                                            if (total >= 500){
+                                                player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1,1);
+                                                //On sait pas
+
+                                                if (total >= 600){
+                                                    player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1,1);
+                                                    player.getInventory().addItem(new ItemStack(Material.GOLDEN_APPLE, 2));
+                                                    player.updateInventory();
+
+                                                    if (total >= 750){
+                                                        player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1,1);
+                                                        //Entrainement Darren SOON
+
+                                                        if (total >= 900){
+                                                            player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1,1);
+                                                            //Unlock Ina Boost
+
+                                                            if (total >= 1000){
+                                                                player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1,1);
+                                                                player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 1,false,false), true);
+                                                                inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.RESISTANCE,2,120);
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+
+                            if (total < 1000){
+
+                                TitleUtils.sendActionBar(player,"§3§lEntrainement §f§l: §c§l" + total/10 + "%");
 
                             }
 
-                            else if (total >= 100){
+                            else if (total >= 1000){
 
                                 TitleUtils.sendActionBar(player,"§7§lEntrainement §7Terminé");
                                 cancel();
@@ -144,7 +187,7 @@ public class Mark extends Role implements Listener {
             public int i = 0;
             @Override
             public void a(String[] args, Player player) {
-                if(i >= 2){
+                if(i >= corrupttest){
                     player.sendMessage(Preset.instance.p.prefixName()+" Vous avez dépassé le nombre d'utilisation de cette commande");
                     return;
                 }
@@ -177,20 +220,32 @@ public class Mark extends Role implements Listener {
     @EventHandler
     public void onPlayerDeath(PlayerInstantDeathEvent event){
         RoleCategory roleCategory = inazumaUHC.rm.getRole(event.getPlayer()).getRoleCategory();
+        Player killer = event.getKiller();
+        Player killed = event.getPlayer();
+
+        if (inazumaUHC.rm.getRole(killer.getUniqueId()).getRoleCategory().equals(Raimon.class) && !(inazumaUHC.rm.getRole(killer.getUniqueId()).getClass().equals(Mark.class))){
+            death = death + 30 * multiplicateur;
+        }
+
+        if (inazumaUHC.rm.getRole(killer.getUniqueId()).getClass().equals(Mark.class)){
+            death = death + 40 * multiplicateur;
+        }
+
         if(roleCategory.getRoles().equals(Byron.class)){
-            death = death+ 5;
+
+            death = death + 25 * multiplicateur;
 
             for(Player player : inazumaUHC.rm.getRole(Mark.class).getPlayers()){
 
-                player.sendMessage(Preset.instance.p.prefixName()+" Bryon est mort, vous gagné §65 points§7.");
+                player.sendMessage(Preset.instance.p.prefixName()+" Bryon est mort, vous gagné §625 points§7.");
             }
         }
         if(roleCategory.getClass().equals(Raimon.class)){
-            death = death+ 10;
+            death = death + 50 * multiplicateur;
             for(Player player : inazumaUHC.rm.getRole(Mark.class).getPlayers()){
                 PatchedEntity.setMaxHealthInSilent(player,player.getMaxHealth()-1);
 
-                player.sendMessage(Preset.instance.p.prefixName()+" Un joueur de §6Raimon§7 vient de mourir, vous perdez donc §4❤§7 permanent et gagné §610 points§7.");
+                player.sendMessage(Preset.instance.p.prefixName()+" Un joueur de §6Raimon§7 vient de mourir, vous perdez donc §4❤§7 permanent et gagné §650 points§7.");
             }
         }
         if(getPlayers().contains(event.getPlayer())){
@@ -200,6 +255,16 @@ public class Mark extends Role implements Listener {
                 });
             }
         }
+    }
+    @EventHandler
+    public void onBlockDestroy(BlockBreakEvent event){
+        Player player = event.getPlayer();
+        Block block = event.getBlock();
+
+        if (block.getType().getData().equals(Material.DIAMOND_ORE)){
+            minage = minage + 10 * multiplicateur;
+        }
+
     }
 
         //Particule
