@@ -37,12 +37,12 @@ import static java.lang.Math.*;
 
 public class Mark extends Role implements Listener {
 
-    int death = 0;
-    int time = 0;
-    int minage = 0;
+    float death = 0;
+    float time = 0;
+    float minage = 0;
     float multiplicateur = 1;
     public int corrupttest = 0;
-    int total = death + time + minage;
+    float total = death + time + minage;
 
     public Mark(IPreset preset) {
         super("Mark Evans",preset);
@@ -78,7 +78,7 @@ public class Mark extends Role implements Listener {
             roleItem.setRightClick(player -> {
                 roleItem.updateItem(new ItemStack(Material.AIR));
                 player.updateInventory();
-                multiplicateur = 1,25f;
+                multiplicateur = 1.25f;
             });
         roleItem.setItemstack(itemBuilder.toItemStack());
         addRoleItem(roleItem);
@@ -107,7 +107,7 @@ public class Mark extends Role implements Listener {
                         @Override
                         public void run(){
 
-                            int total = death + time + minage;
+                            float total = death + time + minage;
 
                             if (total >= 100){
                                 player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1,1);
