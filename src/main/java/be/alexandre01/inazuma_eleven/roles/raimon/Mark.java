@@ -137,7 +137,7 @@ public class Mark extends Role implements Listener {
 
                                                     if (total >= 750){
                                                         player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1,1);
-                                                        //Entrainement Darren SOON
+                                                        //Entrainement Darren SOON V1.?
 
                                                         if (total >= 900){
                                                             player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1,1);
