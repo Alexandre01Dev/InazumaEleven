@@ -1,28 +1,39 @@
 package be.alexandre01.inazuma_eleven.roles.raimon;
 
 import be.alexandre01.inazuma.uhc.InazumaUHC;
+import be.alexandre01.inazuma.uhc.custom_events.player.PlayerInstantDeathEvent;
 import be.alexandre01.inazuma.uhc.presets.IPreset;
 import be.alexandre01.inazuma.uhc.presets.Preset;
 import be.alexandre01.inazuma.uhc.roles.Role;
 import be.alexandre01.inazuma.uhc.utils.ScoreboardUtil;
 import be.alexandre01.inazuma_eleven.categories.Raimon;
+import be.alexandre01.inazuma_eleven.objects.LocalRaimon;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.*;
 import org.bukkit.scoreboard.Scoreboard;
+
+import java.util.Date;
+import java.util.HashMap;
+
 
 public class Jude extends Role implements Listener {
 
     private Scoreboard score = null;
+    private boolean isStructureSpawned = false;
+    private HashMap<Player,Long> playersTag;
     public Jude(IPreset preset) {
         super("Jude Sharp",preset);
+        playersTag = new HashMap<>();
         setRoleCategory(Raimon.class);
         addListener(this);
 
@@ -50,13 +61,9 @@ public class Jude extends Role implements Listener {
                       player.setScoreboard(score);
                       setHealth(player);
                     for(Player opposants : Bukkit.getOnlinePlayers()){
-                       // new ScoreboardScore(s, o, "§c❤").setScore(2);
                         setHealth(opposants);
-
                     }
-
                     }
-
                    });
 
 
@@ -71,26 +78,73 @@ public class Jude extends Role implements Listener {
         Score s = score.getObjective("showhealth").getScore(player);
         s.setScore(pourcentage);
     }
-
+    private void setHealth(Player player,double health){
+        int pourcentage  = (int) ((100*Math.round(health)) /Math.round(player.getMaxHealth()));
+        Score s = score.getObjective("showhealth").getScore(player);
+        s.setScore(pourcentage);
+    }
     @EventHandler
     public void onDamage(EntityDamageEvent event){
         if(event.getEntity() instanceof Player){
             Player player = (Player) event.getEntity();
-            setHealth(player);
+            setHealth(player,player.getHealth()-event.getFinalDamage());
+        }
+    }
+    @EventHandler
+    public void onDamageByJude(EntityDamageByEntityEvent event){
+        if(isStructureSpawned)
+            return;
+
+
+        if(event.getEntity() instanceof Player && event.getDamager() instanceof Player ){
+            Player damager = (Player) event.getDamager();
+
+            if(!getPlayers().contains(damager))
+                return;
+
+            Player victim = (Player) event.getEntity();
+
+            playersTag.put(victim,new Date().getTime());
+
         }
     }
 
     @EventHandler
+    public void onDeathDuringTag(PlayerInstantDeathEvent event){
+        Player player = event.getPlayer();
+        if(playersTag.containsKey(player)){
+            if(new Date().getTime()-playersTag.get(player) > 30000){
+                playersTag.remove(player);
+                return;
+            }
+
+            for(Player p : getPlayers()){
+                p.sendMessage(Preset.instance.p.prefixName()+" "+ player+" vient de mourir, vous allez recevoir les cordonnées dans 5 minutes.");
+                LocalRaimon localRaimon = new LocalRaimon();
+                localRaimon.spawn();
+
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        p.sendMessage(Preset.instance.p.prefixName()+"§e Les coordonnées sont X:"+localRaimon.x+" | Z:"+localRaimon.z);
+                    }
+                }.runTaskLaterAsynchronously(InazumaUHC.get,20*60*5);
+            }
+        }
+    }
+    @EventHandler
     public void onHeart(EntityRegainHealthEvent event){
         if(event.getEntity() instanceof Player){
             Player player = (Player) event.getEntity();
-            setHealth(player);
+            setHealth(player,player.getHealth()+event.getAmount());
         }
     }
 
     public static void collierAlliusNotif(Location location){
-        int roundedX = ((location.getBlockX() + 99) / 100 ) * 100;
-        int roundedZ = ((location.getBlockZ() + 99) / 100 ) * 100;
+        int x = (int) ((location.getBlockX()) / 100);
+        int z = (int) ((location.getBlockZ()) / 100);
+        int roundedX =  x * 100;
+        int roundedZ = z * 100;
 
         Jude jude = (Jude) InazumaUHC.get.rm.getRole(Jude.class);
 
@@ -99,6 +153,6 @@ public class Jude extends Role implements Listener {
 
         for(Player player : jude.getPlayers()){
             player.sendMessage(Preset.instance.p.prefixName()+" §7Un §eCollier-Allius§7 vient d'être utilisé approxivement  §e"+roundedX+"X §c|§e"+ roundedZ+"Z");
-            }
+        }
     }
 }

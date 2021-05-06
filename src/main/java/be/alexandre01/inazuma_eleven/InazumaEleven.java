@@ -1,5 +1,6 @@
 package be.alexandre01.inazuma_eleven;
 
+import be.alexandre01.inazuma.uhc.InazumaUHC;
 import be.alexandre01.inazuma.uhc.generations.Plateform;
 import be.alexandre01.inazuma.uhc.presets.IPreset;
 import be.alexandre01.inazuma.uhc.presets.PresetData;
@@ -19,12 +20,14 @@ import be.alexandre01.inazuma.uhc.timers.Timer;
 import be.alexandre01.inazuma_eleven.categories.Alius;
 import be.alexandre01.inazuma_eleven.categories.Raimon;
 import be.alexandre01.inazuma_eleven.categories.Solo;
+import be.alexandre01.inazuma_eleven.commands.Structure;
 import be.alexandre01.inazuma_eleven.listeners.*;
 import be.alexandre01.inazuma_eleven.objects.BallonInv;
 import be.alexandre01.inazuma_eleven.roles.alius.*;
 import be.alexandre01.inazuma_eleven.roles.raimon.*;
 import be.alexandre01.inazuma_eleven.roles.solo.Byron;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -64,7 +67,7 @@ public class InazumaEleven extends PresetData implements IPreset{
 
         //INITIALIZE ROLES
         //new Byron(this);
-       /* new Nathan(this);
+        new Nathan(this);
         new Axel(this);
         new Darren(this);
         new Hurley(this);
@@ -87,10 +90,13 @@ public class InazumaEleven extends PresetData implements IPreset{
         new Gazelle(this);
         new Dvalin(this);
         new David(this);
-        new Bellatrix(this);*/
-        new Mark(this);
+        new Bellatrix(this);
+
+
+        //new Mark(this);
       //  new Bellatrix(this);
 
+        InazumaUHC.get.registerCommand("structure",new Structure("structure"));
         playerSize = Role.getRoles().size();
     }
 
@@ -130,6 +136,8 @@ public class InazumaEleven extends PresetData implements IPreset{
             listeners.add(new EpisodeEvent());
             listeners.add(new ChatEvent());
             listeners.add(new WeatherEvent());
+            listeners.add(new MysteryEvent());
+            listeners.add(new ChunkSaver());
             listeners.add(ballonInv);
         }
         return listeners;
