@@ -74,7 +74,7 @@ public class Mark extends Role implements Listener {
                 roleItem.updateItem(new ItemStack(Material.AIR));
                 player.updateInventory();
                 multiplicateur = 1.25f;
-                player.sendMessage(Preset.instance.p.prefixName()+" §7§lFélicitation, vous avez trouvé le §6§lCahier §7de §7§lDavis Evans, désormais tout vos points gagné serront §c§lmultiplié §7par §c§l0.25 !");
+                player.sendMessage(Preset.instance.p.prefixName()+" §7§lFélicitation, vous avez trouvé le §6§lCahier §7de §7§lDavis Evans, désormais tout vos points gagné serront §c§lmultiplié §7par §c§l125% !");
                 player.playSound(player.getLocation(), Sound.ORB_PICKUP, 5,5);
             });
         roleItem.setItemstack(itemBuilder.toItemStack());
@@ -93,7 +93,7 @@ public class Mark extends Role implements Listener {
                         public void run(){
 
                             time = time + 2.5f * multiplicateur;
-                            player.sendMessage(Preset.instance.p.prefixName()+" Vous gagné §625 points§7.");
+                            player.sendMessage(Preset.instance.p.prefixName()+" Vous gagné §62.5 points§7.");
 
                         }
                     }.runTaskTimerAsynchronously(InazumaUHC.getGet(), 20*60*10, 20*60*10);
@@ -216,7 +216,6 @@ public class Mark extends Role implements Listener {
                             }
                         }
                     }
-
                 }
 
                 }
