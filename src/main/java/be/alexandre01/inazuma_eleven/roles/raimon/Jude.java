@@ -126,7 +126,7 @@ public class Jude extends Role implements Listener {
                 new BukkitRunnable() {
                     @Override
                     public void run() {
-                        p.sendMessage(Preset.instance.p.prefixName()+"§e Les coordonnées sont X:"+localRaimon.x+" | Z:"+localRaimon.z);
+                        p.sendMessage(Preset.instance.p.prefixName()+"§e Les coordonnées sont en X:"+localRaimon.x+" | Z:"+localRaimon.z);
                     }
                 }.runTaskLaterAsynchronously(InazumaUHC.get,20*60*5);
             }

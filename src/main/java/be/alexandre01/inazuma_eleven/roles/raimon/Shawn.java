@@ -2,21 +2,12 @@ package be.alexandre01.inazuma_eleven.roles.raimon;
 
 import be.alexandre01.inazuma.uhc.managers.damage.DamageManager;
 import be.alexandre01.inazuma.uhc.presets.IPreset;
-import be.alexandre01.inazuma.uhc.presets.Preset;
-
 import be.alexandre01.inazuma.uhc.roles.Role;
-import be.alexandre01.inazuma.uhc.roles.RoleItem;
 import be.alexandre01.inazuma.uhc.utils.CustomComponentBuilder;
-import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
 import be.alexandre01.inazuma_eleven.categories.Raimon;
-import be.alexandre01.inazuma_eleven.roles.alius.Gazelle;
-import be.alexandre01.inazuma_eleven.roles.alius.Torch;
-import be.alexandre01.inazuma_eleven.roles.raimon.Axel;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.minecraft.server.v1_8_R3.Tuple;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;

@@ -9,34 +9,29 @@ import be.alexandre01.inazuma.uhc.roles.Role;
 import be.alexandre01.inazuma.uhc.roles.RoleCategory;
 import be.alexandre01.inazuma.uhc.roles.RoleItem;
 import be.alexandre01.inazuma.uhc.utils.*;
-import be.alexandre01.inazuma_eleven.InazumaEleven;
 import be.alexandre01.inazuma_eleven.categories.Alius;
 import be.alexandre01.inazuma_eleven.categories.Raimon;
 import be.alexandre01.inazuma_eleven.roles.solo.Byron;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.minecraft.server.v1_8_R3.EnumParticle;
-import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
-import net.minecraft.server.v1_8_R3.Tuple;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.entity.ExperienceOrb;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import static java.lang.Math.*;
 
 public class Mark extends Role implements Listener {
 
+    int niveau = 0;
     float death = 0;
     float time = 0;
     float minage = 0;
@@ -79,6 +74,8 @@ public class Mark extends Role implements Listener {
                 roleItem.updateItem(new ItemStack(Material.AIR));
                 player.updateInventory();
                 multiplicateur = 1.25f;
+                player.sendMessage(Preset.instance.p.prefixName()+" §7§lFélicitation, vous avez trouvé le §6§lCahier §7de §7§lDavis Evans, désormais tout vos points gagné serront §c§lmultiplié §7par §c§l0.25 !");
+                player.playSound(player.getLocation(), Sound.ORB_PICKUP, 5,5);
             });
         roleItem.setItemstack(itemBuilder.toItemStack());
         addRoleItem(roleItem);
@@ -95,7 +92,7 @@ public class Mark extends Role implements Listener {
                         @Override
                         public void run(){
 
-                            time = time + 25 * multiplicateur;
+                            time = time + 2.5f * multiplicateur;
                             player.sendMessage(Preset.instance.p.prefixName()+" Vous gagné §625 points§7.");
 
                         }
@@ -108,43 +105,45 @@ public class Mark extends Role implements Listener {
                         public void run(){
 
                             float total = death + time + minage;
+                            int niveau = 0;
 
-                            if (total >= 100){
-                                player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1,1);
+                            if (total >= 10){
                                 player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 0,false,false), true);
+                                niveau++;
 
-                                if (total >= 200){
-                                    player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1,1);
+                                if (total >= 20){
                                     corrupttest++;
+                                    niveau++;
 
-                                    if (total >= 300){
-                                        player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1,1);
+                                    if (total >= 30){
                                         player.getInventory().addItem(new ItemStack(Material.GOLDEN_APPLE, 2));
                                         player.updateInventory();
+                                        niveau++;
 
-                                        if (total >= 400){
-                                            player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1,1);
+                                        if (total >= 40){
                                             player.setMaxHealth(player.getMaxHealth()+2);
+                                            niveau++;
 
-                                            if (total >= 500){
-                                                player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1,1);
-                                                //On sait pas
+                                            if (total >= 50){
+                                                corrupttest++;
+                                                niveau++;
+                                                //Main Magique
 
-                                                if (total >= 600){
-                                                    player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1,1);
+                                                if (total >= 60){
                                                     player.getInventory().addItem(new ItemStack(Material.GOLDEN_APPLE, 2));
                                                     player.updateInventory();
+                                                    niveau++;
 
-                                                    if (total >= 750){
-                                                        player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1,1);
+                                                    if (total >= 75){
+                                                        niveau++;
                                                         //Entrainement Darren SOON V1.?
 
-                                                        if (total >= 900){
-                                                            player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1,1);
+                                                        if (total >= 90){
+                                                            niveau++;
                                                             //Unlock Ina Boost
 
-                                                            if (total >= 1000){
-                                                                player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1,1);
+                                                            if (total >= 100){
+                                                                niveau++;
                                                                 player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 1,false,false), true);
                                                                 inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.RESISTANCE,2,120);
                                                             }
@@ -160,7 +159,7 @@ public class Mark extends Role implements Listener {
 
                             if (total < 1000){
 
-                                TitleUtils.sendActionBar(player,"§3§lEntrainement §f§l: §c§l" + total/10 + "%");
+                                TitleUtils.sendActionBar(player,"§3§lEntrainement §f§l: §c§l" + total + "/100" + " (Niveau " + niveau + ")");
 
                             }
 
@@ -175,6 +174,51 @@ public class Mark extends Role implements Listener {
 
                         }
                     }.runTaskTimerAsynchronously(InazumaUHC.getGet(), 0 , 20);
+
+                if (niveau != 0){
+                    if (niveau == 1){
+                        player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1,1);
+                        player.sendMessage(Preset.instance.p.prefixName()+" Vous êtes passé au niveau supérieur !");
+                        if (niveau == 2){
+                            player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1,1);
+                            player.sendMessage(Preset.instance.p.prefixName()+" Vous êtes passé au niveau supérieur !");
+                            if (niveau == 3){
+                                player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1,1);
+                                player.sendMessage(Preset.instance.p.prefixName()+" Vous êtes passé au niveau supérieur !");
+                                if (niveau == 4){
+                                    player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1,1);
+                                    player.sendMessage(Preset.instance.p.prefixName()+" Vous êtes passé au niveau supérieur !");
+                                    if (niveau == 5){
+                                        player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1,1);
+                                        player.sendMessage(Preset.instance.p.prefixName()+" Vous êtes passé au niveau supérieur !");
+                                        if (niveau == 6){
+                                            player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1,1);
+                                            player.sendMessage(Preset.instance.p.prefixName()+" Vous êtes passé au niveau supérieur !");
+                                            if (niveau == 7){
+                                                player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1,1);
+                                                player.sendMessage(Preset.instance.p.prefixName()+" Vous êtes passé au niveau supérieur !");
+                                                if (niveau == 8){
+                                                    player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1,1);
+                                                    player.sendMessage(Preset.instance.p.prefixName()+" Vous êtes passé au niveau supérieur !");
+                                                    if (niveau == 9){
+                                                        player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1,1);
+                                                        player.sendMessage(Preset.instance.p.prefixName()+" Vous êtes passé au niveau supérieur !");
+                                                        if (niveau == 10){
+                                                            player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1,1);
+                                                            player.sendMessage(Preset.instance.p.prefixName()+" Vous êtes passé au niveau supérieur !");
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+
                 }
 
 
@@ -224,16 +268,16 @@ public class Mark extends Role implements Listener {
         Player killed = event.getPlayer();
 
         if (inazumaUHC.rm.getRole(killer.getUniqueId()).getRoleCategory().equals(Raimon.class) && !(inazumaUHC.rm.getRole(killer.getUniqueId()).getClass().equals(Mark.class))){
-            death = death + 30 * multiplicateur;
+            death = death + 3 * multiplicateur;
         }
 
         if (inazumaUHC.rm.getRole(killer.getUniqueId()).getClass().equals(Mark.class)){
-            death = death + 40 * multiplicateur;
+            death = death + 4 * multiplicateur;
         }
 
         if(roleCategory.getRoles().equals(Byron.class)){
 
-            death = death + 25 * multiplicateur;
+            death = death + 2.5f * multiplicateur;
 
             for(Player player : inazumaUHC.rm.getRole(Mark.class).getPlayers()){
 
@@ -241,7 +285,7 @@ public class Mark extends Role implements Listener {
             }
         }
         if(roleCategory.getClass().equals(Raimon.class)){
-            death = death + 50 * multiplicateur;
+            death = death + 5 * multiplicateur;
             for(Player player : inazumaUHC.rm.getRole(Mark.class).getPlayers()){
                 PatchedEntity.setMaxHealthInSilent(player,player.getMaxHealth()-1);
 
@@ -260,12 +304,16 @@ public class Mark extends Role implements Listener {
     public void onBlockDestroy(BlockBreakEvent event){
         Player player = event.getPlayer();
         Block block = event.getBlock();
+        int diamonds = 0;
 
-        if (block.getType().getData().equals(Material.DIAMOND_ORE)){
-            minage = minage + 10 * multiplicateur;
+        if(block.getType().equals(Material.DIAMOND_ORE)){
+            minage = minage + 1 * multiplicateur;
+            diamonds++;
+
         }
-
     }
+
+
 
         //Particule
        /* @EventHandler
