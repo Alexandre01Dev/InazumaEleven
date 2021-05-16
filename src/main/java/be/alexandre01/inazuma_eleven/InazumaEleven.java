@@ -26,11 +26,15 @@ import be.alexandre01.inazuma_eleven.objects.BallonInv;
 import be.alexandre01.inazuma_eleven.roles.alius.*;
 import be.alexandre01.inazuma_eleven.roles.raimon.*;
 import be.alexandre01.inazuma_eleven.roles.solo.Byron;
+import com.boydti.fawe.object.schematic.Schematic;
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
 import lombok.Getter;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
@@ -94,7 +98,13 @@ public class InazumaEleven extends PresetData implements IPreset{
 
         //new Mark(this);
       //  new Bellatrix(this);
+        ClipboardFormat clipboardFormat = ClipboardFormat.findByFile(new File(InazumaUHC.get.getDataFolder().getAbsolutePath()+"/schematics/InaFinalV1.schematic"));
 
+        try {
+            Schematic schematic = clipboardFormat.load(new File(InazumaUHC.get.getDataFolder().getAbsolutePath()+"/schematics/InaFinalV1.schematic"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         InazumaUHC.get.registerCommand("structure",new Structure("structure"));
         playerSize = Role.getRoles().size();
     }

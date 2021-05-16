@@ -79,9 +79,9 @@ public class LocalRaimon {
 
 
 
-            location.setY(location.getY()+clipboard.getDimensions().getY());
-                EditSession editSession = schematic.paste(world,Vector.toBlockPoint(location.getX(),location.getY(),location.getZ()));
-
+            location.setY(location.getY()-10);
+                //EditSession editSession = schematic.paste(world,Vector.toBlockPoint(location.getX(),location.getY(),location.getZ()));
+            EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(world, -1);
             System.out.println(editSession.getMaxY());
 
 
@@ -90,10 +90,17 @@ public class LocalRaimon {
             System.out.println(location.getX()+"|"+location.getY()+"|"+location.getZ());
             x = location.getBlockX();
             z = location.getBlockZ();
-            Operation o = editSession.commit();
+          //  Operation o = editSession.commit();
+            Operation operation = new ClipboardHolder(clipboard,world.getWorldData())
+                    .createPaste(editSession,world.getWorldData())
+                    .to(Vector.toBlockPoint(location.getX(),location.getY(),location.getZ()))
+                    .ignoreAirBlocks(true)
+                    .build();
+
+
 
             try { // This simply completes our paste and then cleans up.
-                Operations.complete(o);
+                Operations.complete(operation);
                 editSession.flushQueue();
 
             } catch (WorldEditException e) { // If worldedit generated an exception it will go here

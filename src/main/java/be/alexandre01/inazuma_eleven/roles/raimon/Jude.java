@@ -65,10 +65,7 @@ public class Jude extends Role implements Listener {
                     }
                     }
                    });
-
-
                 }
-
         });
 
 
