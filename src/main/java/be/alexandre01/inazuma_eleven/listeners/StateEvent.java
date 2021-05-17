@@ -11,6 +11,7 @@ import be.alexandre01.inazuma.uhc.teams.Team;
 import be.alexandre01.inazuma.uhc.timers.Timer;
 import be.alexandre01.inazuma.uhc.timers.game.*;
 import be.alexandre01.inazuma_eleven.InazumaEleven;
+import be.alexandre01.inazuma_eleven.roles.raimon.Shawn;
 import be.alexandre01.inazuma_eleven.scoreboards.GameScoreboard;
 import be.alexandre01.inazuma_eleven.scoreboards.PreparingScoreboard;
 import be.alexandre01.inazuma_eleven.scoreboards.WaitingScoreboard;
@@ -98,6 +99,7 @@ public class StateEvent implements Listener {
                     team.getPlateform().despawn();
                 }
             });
+            Shawn.timer();
         }
 
             Bukkit.getScheduler().scheduleSyncDelayedTask(i, new BukkitRunnable() {

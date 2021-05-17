@@ -52,9 +52,9 @@ public class LocalRaimon {
        Chunk chunk = chunks.get(0);
 
 
-        ClipboardFormat clipboardFormat = ClipboardFormat.findByFile(new File(InazumaUHC.get.getDataFolder().getAbsolutePath()+"/schematics/InaFinalV1.schematic"));
+        ClipboardFormat clipboardFormat = ClipboardFormat.findByFile(new File(InazumaUHC.get.getDataFolder().getAbsolutePath()+"/schematics/fawetest.fawe"));
         try {
-            Schematic schematic = clipboardFormat.load(new File(InazumaUHC.get.getDataFolder().getAbsolutePath()+"/schematics/InaFinalV1.schematic"));
+            Schematic schematic = clipboardFormat.load(new File(InazumaUHC.get.getDataFolder().getAbsolutePath()+"/schematics/fawetest.fawe"));
             World world  =FaweAPI.getWorld(InazumaUHC.get.worldGen.defaultWorld.getName()) ;
             Clipboard clipboard = schematic.getClipboard();
 
