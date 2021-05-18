@@ -7,6 +7,7 @@ import be.alexandre01.inazuma.uhc.roles.Role;
 import be.alexandre01.inazuma.uhc.roles.RoleItem;
 import be.alexandre01.inazuma.uhc.utils.CustomComponentBuilder;
 import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
+import be.alexandre01.inazuma.uhc.utils.TitleUtils;
 import be.alexandre01.inazuma_eleven.categories.Raimon;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -18,8 +19,12 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class Nathan extends Role {
+
+    int endurance = 0;
+
     public Nathan(IPreset preset) {
         super("Nathan Swift",preset);
         setRoleCategory(Raimon.class);
@@ -58,6 +63,24 @@ public class Nathan extends Role {
             @Override
             public void a(Player player) {
                 player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0,false,false), true);
+
+
+                /* new BukkitRunnable(){
+                    @Override
+                    public void run(){
+                        int endurance = 0;
+                        endurance = endurance +1;
+
+                    }
+                }.runTaskTimerAsynchronously(InazumaUHC.getGet(), 20*30, 20*30);
+
+                new BukkitRunnable(){
+                    @Override
+                    public void run(){
+                            TitleUtils.sendActionBar(player,"§6§lEndurance §f§l: §3§l " + endurance + "§7/§3100");
+                    }
+                }.runTaskTimerAsynchronously(InazumaUHC.getGet(), 20*2, 20*2);*/
+
             }
         });
 
@@ -67,6 +90,7 @@ public class Nathan extends Role {
         roleItem.setItemstack(itemBuilder.toItemStack());
 
         roleItem.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.COOLDOWN,60*10)));
+        //if (endurance >= 50)
 
         roleItem.setRightClick(player -> {
             player.sendMessage(Preset.instance.p.prefixName()+" Vous venez d'utiliser la §b§lSwitch §lSpeed§7.");
@@ -74,18 +98,19 @@ public class Nathan extends Role {
             addEffectAfter(player, 150 * 20, new action() {
                 @Override
                 public void a() {
-                    player.sendMessage(getPreset().prefixName() + "Vous êtes essoufflé...");
+                    player.sendMessage(Preset.instance.p.prefixName() + " Vous êtes essoufflé...");
                 }
             }, new PotionEffect(PotionEffectType.SLOW_DIGGING, 30*20, 0,false,false), new PotionEffect(PotionEffectType.SLOW, 15*20, 1,false,false));
             addEffectAfter(player, 180 * 20, new action() {
                 @Override
                 public void a() {
-                    player.sendMessage(getPreset().prefixName() + "Vous avez récupéré votre speed...");
+                    player.sendMessage(Preset.instance.p.prefixName() + " Vous avez récupéré votre speed...");
                 }
             }, new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0, false, false));
         });
         addRoleItem(roleItem);
 
+        //if (endurance >= 25)
         RoleItem dribble_rafale = new RoleItem();
         ItemBuilder dr = new ItemBuilder(Material.SUGAR).setName("§b§lDribble Rafale");
         dribble_rafale.setItemstack(dr.toItemStack());
@@ -99,6 +124,8 @@ public class Nathan extends Role {
             player.setVelocity( location.getDirection().normalize().multiply(2.5d));
             InazumaUHC.get.noFallDamager.addPlayer(player,1000*4);
         });
+        //if (endurance >= 75)
+
     }
 
 

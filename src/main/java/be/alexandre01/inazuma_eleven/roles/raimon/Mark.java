@@ -44,6 +44,7 @@ public class Mark extends Role implements Listener {
     float minage = 0;
     float multiplicateur = 1;
     public int corrupttest = 0;
+    public int inaboost = 0;
     float total = death + time + minage;
 
     public Mark(IPreset preset) {
@@ -113,9 +114,10 @@ public class Mark extends Role implements Listener {
             player.updateInventory();
         });
         actionOnLevel.put(7 , player ->  {
-            //Entrainement Darren SOON V1.?
+            //Entrainement Darren SOON V1.?  ou Mate Random pour la V1
         });
         actionOnLevel.put(8 , player ->  {
+            inaboost++;
             //Unlock Ina Boost
         });
         actionOnLevel.put(9 , player ->  {
@@ -142,7 +144,7 @@ public class Mark extends Role implements Listener {
                         public void run(){
                             float f = 2.5f * multiplicateur;
                             time = time + f;
-                            player.sendMessage(Preset.instance.p.prefixName()+" Vous gagné §6"+Math.round((double) f*100)/ 100.0+" points§7.");
+                            player.sendMessage(Preset.instance.p.prefixName()+"§7Vous avez survécu §a10 minutes§7. De se fait, vous gagné §6"+Math.round((double) f*100)/ 100.0+" points§7.");
                             checkLevel(player);
 
                         }
@@ -152,7 +154,7 @@ public class Mark extends Role implements Listener {
                     @Override
                     public void run(){
                         if (total < 100){
-                            TitleUtils.sendActionBar(player,"§3§lEntrainement §f§l: §c§l" + Math.round((double) total*10)/ 10.0 + "/100" + " (Niveau " + level + ")");
+                            TitleUtils.sendActionBar(player,"§3§lEntrainement §f§l: §6§l" + Math.round((double) total*10)/ 10.0 + "§c/§6§l100" + " §7(§cNiveau §6§l" + level + "§7)");
                         } else {
                             TitleUtils.sendActionBar(player,"§7§lEntrainement §7Terminé");
                         }
@@ -197,6 +199,24 @@ public class Mark extends Role implements Listener {
             }
         });
 
+        addCommand("ina boost", new command() {
+            public int i = 0;
+            @Override
+            public void a(String[] args, Player player) {
+                if(i >= inaboost){
+                    player.sendMessage(Preset.instance.p.prefixName()+" Vous pouvez seulement utiliser qu'une fois le ina boost");
+                    return;
+                }
+                for(Role role : inazumaUHC.rm.getRoleCategory(Raimon.class).getRoles()){
+                    role.getPlayers().forEach(p -> {
+                        p.setHealth(4);
+                    });
+                }
+                player.sendMessage(Preset.instance.p.prefixName()+"Vous venez de Heal 2 Coueurs à tous les joueurs de Raimon.");
+                i++;
+            }
+        });
+
     }
 
     public void checkLevel(Player player){
@@ -212,7 +232,7 @@ public class Mark extends Role implements Listener {
         }
 
         if (total < 100){
-            TitleUtils.sendActionBar(player,"§3§lEntrainement §f§l: §c§l" + Math.round((double) total*10)/ 10.0 + "§4/§c100" + " (Niveau " + level + ")");
+            TitleUtils.sendActionBar(player,"§3§lEntrainement §f§l: §6§l" + Math.round((double) total*10)/ 10.0 + "§c/§6§l100" + " §7(§cNiveau §6§l" + level + "§7)");
         } else {
             TitleUtils.sendActionBar(player,"§7§lEntrainement §7Terminé");
         }
@@ -225,23 +245,100 @@ public class Mark extends Role implements Listener {
         Player killer = event.getKiller();
         Player killed = event.getPlayer();
 
-
-        death = death + 1 * multiplicateur;
-
-
         if (getPlayers().contains(killer)){
-            death = death + 4 * multiplicateur;
             checkLevel(killer);
+
+            if(roleCategory.getClass().equals(Raimon.class) && !inazumaUHC.rm.getRole(killed.getUniqueId()).getClass().equals(Mark.class)){
+
+                float c = 2f * multiplicateur;
+                death = death + c;
+                checkLevel(killer);
+
+                for(Player player : inazumaUHC.rm.getRole(Mark.class).getPlayers()){
+
+                    PatchedEntity.setMaxHealthInSilent(player,player.getMaxHealth()-1);
+                    player.sendMessage(Preset.instance.p.prefixName()+" Vous avez tué un joueur de §6§lRaimon§7. Vous perdez donc §40.5❤§7 permanent et gagné§6 " + Math.round((double) c*100)/ 100.0+  " points§7.");
+
+                }
+
+                for(Player player : getPlayers()){
+                    checkLevel(player);
+                }
+
+                return;
+            }
+
+            else if(roleCategory.getClass().equals(Alius.class)){
+
+                float c = 4f * multiplicateur;
+                death = death + c;
+                checkLevel(killer);
+
+                killer.sendMessage(Preset.instance.p.prefixName()+" Vous avez tué un joueur, vous gagné§6 " +Math.round((double) c*100)/ 100.0+  " points§7.");
+
+                for(Player player : getPlayers()){
+                    checkLevel(player);
+                }
+
+                return;
+            }
+
+            else if(roleCategory.getRoles().equals(Byron.class)){
+
+                float c = 8f * multiplicateur;
+                death = death + c;
+                checkLevel(killer);
+
+                killer.sendMessage(Preset.instance.p.prefixName()+" Vous avez tué §c§lByron§7, vous gagné§6 " +Math.round((double) c*100)/ 100.0+  " points§7.");
+
+                for(Player player : getPlayers()){
+                    checkLevel(player);
+                }
+
+                return;
+            }
+        }
+
+        if(roleCategory.getClass().equals(Raimon.class) && !inazumaUHC.rm.getRole(killed.getUniqueId()).getClass().equals(Mark.class)){
+
+            float b = 5f * multiplicateur;
+            death = death + b;
+
+            for(Player player : inazumaUHC.rm.getRole(Mark.class).getPlayers()){
+                PatchedEntity.setMaxHealthInSilent(player,player.getMaxHealth()-1);
+
+                player.sendMessage(Preset.instance.p.prefixName()+" Un joueur de §6§lRaimon§7 vient de mourir, vous perdez donc §40.5❤§7 permanent et gagné§6 " + Math.round((double) b*100)/ 100.0+  " points§7.");
+            }
+
+            for(Player player : getPlayers()){
+                checkLevel(player);
+            }
+            return;
+        }
+
+        if(roleCategory.getClass().equals(Alius.class)){
+
+            float d = 1f * multiplicateur;
+            death = death + d;
+
+            for(Player player : inazumaUHC.rm.getRole(Mark.class).getPlayers()){
+
+                player.sendMessage(Preset.instance.p.prefixName()+" Un joueur de §5§ll'§5§lAcadémie §5§lAlius§7 vient de mourir, vous gagné §6 " +Math.round((double) d*100)/ 100.0+  " points§7.");
+            }
+            for(Player player : getPlayers()){
+                checkLevel(player);
+            }
             return;
         }
 
         if(roleCategory.getRoles().equals(Byron.class)){
 
-            death = death + 2.5f * multiplicateur;
+            float a = 2.5f * multiplicateur;
+            death = death + a;
 
             for(Player player : inazumaUHC.rm.getRole(Mark.class).getPlayers()){
 
-                player.sendMessage(Preset.instance.p.prefixName()+" Bryon est mort, vous gagné §625 points§7.");
+                player.sendMessage(Preset.instance.p.prefixName()+" §c§lByron§7 est mort, vous gagné§6 " +Math.round((double) a*100)/ 100.0+  " points§7.");
             }
 
             for(Player player : getPlayers()){
@@ -249,18 +346,7 @@ public class Mark extends Role implements Listener {
             }
             return;
         }
-        if(roleCategory.getClass().equals(Raimon.class)){
-            death = death + 5 * multiplicateur;
-            for(Player player : inazumaUHC.rm.getRole(Mark.class).getPlayers()){
-                PatchedEntity.setMaxHealthInSilent(player,player.getMaxHealth()-1);
 
-                player.sendMessage(Preset.instance.p.prefixName()+" Un joueur de §6Raimon§7 vient de mourir, vous perdez donc §4❤§7 permanent et gagné §650 points§7.");
-            }
-
-            for(Player player : getPlayers()){
-                checkLevel(player);
-            }
-        }
         if(getPlayers().contains(event.getPlayer())){
             for(Role role : inazumaUHC.rm.getRoleCategory(Raimon.class).getRoles()){
                 role.getPlayers().forEach(p -> {

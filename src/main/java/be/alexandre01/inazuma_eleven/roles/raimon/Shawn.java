@@ -7,6 +7,7 @@ import be.alexandre01.inazuma.uhc.roles.Role;
 import be.alexandre01.inazuma.uhc.utils.CustomComponentBuilder;
 import be.alexandre01.inazuma.uhc.utils.PatchedEntity;
 import be.alexandre01.inazuma.uhc.utils.PlayerUtils;
+import be.alexandre01.inazuma.uhc.utils.TitleUtils;
 import be.alexandre01.inazuma_eleven.categories.Raimon;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -97,6 +98,12 @@ public class Shawn extends Role implements Listener {
                                 ms += 1000;
                             }
                         }
+                        new BukkitRunnable(){
+                            @Override
+                            public void run(){
+                                TitleUtils.sendActionBar(player,"§6§lFusion §f§l: §3§l " + ms);
+                            }
+                        }.runTaskTimerAsynchronously(InazumaUHC.getGet(), 20*1, 20*1);
 
                         if(ms >= 1000*20){
                             bukkitTask.cancel();
