@@ -177,68 +177,70 @@ public class Scotty extends Role {
             int sec = 0;
             @Override
             public void run() {
-                if(sec == 0){
-                    TitleUtils.sendTitle(player,0,30,0,"§eYou got §eS§3c§co§2t§6t§ae§4d","( ﾟ▽ﾟ)/");
-                }
-                if(sec == 1){
-                    TitleUtils.sendTitle(player,0,30,0,"§eYou got §9S§ec§2o§at§4t§2e§bd","\\\\(ﾟ▽ﾟ )");
-                }
-                if(sec == 2){
-                    TitleUtils.sendTitle(player,0,30,0,"§eYou got §3S§5c§7o§bt§at§ee§cd","( ﾟ▽ﾟ)/");
-                }
-                if(sec == 3){
-                    TitleUtils.sendTitle(player,0,30,0,"§eYou got §2S§6c§eo§at§at§9e§rd","\\\\(ﾟ▽ﾟ )");
-                }
-                if(sec == 4){
-                    TitleUtils.sendTitle(player,0,30,0,"§eYou got §9S§ec§2o§at§4t§2e§bd","( ﾟ▽ﾟ)/");
-                }
-                if(sec == 7){
-                    TitleUtils.sendTitle(player,0,30,0,"§eAttends je te libère?","dans 3");
-                }
-                if(sec == 8){
-                    TitleUtils.sendTitle(player,0,30,0,"§eAttends je te libère?","dans 2");
-                }
-                if(sec == 9){
-                    TitleUtils.sendTitle(player,0,30,0,"§eAttends je te libère?","dans 1");
-                }
-                if(sec == 10){
-                    TitleUtils.sendTitle(player,0,30,0,"§eAttends je te libère?","dans 2");
-                }
-                if(sec == 11){
-                    TitleUtils.sendTitle(player,0,30,0,"§eAttends je te libère?","dans 3");
-                }
-                if(sec == 12){
-                    TitleUtils.sendTitle(player,0,30,0,"§f."," ");
-                }
-                if(sec == 13){
-                    TitleUtils.sendTitle(player,0,30,0,"§f.."," ");
-                }
-                if(sec == 14){
-                    TitleUtils.sendTitle(player,0,30,0,"§f..."," ");
+                switch (sec){
+                    case 0:
+                        TitleUtils.sendTitle(player,0,30,0,"§eYou got §eS§3c§co§2t§6t§ae§4d","( ﾟ▽ﾟ)/");
+                        break;
+                    case 1:
+                        TitleUtils.sendTitle(player,0,30,0,"§eYou got §9S§ec§2o§at§4t§2e§bd","\\\\(ﾟ▽ﾟ )");
+                        break;
+                    case 2:
+                        TitleUtils.sendTitle(player,0,30,0,"§eYou got §3S§5c§7o§bt§at§ee§cd","( ﾟ▽ﾟ)/");
+                        break;
+
+                    case 3:
+                        TitleUtils.sendTitle(player,0,30,0,"§eYou got §2S§6c§eo§at§at§9e§rd","\\\\(ﾟ▽ﾟ )");
+                        break;
+                    case 4:
+                        TitleUtils.sendTitle(player,0,30,0,"§eYou got §9S§ec§2o§at§4t§2e§bd","( ﾟ▽ﾟ)/");
+                        break;
+                    case 5:
+                        TitleUtils.sendTitle(player,0,30,0,"§eAttends je te libère?","dans 3");
+                        break;
+                    case 8:
+                        TitleUtils.sendTitle(player,0,30,0,"§eAttends je te libère?","dans 2");
+                        break;
+                    case 9:
+                        TitleUtils.sendTitle(player,0,30,0,"§eAttends je te libère?","dans 1");
+                        break;
+                    case 10:
+                        TitleUtils.sendTitle(player,0,30,0,"§eAttends je te libère?","dans 2");
+                        break;
+                    case 11:
+                        TitleUtils.sendTitle(player,0,30,0,"§eAttends je te libère?","dans 3");
+                        break;
+                    case 12:
+                        TitleUtils.sendTitle(player,0,30,0,"§f."," ");
+                        break;
+                    case 13:
+                        TitleUtils.sendTitle(player,0,30,0,"§f.."," ");
+                        break;
+                    case 14:
+                        TitleUtils.sendTitle(player,0,30,0,"§f..."," ");
+                        break;
+                    case 15:
+                        TitleUtils.sendTitle(player,0,30,0,"§fToujours bloqué ?"," ");
+                        break;
+
+                    case 17:
+                        TitleUtils.sendTitle(player,0,30,0,"§eHmm","ça s'ouvre pas, dommage");
+                        break;
+                    case 19:
+                        TitleUtils.sendTitle(player,0,30,0,"§cLol","Je m'amuse bien avec toi.");
+                        break;
+                    case 20:
+                        Bukkit.getScheduler().scheduleSyncDelayedTask(inazumaUHC, new Runnable() {
+                            @Override
+                            public void run() {
+                                player.teleport(pLoc);
+                                player.sendMessage(Preset.instance.p.prefixName()+ "§aVous êtes libéré vous même et je sais que vous détestez Scotty dorénavent.");
+                                npc.setCamera(player,false);
+                                npc.destroy();
+                            }
+                        });
+                        cancel();
                 }
 
-                if(sec == 15){
-                    TitleUtils.sendTitle(player,0,30,0,"§fToujours bloqué ?"," ");
-                }
-
-                if(sec == 17){
-                    TitleUtils.sendTitle(player,0,30,0,"§eHmm","ça s'ouvre pas, dommage");
-                }
-                if(sec == 19){
-                    TitleUtils.sendTitle(player,0,30,0,"§cLol","Je m'amuse bien avec toi.");
-                }
-                if(sec == 20){
-                    Bukkit.getScheduler().scheduleSyncDelayedTask(inazumaUHC, new Runnable() {
-                        @Override
-                        public void run() {
-                            player.teleport(pLoc);
-                            player.sendMessage(Preset.instance.p.prefixName()+ "§aVous êtes libéré vous même et je sais que vous détestez Scotty dorénavent.");
-                            npc.setCamera(player,false);
-                            npc.destroy();
-                        }
-                    });
-                    cancel();
-                }
 
                 sec++;
             }

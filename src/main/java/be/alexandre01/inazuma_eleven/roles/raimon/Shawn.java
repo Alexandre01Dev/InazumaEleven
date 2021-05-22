@@ -41,6 +41,7 @@ public class Shawn extends Role implements Listener {
     public boolean fusionCommand = false;
     public boolean fusionRegen = false;
     public boolean fusion = false;
+    public boolean aidenDeath = false;
     public int coups =0;
     public int i = 3;
     public BukkitTask bukkitTask;
@@ -287,17 +288,41 @@ public class Shawn extends Role implements Listener {
         }
 
         if(role.getClass() == Aiden.class){
+
             for(Player shawn : inazumaUHC.rm.getRole(Shawn.class).getPlayers()){
                 shawn.sendMessage("Aiden vient de mourir, en conséquence vous perdez la fusion si elle était faites mais vous debloquer la Transformation en Aiden.");
+            }
+            aidenDeath = true;
+
+
                 new BukkitRunnable(){
                     @Override
                     public void run(){
-                        if (coups < 100){
-                            TitleUtils.sendActionBar(player,"§c§lTransformation §f§l: §7§l||||||||||" );
+                        StringBuilder sb = new StringBuilder();
+                        sb.append("§c§lTransformation:");
+                        sb.append(" ");
+                        int v = coups/5;
+                        sb.append("§7[");
+                        sb.append("§c");
+                        for (int j = 0; j < v; j++) {
+                            sb.append("|");
+                        }
+                        sb.append("§8");
+                        for (int j = 0; j < 20-v; j++) {
+                            sb.append("|");
+                        }
+                        sb.append("§7]");
+
+                        for(Player shawn : getPlayers()){
+                            TitleUtils.sendActionBar(shawn,sb.toString());
+                        }
+
+                        if (coups >= 100){
+                            cancel();
                         }
                     }
-                }.runTaskTimerAsynchronously(InazumaUHC.getGet(), 20*2, 20*2);
-            }
+                }.runTaskTimerAsynchronously(InazumaUHC.get, 20*2, 20*2);
+
         }
 
 
@@ -306,13 +331,15 @@ public class Shawn extends Role implements Listener {
 
     @EventHandler
     public void onPlayerDamage(EntityDamageByEntityEvent event){
+        if(!aidenDeath)
+            return;
         Entity entity = event.getEntity();
         Entity e_damager = event.getDamager();
 
         if ((entity instanceof Player) && (e_damager instanceof Player)){
-            Player player = (Player) entity;
             Player damager = (Player) e_damager;
-
+            if(!getPlayers().contains(damager))
+                return;
             switch (damager.getItemInHand().getType()){
                 case DIAMOND_SWORD:
                     coups +=5;
