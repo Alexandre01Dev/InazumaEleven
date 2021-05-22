@@ -38,6 +38,7 @@ public class Kevin extends Role {
         addCommand("intimidate", new command() {
         public int i = 0;
         public DateBuilderTimer dateBuilderTimer = new DateBuilderTimer(0);
+
             @Override
         public void a(String[] args, Player player) {
                 dateBuilderTimer.loadComplexDate();
@@ -55,6 +56,7 @@ public class Kevin extends Role {
                     player.sendMessage(Preset.instance.p.prefixName()+" Vous essayez de vous intimider vous même mais en vain. Vous êtes (un peu) chelou.");
                     return;
                 }
+
                 if(i > 3){
                     player.sendMessage(Preset.instance.p.prefixName()+"§c Vous avez dépassé le nombre d'utilisation de cette commande");
                     return;

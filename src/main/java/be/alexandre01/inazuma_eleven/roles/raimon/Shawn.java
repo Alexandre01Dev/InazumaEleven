@@ -1,6 +1,8 @@
 package be.alexandre01.inazuma_eleven.roles.raimon;
 
 import be.alexandre01.inazuma.uhc.InazumaUHC;
+import be.alexandre01.inazuma.uhc.custom_events.episode.EpisodeChangeEvent;
+import be.alexandre01.inazuma.uhc.custom_events.player.PlayerInstantDeathEvent;
 import be.alexandre01.inazuma.uhc.managers.damage.DamageManager;
 import be.alexandre01.inazuma.uhc.presets.IPreset;
 import be.alexandre01.inazuma.uhc.roles.Role;
@@ -9,6 +11,7 @@ import be.alexandre01.inazuma.uhc.utils.PatchedEntity;
 import be.alexandre01.inazuma.uhc.utils.PlayerUtils;
 import be.alexandre01.inazuma.uhc.utils.TitleUtils;
 import be.alexandre01.inazuma_eleven.categories.Raimon;
+import be.alexandre01.inazuma_eleven.listeners.EpisodeEvent;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -18,24 +21,31 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class Shawn extends Role implements Listener {
     public boolean fusionCommand = false;
+    public boolean fusionRegen = false;
     public boolean fusion = false;
+    public int i = 3;
     public BukkitTask bukkitTask;
     public ArrayList<Location> aidenLoc;
     public int ms = 0;
+    public int totalms = 1000*20;
     public Shawn(IPreset preset) {
         super("Shawn Frost",preset);
-
+        addListener(this);
+        this.aidenLoc = new ArrayList<>();
         addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
         addDescription("§8- §7Vous possédez l’effet §6§lRésistance 1§7.");
         addDescription(" ");
@@ -68,7 +78,7 @@ public class Shawn extends Role implements Listener {
             @Override
             public void a(String[] strings, Player player) {
                 if(!fusionCommand){
-                    player.sendMessage("La commande est désactivé pour le moment. PD ");
+                    player.sendMessage("La commande est désactivé pour le moment. ");
                     return;
                 }
                 if(InazumaUHC.get.rm.getRole(Aiden.class).getPlayers().isEmpty()){
@@ -80,30 +90,60 @@ public class Shawn extends Role implements Listener {
                 player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, Integer.MAX_VALUE, 0,false,false), true);
                 player.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
                 PatchedEntity.setMaxHealthInSilent(player,player.getMaxHealth()-6);
+
                 bukkitTask = new BukkitRunnable() {
+
+                    Format m = new SimpleDateFormat("mm");
+                    Format s = new SimpleDateFormat("ss");
                     @Override
                     public void run() {
-                        System.out.println(inazumaUHC.rm.getRole(Aiden.class).getPlayers().stream()
-                                .map(Entity::getLocation).collect(Collectors.toList()));
-                        for(Player p : inazumaUHC.rm.getRole(Aiden.class).getPlayers()){
+                        ArrayList<Player> aidens = inazumaUHC.rm.getRole(Aiden.class).getPlayers();
+
+                        aidenLoc.clear();
+                        if(aidens.isEmpty()){
+                            getPlayers().forEach(shawn -> {
+                                shawn.sendMessage("Aiden est mort donc fusion cancel");
+                            });
+                            fusionRegen = true;
+                            cancel();
+                        }
+                        for(Player p : aidens){
                             aidenLoc.add(p.getLocation());
                         }
 
-
+                        boolean paused = true;
                         for(Player p : getPlayers()){
                             for(Location location : aidenLoc){
                                 if(p.getLocation().distance(location)/2 >= 15)
                                     continue;
 
+                                paused = false;
                                 ms += 1000;
                             }
                         }
-                        new BukkitRunnable(){
-                            @Override
-                            public void run(){
-                                TitleUtils.sendActionBar(player,"§6§lFusion §f§l: §3§l " + ms);
-                            }
-                        }.runTaskTimerAsynchronously(InazumaUHC.getGet(), 20*1, 20*1);
+                        int date = totalms - ms;
+
+                        String minute = this.m.format(date);
+                        String second = this.s.format(date);
+                        StringBuilder sb = new StringBuilder();
+
+                        sb.append("§6§lFusion §f§l: §3§l ");
+                        sb.append(minute + "m ");
+                        sb.append(second+"s");
+                        if(paused)
+                            sb.append(" §4(§cTROP LOIN§4)");
+
+
+
+
+                        getPlayers().forEach(shawn -> {
+                            TitleUtils.sendActionBar(shawn,sb.toString());
+                        });
+                        aidens.forEach(aiden -> {
+                            TitleUtils.sendActionBar(aiden,sb.toString());
+                        });
+
+
 
                         if(ms >= 1000*20){
                             bukkitTask.cancel();
@@ -113,10 +153,18 @@ public class Shawn extends Role implements Listener {
                             inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.INCREASE_DAMAGE,1,110);
                             player.removePotionEffect(PotionEffectType.SLOW);
                             player.removePotionEffect(PotionEffectType.WEAKNESS);
-
+                            fusionRegen = true;
+                            fusion = true;
                             player.getWorld().spigot().strikeLightningEffect(player.getLocation(),true);
+
+                            for(Player shawn : getPlayers()){
+                                inazumaUHC.invincibilityDamager.addPlayer(shawn,3000, EntityDamageEvent.DamageCause.LIGHTNING);
+                            }
+                            for(Player aiden : InazumaUHC.get.rm.getRole(Aiden.class).getPlayers()){
+                                inazumaUHC.invincibilityDamager.addPlayer(aiden,3000,EntityDamageEvent.DamageCause.LIGHTNING);
+                            }
                             int j = 0;
-                            for (int i = 3; i < 6; i++) {
+                            for (int i = 4; i < 7; i++) {
                                 //x
                                 Location location = player.getLocation().clone();
                                 location.add(i,0,0);
@@ -134,7 +182,7 @@ public class Shawn extends Role implements Listener {
                                 j+= 2;
                             }
                             j=0;
-                            for (int i = -3; i > -6; i--) {
+                            for (int i = -4; i > -7; i--) {
                                 //-x
                                 Location location = player.getLocation().clone();
                                 location.add(i,0,0);
@@ -146,13 +194,13 @@ public class Shawn extends Role implements Listener {
                                 new BukkitRunnable() {
                                     @Override
                                     public void run() {
-                                        player.getWorld().spigot().strikeLightning(location,true);
+                                        player.getWorld().spigot().strikeLightning(location,false);
                                     }
                                 }.runTaskLaterAsynchronously(InazumaUHC.get,j);
                                 j+= 2;
                             }
                             j=0;
-                            for (int i = 3; i < 6; i++) {
+                            for (int i = 4; i < 7; i++) {
                                 //z
                                 Location location = player.getLocation().clone();
                                 location.add(0,0,i);
@@ -170,19 +218,19 @@ public class Shawn extends Role implements Listener {
                                 j+= 2;
                             }
                             j=0;
-                            for (int i = -3; i > -6; i--) {
+                            for (int i = -4; i > -7; i--) {
                                //-z
                                 Location location = player.getLocation().clone();
                                 location.add(0,0,i);
                                 if(j == 0){
-                                    player.getWorld().spigot().strikeLightning(location,true);
+                                    player.getWorld().spigot().strikeLightning(location,false);
                                     j+= 2;
                                     continue;
                                 }
                                 new BukkitRunnable() {
                                     @Override
                                     public void run() {
-                                        player.getWorld().spigot().strikeLightning(location,true);
+                                        player.getWorld().spigot().strikeLightning(location,false);
                                     }
                                 }.runTaskLaterAsynchronously(InazumaUHC.get,j);
                                 j+= 2;
@@ -198,8 +246,31 @@ public class Shawn extends Role implements Listener {
         });
     }
 
+    @EventHandler
+    public void onEpisode(EpisodeChangeEvent event){
+        if(fusionRegen){
+            if(i != 0){
+                for(Player player : getPlayers()){
+                    player.setMaxHealth(player.getMaxHealth()+2);
+                }
+                i--;
+            }
+        }
+    }
 
-
+    @EventHandler
+    public void onDeath(PlayerInstantDeathEvent event){
+        Player player = event.getPlayer();
+        ArrayList<Player> p = inazumaUHC.rm.getRole(Aiden.class).getPlayers();
+        if(p.contains(player)){
+            if(p.size() == 1){
+                getPlayers().forEach(shawn -> {
+                    shawn.removePotionEffect(PotionEffectType.SPEED);
+                    shawn.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
+                });
+            }
+        }
+    }
     public static void timer(){
         new BukkitRunnable() {
             @Override
@@ -212,4 +283,6 @@ public class Shawn extends Role implements Listener {
             }
         }.runTaskLaterAsynchronously(InazumaUHC.get,20*30);
     }
+
+
 }

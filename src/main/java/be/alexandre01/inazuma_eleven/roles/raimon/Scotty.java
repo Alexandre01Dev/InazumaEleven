@@ -96,7 +96,7 @@ public class Scotty extends Role {
                 }, 1L);
 
 
-                player.sendMessage(Preset.instance.p.prefixName()+" §aPiege posé ! §e| §7X:"+ block.getLocation().getBlockX()+"§8| §7Y:"+block.getLocation().getBlockY()+ "§8| §7Z:"+block.getLocation().getBlockZ() );
+                player.sendMessage(Preset.instance.p.prefixName()+" §aPiège posé ! §e| §7X:"+ block.getLocation().getBlockX()+"§8| §7Y:"+block.getLocation().getBlockY()+ "§8| §7Z:"+block.getLocation().getBlockZ() );
                 Block finalBlock = block;
                 inazumaUHC.playerMovementManager.addBlockLocation(block.getLocation(), new PlayerMovementManager.action() {
                     @Override
@@ -138,7 +138,7 @@ public class Scotty extends Role {
                 }, 1L);
 
 
-                player.sendMessage(Preset.instance.p.prefixName()+" §aPiege posé ! §e| §7X:"+ block.getLocation().getBlockX()+"§8| §7Y:"+block.getLocation().getBlockY()+ "§8| §7Z:"+block.getLocation().getBlockZ() );
+                player.sendMessage(Preset.instance.p.prefixName()+" §aPiège posé ! §e| §7X:"+ block.getLocation().getBlockX()+"§8| §7Y:"+block.getLocation().getBlockY()+ "§8| §7Z:"+block.getLocation().getBlockZ() );
                 Block finalBlock = block;
                 inazumaUHC.playerMovementManager.addBlockLocation(block.getLocation(), new PlayerMovementManager.action() {
                     @Override

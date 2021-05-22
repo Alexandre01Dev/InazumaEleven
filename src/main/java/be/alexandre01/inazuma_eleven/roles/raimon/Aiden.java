@@ -32,7 +32,7 @@ public class Aiden extends Role implements Listener {
     public Aiden(IPreset preset) {
         super("Aiden Frost",preset);
         setRoleCategory(Raimon.class);
-
+        addListener(this);
         addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
         addDescription("§8- §7Vous possédez l’effet §4§lForce 1§7.");
         addDescription(" ");

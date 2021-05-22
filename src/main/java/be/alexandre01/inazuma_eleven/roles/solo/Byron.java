@@ -35,8 +35,12 @@ import java.util.List;
 
 public class Byron extends Role implements Listener {
     private ItemStack potion;
+
+
     public Byron(IPreset preset) {
         super("Byron Love",preset);
+
+
         addDescription("§8- §7Votre objectif est de gagner §c§lSeul");
         addDescription("§8- §7Vous possédez l’effet §4§lForce 1 et §c§l2 §4❤§7§7 permanent");
         addDescription(" ");
@@ -143,6 +147,8 @@ public class Byron extends Role implements Listener {
 
 
         timeStop.setRightClick(new RoleItem.RightClick() {
+
+
             int i = 0;
             @Override
             public void execute(Player player) {

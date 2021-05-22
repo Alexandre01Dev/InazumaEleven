@@ -99,9 +99,9 @@ public class StateEvent implements Listener {
                     team.getPlateform().despawn();
                 }
             });
-            Shawn.timer();
-        }
 
+        }
+        Shawn.timer();
             Bukkit.getScheduler().scheduleSyncDelayedTask(i, new BukkitRunnable() {
                         @Override
                         public void run() {
