@@ -96,7 +96,6 @@ public class InazumaEleven extends PresetData implements IPreset{
         new Bellatrix(this);
 
 
-        //new Mark(this);
       //  new Bellatrix(this);
         ClipboardFormat clipboardFormat = ClipboardFormat.findByFile(new File(InazumaUHC.get.getDataFolder().getAbsolutePath()+"/schematics/fawetest.fawe"));
 
