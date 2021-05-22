@@ -5,6 +5,7 @@ import be.alexandre01.inazuma.uhc.custom_events.episode.EpisodeChangeEvent;
 import be.alexandre01.inazuma.uhc.custom_events.player.PlayerInstantDeathEvent;
 import be.alexandre01.inazuma.uhc.managers.damage.DamageManager;
 import be.alexandre01.inazuma.uhc.presets.IPreset;
+import be.alexandre01.inazuma.uhc.presets.Preset;
 import be.alexandre01.inazuma.uhc.roles.Role;
 import be.alexandre01.inazuma.uhc.utils.CustomComponentBuilder;
 import be.alexandre01.inazuma.uhc.utils.PatchedEntity;
@@ -17,10 +18,13 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.enchantment.EnchantItemEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffect;
@@ -37,6 +41,7 @@ public class Shawn extends Role implements Listener {
     public boolean fusionCommand = false;
     public boolean fusionRegen = false;
     public boolean fusion = false;
+    public int coups =0;
     public int i = 3;
     public BukkitTask bukkitTask;
     public ArrayList<Location> aidenLoc;
@@ -106,6 +111,13 @@ public class Shawn extends Role implements Listener {
                             });
                             fusionRegen = true;
                             cancel();
+
+                            for(Player player : inazumaUHC.rm.getRole(Shawn.class).getPlayers()){
+                                player.sendMessage("§7Vous venez de commencer la fusion." );
+                            }
+                            for(Player player : inazumaUHC.rm.getRole(Aiden.class).getPlayers()){
+                                player.sendMessage("§7Shawn a commencé la fusion." );
+                            }
                         }
                         for(Player p : aidens){
                             aidenLoc.add(p.getLocation());
@@ -261,16 +273,58 @@ public class Shawn extends Role implements Listener {
     @EventHandler
     public void onDeath(PlayerInstantDeathEvent event){
         Player player = event.getPlayer();
+        Role role = inazumaUHC.rm.getRole(player);
         ArrayList<Player> p = inazumaUHC.rm.getRole(Aiden.class).getPlayers();
-        if(p.contains(player)){
-            if(p.size() == 1){
-                getPlayers().forEach(shawn -> {
-                    shawn.removePotionEffect(PotionEffectType.SPEED);
-                    shawn.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
-                });
+        if (fusion){
+            if(p.contains(player)){
+                if(p.size() == 1){
+                    getPlayers().forEach(shawn -> {
+                        shawn.removePotionEffect(PotionEffectType.SPEED);
+                        shawn.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
+                    });
+                }
+            }
+        }
+
+        if(role.getClass() == Aiden.class){
+            for(Player shawn : inazumaUHC.rm.getRole(Shawn.class).getPlayers()){
+                shawn.sendMessage("Aiden vient de mourir, en conséquence vous perdez la fusion si elle était faites mais vous debloquer la Transformation en Aiden.");
+                new BukkitRunnable(){
+                    @Override
+                    public void run(){
+                        if (coups < 100){
+                            TitleUtils.sendActionBar(player,"§c§lTransformation §f§l: §7§l||||||||||" );
+                        }
+                    }
+                }.runTaskTimerAsynchronously(InazumaUHC.getGet(), 20*2, 20*2);
+            }
+        }
+
+
+
+    }
+
+    @EventHandler
+    public void onPlayerDamage(EntityDamageByEntityEvent event){
+        Entity entity = event.getEntity();
+        Entity e_damager = event.getDamager();
+
+        if ((entity instanceof Player) && (e_damager instanceof Player)){
+            Player player = (Player) entity;
+            Player damager = (Player) e_damager;
+
+            switch (damager.getItemInHand().getType()){
+                case DIAMOND_SWORD:
+                    coups +=5;
+                    break;
+
+                case IRON_SWORD:
+                    coups +=5;
+                    break;
             }
         }
     }
+
     public static void timer(){
         new BukkitRunnable() {
             @Override
