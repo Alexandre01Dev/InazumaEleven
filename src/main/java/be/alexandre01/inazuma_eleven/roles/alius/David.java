@@ -68,7 +68,7 @@ public class David extends Role implements Listener {
                 onLoad(new load() {
                     @Override
                     public void a(Player player) {
-                        inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.RESISTANCE,1,120);
+                        inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.INCREASE_DAMAGE,1,120);
                     }
 
                 });

@@ -42,10 +42,24 @@ public class Joseph extends Role {
         c.append(morsureButton);
         addDescription(c);
 
+
+
+        onLoad(new load() {
+            @Override
+            public void a(Player player) {
+                onLoad(new load() {
+                    @Override
+                    public void a(Player player) {
+                        inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.RESISTANCE,1,120);
+                    }
+
+                });
+            }
+        });
+
         setRoleCategory(Alius.class);
 
         RoleItem morsure = new RoleItem();
         morsure.setItemstack(new ItemBuilder(Material.GHAST_TEAR).setName("§2Morsure§7-§2Sauvage").toItemStack());
-
     }
 }
