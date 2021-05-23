@@ -35,6 +35,8 @@ public class PierreAliusEvent implements Listener {
 
             if((event.getAction() == Action.RIGHT_CLICK_AIR) || (event.getAction() == Action.RIGHT_CLICK_BLOCK)){
 
+                player.setItemInHand(new ItemStack(Material.AIR));
+
                 if(!inazumaUHC.rm.getRole(player).getClass().equals(David.class) && !inazumaUHC.rm.getRole(player).getClass().equals(Joseph.class)){
 
                     Player menteur = player;
