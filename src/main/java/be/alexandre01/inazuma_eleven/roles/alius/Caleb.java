@@ -7,6 +7,8 @@ import be.alexandre01.inazuma.uhc.presets.Preset;
 
 import be.alexandre01.inazuma.uhc.roles.Role;
 import be.alexandre01.inazuma.uhc.roles.RoleCategory;
+import be.alexandre01.inazuma.uhc.roles.RoleItem;
+import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
 import be.alexandre01.inazuma.uhc.utils.PatchedEntity;
 import be.alexandre01.inazuma_eleven.categories.Alius;
 import be.alexandre01.inazuma_eleven.listeners.PierreAliusEvent;
@@ -103,84 +105,90 @@ public class Caleb extends Role implements Listener {
 
         addListener(this);
         addListener(new PierreAliusEvent(inazumaUHC));
-        addCommand("power", new command() {
-            @Override
-            public void a(String[] args, Player player) {
-                if(hasChoose){
-                    player.sendMessage(Preset.instance.p.prefixName()+" Vous ne pouvez pas utiliser cette commande pour le moment");
-                    return;
-                }
 
-                if(args.length == 0){
-                    player.sendMessage(Preset.instance.p.prefixName()+" Veuillez mettre §a/power §aaccept §7ou §a/power §crefuse");
-                    return;
-                }
+        RoleItem roleItem = new RoleItem();
+        ItemBuilder it = new ItemBuilder(Material.QUARTZ, 2).setName("§5§lPierre §lAlius");
+        roleItem.setItemstack(it.toItemStack());
+        addRoleItem(roleItem);
 
-                if(args[0].equalsIgnoreCase("accept")){
-
-
-
-                    hasChoose = true;
-
-                    Player choosedPlayer = null;
-
-                    while (choosedPlayer == null || getPlayers().contains(choosedPlayer) || choosedPlayer == lastPlayer){
-                        ArrayList<Role> c = new ArrayList<>(inazumaUHC.rm.getRoleCategory(Alius.class).getRoles());
-                        c.removeIf(r -> r instanceof Caleb);
-                        Collections.shuffle(c);
-
-                        for(Role r : c){
-                            System.out.println(r.getName());
+                addCommand("power", new command() {
+                    @Override
+                    public void a(String[] args, Player player) {
+                        if(hasChoose){
+                            player.sendMessage(Preset.instance.p.prefixName()+" Vous ne pouvez pas utiliser cette commande pour le moment");
+                            return;
                         }
-                        if(c.isEmpty()){
-                            break;
+
+                        if(args.length == 0){
+                            player.sendMessage(Preset.instance.p.prefixName()+" Veuillez mettre §a/power §aaccept §7ou §a/power §crefuse");
+                            return;
                         }
-                        Role role = c.get(c.size()-1);
-                        if(role == null)
-                            continue;
-                        ArrayList<Player> p = new ArrayList<>(role.getPlayers());
 
-                        Collections.shuffle(p);
+                        if(args[0].equalsIgnoreCase("accept")){
 
 
-                        if(p.get(0) != null){
-                            choosedPlayer = p.get(0);
 
-                            PatchedEntity.setMaxHealthInSilent(choosedPlayer,choosedPlayer.getMaxHealth()-4);
-                            damages.put(choosedPlayer,4);
-                            choosedPlayer.sendMessage(Preset.instance.p.prefixName()+" §5Caleb §7t'a enlevé 2 coeurs permanent durant cet épisode.");
-                            player.sendMessage(Preset.instance.p.prefixName()+" §7tu as enlevé 2 coeurs a un membre de ton équipe.");
-                            player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Integer.MAX_VALUE, 0,false,false), true);
-                            PatchedEntity.setMaxHealthInSilent(player,player.getMaxHealth()+4);
-                            damages.put(player,-4);
+                            hasChoose = true;
+
+                            Player choosedPlayer = null;
+
+                            while (choosedPlayer == null || getPlayers().contains(choosedPlayer) || choosedPlayer == lastPlayer){
+                                ArrayList<Role> c = new ArrayList<>(inazumaUHC.rm.getRoleCategory(Alius.class).getRoles());
+                                c.removeIf(r -> r instanceof Caleb);
+                                Collections.shuffle(c);
+
+                                for(Role r : c){
+                                    System.out.println(r.getName());
+                                }
+                                if(c.isEmpty()){
+                                    break;
+                                }
+                                Role role = c.get(c.size()-1);
+                                if(role == null)
+                                    continue;
+                                ArrayList<Player> p = new ArrayList<>(role.getPlayers());
+
+                                Collections.shuffle(p);
+
+
+                                if(p.get(0) != null){
+                                    choosedPlayer = p.get(0);
+
+                                    PatchedEntity.setMaxHealthInSilent(choosedPlayer,choosedPlayer.getMaxHealth()-4);
+                                    damages.put(choosedPlayer,4);
+                                    choosedPlayer.sendMessage(Preset.instance.p.prefixName()+" §5Caleb §7t'a enlevé 2 coeurs permanent durant cet épisode.");
+                                    player.sendMessage(Preset.instance.p.prefixName()+" §7tu as enlevé 2 coeurs a un membre de ton équipe.");
+                                    player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Integer.MAX_VALUE, 0,false,false), true);
+                                    PatchedEntity.setMaxHealthInSilent(player,player.getMaxHealth()+4);
+                                    damages.put(player,-4);
+
+                                }
+                            }
+
+
+                            return;
+
 
                         }
+
+
+
+
+                        if (args[0].equalsIgnoreCase("refuse")) {
+
+
+                            player.sendMessage(Preset.instance.p.prefixName()+" Vous avez refusé d'avoir force cette Episode.");
+
+                            hasChoose = true;
+                            refuse(player);
+                            return;
+                        }
+
+
+
+                        player.sendMessage(Preset.instance.p.prefixName()+" Veuillez mettre §a/power §aaccept §7ou §a/power §crefuse");
                     }
-
-
-                        return;
-
-
-                }
-
-
-
-
-                if (args[0].equalsIgnoreCase("refuse")) {
-
-
-                    player.sendMessage(Preset.instance.p.prefixName()+" Vous avez refusé d'avoir force cette Episode.");
-
-                    hasChoose = true;
-                    refuse(player);
-                    return;
-                }
-
-
-
-                player.sendMessage(Preset.instance.p.prefixName()+" Veuillez mettre §a/power §aaccept §7ou §a/power §crefuse");
-            }
-        });
+                });
 
     }
 
