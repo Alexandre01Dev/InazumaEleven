@@ -20,6 +20,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.minecraft.server.v1_8_R3.Tuple;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -37,6 +38,7 @@ public class David extends Role implements Listener {
 
     boolean firstUse = false;
     boolean secondUse = true;
+    boolean specialUse = false;
     int numberOfUse = 2;
     private BukkitTask bukkitTask;
     public David(IPreset preset) {
@@ -75,7 +77,9 @@ public class David extends Role implements Listener {
             }
         });
 
-
+        RoleItem roleItemAlius = new RoleItem();
+        ItemBuilder pierreAlius = new ItemBuilder(Material.NETHER_STAR).setName("§5§lPierre §lAlius");
+        roleItemAlius.setItemstack(pierreAlius.toItemStack());
 
         RoleItem roleItem = new RoleItem();
         ItemBuilder it = new ItemBuilder(Material.NETHER_STAR).setName("§c§lManchot §c§lEmpereur §4§lN°1");
@@ -88,6 +92,7 @@ public class David extends Role implements Listener {
                 player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60*20, 0));
                 player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60*20, 0));
                 firstUse = true;
+                specialUse = true;
                 return;
             }
 
@@ -125,7 +130,8 @@ public class David extends Role implements Listener {
                 {
                     case 1 :
                         player.sendMessage("utilisation du manchot empreur apres recharge 1");
-                        PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() + 4);
+                        if(!specialUse)
+                            PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() + 4);
 
                         new BukkitRunnable()
                         {
