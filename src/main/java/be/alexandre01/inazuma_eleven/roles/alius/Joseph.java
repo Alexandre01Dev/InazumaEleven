@@ -46,35 +46,6 @@ public class Joseph extends Role {
 
         RoleItem morsure = new RoleItem();
         morsure.setItemstack(new ItemBuilder(Material.GHAST_TEAR).setName("§2Morsure§7-§2Sauvage").toItemStack());
-        morsure.setSlot(7);
-        morsure.deployVerificationsOnRightClick(morsure.generateVerification(new Tuple<>(RoleItem.VerificationType.COOLDOWN,60*10)));
-        morsure.setRightClick(new RoleItem.RightClick() {
-            public int morsure = 0;
-            @Override
-            public void execute(Player player) {
-                morsure++;
-                switch (morsure){
-                    case 1:
-                        PatchedEntity.setMaxHealthInSilent(player,player.getMaxHealth()-4);
-                        break;
-                    default:
-                        player.sendMessage(Preset.instance.p.prefixName()+" Vous avez déjà atteint la limite d'utilisation");
-                        return;
-                }
-                player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 2*60*20, 1,false,false), true);
-                inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.RESISTANCE,2,125);
-                player.sendMessage(Preset.instance.p.prefixName()+" Vous venez de recevoir l'effet RESISTANCE pendant 2 minutes.");
-            }
-        });
-        addRoleItem(morsure);
 
-    }
-    private void addEffectAfter(Player player,long l, int t, PotionEffectType p){
-        Bukkit.getScheduler().runTaskLaterAsynchronously(inazumaUHC, new Runnable() {
-            @Override
-            public void run() {
-                player.addPotionEffect(new PotionEffect(p,t, 0,false,false), true);
-            }
-        },l);
     }
 }
