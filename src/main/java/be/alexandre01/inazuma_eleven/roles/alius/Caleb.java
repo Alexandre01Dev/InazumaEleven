@@ -6,15 +6,23 @@ import be.alexandre01.inazuma.uhc.presets.IPreset;
 import be.alexandre01.inazuma.uhc.presets.Preset;
 
 import be.alexandre01.inazuma.uhc.roles.Role;
+import be.alexandre01.inazuma.uhc.roles.RoleCategory;
 import be.alexandre01.inazuma.uhc.utils.PatchedEntity;
 import be.alexandre01.inazuma_eleven.categories.Alius;
+import be.alexandre01.inazuma_eleven.listeners.PierreAliusEvent;
+import be.alexandre01.inazuma_eleven.roles.raimon.Aiden;
+import be.alexandre01.inazuma_eleven.roles.raimon.Mark;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -94,6 +102,7 @@ public class Caleb extends Role implements Listener {
         });
 
         addListener(this);
+        addListener(new PierreAliusEvent(inazumaUHC));
         addCommand("power", new command() {
             @Override
             public void a(String[] args, Player player) {
@@ -242,5 +251,4 @@ public class Caleb extends Role implements Listener {
             }.runTaskLaterAsynchronously(inazumaUHC,20*60);
         }
         }
-
 }

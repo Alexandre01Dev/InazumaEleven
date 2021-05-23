@@ -7,15 +7,14 @@ import be.alexandre01.inazuma.uhc.managers.damage.DamageManager;
 import be.alexandre01.inazuma.uhc.presets.IPreset;
 import be.alexandre01.inazuma.uhc.presets.Preset;
 import be.alexandre01.inazuma.uhc.roles.Role;
-import be.alexandre01.inazuma.uhc.utils.CustomComponentBuilder;
-import be.alexandre01.inazuma.uhc.utils.PatchedEntity;
-import be.alexandre01.inazuma.uhc.utils.PlayerUtils;
-import be.alexandre01.inazuma.uhc.utils.TitleUtils;
+import be.alexandre01.inazuma.uhc.roles.RoleItem;
+import be.alexandre01.inazuma.uhc.utils.*;
 import be.alexandre01.inazuma_eleven.categories.Raimon;
 import be.alexandre01.inazuma_eleven.listeners.EpisodeEvent;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.minecraft.server.v1_8_R3.Tuple;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -80,6 +79,13 @@ public class Shawn extends Role implements Listener {
             }
 
         });
+
+
+        RoleItem roleItem = new RoleItem();
+        ItemBuilder it = new ItemBuilder(Material.REDSTONE).setName("Transformation");
+        roleItem.setItemstack(it.toItemStack());
+        addRoleItem(roleItem);
+
         addCommand("fusion", new command() {
             @Override
             public void a(String[] strings, Player player) {
