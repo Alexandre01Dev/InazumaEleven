@@ -35,7 +35,8 @@ public class PierreAliusEvent implements Listener {
 
             if((event.getAction() == Action.RIGHT_CLICK_AIR) || (event.getAction() == Action.RIGHT_CLICK_BLOCK)){
 
-                if(!inazumaUHC.rm.getRoles().getClass().equals(David.class) || !inazumaUHC.rm.getRoles().getClass().equals(Joseph.class)){
+                if(!inazumaUHC.rm.getRole(player).getClass().equals(David.class) && !inazumaUHC.rm.getRole(player).getClass().equals(Joseph.class)){
+
                     Player menteur = player;
 
                     new BukkitRunnable() {
