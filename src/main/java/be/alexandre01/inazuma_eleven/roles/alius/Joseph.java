@@ -1,5 +1,6 @@
 package be.alexandre01.inazuma_eleven.roles.alius;
 
+import be.alexandre01.inazuma.uhc.InazumaUHC;
 import be.alexandre01.inazuma.uhc.managers.damage.DamageManager;
 import be.alexandre01.inazuma.uhc.presets.IPreset;
 import be.alexandre01.inazuma.uhc.presets.Preset;
@@ -17,11 +18,20 @@ import net.minecraft.server.v1_8_R3.Tuple;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class Joseph extends Role {
 
+    boolean firstUse = false;
+    boolean secondUse = true;
+    boolean specialUse = false;
+    int numberOfUse = 2;
 
     public Joseph(IPreset preset) {
         super("Joseph King",preset);
@@ -61,5 +71,108 @@ public class Joseph extends Role {
 
         RoleItem morsure = new RoleItem();
         morsure.setItemstack(new ItemBuilder(Material.GHAST_TEAR).setName("§2Morsure§7-§2Sauvage").toItemStack());
+        morsure.setRightClick(player -> {
+
+            if(!firstUse && !secondUse)
+            {
+                player.sendMessage("vous venez d'activer Manchot empreur apres recharge sans la premiere utilisation");
+                player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60*20, 0));
+                player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60*20, 0));
+                firstUse = true;
+                specialUse = true;
+                return;
+            }
+
+            if(!firstUse)
+            {
+                player.sendMessage("Vous venez d'activer Manchot empreur");
+                player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60*20, 0));
+                player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60*20, 0));
+                firstUse = true;
+
+                new BukkitRunnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        player.sendMessage("§cFin de votre capacite debut des problemes");
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, Integer.MAX_VALUE, 0));
+                        PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() - 4);
+                    }
+                }.runTaskLaterAsynchronously(InazumaUHC.getGet(), 60*20);
+
+                return;
+            }
+
+            if(!secondUse)
+            {
+                if(player.hasPotionEffect(PotionEffectType.WEAKNESS))
+                    player.removePotionEffect(PotionEffectType.WEAKNESS);
+
+                player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60*20, 0));
+                player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60*20, 0));
+                numberOfUse--;
+
+                switch (numberOfUse)
+                {
+                    case 1 :
+                        player.sendMessage("utilisation du manchot empreur apres recharge 1");
+                        if (!specialUse)
+                            PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() + 4);
+
+                        new BukkitRunnable()
+                        {
+                            @Override
+                            public void run()
+                            {
+                                player.sendMessage("§cfin de votre capacite effet nefaste reduit");
+                                PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() - 4);
+                            }
+                        }.runTaskLaterAsynchronously(InazumaUHC.getGet(), 60*20);
+                        break;
+
+                    case 0 :
+                        secondUse = true;
+                        player.sendMessage("utilisation du manchot empreur apres recharge 2");
+                        PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() + 4);
+
+                        new BukkitRunnable()
+                        {
+                            @Override
+                            public void run()
+                            {
+                                player.sendMessage("fin de votre capacite effets nefastes accrue");
+                                player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, Integer.MAX_VALUE, 0));
+                                PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() - 2 );
+                            }
+                        }.runTaskLaterAsynchronously(InazumaUHC.getGet(), 60*20);
+                }
+            }
+
+        });
+
+    }
+    @EventHandler
+    public void OnInteract(PlayerInteractEvent event)
+    {
+        ItemStack it = event.getItem();
+        Player player = event.getPlayer();
+        Action action = event.getAction();
+
+        if (it.getType() == Material.NETHER_STAR && it.hasItemMeta() && it.getItemMeta().hasDisplayName() && it.getItemMeta().getDisplayName().equalsIgnoreCase("§5§lPierre §lAlius")) {
+
+            if ((action == Action.RIGHT_CLICK_AIR) || (action == Action.RIGHT_CLICK_BLOCK))
+            {
+                if(inazumaUHC.rm.getRole(player).getClass().equals(David.class))
+                {
+                    if (player.hasPotionEffect(PotionEffectType.WEAKNESS))
+                        player.removePotionEffect(PotionEffectType.WEAKNESS);
+                    if(firstUse)
+                        PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() + 4);
+
+                    secondUse = false;
+                }
+            }
+        }
     }
 }
