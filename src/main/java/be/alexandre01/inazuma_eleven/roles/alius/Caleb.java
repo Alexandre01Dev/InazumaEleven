@@ -110,6 +110,10 @@ public class Caleb extends Role implements Listener {
         ItemBuilder it = new ItemBuilder(Material.QUARTZ, 2).setName("§5§lPierre §lAlius");
         roleItem.setItemstack(it.toItemStack());
         addRoleItem(roleItem);
+        roleItem.setRightClick(player ->
+        {
+
+        });
 
                 addCommand("power", new command() {
                     @Override

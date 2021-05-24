@@ -72,9 +72,11 @@ public class Joseph extends Role {
         RoleItem roleItemAlius = new RoleItem();
         ItemBuilder pierreAlius = new ItemBuilder(Material.NETHER_STAR).setName("§5§lPierre §lAlius");
         roleItemAlius.setItemstack(pierreAlius.toItemStack());
+        addRoleItem(roleItemAlius);
 
         RoleItem morsure = new RoleItem();
         morsure.setItemstack(new ItemBuilder(Material.GHAST_TEAR).setName("§2Morsure§7-§2Sauvage").toItemStack());
+        addRoleItem(morsure);
         morsure.setRightClick(player -> {
 
             if(!firstUse && !secondUse)
