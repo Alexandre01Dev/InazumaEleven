@@ -11,6 +11,7 @@ import be.alexandre01.inazuma.uhc.roles.RoleItem;
 import be.alexandre01.inazuma.uhc.utils.CustomComponentBuilder;
 import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
 import be.alexandre01.inazuma.uhc.utils.PatchedEntity;
+import be.alexandre01.inazuma_eleven.InazumaEleven;
 import be.alexandre01.inazuma_eleven.categories.Alius;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -19,17 +20,26 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.minecraft.server.v1_8_R3.Tuple;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
+import javax.sound.midi.Patch;
+
 public class David extends Role implements Listener {
-    boolean hasChoose = false;
-    boolean accepted = false;
-    boolean refuse = false;
+
+    boolean firstUse = false;
+    boolean secondUse = true;
+    boolean specialUse = false;
+    int numberOfUse = 2;
     private BukkitTask bukkitTask;
     public David(IPreset preset) {
         super("David Samford",preset);
@@ -57,130 +67,127 @@ public class David extends Role implements Listener {
         onLoad(new load() {
             @Override
             public void a(Player player) {
-                Bukkit.getScheduler().runTaskLater(inazumaUHC, new Runnable() {
+                onLoad(new load() {
                     @Override
-                    public void run() {
-                        InazumaUHC.get.dm.addEffectPourcentage(player, DamageManager.EffectType.INCREASE_DAMAGE,2,117);
-
-                        if(bukkitTask != null){
-                            bukkitTask.cancel();
-                        }
-                        if(accepted){
-                            if (player.getMaxHealth()>8){
-                                player.sendMessage(Preset.instance.p.prefixName()+" Vous avez perdu §c§l0.5 §4❤§7 permanent suite à avoir accepté le §c§lManchot §c§lEmpereur §4§lN°1§7.");
-                                PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth()-1);
-                            }
-                            return;
-                        }
-
-                        sendRequest();
-
-                        bukkitTask = Bukkit.getScheduler().runTaskLaterAsynchronously(inazumaUHC, () -> {
-                            hasChoose = true;
-                        },20*60*5);
-                        hasChoose = false;
+                    public void a(Player player) {
+                        inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.INCREASE_DAMAGE,1,120);
                     }
-                },20*3);
+
+                });
             }
         });
-        addCommand("manchot", new command() {
-            @Override
-            public void a(String[] args, Player player) {
-                if(hasChoose){
-                    player.sendMessage(Preset.instance.p.prefixName()+" Vous ne pouvez pas utiliser cette commande pour le moment");
-                    return;
-                }
-                if(args.length == 0){
-                    player.sendMessage(Preset.instance.p.prefixName()+" Veuillez mettre /manchot §aaccept §7ou §a/manchot §crefuse");
-                    return;
-                }
 
-                if(args[0].equalsIgnoreCase("accept")){
-                    hasChoose = true;
-                    accepted = true;
-                    bukkitTask.cancel();
-                    RoleItem roleItem = new RoleItem();
-                    roleItem.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
+        RoleItem roleItemAlius = new RoleItem();
+        ItemBuilder pierreAlius = new ItemBuilder(Material.NETHER_STAR).setName("§5§lPierre §lAlius");
+        roleItemAlius.setItemstack(pierreAlius.toItemStack());
 
+        RoleItem roleItem = new RoleItem();
+        ItemBuilder it = new ItemBuilder(Material.NETHER_STAR).setName("§c§lManchot §c§lEmpereur §4§lN°1");
+        roleItem.setItemstack(it.toItemStack());
+        roleItem.setRightClick(player -> {
 
-                    ItemBuilder it = new ItemBuilder(Material.NETHER_STAR).setName("§c§lManchot §c§lEmpereur §4§lN°1");
-
-                    roleItem.setItemstack(it.toItemStack());
-
-                    roleItem.setRightClick(new RoleItem.RightClick() {
-                        @Override
-                        public void execute(Player player) {
-
-                            player.sendMessage(Preset.instance.p.prefixName()+" Vous venez d'utiliser §c§lManchot §c§lEmpereur §4§lN°1");
-                            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 2*20*60, 0,false,false), true);
-                            player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 2*20*60, 1,false,false), true);
-                        }
-                    });
-
-                    addRoleItem(roleItem);
-
-                    giveItem(player);
-
-                    PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth()-4);
-                    player.sendMessage(Preset.instance.p.prefixName()+" Vous venez de recevoir le §c§lManchot §c§lEmpereur §4§lN°1§7");
-                    return;
-                }
-                if (args[0].equalsIgnoreCase("refuse")) {
-                    hasChoose = true;
-                    bukkitTask.cancel();
-                    return;
-                }
-                player.sendMessage(Preset.instance.p.prefixName()+" Veuillez mettre /manchot §aaccept §7ou §a/manchot §crefuse");
+            if(!firstUse && !secondUse)
+            {
+                player.sendMessage("vous venez d'activer Manchot empreur apres recharge sans la premiere utilisation");
+                player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60*20, 0));
+                player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60*20, 0));
+                firstUse = true;
+                specialUse = true;
+                return;
             }
+
+            if(!firstUse)
+            {
+                player.sendMessage("Vous venez d'activer Manchot empreur");
+                player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60*20, 0));
+                player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60*20, 0));
+                firstUse = true;
+
+                new BukkitRunnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        player.sendMessage("§cFin de votre capacite debut des problemes");
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, Integer.MAX_VALUE, 0));
+                        PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() - 4);
+                    }
+                }.runTaskLaterAsynchronously(InazumaUHC.getGet(), 60*20);
+
+                return;
+            }
+
+            if(!secondUse)
+            {
+                if(player.hasPotionEffect(PotionEffectType.WEAKNESS))
+                    player.removePotionEffect(PotionEffectType.WEAKNESS);
+
+                player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60*20, 0));
+                player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60*20, 0));
+                numberOfUse--;
+
+                switch (numberOfUse)
+                {
+                    case 1 :
+                        player.sendMessage("utilisation du manchot empreur apres recharge 1");
+                        if(!specialUse)
+                            PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() + 4);
+
+                        new BukkitRunnable()
+                        {
+                            @Override
+                            public void run()
+                            {
+                                player.sendMessage("§cfin de votre capacite effet nefaste reduit");
+                                player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 300*20, 0));
+                                PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() -2);
+                            }
+                        }.runTaskLaterAsynchronously(InazumaUHC.getGet(), 60*20);
+                        break;
+
+                    case 0 :
+                        secondUse = true;
+                        player.sendMessage("utilisation du manchot empreur apres recharge 2");
+                        PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() + 2);
+
+                        new BukkitRunnable()
+                        {
+                            @Override
+                            public void run()
+                            {
+                                player.sendMessage("fin de votre capacite effets nefastes accrue");
+                                player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, Integer.MAX_VALUE, 0));
+                                PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() -4 );
+                            }
+                        }.runTaskLaterAsynchronously(InazumaUHC.getGet(), 60*20);
+                }
+            }
+
         });
-    }
 
-
-
-
-    private void sendRequest(){
-
-        BaseComponent b = new TextComponent(Preset.instance.p.prefixName()+" Voulez-vous recevoir votre ");
-
-        BaseComponent manchot = new TextComponent("§7[§c§lManchot §c§lEmpereur §4§lN°1§7] ? §7*§8Curseur§7*");
-        BaseComponent manchotDesc = new TextComponent();
-        manchotDesc.addExtra("§e- §9Utilisation par §eEpisode\n");
-        manchotDesc.addExtra("§e- §9Perdre immédiatement §c§l3 §4❤§7 permanent\n");
-        manchotDesc.addExtra("§e- §9Perdre §c§l0.5 §4❤§7 permanent tous les §eEpisode");
-        manchot.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,manchotDesc.getExtra().toArray(new BaseComponent[0])));
-        b.addExtra(manchot);
-
-        BaseComponent yes = new TextComponent("§a[Accepter]");
-        yes.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/manchot accept"));
-        b.addExtra(yes);
-        b.addExtra(" §7ou ");
-        BaseComponent no = new TextComponent("§c[Refuser]");
-        no.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/manchot refuse"));
-
-        b.addExtra(no);
-
-        for(Player player : getPlayers()){
-            player.spigot().sendMessage(b);
-        }
     }
     @EventHandler
-    public void onEpisode(EpisodeChangeEvent event){
-        if(bukkitTask != null){
-            bukkitTask.cancel();
-        }
-        if(accepted){
-            getPlayers().forEach(player -> {
-                    player.sendMessage(Preset.instance.p.prefixName()+" Vous avez perdu §c§l0.5 §4❤§7 permanent suite à avoir accepté le §c§lManchot §c§lEmpereur §4§lN°1§7.");
-                    PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth()-1);
-            });
-            return;
-        }
+    public void OnInteract(PlayerInteractEvent event)
+    {
+        ItemStack it = event.getItem();
+        Player player = event.getPlayer();
+        Action action = event.getAction();
 
-        sendRequest();
+        if (it.getType() == Material.NETHER_STAR && it.hasItemMeta() && it.getItemMeta().hasDisplayName() && it.getItemMeta().getDisplayName().equalsIgnoreCase("§5§lPierre §lAlius")) {
 
-        bukkitTask = Bukkit.getScheduler().runTaskLaterAsynchronously(inazumaUHC, () -> {
-            hasChoose = true;
-            },20*60*5);
-        hasChoose = false;
+            if ((action == Action.RIGHT_CLICK_AIR) || (action == Action.RIGHT_CLICK_BLOCK))
+            {
+                if(inazumaUHC.rm.getRole(player).getClass().equals(David.class))
+                {
+                    if (player.hasPotionEffect(PotionEffectType.WEAKNESS))
+                        player.removePotionEffect(PotionEffectType.WEAKNESS);
+                    if(firstUse)
+                        PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() + 4);
+
+                    secondUse = false;
+                }
+            }
+        }
     }
+
 }

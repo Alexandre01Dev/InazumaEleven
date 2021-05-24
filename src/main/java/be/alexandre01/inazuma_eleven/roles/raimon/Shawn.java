@@ -352,7 +352,11 @@ public class Shawn extends Role implements Listener {
                     break;
 
                 case IRON_SWORD:
-                    coups +=5;
+                    coups +=4;
+                    break;
+
+                case GOLD_SWORD:
+                    coups +=3;
                     break;
             }
         }
