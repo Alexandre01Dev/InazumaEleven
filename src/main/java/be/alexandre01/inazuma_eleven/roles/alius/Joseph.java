@@ -158,27 +158,5 @@ public class Joseph extends Role {
         });
 
     }
-    @EventHandler
-    public void OnInteract(PlayerInteractEvent event)
-    {
-        ItemStack it = event.getItem();
-        Player player = event.getPlayer();
-        Action action = event.getAction();
 
-        if (it.getType() == Material.NETHER_STAR && it.hasItemMeta() && it.getItemMeta().hasDisplayName() && it.getItemMeta().getDisplayName().equalsIgnoreCase("§5§lPierre §lAlius")) {
-
-            if ((action == Action.RIGHT_CLICK_AIR) || (action == Action.RIGHT_CLICK_BLOCK))
-            {
-                if(inazumaUHC.rm.getRole(player).getClass().equals(David.class))
-                {
-                    if (player.hasPotionEffect(PotionEffectType.WEAKNESS))
-                        player.removePotionEffect(PotionEffectType.WEAKNESS);
-                    if(firstUse)
-                        PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() + 4);
-
-                    secondUse = false;
-                }
-            }
-        }
-    }
 }

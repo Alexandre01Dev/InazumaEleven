@@ -36,7 +36,7 @@ import javax.sound.midi.Patch;
 
 public class David extends Role implements Listener {
 
-    boolean firstUse = false;
+    public boolean firstUse = false;
     boolean secondUse = true;
     boolean specialUse = false;
     int numberOfUse = 2;
@@ -84,7 +84,7 @@ public class David extends Role implements Listener {
 
         RoleItem roleItem = new RoleItem();
         ItemBuilder it = new ItemBuilder(Material.NETHER_STAR).setName("§c§lManchot §c§lEmpereur §4§lN°1");
-        addRoleItem(roleItem);
+
         roleItem.setItemstack(it.toItemStack());
         roleItem.setRightClick(player -> {
 
@@ -164,32 +164,8 @@ public class David extends Role implements Listener {
                         }.runTaskLaterAsynchronously(InazumaUHC.getGet(), 60*20);
                 }
             }
-
+            addRoleItem(roleItem);
         });
 
     }
-    @EventHandler
-    public void OnInteract(PlayerInteractEvent event)
-    {
-        ItemStack it = event.getItem();
-        Player player = event.getPlayer();
-        Action action = event.getAction();
-
-        if (it.getType() == Material.NETHER_STAR && it.hasItemMeta() && it.getItemMeta().hasDisplayName() && it.getItemMeta().getDisplayName().equalsIgnoreCase("§5§lPierre §lAlius")) {
-
-            if ((action == Action.RIGHT_CLICK_AIR) || (action == Action.RIGHT_CLICK_BLOCK))
-            {
-                if(inazumaUHC.rm.getRole(player).getClass().equals(David.class))
-                {
-                    if (player.hasPotionEffect(PotionEffectType.WEAKNESS))
-                        player.removePotionEffect(PotionEffectType.WEAKNESS);
-                    if(firstUse)
-                        PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() + 4);
-
-                    secondUse = false;
-                }
-            }
-        }
-    }
-
 }

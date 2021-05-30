@@ -20,6 +20,7 @@ import be.alexandre01.inazuma.uhc.timers.Timer;
 import be.alexandre01.inazuma_eleven.categories.Alius;
 import be.alexandre01.inazuma_eleven.categories.Raimon;
 import be.alexandre01.inazuma_eleven.categories.Solo;
+import be.alexandre01.inazuma_eleven.commands.Particles;
 import be.alexandre01.inazuma_eleven.commands.Structure;
 import be.alexandre01.inazuma_eleven.listeners.*;
 import be.alexandre01.inazuma_eleven.objects.BallonInv;
@@ -28,6 +29,7 @@ import be.alexandre01.inazuma_eleven.roles.raimon.*;
 import be.alexandre01.inazuma_eleven.roles.solo.Byron;
 import com.boydti.fawe.object.schematic.Schematic;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
+import jdk.nashorn.internal.scripts.JO;
 import lombok.Getter;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -41,7 +43,7 @@ import java.util.UUID;
 
 public class InazumaEleven extends PresetData implements IPreset{
     @Getter
-    BallonInv ballonInv;
+    private BallonInv ballonInv;
     public InazumaEleven(){
         //DefaultSettings Value
         generatorSettings = new String[]{"", ""};
@@ -69,33 +71,34 @@ public class InazumaEleven extends PresetData implements IPreset{
         new Solo("Solo","§c");
 
         //INITIALIZE ROLES
-        //new Byron(this);
-        new Nathan(this);
-        new Axel(this);
-        new Darren(this);
-        new Hurley(this);
-        new Jack(this);
-        new Jude(this);
-        new Kevin(this);
-        new Mark(this);
-        new Scotty(this);
-        new Shawn(this);
-        new William(this);
-        new Aiden(this);
 
-        new Byron(this);
+        Role.addRoles(Nathan.class,
+                Axel.class,
+                Darren.class,
+                Hurley.class,
+                Jack.class,
+                Jude.class,
+                Kevin.class,
+                Mark.class,
+                Scotty.class,
+                Shawn.class,
+                William.class,
+                Aiden.class,
 
-        new Caleb(this);
-        new Xavier(this);
-        new Torch(this);
-        new Joseph(this);
-        new Janus(this);
-        new Gazelle(this);
-        new Dvalin(this);
-        new David(this);
-        new Bellatrix(this);
+                Byron.class,
 
+                Caleb.class,
+                Xavier.class,
+                Torch.class,
+                Joseph.class,
+                Janus.class,
+                Gazelle.class,
+                Dvalin.class,
+                David.class,
+                Bellatrix.class
+                );
 
+        Role.initializeRoles();
       //  new Bellatrix(this);
         ClipboardFormat clipboardFormat = ClipboardFormat.findByFile(new File(InazumaUHC.get.getDataFolder().getAbsolutePath()+"/schematics/fawetest.fawe"));
 
@@ -105,6 +108,7 @@ public class InazumaEleven extends PresetData implements IPreset{
             e.printStackTrace();
         }
         InazumaUHC.get.registerCommand("structure",new Structure("structure"));
+        InazumaUHC.get.registerCommand("particles",new Particles("particles"));
         playerSize = Role.getRoles().size();
     }
 

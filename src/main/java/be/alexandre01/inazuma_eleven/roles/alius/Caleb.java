@@ -6,25 +6,19 @@ import be.alexandre01.inazuma.uhc.presets.IPreset;
 import be.alexandre01.inazuma.uhc.presets.Preset;
 
 import be.alexandre01.inazuma.uhc.roles.Role;
-import be.alexandre01.inazuma.uhc.roles.RoleCategory;
 import be.alexandre01.inazuma.uhc.roles.RoleItem;
 import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
 import be.alexandre01.inazuma.uhc.utils.PatchedEntity;
 import be.alexandre01.inazuma_eleven.categories.Alius;
-import be.alexandre01.inazuma_eleven.listeners.PierreAliusEvent;
-import be.alexandre01.inazuma_eleven.roles.raimon.Aiden;
-import be.alexandre01.inazuma_eleven.roles.raimon.Mark;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.minecraft.server.v1_8_R3.Tuple;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -104,17 +98,76 @@ public class Caleb extends Role implements Listener {
         });
 
         addListener(this);
-        addListener(new PierreAliusEvent(inazumaUHC));
+
 
         RoleItem roleItem = new RoleItem();
         ItemBuilder it = new ItemBuilder(Material.QUARTZ, 2).setName("§5§lPierre §lAlius");
         roleItem.setItemstack(it.toItemStack());
-        addRoleItem(roleItem);
+        for(Class<?> role : getClassRoles()){
+            roleItem.getRolesToAccess().add(role);
+        }
+
+        roleItem.setDroppableItem(true);
+        ArrayList<RoleItem.VerificationGeneration> verificationGenerations = new ArrayList<>();
+        verificationGenerations.add(player -> {
+            if(inazumaUHC.rm.getRole(player) instanceof Caleb){
+                player.sendMessage("T nul faux doné a t poteause");
+                return false;
+            }
+            //TOUT LE MONDE
+            return true;
+        });
+        ArrayList<Player> players = new ArrayList<>();
+        verificationGenerations.add(player -> {
+            if(!(inazumaUHC.rm.getRole(player)instanceof Joseph) && !(inazumaUHC.rm.getRole(player)instanceof David))
+                return true;
+            if(players.contains(player)){
+                player.sendMessage("FDP, TU VEUX TRICHER, TA VIE SE RESUME À ÇA ???");
+                return false;
+            }
+            players.add(player);
+            return true;
+        });
+        roleItem.deployVerificationsOnRightClick(verificationGenerations);
         roleItem.setRightClick(player ->
         {
+            player.getItemInHand().setType(Material.AIR);
+            if(inazumaUHC.rm.getRole(player) instanceof David){
+                David david = (David) inazumaUHC.rm.getRole(player);
+                if (player.hasPotionEffect(PotionEffectType.WEAKNESS))
+                    player.removePotionEffect(PotionEffectType.WEAKNESS);
+                if(david.firstUse)
+                    PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() + 4);
 
+                david.secondUse = false;
+                return;
+            }
+            if(inazumaUHC.rm.getRole(player) instanceof Joseph){
+                Joseph joseph = (Joseph) inazumaUHC.rm.getRole(player);
+                if (player.hasPotionEffect(PotionEffectType.WEAKNESS))
+                    player.removePotionEffect(PotionEffectType.WEAKNESS);
+                if(joseph.firstUse)
+                    PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() + 4);
+
+                joseph.secondUse = false;
+                return;
+            }
+
+            PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() + 2);
+            player.sendMessage("Tu as menti zebi à Calebounet et il va le savoir bientot (1min) et te tuer car tu es une sous merde.");
+            player.sendMessage("CAVALE ZEBI");
+
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    for(Player p : inazumaUHC.rm.getRole(Caleb.class).getPlayers()){
+                        p.sendMessage("Tu es une sous merde, Tu t'es fais douillé par celui a qui tu as donner ta pierre, donc tu mérite la peine de mort.");
+                    }
+                }
+            }.runTaskLaterAsynchronously(inazumaUHC,20*60);
+            //TOUT LE MONDE
         });
-
+        addRoleItem(roleItem);
                 addCommand("power", new command() {
                     @Override
                     public void a(String[] args, Player player) {
