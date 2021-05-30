@@ -79,14 +79,9 @@ public class David extends Role implements Listener {
             }
         });
 
-        RoleItem roleItemAlius = new RoleItem();
-        ItemBuilder pierreAlius = new ItemBuilder(Material.NETHER_STAR).setName("§5§lPierre §lAlius");
-        roleItemAlius.setItemstack(pierreAlius.toItemStack());
-        addRoleItem(roleItemAlius);
 
         RoleItem roleItem = new RoleItem();
         ItemBuilder it = new ItemBuilder(Material.NETHER_STAR).setName("§c§lManchot §c§lEmpereur §4§lN°1");
-
         roleItem.setItemstack(it.toItemStack());
         roleItem.setRightClick(player -> {
 
