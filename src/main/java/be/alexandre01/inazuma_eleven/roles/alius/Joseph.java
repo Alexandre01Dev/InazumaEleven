@@ -11,6 +11,7 @@ import be.alexandre01.inazuma.uhc.utils.CustomComponentBuilder;
 import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
 import be.alexandre01.inazuma.uhc.utils.PatchedEntity;
 import be.alexandre01.inazuma_eleven.categories.Alius;
+import be.alexandre01.inazuma_eleven.roles.raimon.Jude;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -141,7 +142,11 @@ public class Joseph extends Role {
                         secondUse = true;
                         player.sendMessage("utilisation du manchot empreur apres recharge 2");
                         PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() + 4);
+                        for(Player p : inazumaUHC.rm.getRole(Jude.class).getPlayers()){
 
+                            p.sendMessage(Preset.instance.p.prefixName()+" Joseph a utilisé son item en x: " + player.getLocation().getX() + " y: " + player.getLocation().getY() + " z: " + player.getLocation().getZ());
+
+                        }
                         new BukkitRunnable()
                         {
                             @Override
