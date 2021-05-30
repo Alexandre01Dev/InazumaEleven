@@ -84,7 +84,6 @@ public class David extends Role implements Listener {
 
         RoleItem roleItem = new RoleItem();
         ItemBuilder it = new ItemBuilder(Material.NETHER_STAR).setName("§c§lManchot §c§lEmpereur §4§lN°1");
-        addRoleItem(roleItem);
         roleItem.setItemstack(it.toItemStack());
         roleItem.setRightClick(player -> {
 
@@ -166,6 +165,8 @@ public class David extends Role implements Listener {
             }
 
         });
+
+        addRoleItem(roleItem);
 
     }
     @EventHandler

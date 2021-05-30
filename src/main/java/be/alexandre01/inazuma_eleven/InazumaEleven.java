@@ -94,6 +94,7 @@ public class InazumaEleven extends PresetData implements IPreset{
         new Dvalin(this);
         new David(this);
         new Bellatrix(this);
+        new Kim(this);
 
 
       //  new Bellatrix(this);
