@@ -131,25 +131,43 @@ public class Caleb extends Role implements Listener {
         roleItem.deployVerificationsOnRightClick(verificationGenerations);
         roleItem.setRightClick(player ->
         {
-            player.getItemInHand().setType(Material.AIR);
+            if(player.getItemInHand().getAmount() == 2)
+                player.getItemInHand().setAmount(1);
+            else
+                player.getItemInHand().setType(Material.AIR);
+
             if(inazumaUHC.rm.getRole(player) instanceof David){
                 David david = (David) inazumaUHC.rm.getRole(player);
-                if (player.hasPotionEffect(PotionEffectType.WEAKNESS))
-                    player.removePotionEffect(PotionEffectType.WEAKNESS);
-                if(david.firstUse)
-                    PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() + 4);
+                if(david.useFirstPierre = false)
+                {
+                    if (player.hasPotionEffect(PotionEffectType.WEAKNESS))
+                        player.removePotionEffect(PotionEffectType.WEAKNESS);
+                    if(david.firstUse)
+                        PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() + 4);
 
-                david.secondUse = false;
+                    david.useFirstPierre = true;
+                    david.secondUse = false;
+                }
+                else
+                    PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() + 2);
+
                 return;
             }
             if(inazumaUHC.rm.getRole(player) instanceof Joseph){
                 Joseph joseph = (Joseph) inazumaUHC.rm.getRole(player);
-                if (player.hasPotionEffect(PotionEffectType.WEAKNESS))
-                    player.removePotionEffect(PotionEffectType.WEAKNESS);
-                if(joseph.firstUse)
-                    PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() + 4);
+                if(joseph.useFirstPierre = false)
+                {
+                    if (player.hasPotionEffect(PotionEffectType.WEAKNESS))
+                        player.removePotionEffect(PotionEffectType.WEAKNESS);
+                    if(joseph.firstUse)
+                        PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() + 4);
 
-                joseph.secondUse = false;
+                    joseph.useFirstPierre = true;
+                    joseph.secondUse = false;
+                }
+                else
+                    PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() + 2);
+
                 return;
             }
 

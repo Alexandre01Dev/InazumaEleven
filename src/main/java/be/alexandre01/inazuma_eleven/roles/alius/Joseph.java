@@ -32,6 +32,7 @@ public class Joseph extends Role {
     boolean firstUse = false;
     boolean secondUse = true;
     boolean specialUse = false;
+    boolean useFirstPierre = false;
     int numberOfUse = 2;
 
     public Joseph(IPreset preset) {

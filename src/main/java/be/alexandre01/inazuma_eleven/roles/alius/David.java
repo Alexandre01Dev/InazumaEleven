@@ -40,6 +40,7 @@ public class David extends Role implements Listener {
     public boolean firstUse = false;
     boolean secondUse = true;
     boolean specialUse = false;
+    boolean useFirstPierre = false;
     int numberOfUse = 2;
     private BukkitTask bukkitTask;
     public David(IPreset preset) {
