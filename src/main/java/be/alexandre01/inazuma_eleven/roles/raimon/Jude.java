@@ -116,7 +116,18 @@ public class Jude extends Role implements Listener {
             }
 
             for(Player p : getPlayers()){
-                p.sendMessage(Preset.instance.p.prefixName()+" "+ player+" vient de mourir, vous allez recevoir les cordonnées dans 5 minutes.");
+
+                new BukkitRunnable(){
+                    @Override
+                    public void run(){
+
+                        p.sendMessage(Preset.instance.p.prefixName()+" "+ player+" vient de mourir, vous allez recevoir les cordonnées dans 5 minutes.");
+
+                    }
+
+                }.runTaskLater(InazumaUHC.get, 10);
+
+
                 LocalRaimon localRaimon = new LocalRaimon();
                 localRaimon.spawn();
 

@@ -42,6 +42,9 @@ public class William extends Role implements Listener {
             @Override
             public void a(Player player) {
                 William.w = w;
+
+
+
                 Bukkit.getScheduler().runTaskLater(inazumaUHC, () -> {
                     episodeChanged();
                 },20*3);

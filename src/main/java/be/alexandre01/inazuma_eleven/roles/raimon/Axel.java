@@ -1,5 +1,6 @@
 package be.alexandre01.inazuma_eleven.roles.raimon;
 
+import be.alexandre01.inazuma.uhc.InazumaUHC;
 import be.alexandre01.inazuma.uhc.custom_events.player.PlayerInstantDeathEvent;
 import be.alexandre01.inazuma.uhc.managers.damage.DamageManager;
 import be.alexandre01.inazuma.uhc.presets.IPreset;
@@ -21,8 +22,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.ArrayList;
 
 public class Axel extends Role implements Listener {
+
+
+
     public Axel(IPreset preset) {
         super("Axel Blaze",preset);
         setRoleCategory(Raimon.class);
@@ -74,7 +81,18 @@ public class Axel extends Role implements Listener {
         Player killer = event.getKiller();
         if(killer != null){
             if (inazumaUHC.rm.getRole(killer) == this){
-                killer.sendMessage(Preset.instance.p.prefixName()+" Tu reçois une pomme en or");
+
+                new BukkitRunnable(){
+                    @Override
+                    public void run(){
+
+                        killer.sendMessage(Preset.instance.p.prefixName()+" Tu reçois une pomme en or");
+
+                    }
+
+                }.runTaskLater(InazumaUHC.get, 10);
+
+
                 killer.getInventory().addItem(new ItemStack(Material.GOLDEN_APPLE));
                 killer.updateInventory();
             }

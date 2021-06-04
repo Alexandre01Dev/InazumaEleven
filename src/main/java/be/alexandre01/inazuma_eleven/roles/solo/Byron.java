@@ -27,6 +27,7 @@ import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -183,8 +184,18 @@ public class Byron extends Role implements Listener {
         Player killed = event.getPlayer();
         if(killer != null){
             if (inazumaUHC.rm.getRole(killer.getUniqueId()).getClass().equals(Byron.class)){
-                killer.sendMessage("§7Vous venez de tuer §4§l" + killed.getName() + " §7vous avez donc gagné §c§l0.5 §4❤§7." );
+
                 killer.setMaxHealth(killer.getMaxHealth()+1);
+
+                new BukkitRunnable(){
+                    @Override
+                    public void run(){
+
+                        killer.sendMessage("§7Vous venez de tuer §4§l" + killed.getName() + " §7vous avez donc gagné §c§l0.5 §4❤§7." );
+
+                    }
+
+                }.runTaskLater(InazumaUHC.get, 10);
             }
         }
     }

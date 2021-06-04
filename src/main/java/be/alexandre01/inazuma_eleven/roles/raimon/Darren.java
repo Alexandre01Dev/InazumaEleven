@@ -1,5 +1,6 @@
 package be.alexandre01.inazuma_eleven.roles.raimon;
 
+import be.alexandre01.inazuma.uhc.InazumaUHC;
 import be.alexandre01.inazuma.uhc.custom_events.player.PlayerInstantDeathEvent;
 import be.alexandre01.inazuma.uhc.presets.IPreset;
 import be.alexandre01.inazuma.uhc.presets.Preset;
@@ -173,33 +174,44 @@ public class Darren extends Role implements Listener {
 
         //MARK DEATH ✝
         if(role.getClass() == Mark.class){
-            markDead = true;
-            tracked = killer;
-            for(Player players : getPlayers()){
-                BaseComponent b = new TextComponent(role.getRoleCategory().getPrefixColor()+role.getName()+"§7 vient de mourir.\n");
-                b.addExtra("§7Souhaite tu le remplacer ");
-                BaseComponent yes = new TextComponent("§a[OUI]");
-                yes.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/mark accept"));
-                b.addExtra(yes);
-                b.addExtra(" §7ou ");
-                BaseComponent no = new TextComponent("§a[NON]");
-                no.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/mark refuse"));
 
-                b.addExtra(no);
+            new BukkitRunnable(){
+                @Override
+                public void run(){
 
-                players.spigot().sendMessage(b);
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        if(!hasChoose){
-                            hasChoose = true;
-                            refuse(player);
-                        }
+                    markDead = true;
+                    tracked = killer;
+                    for(Player players : getPlayers()){
+                        BaseComponent b = new TextComponent(role.getRoleCategory().getPrefixColor()+role.getName()+"§7 vient de mourir.\n");
+                        b.addExtra("§7Souhaite tu le remplacer ");
+                        BaseComponent yes = new TextComponent("§a[OUI]");
+                        yes.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/mark accept"));
+                        b.addExtra(yes);
+                        b.addExtra(" §7ou ");
+                        BaseComponent no = new TextComponent("§a[NON]");
+                        no.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/mark refuse"));
+
+                        b.addExtra(no);
+
+                        players.spigot().sendMessage(b);
+                        new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                if(!hasChoose){
+                                    hasChoose = true;
+                                    refuse(player);
+                                }
 
 
+                            }
+                        }.runTaskLaterAsynchronously(inazumaUHC,20*60);
                     }
-                }.runTaskLaterAsynchronously(inazumaUHC,20*60);
-            }
+
+                }
+
+            }.runTaskLater(InazumaUHC.get, 10);
+
+
         }
         //REVENGE
         if(markDead && getPlayers().contains(killer) && player.equals(tracked)){
@@ -207,7 +219,18 @@ public class Darren extends Role implements Listener {
             for(Player players : getPlayers()){
                 tracker.removeTargetToPlayer(players);
             }
-            killer.sendMessage(Preset.instance.p.prefixName()+" Tu as tué §cl'assassin §7, tu reçois tes 2 §ccoeurs §7 ainsi qu'un effet de résistance permanent ! ");
+
+            new BukkitRunnable(){
+                @Override
+                public void run(){
+
+                    killer.sendMessage(Preset.instance.p.prefixName()+" Tu as tué §cl'assassin §7, tu reçois tes 2 §ccoeurs §7 ainsi qu'un effet de résistance permanent ! ");
+
+                }
+
+            }.runTaskLater(InazumaUHC.get, 10);
+
+
             killer.setMaxHealth(player.getMaxHealth()+4);
             killer.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 0,false,false), true);
         }

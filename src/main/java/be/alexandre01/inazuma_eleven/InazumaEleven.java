@@ -24,12 +24,12 @@ import be.alexandre01.inazuma_eleven.commands.Particles;
 import be.alexandre01.inazuma_eleven.commands.Structure;
 import be.alexandre01.inazuma_eleven.listeners.*;
 import be.alexandre01.inazuma_eleven.objects.BallonInv;
+import be.alexandre01.inazuma_eleven.objects.Mercenaire;
 import be.alexandre01.inazuma_eleven.roles.alius.*;
 import be.alexandre01.inazuma_eleven.roles.raimon.*;
 import be.alexandre01.inazuma_eleven.roles.solo.Byron;
 import com.boydti.fawe.object.schematic.Schematic;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
-import jdk.nashorn.internal.scripts.JO;
 import lombok.Getter;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -150,7 +150,6 @@ public class InazumaEleven extends PresetData implements IPreset{
             listeners.add(new WeatherEvent());
             listeners.add(new MysteryEvent());
             listeners.add(new ChunkSaver());
-            listeners.add(new MercenaireEvent());
             listeners.add(ballonInv);
         }
         return listeners;

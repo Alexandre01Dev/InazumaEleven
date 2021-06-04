@@ -296,7 +296,18 @@ public class Shawn extends Role implements Listener {
         if(role.getClass() == Aiden.class){
 
             for(Player shawn : inazumaUHC.rm.getRole(Shawn.class).getPlayers()){
-                shawn.sendMessage("Aiden vient de mourir, en conséquence vous perdez la fusion si elle était faites mais vous debloquer la Transformation en Aiden.");
+
+                new BukkitRunnable(){
+                    @Override
+                    public void run(){
+
+                        shawn.sendMessage("Aiden vient de mourir, en conséquence vous perdez la fusion si elle était faites mais vous debloquer la Transformation en Aiden.");
+
+                    }
+
+                }.runTaskLater(InazumaUHC.get, 10);
+
+
             }
             aidenDeath = true;
 

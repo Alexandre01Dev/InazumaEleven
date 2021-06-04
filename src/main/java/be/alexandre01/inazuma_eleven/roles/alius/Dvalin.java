@@ -78,6 +78,7 @@ public class Dvalin extends Role implements Listener {
             player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 90*20, 0,false,false), true);
         });
         addRoleItem(colierAllius);
+
         onLoad(player -> {
             Bukkit.getScheduler().runTaskLater(inazumaUHC, () -> {
                 BaseComponent b = new TextComponent("Début du match, quel poste voulez-vous obternir ?");
