@@ -23,17 +23,23 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.projectiles.ProjectileSource;
 
 public class Xavier extends Role implements Listener {
     private int i = 0;
     private Inventory inventory;
+    private boolean shootArrow = false;
     private int episode;
     @Setter
     private Block block = null;
@@ -47,6 +53,11 @@ public class Xavier extends Role implements Listener {
         addDescription(" ");
         CustomComponentBuilder c = new CustomComponentBuilder("");
         c.append("§8- §7Vous avez une commande nommée ");
+
+        RoleItem meteor = new RoleItem();
+        ItemBuilder it = new ItemBuilder(Material.BOW).setName("Météore Géant");
+        meteor.setItemstack(it.toItemStack());
+        addRoleItem(meteor);
 
         BaseComponent inaballtpButton = new TextComponent("§5/inaballtp §7(§9Pseudo§7) §7*§8Curseur§7*");
 
@@ -217,5 +228,41 @@ public class Xavier extends Role implements Listener {
 
         }
         return cLoc;
+    }
+
+    @EventHandler
+    public void onShoot(EntityShootBowEvent event){
+        if(event.getEntity() instanceof  Player){
+            Player player = (Player) event.getEntity();
+            if(getPlayers().contains(player)){
+                shootArrow = true;
+            }
+        }
+    }
+
+    @EventHandler
+    public void onCollision(ProjectileHitEvent event){
+        if(!shootArrow)
+            return;
+        if(event.getEntity() instanceof Arrow){
+            Arrow arrow = (Arrow) event.getEntity();
+            ProjectileSource projectileSource = arrow.getShooter();
+            if(projectileSource instanceof Player){
+                Player player = (Player) projectileSource;
+
+                if (getPlayers().contains(player)) {
+
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onCollisionWithEntity(EntityDamageByEntityEvent event){
+
+    }
+
+    public void meteorDestruction(Location location){
+
     }
 }

@@ -96,7 +96,7 @@ public class InazumaEleven extends PresetData implements IPreset{
                 Dvalin.class,
                 David.class,
                 Bellatrix.class
-                );
+        );
 
         Role.initializeRoles();
       //  new Bellatrix(this);

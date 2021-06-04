@@ -33,7 +33,7 @@ import java.util.Collections;
 public class Mercenaire{
 
 
-    public int kidnacommand = 0;
+
     public ArrayList<Player> list;
 
     public void onPvP(){
@@ -93,16 +93,18 @@ public class Mercenaire{
                         role.addDescription(mercenaireButton);
 
                         role.addCommand("kidnapping", new Role.command() {
+                            public boolean kidnacommand = false;
                             @Override
                             public void a(String[] args, Player player) {
-
+                                if (kidnacommand) {
+                                    player.sendMessage("Vous ne pouvez pas faire la commande.");
+                                    return;
+                                }
                                         Location mercenaireloc = player.getLocation();
                                         Location axelloc = null;
 
                                         for(Player axel : InazumaUHC.get.rm.getRole(Axel.class).getPlayers()){
-
                                             axelloc = axel.getLocation();
-
                                         }
 
                                         if (axelloc == null){
@@ -115,7 +117,7 @@ public class Mercenaire{
 
                                         if (mercenaireloc.distance(axelloc) /2 <= 15){
 
-                                            kidnacommand++;
+                                            kidnacommand = true;
                                             player.sendMessage(Preset.instance.p.prefixName()+"Axel quiterra Raimon dans 2 minutes.");
 
                                             Axel r_axel = (Axel) InazumaUHC.get.rm.getRole(Axel.class);
