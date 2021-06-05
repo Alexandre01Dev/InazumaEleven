@@ -211,12 +211,18 @@ public class Torch  extends Role implements Listener {
         }
     }
 
+    private int floatToInt(float f)
+    {
+        return (int)f;
+    }
+
 
     @EventHandler
     public void onBlockItemGet(BlockBreakEvent e) {
         Block block = e.getBlock();
         Bukkit.broadcastMessage("Chalut");
-        if (block.getType() == Material.REDSTONE_BLOCK && block.getLocation() == loc){
+        if (block.getType() == Material.REDSTONE_BLOCK && floatToInt(block.getX()) == floatToInt(loc.getBlockX()) && floatToInt(block.getY()) == floatToInt(loc.getBlockY()) && floatToInt(block.getZ()) == floatToInt(loc.getBlockZ()))
+        {
             Bukkit.broadcastMessage("Ca va Et Toi");
             e.setCancelled(true);
             for (Player player : inazumaUHC.rm.getRole(Gazelle.class).getPlayers())
