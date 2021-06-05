@@ -9,8 +9,12 @@ import be.alexandre01.inazuma.uhc.presets.Preset;
 
 import be.alexandre01.inazuma.uhc.roles.Role;
 import be.alexandre01.inazuma.uhc.roles.RoleCategory;
+import be.alexandre01.inazuma.uhc.roles.RoleItem;
+import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
 import be.alexandre01.inazuma_eleven.categories.Raimon;
+import net.minecraft.server.v1_8_R3.Tuple;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,7 +27,9 @@ import java.util.Collections;
 public class William extends Role implements Listener {
     private final ArrayList<Role> usedRole = new ArrayList<>();
     private static William w = null;
-    private int episode = 1;
+    private int episode = 0;
+    private boolean playerToSend = false;
+
 
     public William(IPreset preset) {
         super("William Glass",preset);
@@ -42,15 +48,23 @@ public class William extends Role implements Listener {
             @Override
             public void a(Player player) {
                 William.w = w;
+
+
                 Bukkit.getScheduler().runTaskLater(inazumaUHC, () -> {
                     episodeChanged();
-                },20*3);
+                },20);
 
                 player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, Integer.MAX_VALUE, 0,false,false), true);
             }
 
         });
         addListener(this);
+
+        RoleItem roleItem = new RoleItem();
+        ItemBuilder itemBuilder = new ItemBuilder(Material.GLASS_BOTTLE).setName("§b§lLunette");
+
+        roleItem.setItemstack(itemBuilder.toItemStack());
+        addRoleItem(roleItem);
 
     }
 
@@ -68,7 +82,10 @@ public class William extends Role implements Listener {
 
     @EventHandler
     public void onEpisodeChangeEvent(EpisodeChangeEvent event){
-        episodeChanged();
+        episode++;
+        if(episode %2 == 0 && episode != 0){
+            episodeChanged();
+        }
     }
     private void episodeChanged(){
         ArrayList<Role> raimon = new ArrayList<>(InazumaUHC.get.rm.getRoleCategory(Raimon.class).getRoles());
@@ -77,38 +94,66 @@ public class William extends Role implements Listener {
         for(Role used : usedRole){
             raimon.remove(used);
         }
-        if(raimon.isEmpty()){
-            return;
+
+
+
+        for (int i = 0; i < raimon.size(); i++)
+        {
+            Role role = raimon.get(i);
+            boolean save = false;
+            for(Player player : role.getPlayers())
+            {
+                if(player.isOnline())
+                {
+                    save = true;
+                    break;
+                }
+            }
+            if(!save)
+            {
+                raimon.remove(role);
+            }
         }
 
         Collections.shuffle(raimon);
 
         System.out.println(raimon.size());
-        for(Role role : raimon){
-            boolean save = false;
-            for(Player player : role.getPlayers()){
-                if(player.isOnline()){
-                    save = true;
-                    break;
-                }
-            }
-            if(!save){
-                raimon.remove(role);
-            }
 
+        if(raimon.isEmpty()){
+            Bukkit.broadcastMessage("HOUIT");
+            for (Player player : getPlayers()) {
+                Bukkit.broadcastMessage("9");
+                player.sendMessage(Preset.instance.p.prefixName() + " §7Vous connaissez tous vos mates pouvant être en §cvie§7.");
+                playerToSend = true;
+                return;
+            }
         }
 
-        episode++;
-        if(episode == 2){
-            if(raimon.get(0) != null){
-                for(Player player : getPlayers()){
-                    for(Player target : raimon.get(0).getPlayers()){
-                        player.sendMessage(Preset.instance.p.prefixName()+" §7Vous savez désormais que "+ target.getName()+" fait partie de l' "+ raimon.get(0).getRoleCategory().getPrefixColor()+raimon.get(0).getRoleCategory().getName());
+
+        if(!playerToSend){
+            Bukkit.broadcastMessage("5");
+            for(Player player : getPlayers()) {
+                Bukkit.broadcastMessage("6");
+                for (Role role : raimon) {
+                    if (role.getPlayers().isEmpty())
+                    {
+                        Bukkit.broadcastMessage(raimon.toString());
+                    }
+
+
+                    int i = 0;
+                    for (Player target : role.getPlayers())
+                    {
+                        i++;
+                        if(i == 1)
+                        {
+                            Bukkit.broadcastMessage("7");
+                            player.sendMessage(Preset.instance.p.prefixName() + " §7Vous savez désormais que " + target.getName() + " fait partie de l' " + raimon.get(0).getRoleCategory().getPrefixColor() + raimon.get(0).getRoleCategory().getName());
+                            usedRole.add(raimon.get(0));
+                        }
                     }
                 }
-                usedRole.add(raimon.get(0));
             }
-            episode = 0;
         }
     }
 }

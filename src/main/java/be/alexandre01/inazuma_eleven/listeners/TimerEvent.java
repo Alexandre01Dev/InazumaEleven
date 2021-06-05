@@ -10,6 +10,7 @@ import be.alexandre01.inazuma.uhc.state.GameState;
 import be.alexandre01.inazuma.uhc.state.State;
 import be.alexandre01.inazuma.uhc.timers.Timer;
 import be.alexandre01.inazuma.uhc.timers.game.StartingTimer;
+import be.alexandre01.inazuma_eleven.objects.Mercenaire;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -43,6 +44,8 @@ public class TimerEvent implements Listener {
             return;
         }
         if(event.getTimerName().equals("pvpTimer")){
+            Mercenaire mercenaire = new Mercenaire();
+            mercenaire.onPvP();
             InazumaUHC.get.rm.distributeRoles( InazumaUHC.get.getRemainingPlayers());
             for(Role role : Role.getRoles()){
                 for(Player player : role.getPlayers()){

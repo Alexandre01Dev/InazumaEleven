@@ -64,6 +64,12 @@ public class Hurley extends Role implements Listener {
         depthItem.setItemstack(depthBuilder.toItemStack());
         depthItem.setPlaceableItem(true);
 
+        RoleItem roleItem = new RoleItem();
+        ItemBuilder itemBuilder = new ItemBuilder(Material.BUCKET).setName("§7§lSceau §7§lDe §c§lVie");
+
+        roleItem.setItemstack(itemBuilder.toItemStack());
+        addRoleItem(roleItem);
+
             addCommand("ina sea", new command() {
                 public int i = 0;
 

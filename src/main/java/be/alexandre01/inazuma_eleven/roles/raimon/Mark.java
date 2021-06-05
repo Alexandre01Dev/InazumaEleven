@@ -257,7 +257,18 @@ public class Mark extends Role implements Listener {
                 for(Player player : inazumaUHC.rm.getRole(Mark.class).getPlayers()){
 
                     PatchedEntity.setMaxHealthInSilent(player,player.getMaxHealth()-1);
-                    player.sendMessage(Preset.instance.p.prefixName()+" Vous avez tué un joueur de §6§lRaimon§7. Vous perdez donc §40.5❤§7 permanent et gagné§6 " + Math.round((double) c*100)/ 100.0+  " points§7.");
+
+                    new BukkitRunnable(){
+                        @Override
+                        public void run(){
+
+                            player.sendMessage(Preset.instance.p.prefixName()+" Vous avez tué un joueur de §6§lRaimon§7. Vous perdez donc §40.5❤§7 permanent et gagné§6 " + Math.round((double) c*100)/ 100.0+  " points§7.");
+
+                        }
+
+                    }.runTaskLater(InazumaUHC.get, 1);
+
+
 
                 }
 
@@ -274,7 +285,18 @@ public class Mark extends Role implements Listener {
                 death = death + c;
                 checkLevel(killer);
 
-                killer.sendMessage(Preset.instance.p.prefixName()+" Vous avez tué un joueur, vous gagné§6 " +Math.round((double) c*100)/ 100.0+  " points§7.");
+
+                new BukkitRunnable(){
+                    @Override
+                    public void run(){
+
+                        killer.sendMessage(Preset.instance.p.prefixName()+" Vous avez tué un joueur de l'Académie ALius, vous gagné§6 " +Math.round((double) c*100)/ 100.0+  " points§7.");
+
+                    }
+
+                }.runTaskLater(InazumaUHC.get, 1);
+
+
 
                 for(Player player : getPlayers()){
                     checkLevel(player);
@@ -289,7 +311,18 @@ public class Mark extends Role implements Listener {
                 death = death + c;
                 checkLevel(killer);
 
-                killer.sendMessage(Preset.instance.p.prefixName()+" Vous avez tué §c§lByron§7, vous gagné§6 " +Math.round((double) c*100)/ 100.0+  " points§7.");
+
+                new BukkitRunnable(){
+                    @Override
+                    public void run(){
+
+                        killer.sendMessage(Preset.instance.p.prefixName()+" Vous avez tué §c§lByron§7, vous gagné§6 " +Math.round((double) c*100)/ 100.0+  " points§7.");
+
+                    }
+
+                }.runTaskLater(InazumaUHC.get, 1);
+
+
 
                 for(Player player : getPlayers()){
                     checkLevel(player);
@@ -307,7 +340,17 @@ public class Mark extends Role implements Listener {
             for(Player player : inazumaUHC.rm.getRole(Mark.class).getPlayers()){
                 PatchedEntity.setMaxHealthInSilent(player,player.getMaxHealth()-1);
 
-                player.sendMessage(Preset.instance.p.prefixName()+" Un joueur de §6§lRaimon§7 vient de mourir, vous perdez donc §40.5❤§7 permanent et gagné§6 " + Math.round((double) b*100)/ 100.0+  " points§7.");
+                new BukkitRunnable(){
+                    @Override
+                    public void run(){
+
+                        player.sendMessage(Preset.instance.p.prefixName()+" Un joueur de §6§lRaimon§7 vient de mourir, vous perdez donc §40.5❤§7 permanent et gagné§6 " + Math.round((double) b*100)/ 100.0+  " points§7.");
+
+                    }
+
+                }.runTaskLater(InazumaUHC.get, 1);
+
+
             }
 
             for(Player player : getPlayers()){
@@ -323,7 +366,18 @@ public class Mark extends Role implements Listener {
 
             for(Player player : inazumaUHC.rm.getRole(Mark.class).getPlayers()){
 
-                player.sendMessage(Preset.instance.p.prefixName()+" Un joueur de §5§ll'§5§lAcadémie §5§lAlius§7 vient de mourir, vous gagné §6 " +Math.round((double) d*100)/ 100.0+  " points§7.");
+                new BukkitRunnable(){
+                    @Override
+                    public void run(){
+
+                        player.sendMessage(Preset.instance.p.prefixName()+" Un joueur de §5§ll'§5§lAcadémie §5§lAlius§7 vient de mourir, vous gagné §6 " +Math.round((double) d*100)/ 100.0+  " points§7.");
+
+                    }
+
+                }.runTaskLater(InazumaUHC.get, 1);
+
+
+
             }
             for(Player player : getPlayers()){
                 checkLevel(player);
@@ -338,7 +392,19 @@ public class Mark extends Role implements Listener {
 
             for(Player player : inazumaUHC.rm.getRole(Mark.class).getPlayers()){
 
-                player.sendMessage(Preset.instance.p.prefixName()+" §c§lByron§7 est mort, vous gagné§6 " +Math.round((double) a*100)/ 100.0+  " points§7.");
+
+                new BukkitRunnable(){
+                    @Override
+                    public void run(){
+
+                        player.sendMessage(Preset.instance.p.prefixName()+" §c§lByron§7 est mort, vous gagné§6 " +Math.round((double) a*100)/ 100.0+  " points§7.");
+
+                    }
+
+                }.runTaskLater(InazumaUHC.get, 1);
+
+
+
             }
 
             for(Player player : getPlayers()){

@@ -78,9 +78,10 @@ public class Dvalin extends Role implements Listener {
             player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 90*20, 0,false,false), true);
         });
         addRoleItem(colierAllius);
+
         onLoad(player -> {
             Bukkit.getScheduler().runTaskLater(inazumaUHC, () -> {
-                BaseComponent b = new TextComponent("Début du match, quel poste voulez-vous obternir ?");
+                BaseComponent b = new TextComponent(Preset.instance.p.prefixName()+" Début du match, quel poste voulez-vous obternir ?");
                 b.addExtra("");
                 BaseComponent yes = new TextComponent("§a[§cATTAQUANT§a]");
                 yes.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/dvalin gungnir"));

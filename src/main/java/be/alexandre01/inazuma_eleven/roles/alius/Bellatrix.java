@@ -216,31 +216,42 @@ public class Bellatrix extends Role implements Listener {
 
         //XAVIER DEATH ✝
         if(role.getClass() == Xavier.class){
-            uuid = player.getUniqueId();
-            xeneDead = true;
-            for(Player players : getPlayers()){
-                BaseComponent b = new TextComponent(role.getRoleCategory().getPrefixColor()+role.getName()+"§7 vient de mourir.\n");
-                b.addExtra("§7Souhaite tu le remplacer ");
-                BaseComponent yes = new TextComponent("§a[OUI]");
-                yes.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/xene accept"));
-                b.addExtra(yes);
-                b.addExtra(" §7ou ");
-                BaseComponent no = new TextComponent("§a[NON]");
-                no.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/xene refuse"));
 
-                b.addExtra(no);
+            new BukkitRunnable(){
+                @Override
+                public void run(){
 
-                players.spigot().sendMessage(b);
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        if(!hasChoose){
-                            hasChoose = true;
-                            refuse(player);
-                        }
+                    uuid = player.getUniqueId();
+                    xeneDead = true;
+                    for(Player players : getPlayers()){
+                        BaseComponent b = new TextComponent( Preset.instance.p.prefixName()+ role.getRoleCategory().getPrefixColor()+role.getName()+"§7 vient de mourir.\n");
+                        b.addExtra("§7Souhaiteez vous le remplacer ?");
+                        BaseComponent yes = new TextComponent("§a[OUI]");
+                        yes.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/xene accept"));
+                        b.addExtra(yes);
+                        b.addExtra(" §7ou ");
+                        BaseComponent no = new TextComponent("§a[NON]");
+                        no.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/xene refuse"));
+
+                        b.addExtra(no);
+
+                        players.spigot().sendMessage(b);
+                        new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                if(!hasChoose){
+                                    hasChoose = true;
+                                    refuse(player);
+                                }
+                            }
+                        }.runTaskLaterAsynchronously(inazumaUHC,20*60);
                     }
-                }.runTaskLaterAsynchronously(inazumaUHC,20*60);
-            }
+
+                }
+
+            }.runTaskLater(InazumaUHC.get, 1);
+
+
         }
     }
 
