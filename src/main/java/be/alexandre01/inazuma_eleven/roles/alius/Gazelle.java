@@ -141,10 +141,10 @@ public class Gazelle extends Role implements Listener {
                         if( inazumaUHC.rm.getRole(player).getClass().equals(Torch.class) && inazumaUHC.rm.getRole(player).getClass().equals(Axel.class) && inazumaUHC.rm.getRole(player).getClass().equals(Shawn.class)){
                             player.sendMessage(Preset.instance.p.prefixName()+" §bGazelle§7 vient d'utiliser son épée sur vous, mais en vain.");
                         }
-                        gazelle.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez d''utiliser votre §b§lImpact§7-§b§lNordique§7 sur §c" + player.getName() + "§7.Il vous reste §c" + i + " §7coups.");
+                        gazelle.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez d'utiliser votre §b§lImpact§7-§b§lNordique§7 sur §c" + player.getName() + "§7.Il vous reste §c" + (i-1) + " §7coups.");
                         i--;
                     }
-                    if(i == 0){
+                    if(i <= 1){
                         gazelle.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez d'atteindre votre limite d'utilisation de ton §b§lImpact§7-§b§lNordique§7 pour cette §eépisode.");
                     }
                 }

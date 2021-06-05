@@ -35,6 +35,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.projectiles.ProjectileSource;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class Xavier extends Role implements Listener {
     private int i = 0;
@@ -169,15 +170,30 @@ public class Xavier extends Role implements Listener {
         if(tpLoc == null){
             return false;
         }
-        player.teleport(tpLoc);
-        InazumaUHC.get.invincibilityDamager.addPlayer(player, 1000);
-        player.playSound(player.getLocation(), Sound.ENDERMAN_TELEPORT, 1,1);
+
         if(getPlayers().contains(player)){
-            player.sendMessage(Preset.instance.p.prefixName()+ " §cVous vous êtes téléporté a votre ballon");
+            player.playSound(player.getLocation(), Sound.NOTE_PLING,5,1);
+            player.sendMessage(Preset.instance.p.prefixName()+ " §cVous allez être téléporté à votre §5ballon§c dans §a10 secondes§c.");
             return true;
         }
-        player.sendMessage(Preset.instance.p.prefixName()+ " §cVous vous êtes téléporté au ballon de Xavier.");
+        player.playSound(player.getLocation(), Sound.NOTE_PLING,5,1);
+        player.sendMessage(Preset.instance.p.prefixName()+ " §c⚠ Attention, vous allez être téléporté au §5ballon§c de §5Xavier§c dans §a10 secondes§c en X:" + tpLoc.getBlockX() + "Z:" + tpLoc.getBlockZ());
+
+
+        new BukkitRunnable(){
+            @Override
+            public void run(){
+
+                player.teleport(tpLoc);
+                InazumaUHC.get.invincibilityDamager.addPlayer(player, 1000);
+                player.playSound(player.getLocation(), Sound.ENDERMAN_TELEPORT, 1,1);
+
+            }
+
+            }.runTaskLaterAsynchronously(InazumaUHC.get, 20*10);
+
         return true;
+
     }
     private void onClick(Player player){
         if(Episode.getEpisode() == this.episode){

@@ -224,8 +224,8 @@ public class Bellatrix extends Role implements Listener {
                     uuid = player.getUniqueId();
                     xeneDead = true;
                     for(Player players : getPlayers()){
-                        BaseComponent b = new TextComponent(role.getRoleCategory().getPrefixColor()+role.getName()+"§7 vient de mourir.\n");
-                        b.addExtra("§7Souhaite tu le remplacer ");
+                        BaseComponent b = new TextComponent( Preset.instance.p.prefixName()+ role.getRoleCategory().getPrefixColor()+role.getName()+"§7 vient de mourir.\n");
+                        b.addExtra("§7Souhaiteez vous le remplacer ?");
                         BaseComponent yes = new TextComponent("§a[OUI]");
                         yes.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/xene accept"));
                         b.addExtra(yes);
@@ -249,7 +249,7 @@ public class Bellatrix extends Role implements Listener {
 
                 }
 
-            }.runTaskLater(InazumaUHC.get, 10);
+            }.runTaskLater(InazumaUHC.get, 1);
 
 
         }

@@ -209,7 +209,7 @@ public class Darren extends Role implements Listener {
 
                 }
 
-            }.runTaskLater(InazumaUHC.get, 10);
+            }.runTaskLater(InazumaUHC.get, 1);
 
 
         }
@@ -228,7 +228,7 @@ public class Darren extends Role implements Listener {
 
                 }
 
-            }.runTaskLater(InazumaUHC.get, 10);
+            }.runTaskLater(InazumaUHC.get, 1);
 
 
             killer.setMaxHealth(player.getMaxHealth()+4);

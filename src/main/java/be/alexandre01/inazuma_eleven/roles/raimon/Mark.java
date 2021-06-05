@@ -266,7 +266,7 @@ public class Mark extends Role implements Listener {
 
                         }
 
-                    }.runTaskLater(InazumaUHC.get, 10);
+                    }.runTaskLater(InazumaUHC.get, 1);
 
 
 
@@ -294,7 +294,7 @@ public class Mark extends Role implements Listener {
 
                     }
 
-                }.runTaskLater(InazumaUHC.get, 10);
+                }.runTaskLater(InazumaUHC.get, 1);
 
 
 
@@ -320,7 +320,7 @@ public class Mark extends Role implements Listener {
 
                     }
 
-                }.runTaskLater(InazumaUHC.get, 10);
+                }.runTaskLater(InazumaUHC.get, 1);
 
 
 
@@ -348,7 +348,7 @@ public class Mark extends Role implements Listener {
 
                     }
 
-                }.runTaskLater(InazumaUHC.get, 10);
+                }.runTaskLater(InazumaUHC.get, 1);
 
 
             }
@@ -374,7 +374,7 @@ public class Mark extends Role implements Listener {
 
                     }
 
-                }.runTaskLater(InazumaUHC.get, 10);
+                }.runTaskLater(InazumaUHC.get, 1);
 
 
 
@@ -401,7 +401,7 @@ public class Mark extends Role implements Listener {
 
                     }
 
-                }.runTaskLater(InazumaUHC.get, 10);
+                }.runTaskLater(InazumaUHC.get, 1);
 
 
 

@@ -161,6 +161,7 @@ public class Mercenaire{
                                                             @Override
                                                             public void a(String[] strings, Player player) {
 
+                                                                player.sendMessage("test");
                                                                 sendList(player);
 
                                                             }

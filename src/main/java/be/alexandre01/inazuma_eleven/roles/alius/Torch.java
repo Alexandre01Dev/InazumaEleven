@@ -25,6 +25,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -139,15 +140,28 @@ public class Torch  extends Role implements Listener {
                 if(getRoleItems().containsKey(torch.getItemInHand().getItemMeta().getDisplayName())){
                     if(i != 0){
                         if( !inazumaUHC.rm.getRole(player).getClass().equals(Gazelle.class) && !inazumaUHC.rm.getRole(player).getClass().equals(Axel.class) && !inazumaUHC.rm.getRole(player).getClass().equals(Shawn.class) &&  !inazumaUHC.rm.getRole(player).getClass().equals(Hurley.class)){
-                            player.setFireTicks(3*20);
+
                             player.sendMessage(Preset.instance.p.prefixName()+" §cTorch§7 vient d'utiliser son épée sur vous.");
+
+                            player.setFireTicks(3*20);
+
+                            new BukkitRunnable(){
+                                @Override
+                                public void run(){
+
+
+
+                                }
+
+                            }.runTaskTimerAsynchronously(InazumaUHC.get, 10, 3*20);
+
                         }
                         if( inazumaUHC.rm.getRole(player).getClass().equals(Gazelle.class) && inazumaUHC.rm.getRole(player).getClass().equals(Axel.class) && inazumaUHC.rm.getRole(player).getClass().equals(Shawn.class) &&  inazumaUHC.rm.getRole(player).getClass().equals(Hurley.class)){
                             player.sendMessage(Preset.instance.p.prefixName()+" §cTorch§7 vient d'utiliser son épée sur vous, mais en vain.");
                         }
-                        torch.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez d''utiliser votre §4§lEruption§7-§4§lSolaire§7 sur §c" + player.getName() + "§7.Il vous reste §c" + i + " §7coups.");
+                        torch.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez d'utiliser votre §4§lEruption§7-§4§lSolaire§7 sur §c" + player.getName() + "§7. Il vous reste §c" + (i-1) + " §7coups.");
                         i--;
-                        if(i == 0){
+                        if(i <= 1){
                             torch.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez d'atteindre votre limite d'utilisation de ton §4§lEruption§7-§4§lSolaire§7 pour cette §eépisode.");
                         }
                     }

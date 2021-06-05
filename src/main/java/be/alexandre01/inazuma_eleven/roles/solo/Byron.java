@@ -191,11 +191,11 @@ public class Byron extends Role implements Listener {
                     @Override
                     public void run(){
 
-                        killer.sendMessage("§7Vous venez de tuer §4§l" + killed.getName() + " §7vous avez donc gagné §c§l0.5 §4❤§7." );
+                        killer.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez de tuer §4§l" + killed.getName() + " §7vous avez donc gagné §c§l0.5 §4❤§7." );
 
                     }
 
-                }.runTaskLater(InazumaUHC.get, 10);
+                }.runTaskLater(InazumaUHC.get, 1);
             }
         }
     }
