@@ -35,13 +35,16 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.BlockingQueue;
 
 public class Torch  extends Role implements Listener {
     private int i = 8;
     private int lastmsg = 0;
-    private Location loc;
+    World world;
+    private Location loc = new Location(world, 0, 0, 0);
 
     public Torch(IPreset preset) {
         super("Torch",preset);
@@ -210,7 +213,10 @@ public class Torch  extends Role implements Listener {
 
     @EventHandler
     public void onBlockItemGet(BlockBreakEvent e) {
-        if (e.getBlock().getType().equals(Material.IRON_BLOCK) && e.getBlock().getLocation() == loc){
+        Block block = loc.getBlock();
+        Bukkit.broadcastMessage("Chalut");
+        if (block.getType() == Material.IRON_BLOCK && block.getLocation() == loc){
+            Bukkit.broadcastMessage("Ca va Et Toi");
             e.setCancelled(true);
         }
     }
