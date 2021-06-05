@@ -93,43 +93,48 @@ public class Aiden extends Role implements Listener {
         Role role = inazumaUHC.rm.getRole(killed);
         if(role.getClass() == Shawn.class){
             shawnKiller = killer;
+            int i = 0;
             for(Player player : inazumaUHC.rm.getRole(Aiden.class).getPlayers()){
                 player.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
                 player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS,Integer.MAX_VALUE,0,false,false), true);
 
-                new BukkitRunnable(){
-                    @Override
-                    public void run(){
+                if (i == 0){
+                    i++;
 
-                        player.sendMessage(Preset.instance.p.prefixName()+"Shawn a été tué par " + killer.getName() + ", vous devez désormais le tuer afin de perdre l'effet Weakness et récupérer votre Force.");
+                    new BukkitRunnable(){
+                        @Override
+                        public void run(){
+                            player.sendMessage(Preset.instance.p.prefixName()+"Shawn a été tué par " + shawnKiller.getName() + ", vous devez désormais le tuer afin de perdre l'effet Weakness et récupérer votre Force.");
 
-                    }
+                        }
 
-                }.runTaskLater(InazumaUHC.get, 1);
+                    }.runTaskLaterAsynchronously(InazumaUHC.get, 1);
 
+                }
 
             }
         }
 
         if(shawnKiller != null && shawnKiller == killed){
-            shawnKiller = null;
 
             if (inazumaUHC.rm.getRole(killer.getUniqueId()).getClass().equals(Aiden.class)){
                 for(Player player : inazumaUHC.rm.getRole(Aiden.class).getPlayers()){
+
+                    player.removePotionEffect(PotionEffectType.WEAKNESS);
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Integer.MAX_VALUE, 0,false,false), true);
 
                     new BukkitRunnable(){
                         @Override
                         public void run(){
 
                             player.sendMessage(Preset.instance.p.prefixName()+"§7Vous venez de tuer §4§l" + shawnKiller.getName() + " §7vous avez donc perdu Weakness et re gagné votre Force§7." );
-
+                            shawnKiller = null;
                         }
 
-                    }.runTaskLater(InazumaUHC.get, 1);
+                    }.runTaskLaterAsynchronously(InazumaUHC.get, 1);
 
 
-                    player.removePotionEffect(PotionEffectType.WEAKNESS);
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Integer.MAX_VALUE, 0,false,false), true);
+
                 }
             }
               else if (!inazumaUHC.rm.getRole(killer.getUniqueId()).getClass().equals(Aiden.class)){
@@ -140,6 +145,7 @@ public class Aiden extends Role implements Listener {
                             public void run(){
 
                                 player.sendMessage(Preset.instance.p.prefixName()+"§7Le tueur de Shawn est mort par un autre joueur que vous, en conséquence vous gardez Weakness" );
+                                shawnKiller = null;
 
                             }
 
@@ -149,7 +155,10 @@ public class Aiden extends Role implements Listener {
 
                     }
               }
+
         }
+
+
     }
 
     }

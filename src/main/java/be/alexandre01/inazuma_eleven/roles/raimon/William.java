@@ -90,13 +90,36 @@ public class William extends Role implements Listener {
     private void episodeChanged(){
         ArrayList<Role> raimon = new ArrayList<>(InazumaUHC.get.rm.getRoleCategory(Raimon.class).getRoles());
 
-
         raimon.remove(this);
         for(Role used : usedRole){
             raimon.remove(used);
         }
-        if(raimon.isEmpty()){
 
+
+
+        for (int i = 0; i < raimon.size(); i++)
+        {
+            Role role = raimon.get(i);
+            boolean save = false;
+            for(Player player : role.getPlayers())
+            {
+                if(player.isOnline())
+                {
+                    save = true;
+                    break;
+                }
+            }
+            if(!save)
+            {
+                raimon.remove(role);
+            }
+        }
+
+        Collections.shuffle(raimon);
+
+        System.out.println(raimon.size());
+
+        if(raimon.isEmpty()){
             Bukkit.broadcastMessage("HOUIT");
             for (Player player : getPlayers()) {
                 Bukkit.broadcastMessage("9");
@@ -104,41 +127,31 @@ public class William extends Role implements Listener {
                 playerToSend = true;
                 return;
             }
-
-
-        }
-
-        Collections.shuffle(raimon);
-
-        System.out.println(raimon.size());
-
-        for (int i = 0; i < raimon.size(); i++) {
-            Role role = raimon.get(i);
-            boolean save = false;
-            for(Player player : role.getPlayers()){
-                if(player.isOnline()){
-                    save = true;
-                    break;
-                }
-            }
-            if(!save){
-                raimon.remove(role);
-            }
         }
 
 
-        if(raimon.size() > 0 && !playerToSend){
+        if(!playerToSend){
             Bukkit.broadcastMessage("5");
             for(Player player : getPlayers()) {
                 Bukkit.broadcastMessage("6");
-                for (int i = 0; i < raimon.size(); i++)
-                {
-                    if(raimon.get(i).getPlayers().isEmpty())
-                        return;
-                    Player target = raimon.get(i).getPlayers().get(0);
-                    Bukkit.broadcastMessage("7");
-                    player.sendMessage(Preset.instance.p.prefixName() + " §7Vous savez désormais que " + target.getName() + " fait partie de l' " + raimon.get(0).getRoleCategory().getPrefixColor() + raimon.get(0).getRoleCategory().getName());
-                    usedRole.add(raimon.get(0));
+                for (Role role : raimon) {
+                    if (role.getPlayers().isEmpty())
+                    {
+                        Bukkit.broadcastMessage(raimon.toString());
+                    }
+
+
+                    int i = 0;
+                    for (Player target : role.getPlayers())
+                    {
+                        i++;
+                        if(i == 1)
+                        {
+                            Bukkit.broadcastMessage("7");
+                            player.sendMessage(Preset.instance.p.prefixName() + " §7Vous savez désormais que " + target.getName() + " fait partie de l' " + raimon.get(0).getRoleCategory().getPrefixColor() + raimon.get(0).getRoleCategory().getName());
+                            usedRole.add(raimon.get(0));
+                        }
+                    }
                 }
             }
         }
