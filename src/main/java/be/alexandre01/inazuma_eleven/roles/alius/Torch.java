@@ -205,7 +205,7 @@ public class Torch  extends Role implements Listener {
         if(inazumaUHC.rm.getRole(player.getUniqueId()).getClass().equals(Torch.class)){
 
             loc = player.getLocation();
-            loc.getBlock().setType(Material.IRON_BLOCK);
+            loc.getBlock().setType(Material.REDSTONE_BLOCK);
 
         }
     }
@@ -213,11 +213,15 @@ public class Torch  extends Role implements Listener {
 
     @EventHandler
     public void onBlockItemGet(BlockBreakEvent e) {
-        Block block = loc.getBlock();
+        Block block = e.getBlock();
         Bukkit.broadcastMessage("Chalut");
-        if (block.getType() == Material.IRON_BLOCK && block.getLocation() == loc){
+        if (block.getType() == Material.REDSTONE_BLOCK && block.getLocation() == loc){
             Bukkit.broadcastMessage("Ca va Et Toi");
             e.setCancelled(true);
+            for (Player player : inazumaUHC.rm.getRole(Gazelle.class).getPlayers())
+            {
+                player.sendMessage("le cadavre de Torch se trouve en x: " + loc.getX() + " y: " + loc.getY() + " z: " + loc.getZ());
+            }
         }
     }
 
