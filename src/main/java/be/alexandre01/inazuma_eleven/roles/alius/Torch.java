@@ -206,6 +206,7 @@ public class Torch  extends Role implements Listener {
 
             loc = player.getLocation();
             loc.getBlock().setType(Material.REDSTONE_BLOCK);
+            loc = loc.getBlock().getLocation();
 
         }
     }
