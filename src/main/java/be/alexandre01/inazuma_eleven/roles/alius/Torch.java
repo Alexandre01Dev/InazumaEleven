@@ -17,12 +17,15 @@ import be.alexandre01.inazuma_eleven.roles.raimon.Shawn;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -163,6 +166,18 @@ public class Torch  extends Role implements Listener {
             player.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez de récupérer toute les utilisation sur votre §4§lEruption§7-§4§lSolaire§4§7 (§c8 coups§7).");
         }
         this.i = 8;
+    }
+
+    private void onDeath(PlayerDeathEvent event)
+    {
+        Player player = event.getEntity();
+
+        Location loc = player.getLocation();
+
+        Block block = loc.getBlock();
+
+        block.setType(Material.IRON_BLOCK);
+
     }
 
 }
