@@ -30,6 +30,7 @@ import java.util.Random;
 
 public class Gazelle extends Role implements Listener {
     private int i = 6;
+    private int lastmsg = 0;
     public Gazelle(IPreset preset) {
         super("Gazelle",preset);
 
@@ -144,8 +145,11 @@ public class Gazelle extends Role implements Listener {
                         gazelle.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez d'utiliser votre §b§lImpact§7-§b§lNordique§7 sur §c" + player.getName() + "§7.Il vous reste §c" + (i-1) + " §7coups.");
                         i--;
                     }
-                    if(i <= 1){
-                        gazelle.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez d'atteindre votre limite d'utilisation de ton §b§lImpact§7-§b§lNordique§7 pour cette §eépisode.");
+                    if(i <= 0){
+                        if (lastmsg == 0){
+                            gazelle.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez d'atteindre votre limite d'utilisation de ton §b§lImpact§7-§b§lNordique§7 pour cette §eépisode.");
+                            lastmsg++;
+                        }
                     }
                 }
             }
@@ -156,6 +160,7 @@ public class Gazelle extends Role implements Listener {
 
     @EventHandler
     public void onEpisodeChanged(EpisodeChangeEvent event){
+        lastmsg = 0;
         for(Player player : getPlayers()){
             player.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez de récupérer toute les utilisation sur votre §b§lImpact§7-§b§lNordique§7 (§b6 coups§7).");
         }

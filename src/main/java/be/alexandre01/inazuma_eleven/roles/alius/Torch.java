@@ -2,6 +2,7 @@ package be.alexandre01.inazuma_eleven.roles.alius;
 
 import be.alexandre01.inazuma.uhc.InazumaUHC;
 import be.alexandre01.inazuma.uhc.custom_events.episode.EpisodeChangeEvent;
+import be.alexandre01.inazuma.uhc.custom_events.player.PlayerInstantDeathEvent;
 import be.alexandre01.inazuma.uhc.managers.chat.Chat;
 import be.alexandre01.inazuma.uhc.presets.IPreset;
 import be.alexandre01.inazuma.uhc.presets.Preset;
@@ -11,19 +12,23 @@ import be.alexandre01.inazuma.uhc.roles.RoleItem;
 import be.alexandre01.inazuma.uhc.utils.CustomComponentBuilder;
 import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
 import be.alexandre01.inazuma_eleven.categories.Alius;
+import be.alexandre01.inazuma_eleven.roles.raimon.Aiden;
 import be.alexandre01.inazuma_eleven.roles.raimon.Axel;
 import be.alexandre01.inazuma_eleven.roles.raimon.Hurley;
 import be.alexandre01.inazuma_eleven.roles.raimon.Shawn;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.potion.PotionEffect;
@@ -35,6 +40,9 @@ import java.util.Random;
 
 public class Torch  extends Role implements Listener {
     private int i = 8;
+    private int lastmsg = 0;
+    private Location loc;
+
     public Torch(IPreset preset) {
         super("Torch",preset);
 
@@ -164,8 +172,11 @@ public class Torch  extends Role implements Listener {
                         }
                         torch.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez d'utiliser votre §4§lEruption§7-§4§lSolaire§7 sur §c" + player.getName() + "§7. Il vous reste §c" + (i-1) + " §7coups.");
                         i--;
-                        if(i <= 1){
-                            torch.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez d'atteindre votre limite d'utilisation de ton §4§lEruption§7-§4§lSolaire§7 pour cette §eépisode.");
+                        if(i <= 0){
+                            if (lastmsg == 0){
+                                torch.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez d'atteindre votre limite d'utilisation de ton §4§lEruption§7-§4§lSolaire§7 pour cette §eépisode.");
+                                lastmsg++;
+                            }
                         }
                     }
                 }
@@ -176,22 +187,32 @@ public class Torch  extends Role implements Listener {
 
     @EventHandler
     public void onEpisodeChanged(EpisodeChangeEvent event){
+        lastmsg = 0;
         for(Player player : getPlayers()){
             player.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez de récupérer toute les utilisation sur votre §4§lEruption§7-§4§lSolaire§4§7 (§c8 coups§7).");
         }
         this.i = 8;
     }
 
-    private void onDeath(PlayerDeathEvent event)
+    @EventHandler
+    private void onDeath(PlayerInstantDeathEvent event)
     {
-        Player player = event.getEntity();
+        Player player = event.getPlayer();
 
-        Location loc = player.getLocation();
+        if(inazumaUHC.rm.getRole(player.getUniqueId()).getClass().equals(Torch.class)){
 
-        Block block = loc.getBlock();
+            loc = player.getLocation();
+            loc.getBlock().setType(Material.IRON_BLOCK);
 
-        block.setType(Material.IRON_BLOCK);
+        }
+    }
 
+
+    @EventHandler
+    public void onBlockItemGet(BlockBreakEvent e) {
+        if (e.getBlock().getType().equals(Material.IRON_BLOCK) && e.getBlock().getLocation() == loc){
+            e.setCancelled(true);
+        }
     }
 
 }
