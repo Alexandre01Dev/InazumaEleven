@@ -184,7 +184,7 @@ public class Gazelle extends Role implements Listener {
     {
         Player player = event.getPlayer();
 
-        if(inazumaUHC.rm.getRole(player.getUniqueId()).getClass().equals(Torch.class)){
+        if(inazumaUHC.rm.getRole(player.getUniqueId()).getClass().equals(Gazelle.class)){
 
             world = player.getWorld();
             loc = player.getLocation();
