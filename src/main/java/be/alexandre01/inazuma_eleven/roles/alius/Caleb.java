@@ -251,6 +251,7 @@ public class Caleb extends Role implements Listener {
                         if(p.isEmpty())
                         {
                             player.sendMessage("Tu as enlevés des coeurs a tout les joueurs de ton équipe.");
+                            lastPlayer = null;
                             return;
                         }
 
@@ -266,7 +267,7 @@ public class Caleb extends Role implements Listener {
                             choosedPlayer.sendMessage(Preset.instance.p.prefixName()+" §5Caleb §7t'a enlevé 2 coeurs permanent durant cet épisode.");
                             player.sendMessage(Preset.instance.p.prefixName()+" §7tu as enlevé 2 coeurs a un membre de ton équipe.");
                             player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Integer.MAX_VALUE, 0,false,false), true);
-                            PatchedEntity.setMaxHealthInSilent(player,player.getMaxHealth()+4);
+                            PatchedEntity.setMaxHealthInSilent(player,player.getMaxHealth()+2);
                             damages.put(player,-4);
 
                         }
