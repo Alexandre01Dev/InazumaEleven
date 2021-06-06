@@ -26,6 +26,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -222,7 +223,7 @@ public class Gazelle extends Role implements Listener {
     public void onInteract(PlayerInteractEvent event)
     {
         Player player = event.getPlayer();
-        Block block = event.getClickedBlock();
+        Action action = event.getAction();
         ItemStack it = event.getItem();
         Torch torch = (Torch) inazumaUHC.rm.getRole(Torch.class);
 
@@ -231,17 +232,22 @@ public class Gazelle extends Role implements Listener {
             return;
         }
 
-        if(it.hasItemMeta()
-        && it.getItemMeta().hasDisplayName()
-        && it.getItemMeta().getDisplayName().equalsIgnoreCase("§b§lImpact§7-§b§lNordique")
-        && block.getType() == Material.REDSTONE_BLOCK
-        && torch != null && torch.getTorchLoc() == block.getLocation()
-        && inazumaUHC.rm.getRole(player) instanceof Gazelle)
+        if(action == Action.RIGHT_CLICK_BLOCK)
         {
-            ItemMeta im = it.getItemMeta();
-            im.setDisplayName("§b§lBlizzard§7-§4§lEnflammé");
-            it.setItemMeta(im);
-            block.setType(Material.AIR);
+            Block block = event.getClickedBlock();
+            if(it.hasItemMeta() && it.getItemMeta().hasDisplayName() && it.getItemMeta().getDisplayName().equalsIgnoreCase("§b§lImpact§7-§b§lNordique"))
+            {
+                if(block.getType() == Material.REDSTONE_BLOCK)
+                {
+                    if(torch != null && torch.getTorchLoc() == block.getLocation() && inazumaUHC.rm.getRole(player) instanceof Gazelle)
+                    {
+                        ItemMeta im = it.getItemMeta();
+                        im.setDisplayName("§b§lBlizzard§7-§4§lEnflammé");
+                        it.setItemMeta(im);
+                        block.setType(Material.AIR);
+                    }
+                }
+            }
         }
     }
 }

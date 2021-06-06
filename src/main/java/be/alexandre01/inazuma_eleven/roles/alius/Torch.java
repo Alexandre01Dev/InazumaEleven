@@ -28,6 +28,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -243,8 +244,9 @@ public class Torch  extends Role implements Listener {
     public void onInteract(PlayerInteractEvent event)
     {
         Player player = event.getPlayer();
-        Block block = event.getClickedBlock();
+
         ItemStack it = event.getItem();
+        Action action = event.getAction();
         Gazelle gazelle = (Gazelle) inazumaUHC.rm.getRole(Gazelle.class);
 
         if(it == null)
@@ -252,17 +254,22 @@ public class Torch  extends Role implements Listener {
             return;
         }
 
-        if(it.hasItemMeta()
-        && it.getItemMeta().hasDisplayName()
-        && it.getItemMeta().getDisplayName().equalsIgnoreCase("§4§lEruption§7-§4§lSolaire")
-        && block.getType() == Material.LAPIS_BLOCK
-        && gazelle != null && gazelle.getGazelleLoc() == block.getLocation()
-        && inazumaUHC.rm.getRole(player) instanceof Torch)
+        if(action == Action.RIGHT_CLICK_BLOCK)
         {
-            ItemMeta im = it.getItemMeta();
-            im.setDisplayName("§b§lBlizzard§7-§4§lEnflammé");
-            it.setItemMeta(im);
-            block.setType(Material.AIR);
+            Block block = event.getClickedBlock();
+            if(it.hasItemMeta() && it.getItemMeta().hasDisplayName() && it.getItemMeta().getDisplayName().equalsIgnoreCase("§4§lEruption§7-§4§lSolaire"))
+            {
+                if(block.getType() == Material.LAPIS_BLOCK)
+                {
+                    if(gazelle != null && gazelle.getGazelleLoc() == block.getLocation() && inazumaUHC.rm.getRole(player) instanceof Torch)
+                    {
+                        ItemMeta im = it.getItemMeta();
+                        im.setDisplayName("§b§lBlizzard§7-§4§lEnflammé");
+                        it.setItemMeta(im);
+                        block.setType(Material.AIR);
+                    }
+                }
+            }
         }
     }
 
