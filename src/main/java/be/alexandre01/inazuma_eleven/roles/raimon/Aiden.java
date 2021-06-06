@@ -66,7 +66,6 @@ public class Aiden extends Role implements Listener {
 
         RoleItem blizzardEternel = new RoleItem();
 
-
         blizzardEternel.deployVerificationsOnRightClickOnPlayer(blizzardEternel.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
         blizzardEternel.setRightClickOnPlayer(15,new RoleItem.RightClickOnPlayer() {
             @Override

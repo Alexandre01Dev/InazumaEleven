@@ -139,17 +139,20 @@ public class Caleb extends Role implements Listener {
 
             if(inazumaUHC.rm.getRole(player) instanceof David){
                 David david = (David) inazumaUHC.rm.getRole(player);
+                Bukkit.broadcastMessage("1");
                 if(david.useFirstPierre = false)
                 {
+                    Bukkit.broadcastMessage("2");
                     if (player.hasPotionEffect(PotionEffectType.WEAKNESS))
                         player.removePotionEffect(PotionEffectType.WEAKNESS);
                     if(david.firstUse)
                         PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() + 4);
 
-                    david.useFirstPierre = true;
+                    david.useFirstPierre = false;
                     david.secondUse = false;
                 }
                 else
+                    Bukkit.broadcastMessage("3");
                     PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() + 2);
 
                 return;

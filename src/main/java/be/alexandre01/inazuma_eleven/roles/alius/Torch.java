@@ -214,7 +214,7 @@ public class Torch  extends Role implements Listener {
             for(Player player : getPlayers()){
                 player.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez de récupérer toute les utilisation sur votre §b§lBlizzard§7-§4§lEnflammé§7 (§b8 §4coups§7).");
             }
-            this.i = 8;
+            this.i = 12;
         }
 
     }
@@ -263,7 +263,7 @@ public class Torch  extends Role implements Listener {
         Player player = event.getPlayer();
         Action action = event.getAction();
         ItemStack it = event.getItem();
-        Torch gazelle = (Torch) inazumaUHC.rm.getRole(Gazelle.class);
+        Gazelle gazelle = (Gazelle) inazumaUHC.rm.getRole(Gazelle.class);
 
 
 
@@ -279,11 +279,11 @@ public class Torch  extends Role implements Listener {
             if(action == Action.RIGHT_CLICK_BLOCK)
             {
                 Block block = event.getClickedBlock();
-                if(block.getType() == Material.REDSTONE_BLOCK)
+                if(block.getType() == Material.LAPIS_ORE)
                 {
                     if(gazelle != null)
                     {
-                        if (floatToInt(block.getX()) == gazelle.getTorchLoc().getBlockX() && floatToInt(block.getY()) == gazelle.getTorchLoc().getBlockY() && floatToInt(block.getZ()) == gazelle.getTorchLoc().getBlockZ())
+                        if (floatToInt(block.getX()) == gazelle.getGazelleLoc().getBlockX() && floatToInt(block.getY()) == gazelle.getGazelleLoc().getBlockY() && floatToInt(block.getZ()) == gazelle.getGazelleLoc().getBlockZ())
                         {
                             if(inazumaUHC.rm.getRole(player) instanceof Gazelle)
                             {

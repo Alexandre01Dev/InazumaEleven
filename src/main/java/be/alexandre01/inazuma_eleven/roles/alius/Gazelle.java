@@ -206,7 +206,7 @@ public class Gazelle extends Role implements Listener {
             for(Player player : getPlayers()){
                 player.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez de récupérer toute les utilisation sur votre §b§lBlizzard§7-§4§lEnflammé§7 (§b8 §4coups§7).");
             }
-            this.i = 8;
+            this.i = 12;
         }
 
     }

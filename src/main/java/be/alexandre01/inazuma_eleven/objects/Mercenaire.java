@@ -13,6 +13,7 @@ import be.alexandre01.inazuma.uhc.utils.TitleUtils;
 import be.alexandre01.inazuma_eleven.categories.Alius;
 import be.alexandre01.inazuma_eleven.categories.Raimon;
 import be.alexandre01.inazuma_eleven.categories.Solo;
+import be.alexandre01.inazuma_eleven.roles.alius.Torch;
 import be.alexandre01.inazuma_eleven.roles.raimon.Aiden;
 import be.alexandre01.inazuma_eleven.roles.raimon.Axel;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -37,6 +38,13 @@ public class Mercenaire{
     public ArrayList<Player> list;
 
     public void onPvP(){
+
+        Axel axel = (Axel) InazumaUHC.get.rm.getRole(Axel.class);;
+        if (axel == null){
+            return;
+        }
+
+
 
             new BukkitRunnable(){
                 @Override
@@ -76,6 +84,7 @@ public class Mercenaire{
 
 
                         target.sendMessage(Preset.instance.p.prefixName()+" §7Vous êtes le §c§lMercenaire§7 de §d§lJulia§7.");
+                        target.sendMessage(Preset.instance.p.prefixName()+" §7Votre objectif est de faire en sorte qu'§c§lAlex§7 ne soit plus avec §6§lRaimon§7.");
                         target.sendMessage(" ");
                         BaseComponent mercenaireButton = new TextComponent("§8- §7Vous avez une commande : " + "§5/kidnapping");
 

@@ -62,7 +62,7 @@ public class Joseph extends Role {
                 onLoad(new load() {
                     @Override
                     public void a(Player player) {
-                        inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.RESISTANCE,1,120);
+                        inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.RESISTANCE,2,120);
                     }
 
                 });
@@ -71,10 +71,6 @@ public class Joseph extends Role {
 
         setRoleCategory(Alius.class);
 
-        RoleItem roleItemAlius = new RoleItem();
-        ItemBuilder pierreAlius = new ItemBuilder(Material.NETHER_STAR).setName("§5§lPierre §lAlius");
-        roleItemAlius.setItemstack(pierreAlius.toItemStack());
-        addRoleItem(roleItemAlius);
 
         RoleItem morsure = new RoleItem();
         morsure.setItemstack(new ItemBuilder(Material.GHAST_TEAR).setName("§2Morsure§7-§2Sauvage").toItemStack());
@@ -85,7 +81,7 @@ public class Joseph extends Role {
             {
                 player.sendMessage("vous venez d'activer Manchot empreur apres recharge sans la premiere utilisation");
                 player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60*20, 0));
-                player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60*20, 0));
+                player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60*20, 1));
                 firstUse = true;
                 specialUse = true;
                 return;
@@ -95,7 +91,7 @@ public class Joseph extends Role {
             {
                 player.sendMessage("Vous venez d'activer Manchot empreur");
                 player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60*20, 0));
-                player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60*20, 0));
+                player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60*20, 1));
                 firstUse = true;
 
                 new BukkitRunnable()
@@ -118,7 +114,7 @@ public class Joseph extends Role {
                     player.removePotionEffect(PotionEffectType.WEAKNESS);
 
                 player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60*20, 0));
-                player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60*20, 0));
+                player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60*20, 1));
                 numberOfUse--;
 
                 switch (numberOfUse)
