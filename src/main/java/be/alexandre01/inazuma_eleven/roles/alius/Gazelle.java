@@ -213,9 +213,9 @@ public class Gazelle extends Role implements Listener {
         }
     }
 
-    public Location getTorchLoc()
+    public Location getGazelleLoc()
     {
-        return new Location(world, loc.getX(), loc.getBlockY(), loc.getBlockZ());
+        return new Location(world, loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
     }
 
     @EventHandler

@@ -31,6 +31,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -220,7 +223,7 @@ public class Torch  extends Role implements Listener {
 
     public Location getTorchLoc()
     {
-        return new Location(world, loc.getX(), loc.getBlockY(), loc.getBlockZ());
+        return new Location(world, loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
     }
 
     @EventHandler
@@ -233,6 +236,33 @@ public class Torch  extends Role implements Listener {
             {
                 player.sendMessage("le cadavre de Torch se trouve en x: " + loc.getX() + " y: " + loc.getY() + " z: " + loc.getZ());
             }
+        }
+    }
+
+    @EventHandler
+    public void onInteract(PlayerInteractEvent event)
+    {
+        Player player = event.getPlayer();
+        Block block = event.getClickedBlock();
+        ItemStack it = event.getItem();
+        Gazelle gazelle = (Gazelle) inazumaUHC.rm.getRole(Gazelle.class);
+
+        if(it == null)
+        {
+            return;
+        }
+
+        if(it.hasItemMeta()
+        && it.getItemMeta().hasDisplayName()
+        && it.getItemMeta().getDisplayName().equalsIgnoreCase("§4§lEruption§7-§4§lSolaire")
+        && block.getType() == Material.LAPIS_BLOCK
+        && gazelle != null && gazelle.getGazelleLoc() == block.getLocation()
+        && inazumaUHC.rm.getRole(player) instanceof Gazelle)
+        {
+            ItemMeta im = it.getItemMeta();
+            im.setDisplayName("§b§lBlizzard§7-§4§lEnflammé");
+            it.setItemMeta(im);
+            block.setType(Material.AIR);
         }
     }
 
