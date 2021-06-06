@@ -210,18 +210,31 @@ public class Caleb extends Role implements Listener {
                         c.removeIf(r -> r instanceof Caleb);
                         Collections.shuffle(c);
 
-                        for(Role r : c){
-                            System.out.println(r.getName());
-                        }
+                        ArrayList<Player> p = new ArrayList<>();
+
                         if(c.isEmpty()){
                             break;
                         }
-                        Role role = c.get(c.size()-1);
-                        if(role == null)
-                            continue;
-                        ArrayList<Player> p = new ArrayList<>(role.getPlayers());
 
-                        for (int i = 0; i < usedRole.size(); i++) {
+                        for(Role r : c){
+                            System.out.println(r.getName());
+                            for(Player player1 : r.getPlayers())
+                            {
+                                if(player1.isOnline())
+                                    p.add(player1);
+                            }
+                        }
+                        if(lastPlayer != null)
+                            p.remove(lastPlayer);
+
+
+
+                        /*Role role = c.get(c.size()-1);
+                        if(role == null)
+                            continue;*/
+
+
+                       /*for (int i = 0; i < usedRole.size(); i++) {
                             Player removePlayer = usedRole.get(i);
                             if(removePlayer == lastPlayer)
                             {
@@ -233,7 +246,7 @@ public class Caleb extends Role implements Listener {
                         for(Player target : usedRole)
                         {
                             p.remove(target);
-                        }
+                        }*/
 
                         if(p.isEmpty())
                         {
