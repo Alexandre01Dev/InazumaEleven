@@ -235,17 +235,28 @@ public class Gazelle extends Role implements Listener {
 
         if(it.hasItemMeta() && it.getItemMeta().hasDisplayName() && it.getItemMeta().getDisplayName().equalsIgnoreCase("§b§lImpact§7-§b§lNordique"))
         {
+            Bukkit.broadcastMessage("ca");
             if(action == Action.RIGHT_CLICK_BLOCK)
             {
                 Block block = event.getClickedBlock();
                 if(block.getType() == Material.REDSTONE_BLOCK)
                 {
-                    if(torch != null && floatToInt(block.getX()) == floatToInt(loc.getBlockX()) && floatToInt(block.getY()) == floatToInt(loc.getBlockY()) && floatToInt(block.getZ()) == floatToInt(loc.getBlockZ()) && inazumaUHC.rm.getRole(player) instanceof Gazelle)
+                    Bukkit.broadcastMessage("fonctionne");
+                    if(torch != null)
                     {
-                        ItemMeta im = it.getItemMeta();
-                        im.setDisplayName("§b§lBlizzard§7-§4§lEnflammé");
-                        it.setItemMeta(im);
-                        block.setType(Material.AIR);
+                        Bukkit.broadcastMessage("bien");
+                        if (floatToInt(block.getX()) == torch.getTorchLoc().getBlockX() && floatToInt(block.getY()) == torch.getTorchLoc().getBlockY() && floatToInt(block.getZ()) == torch.getTorchLoc().getBlockZ())
+                        {
+                            Bukkit.broadcastMessage("?");
+                            if(inazumaUHC.rm.getRole(player) instanceof Gazelle)
+                            {
+                                Bukkit.broadcastMessage("OUIIIIII");
+                                ItemMeta im = it.getItemMeta();
+                                im.setDisplayName("§b§lBlizzard§7-§4§lEnflammé");
+                                it.setItemMeta(im);
+                                block.setType(Material.AIR);
+                            }
+                        }
                     }
                 }
             }
