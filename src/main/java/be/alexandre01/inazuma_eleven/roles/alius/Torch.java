@@ -205,7 +205,7 @@ public class Torch  extends Role implements Listener {
 
         if(inazumaUHC.rm.getRole(player.getUniqueId()).getClass().equals(Torch.class)){
 
-            world = loc.getWorld();
+            world = player.getWorld();
             loc = player.getLocation();
             loc.getBlock().setType(Material.REDSTONE_BLOCK);
             loc = loc.getBlock().getLocation();
