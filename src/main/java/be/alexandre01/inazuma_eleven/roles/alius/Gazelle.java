@@ -226,9 +226,17 @@ public class Gazelle extends Role implements Listener {
         ItemStack it = event.getItem();
         Torch torch = (Torch) inazumaUHC.rm.getRole(Torch.class);
 
-        if(it.hasItemMeta() && it.getItemMeta().hasDisplayName() && it.getItemMeta().getDisplayName().equalsIgnoreCase("§4§lEruption§7-§4§lSolaire")
+        if(it == null)
+        {
+            return;
+        }
+
+        if(it.hasItemMeta()
+        && it.getItemMeta().hasDisplayName()
+        && it.getItemMeta().getDisplayName().equalsIgnoreCase("§4§lEruption§7-§4§lSolaire")
         && block.getType() == Material.REDSTONE_BLOCK
-        && torch != null && torch.getTorchLoc() == block.getLocation())
+        && torch != null && torch.getTorchLoc() == block.getLocation()
+        && inazumaUHC.rm.getRole(player) instanceof Gazelle)
         {
             ItemMeta im = it.getItemMeta();
             im.setDisplayName("§b§lBlizzard§7-§4§lEnflammé");
