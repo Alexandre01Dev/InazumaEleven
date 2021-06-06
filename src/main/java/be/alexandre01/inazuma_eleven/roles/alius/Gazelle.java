@@ -17,10 +17,7 @@ import be.alexandre01.inazuma_eleven.roles.raimon.Shawn;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -42,6 +39,7 @@ public class Gazelle extends Role implements Listener {
     private int i = 6;
     private int lastmsg = 0;
     private Location loc;
+    public int changesword = 0;
     World world;
     public Gazelle(IPreset preset) {
         super("Gazelle",preset);
@@ -142,30 +140,53 @@ public class Gazelle extends Role implements Listener {
             Player player = (Player) event.getEntity();
             Role role = inazumaUHC.rm.getRole(gazelle);
             if(role != null){
-            if(role.getClass().equals(Gazelle.class)){
-                if(!isValidItem(gazelle.getItemInHand()))
-                    return;
-                if(getRoleItems().containsKey(gazelle.getItemInHand().getItemMeta().getDisplayName())){
-                    if(this.i != 0){
-                        if( !inazumaUHC.rm.getRole(player).getClass().equals(Torch.class) && !inazumaUHC.rm.getRole(player).getClass().equals(Axel.class) && !inazumaUHC.rm.getRole(player).getClass().equals(Shawn.class)){
-                            player.removePotionEffect(PotionEffectType.SLOW);
-                            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20*5, 1,true,false));
-                            player.sendMessage(Preset.instance.p.prefixName()+" §bGazelle§7 vient d'utiliser son épée sur vous.");
+                if(role.getClass().equals(Gazelle.class)){
+                    if(!isValidItem(gazelle.getItemInHand()))
+                        return;
+                    if(getRoleItems().containsKey(gazelle.getItemInHand().getItemMeta().getDisplayName())){
+                        if(this.i != 0){
+
+                            if (changesword == 1){
+
+                                if( !inazumaUHC.rm.getRole(player).getClass().equals(Torch.class) && !inazumaUHC.rm.getRole(player).getClass().equals(Axel.class) && !inazumaUHC.rm.getRole(player).getClass().equals(Shawn.class)){
+                                    player.removePotionEffect(PotionEffectType.SLOW);
+                                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20*5, 1,true,false));
+                                    player.setFireTicks(3*20);
+                                    player.sendMessage(Preset.instance.p.prefixName()+" §bGazelle§7 vient d'utiliser son épée sur vous.");
+                                }
+                                if( inazumaUHC.rm.getRole(player).getClass().equals(Torch.class) && inazumaUHC.rm.getRole(player).getClass().equals(Axel.class) && inazumaUHC.rm.getRole(player).getClass().equals(Shawn.class)){
+                                    player.sendMessage(Preset.instance.p.prefixName()+" §bGazelle§7 vient d'utiliser son épée sur vous, mais en vain.");
+                                }
+                                i--;
+                                gazelle.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez d'utiliser votre §b§lBlizzard§7-§4§lEnflamm§7 sur §c" + player.getName() + "§7.Il vous reste §c" + i + " §7coups.");
+                                return;
+                            }
+
+                            if( !inazumaUHC.rm.getRole(player).getClass().equals(Torch.class) && !inazumaUHC.rm.getRole(player).getClass().equals(Axel.class) && !inazumaUHC.rm.getRole(player).getClass().equals(Shawn.class)){
+                                player.removePotionEffect(PotionEffectType.SLOW);
+                                player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20*5, 1,true,false));
+                                player.sendMessage(Preset.instance.p.prefixName()+" §bGazelle§7 vient d'utiliser son épée sur vous.");
+                            }
+                            if( inazumaUHC.rm.getRole(player).getClass().equals(Torch.class) && inazumaUHC.rm.getRole(player).getClass().equals(Axel.class) && inazumaUHC.rm.getRole(player).getClass().equals(Shawn.class)){
+                                player.sendMessage(Preset.instance.p.prefixName()+" §bGazelle§7 vient d'utiliser son épée sur vous, mais en vain.");
+                            }
+                            gazelle.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez d'utiliser votre §b§lImpact§7-§b§lNordique§7 sur §c" + player.getName() + "§7.Il vous reste §c" + (i-1) + " §7coups.");
+                            i--;
                         }
-                        if( inazumaUHC.rm.getRole(player).getClass().equals(Torch.class) && inazumaUHC.rm.getRole(player).getClass().equals(Axel.class) && inazumaUHC.rm.getRole(player).getClass().equals(Shawn.class)){
-                            player.sendMessage(Preset.instance.p.prefixName()+" §bGazelle§7 vient d'utiliser son épée sur vous, mais en vain.");
-                        }
-                        gazelle.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez d'utiliser votre §b§lImpact§7-§b§lNordique§7 sur §c" + player.getName() + "§7.Il vous reste §c" + (i-1) + " §7coups.");
-                        i--;
-                    }
-                    if(i <= 0){
-                        if (lastmsg == 0){
-                            gazelle.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez d'atteindre votre limite d'utilisation de ton §b§lImpact§7-§b§lNordique§7 pour cette §eépisode.");
-                            lastmsg++;
+
+                        if(i <= 0){
+                            if (lastmsg == 0){
+                                if (changesword == 1){
+                                    gazelle.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez d'atteindre votre limite d'utilisation de votre §b§lBlizzard§7-§4§lEnflammé§7 pour cette §eépisode.");
+                                }
+                                if (changesword == 0){
+                                    gazelle.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez d'atteindre votre limite d'utilisation de votre §b§lImpact§7-§b§lNordique§7 pour cette §eépisode.");
+                                }
+                                lastmsg++;
+                            }
                         }
                     }
                 }
-            }
             }
         }
 
@@ -174,10 +195,20 @@ public class Gazelle extends Role implements Listener {
     @EventHandler
     public void onEpisodeChanged(EpisodeChangeEvent event){
         lastmsg = 0;
-        for(Player player : getPlayers()){
-            player.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez de récupérer toute les utilisation sur votre §b§lImpact§7-§b§lNordique§7 (§b6 coups§7).");
+        if (changesword == 0){
+            for(Player player : getPlayers()){
+                player.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez de récupérer toute les utilisation sur votre §b§lImpact§7-§b§lNordique§7 (§b6 coups§7).");
+            }
+            this.i = 6;
         }
-        this.i = 6;
+        else if(changesword != 0){
+
+            for(Player player : getPlayers()){
+                player.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez de récupérer toute les utilisation sur votre §b§lBlizzard§7-§4§lEnflammé§7 (§b8 §4coups§7).");
+            }
+            this.i = 8;
+        }
+
     }
 
     @EventHandler
@@ -191,6 +222,10 @@ public class Gazelle extends Role implements Listener {
             loc = player.getLocation();
             loc.getBlock().setType(Material.LAPIS_BLOCK);
             loc = loc.getBlock().getLocation();
+
+            for (Player torch : inazumaUHC.rm.getRole(Torch.class).getPlayers()) {
+                torch.sendMessage(Preset.instance.p.prefixName()+" §7Le cadavre de §b§lGazelle§7 se trouve en X: " + loc.getX() + " Y: " + loc.getY() + " Z: " + loc.getZ());
+            }
 
         }
     }
@@ -207,10 +242,6 @@ public class Gazelle extends Role implements Listener {
         if (block.getType() == Material.LAPIS_BLOCK && floatToInt(block.getX()) == floatToInt(loc.getBlockX()) && floatToInt(block.getY()) == floatToInt(loc.getBlockY()) && floatToInt(block.getZ()) == floatToInt(loc.getBlockZ()))
         {
             e.setCancelled(true);
-            for (Player player : inazumaUHC.rm.getRole(Torch.class).getPlayers())
-            {
-                player.sendMessage("le cadavre de Torch se trouve en x: " + loc.getX() + " y: " + loc.getY() + " z: " + loc.getZ());
-            }
         }
     }
 
@@ -227,6 +258,9 @@ public class Gazelle extends Role implements Listener {
         ItemStack it = event.getItem();
         Torch torch = (Torch) inazumaUHC.rm.getRole(Torch.class);
 
+
+
+
         if(it == null)
         {
             return;
@@ -235,26 +269,28 @@ public class Gazelle extends Role implements Listener {
 
         if(it.hasItemMeta() && it.getItemMeta().hasDisplayName() && it.getItemMeta().getDisplayName().equalsIgnoreCase("§b§lImpact§7-§b§lNordique"))
         {
-            Bukkit.broadcastMessage("ca");
             if(action == Action.RIGHT_CLICK_BLOCK)
             {
                 Block block = event.getClickedBlock();
                 if(block.getType() == Material.REDSTONE_BLOCK)
                 {
-                    Bukkit.broadcastMessage("fonctionne");
                     if(torch != null)
                     {
-                        Bukkit.broadcastMessage("bien");
                         if (floatToInt(block.getX()) == torch.getTorchLoc().getBlockX() && floatToInt(block.getY()) == torch.getTorchLoc().getBlockY() && floatToInt(block.getZ()) == torch.getTorchLoc().getBlockZ())
                         {
-                            Bukkit.broadcastMessage("?");
                             if(inazumaUHC.rm.getRole(player) instanceof Gazelle)
                             {
-                                Bukkit.broadcastMessage("OUIIIIII");
+
+                                RoleItem roleItem = new RoleItem();
                                 ItemMeta im = it.getItemMeta();
                                 im.setDisplayName("§b§lBlizzard§7-§4§lEnflammé");
                                 it.setItemMeta(im);
+                                roleItem.setItemstack(it);
+                                addRoleItem(roleItem);
                                 block.setType(Material.AIR);
+                                player.sendMessage(Preset.instance.p.prefixName()+" §7§lFélicitation§7, vous avez fusionné votre épée avec celle de §c§lTorch§7, désormais votre épée en plus de ces pouvoirs de base, possède également celle de l'épée de §c§lTorch§7.");
+                                player.playSound(player.getLocation(), Sound.ORB_PICKUP, 5,5);
+                                changesword++;
                             }
                         }
                     }
