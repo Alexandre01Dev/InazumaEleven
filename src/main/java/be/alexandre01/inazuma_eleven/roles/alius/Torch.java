@@ -260,14 +260,20 @@ public class Torch  extends Role implements Listener {
             if(action == Action.RIGHT_CLICK_BLOCK)
             {
                 Block block = event.getClickedBlock();
-                if(block.getType() == Material.LAPIS_BLOCK)
+                if(block.getType() == Material.REDSTONE_BLOCK)
                 {
-                    if(gazelle != null && gazelle.getGazelleLoc() == block.getLocation() && inazumaUHC.rm.getRole(player) instanceof Torch)
+                    if(gazelle != null)
                     {
-                        ItemMeta im = it.getItemMeta();
-                        im.setDisplayName("§b§lBlizzard§7-§4§lEnflammé");
-                        it.setItemMeta(im);
-                        block.setType(Material.AIR);
+                        if (floatToInt(block.getX()) == gazelle.getGazelleLoc().getBlockX() && floatToInt(block.getY()) == gazelle.getGazelleLoc().getBlockY() && floatToInt(block.getZ()) == gazelle.getGazelleLoc().getBlockZ())
+                        {
+                            if(inazumaUHC.rm.getRole(player) instanceof Torch)
+                            {
+                                ItemMeta im = it.getItemMeta();
+                                im.setDisplayName("§b§lBlizzard§7-§4§lEnflammé");
+                                it.setItemMeta(im);
+                                block.setType(Material.AIR);
+                            }
+                        }
                     }
                 }
             }
