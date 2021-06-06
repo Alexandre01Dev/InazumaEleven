@@ -133,7 +133,7 @@ public class Caleb extends Role implements Listener {
         {
             if(player.getItemInHand().getAmount() == 2)
                 player.getItemInHand().setAmount(1);
-            else
+            else if(player.getItemInHand().getAmount() == 1)
                 player.getItemInHand().setType(Material.AIR);
 
             if(inazumaUHC.rm.getRole(player) instanceof David){
