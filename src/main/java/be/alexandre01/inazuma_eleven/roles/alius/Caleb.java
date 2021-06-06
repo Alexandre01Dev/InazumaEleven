@@ -140,7 +140,7 @@ public class Caleb extends Role implements Listener {
             if(inazumaUHC.rm.getRole(player) instanceof David){
                 David david = (David) inazumaUHC.rm.getRole(player);
                 Bukkit.broadcastMessage("1");
-                if(david.useFirstPierre = false)
+                if(!david.useFirstPierre)
                 {
                     Bukkit.broadcastMessage("2");
                     if (player.hasPotionEffect(PotionEffectType.WEAKNESS))
@@ -159,7 +159,7 @@ public class Caleb extends Role implements Listener {
             }
             if(inazumaUHC.rm.getRole(player) instanceof Joseph){
                 Joseph joseph = (Joseph) inazumaUHC.rm.getRole(player);
-                if(joseph.useFirstPierre = false)
+                if(!joseph.useFirstPierre)
                 {
                     if (player.hasPotionEffect(PotionEffectType.WEAKNESS))
                         player.removePotionEffect(PotionEffectType.WEAKNESS);
