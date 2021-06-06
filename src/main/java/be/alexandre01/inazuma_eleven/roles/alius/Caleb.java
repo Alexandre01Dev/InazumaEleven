@@ -205,7 +205,7 @@ public class Caleb extends Role implements Listener {
                     hasChoose = true;
                     Player choosedPlayer = null;
 
-                    while (choosedPlayer == null || getPlayers().contains(choosedPlayer) || choosedPlayer == lastPlayer){
+                    while (choosedPlayer == null || getPlayers().contains(choosedPlayer)){
                         ArrayList<Role> c = new ArrayList<>(inazumaUHC.rm.getRoleCategory(Alius.class).getRoles());
                         c.removeIf(r -> r instanceof Caleb);
                         Collections.shuffle(c);
@@ -220,6 +220,15 @@ public class Caleb extends Role implements Listener {
                         if(role == null)
                             continue;
                         ArrayList<Player> p = new ArrayList<>(role.getPlayers());
+
+                        for (int i = 0; i < usedRole.size(); i++) {
+                            Player removePlayer = usedRole.get(i);
+                            if(removePlayer == lastPlayer)
+                            {
+                                usedRole.remove(removePlayer);
+                                break;
+                            }
+                        }
 
                         for(Player target : usedRole)
                         {
@@ -237,6 +246,7 @@ public class Caleb extends Role implements Listener {
 
                         if(p.get(0) != null){
                             choosedPlayer = p.get(0);
+                            lastPlayer = choosedPlayer;
                             usedRole.add(choosedPlayer);
                             PatchedEntity.setMaxHealthInSilent(choosedPlayer,choosedPlayer.getMaxHealth()-4);
                             damages.put(choosedPlayer,4);
