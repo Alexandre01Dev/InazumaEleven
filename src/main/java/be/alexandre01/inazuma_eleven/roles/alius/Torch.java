@@ -257,7 +257,7 @@ public class Torch  extends Role implements Listener {
         && it.getItemMeta().getDisplayName().equalsIgnoreCase("§4§lEruption§7-§4§lSolaire")
         && block.getType() == Material.LAPIS_BLOCK
         && gazelle != null && gazelle.getGazelleLoc() == block.getLocation()
-        && inazumaUHC.rm.getRole(player) instanceof Gazelle)
+        && inazumaUHC.rm.getRole(player) instanceof Torch)
         {
             ItemMeta im = it.getItemMeta();
             im.setDisplayName("§b§lBlizzard§7-§4§lEnflammé");
