@@ -36,6 +36,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.BufferedReader;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.BlockingQueue;
@@ -44,7 +45,7 @@ public class Torch  extends Role implements Listener {
     private int i = 8;
     private int lastmsg = 0;
     World world;
-    private Location loc = new Location(world, 0, 0, 0);
+    private Location loc;
 
     public Torch(IPreset preset) {
         super("Torch",preset);
@@ -204,6 +205,7 @@ public class Torch  extends Role implements Listener {
 
         if(inazumaUHC.rm.getRole(player.getUniqueId()).getClass().equals(Torch.class)){
 
+            world = loc.getWorld();
             loc = player.getLocation();
             loc.getBlock().setType(Material.REDSTONE_BLOCK);
             loc = loc.getBlock().getLocation();
@@ -216,14 +218,16 @@ public class Torch  extends Role implements Listener {
         return (int)f;
     }
 
+    public Location getTorchLoc()
+    {
+        return new Location(world, loc.getX(), loc.getBlockY(), loc.getBlockZ());
+    }
 
     @EventHandler
     public void onBlockItemGet(BlockBreakEvent e) {
         Block block = e.getBlock();
-        Bukkit.broadcastMessage("Chalut");
         if (block.getType() == Material.REDSTONE_BLOCK && floatToInt(block.getX()) == floatToInt(loc.getBlockX()) && floatToInt(block.getY()) == floatToInt(loc.getBlockY()) && floatToInt(block.getZ()) == floatToInt(loc.getBlockZ()))
         {
-            Bukkit.broadcastMessage("Ca va Et Toi");
             e.setCancelled(true);
             for (Player player : inazumaUHC.rm.getRole(Gazelle.class).getPlayers())
             {

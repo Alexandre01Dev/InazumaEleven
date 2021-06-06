@@ -2,6 +2,7 @@ package be.alexandre01.inazuma_eleven.roles.alius;
 
 import be.alexandre01.inazuma.uhc.InazumaUHC;
 import be.alexandre01.inazuma.uhc.custom_events.episode.EpisodeChangeEvent;
+import be.alexandre01.inazuma.uhc.custom_events.player.PlayerInstantDeathEvent;
 import be.alexandre01.inazuma.uhc.managers.chat.Chat;
 import be.alexandre01.inazuma.uhc.presets.IPreset;
 import be.alexandre01.inazuma.uhc.presets.Preset;
@@ -16,12 +17,20 @@ import be.alexandre01.inazuma_eleven.roles.raimon.Shawn;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -31,6 +40,8 @@ import java.util.Random;
 public class Gazelle extends Role implements Listener {
     private int i = 6;
     private int lastmsg = 0;
+    private Location loc;
+    World world;
     public Gazelle(IPreset preset) {
         super("Gazelle",preset);
 
@@ -76,6 +87,7 @@ public class Gazelle extends Role implements Listener {
         itemBuilder.addEnchant(Enchantment.DAMAGE_ALL,2);
         itemBuilder.setUnbreakable();
         roleItem.setItemstack(itemBuilder.toItemStack());
+
         addRoleItem(roleItem);
 
         addCommand("inachat", new command() {
@@ -165,5 +177,63 @@ public class Gazelle extends Role implements Listener {
             player.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez de récupérer toute les utilisation sur votre §b§lImpact§7-§b§lNordique§7 (§b6 coups§7).");
         }
         this.i = 6;
+    }
+
+    @EventHandler
+    private void onDeath(PlayerInstantDeathEvent event)
+    {
+        Player player = event.getPlayer();
+
+        if(inazumaUHC.rm.getRole(player.getUniqueId()).getClass().equals(Torch.class)){
+
+            world = loc.getWorld();
+            loc = player.getLocation();
+            loc.getBlock().setType(Material.LAPIS_BLOCK);
+            loc = loc.getBlock().getLocation();
+
+        }
+    }
+
+    private int floatToInt(float f)
+    {
+        return (int)f;
+    }
+
+
+    @EventHandler
+    public void onBlockItemGet(BlockBreakEvent e) {
+        Block block = e.getBlock();
+        if (block.getType() == Material.LAPIS_BLOCK && floatToInt(block.getX()) == floatToInt(loc.getBlockX()) && floatToInt(block.getY()) == floatToInt(loc.getBlockY()) && floatToInt(block.getZ()) == floatToInt(loc.getBlockZ()))
+        {
+            e.setCancelled(true);
+            for (Player player : inazumaUHC.rm.getRole(Torch.class).getPlayers())
+            {
+                player.sendMessage("le cadavre de Torch se trouve en x: " + loc.getX() + " y: " + loc.getY() + " z: " + loc.getZ());
+            }
+        }
+    }
+
+    public Location getTorchLoc()
+    {
+        return new Location(world, loc.getX(), loc.getBlockY(), loc.getBlockZ());
+    }
+
+    @EventHandler
+    public void onInteract(PlayerInteractEvent event)
+    {
+        Player player = event.getPlayer();
+        Block block = event.getClickedBlock();
+        ItemStack it = event.getItem();
+        Torch torch = (Torch) inazumaUHC.rm.getRole(Torch.class);
+
+        if(it.hasItemMeta() && it.getItemMeta().hasDisplayName() && it.getItemMeta().getDisplayName().equalsIgnoreCase("§4§lEruption§7-§4§lSolaire")
+        && block.getType() == Material.REDSTONE_BLOCK
+        && torch != null && torch.getTorchLoc() == block.getLocation())
+        {
+            ItemMeta im = it.getItemMeta();
+            im.setDisplayName("§b§lBlizzard§7-§4§lEnflammé");
+            it.setItemMeta(im);
+            block.setType(Material.AIR);
+        }
     }
 }
