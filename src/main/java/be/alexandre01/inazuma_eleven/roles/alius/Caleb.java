@@ -227,27 +227,6 @@ public class Caleb extends Role implements Listener {
                         if(lastPlayer != null)
                             p.remove(lastPlayer);
 
-
-
-                        /*Role role = c.get(c.size()-1);
-                        if(role == null)
-                            continue;*/
-
-
-                       /*for (int i = 0; i < usedRole.size(); i++) {
-                            Player removePlayer = usedRole.get(i);
-                            if(removePlayer == lastPlayer)
-                            {
-                                usedRole.remove(removePlayer);
-                                break;
-                            }
-                        }
-
-                        for(Player target : usedRole)
-                        {
-                            p.remove(target);
-                        }*/
-
                         if(p.isEmpty())
                         {
                             player.sendMessage("Tu as enlevés des coeurs a tout les joueurs de ton équipe.");
@@ -268,7 +247,7 @@ public class Caleb extends Role implements Listener {
                             player.sendMessage(Preset.instance.p.prefixName()+" §7tu as enlevé 2 coeurs a un membre de ton équipe.");
                             player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Integer.MAX_VALUE, 0,false,false), true);
                             PatchedEntity.setMaxHealthInSilent(player,player.getMaxHealth()+2);
-                            damages.put(player,-4);
+                            damages.put(player,-2);
 
                         }
                     }
