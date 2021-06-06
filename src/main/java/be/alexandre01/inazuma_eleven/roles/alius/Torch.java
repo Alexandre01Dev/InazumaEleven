@@ -254,11 +254,12 @@ public class Torch  extends Role implements Listener {
             return;
         }
 
-        if(action == Action.RIGHT_CLICK_BLOCK)
+
+        if(it.hasItemMeta() && it.getItemMeta().hasDisplayName() && it.getItemMeta().getDisplayName().equalsIgnoreCase("§4§lEruption§7-§4§lSolaire"))
         {
-            Block block = event.getClickedBlock();
-            if(it.hasItemMeta() && it.getItemMeta().hasDisplayName() && it.getItemMeta().getDisplayName().equalsIgnoreCase("§4§lEruption§7-§4§lSolaire"))
+            if(action == Action.RIGHT_CLICK_BLOCK)
             {
+                Block block = event.getClickedBlock();
                 if(block.getType() == Material.LAPIS_BLOCK)
                 {
                     if(gazelle != null && gazelle.getGazelleLoc() == block.getLocation() && inazumaUHC.rm.getRole(player) instanceof Torch)

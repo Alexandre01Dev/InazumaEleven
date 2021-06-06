@@ -232,14 +232,15 @@ public class Gazelle extends Role implements Listener {
             return;
         }
 
-        if(action == Action.RIGHT_CLICK_BLOCK)
+
+        if(it.hasItemMeta() && it.getItemMeta().hasDisplayName() && it.getItemMeta().getDisplayName().equalsIgnoreCase("§b§lImpact§7-§b§lNordique"))
         {
-            Block block = event.getClickedBlock();
-            if(it.hasItemMeta() && it.getItemMeta().hasDisplayName() && it.getItemMeta().getDisplayName().equalsIgnoreCase("§b§lImpact§7-§b§lNordique"))
+            if(action == Action.RIGHT_CLICK_BLOCK)
             {
+                Block block = event.getClickedBlock();
                 if(block.getType() == Material.REDSTONE_BLOCK)
                 {
-                    if(torch != null && torch.getTorchLoc() == block.getLocation() && inazumaUHC.rm.getRole(player) instanceof Gazelle)
+                    if(torch != null && floatToInt(block.getX()) == floatToInt(loc.getBlockX()) && floatToInt(block.getY()) == floatToInt(loc.getBlockY()) && floatToInt(block.getZ()) == floatToInt(loc.getBlockZ()) && inazumaUHC.rm.getRole(player) instanceof Gazelle)
                     {
                         ItemMeta im = it.getItemMeta();
                         im.setDisplayName("§b§lBlizzard§7-§4§lEnflammé");
