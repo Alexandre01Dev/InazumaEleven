@@ -148,7 +148,7 @@ public class Caleb extends Role implements Listener {
                     if(david.firstUse)
                         PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() + 4);
 
-                    david.useFirstPierre = false;
+                    david.useFirstPierre = true;
                     david.secondUse = false;
                 }
                 else
