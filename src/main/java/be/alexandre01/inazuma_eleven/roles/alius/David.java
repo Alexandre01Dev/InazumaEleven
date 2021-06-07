@@ -90,7 +90,7 @@ public class David extends Role implements Listener {
             {
                 player.sendMessage("vous venez d'activer Manchot empreur apres recharge sans la premiere utilisation");
                 player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60*20, 0));
-                player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60*20, 1));
+                player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60*20, 0));
                 firstUse = true;
                 specialUse = true;
                 return;
@@ -100,7 +100,7 @@ public class David extends Role implements Listener {
             {
                 player.sendMessage("Vous venez d'activer Manchot empreur");
                 player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60*20, 0));
-                player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60*20, 1));
+                player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60*20, 0));
                 firstUse = true;
 
                 new BukkitRunnable()
@@ -123,15 +123,13 @@ public class David extends Role implements Listener {
                     player.removePotionEffect(PotionEffectType.WEAKNESS);
 
                 player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60*20, 0));
-                player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60*20, 1));
+                player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60*20, 0));
                 numberOfUse--;
 
                 switch (numberOfUse)
                 {
                     case 1 :
                         player.sendMessage("utilisation du manchot empreur apres recharge 1");
-                        if(!specialUse)
-                            PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() + 4);
 
                         new BukkitRunnable()
                         {
@@ -149,12 +147,15 @@ public class David extends Role implements Listener {
                         secondUse = true;
                         player.sendMessage("utilisation du manchot empreur apres recharge 2");
                         PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() + 2);
+                        if(inazumaUHC.rm.getRole(Jude.class) != null)
+                        {
+                            for(Player p : inazumaUHC.rm.getRole(Jude.class).getPlayers()){
 
-                        for(Player p : inazumaUHC.rm.getRole(Jude.class).getPlayers()){
+                                p.sendMessage(Preset.instance.p.prefixName()+" David a utilisé son item en x: " + player.getLocation().getBlockX() + " y: " + player.getLocation().getBlockY() + " z: " + player.getLocation().getBlockZ());
 
-                            p.sendMessage(Preset.instance.p.prefixName()+" David a utilisé son item en x: " + player.getLocation().getX() + " y: " + player.getLocation().getY() + " z: " + player.getLocation().getZ());
-
+                            }
                         }
+
 
                         new BukkitRunnable()
                         {

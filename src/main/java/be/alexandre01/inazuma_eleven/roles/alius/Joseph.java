@@ -89,7 +89,7 @@ public class Joseph extends Role {
 
             if(!firstUse)
             {
-                player.sendMessage("Vous venez d'activer Manchot empreur");
+                player.sendMessage("Vous venez d'activer la morsure sauvage");
                 player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60*20, 0));
                 player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60*20, 1));
                 firstUse = true;
@@ -120,9 +120,9 @@ public class Joseph extends Role {
                 switch (numberOfUse)
                 {
                     case 1 :
-                        player.sendMessage("utilisation du manchot empreur apres recharge 1");
+                        player.sendMessage("utilisation de la morsure sauvage apres recharge 1");
                         if (!specialUse)
-                            PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() + 4);
+                            PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() + 2);
 
                         new BukkitRunnable()
                         {
@@ -137,13 +137,17 @@ public class Joseph extends Role {
 
                     case 0 :
                         secondUse = true;
-                        player.sendMessage("utilisation du manchot empreur apres recharge 2");
+                        player.sendMessage("utilisation de la morsure sauvage apres recharge 2");
                         PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() + 4);
-                        for(Player p : inazumaUHC.rm.getRole(Jude.class).getPlayers()){
+                        if(inazumaUHC.rm.getRole(Jude.class) != null)
+                        {
+                            for(Player p : inazumaUHC.rm.getRole(Jude.class).getPlayers()){
 
-                            p.sendMessage(Preset.instance.p.prefixName()+" Joseph a utilisé son item en x: " + player.getLocation().getX() + " y: " + player.getLocation().getY() + " z: " + player.getLocation().getZ());
+                                p.sendMessage(Preset.instance.p.prefixName()+" Joseph a utilisé son item en x: " + player.getLocation().getBlockX() + " y: " + player.getLocation().getBlockY() + " z: " + player.getLocation().getBlockZ());
 
+                            }
                         }
+
                         new BukkitRunnable()
                         {
                             @Override

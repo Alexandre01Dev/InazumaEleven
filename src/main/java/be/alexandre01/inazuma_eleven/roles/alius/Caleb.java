@@ -19,6 +19,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -121,21 +122,32 @@ public class Caleb extends Role implements Listener {
         ArrayList<Player> players = new ArrayList<>();
         verificationGenerations.add(player -> {
             if(!(inazumaUHC.rm.getRole(player)instanceof Joseph) && !(inazumaUHC.rm.getRole(player)instanceof David))
+            {
+                players.add(player);
                 return true;
+            }
             if(players.contains(player)){
                 player.sendMessage("FDP, TU VEUX TRICHER, TA VIE SE RESUME À ÇA ???");
                 return false;
             }
-            players.add(player);
+
             return true;
         });
         roleItem.deployVerificationsOnRightClick(verificationGenerations);
         roleItem.setRightClick(player ->
         {
             if(player.getItemInHand().getAmount() == 2)
+            {
+                Bukkit.broadcastMessage("2 pierres alius");
                 player.getItemInHand().setAmount(1);
+            }
+
             else if(player.getItemInHand().getAmount() == 1)
-                player.getItemInHand().setType(Material.AIR);
+            {
+                Bukkit.broadcastMessage("1 pierre donc mnt plus de pierre");
+                player.setItemInHand(new ItemStack(Material.AIR));
+            }
+
 
             if(inazumaUHC.rm.getRole(player) instanceof David){
                 David david = (David) inazumaUHC.rm.getRole(player);
@@ -152,8 +164,10 @@ public class Caleb extends Role implements Listener {
                     david.secondUse = false;
                 }
                 else
-                    Bukkit.broadcastMessage("3");
+                {
                     PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() + 2);
+                    players.add(player);
+                }
 
                 return;
             }
@@ -164,13 +178,17 @@ public class Caleb extends Role implements Listener {
                     if (player.hasPotionEffect(PotionEffectType.WEAKNESS))
                         player.removePotionEffect(PotionEffectType.WEAKNESS);
                     if(joseph.firstUse)
-                        PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() + 4);
+                        PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() + 2);
 
                     joseph.useFirstPierre = true;
                     joseph.secondUse = false;
                 }
                 else
+                {
                     PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() + 2);
+                    players.add(player);
+                }
+
 
                 return;
             }

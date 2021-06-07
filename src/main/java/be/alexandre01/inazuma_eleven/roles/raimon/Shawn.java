@@ -378,6 +378,8 @@ public class Shawn extends Role implements Listener {
             @Override
             public void run() {
                 Shawn shawn = (Shawn) InazumaUHC.get.rm.getRole(Shawn.class);
+                if(shawn == null)
+                    return;
                 shawn.getPlayers().forEach(player -> {
                     player.sendMessage("Fusion dispo");
                 });
