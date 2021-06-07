@@ -231,10 +231,12 @@ public class Torch  extends Role implements Listener {
             loc.getBlock().setType(Material.REDSTONE_BLOCK);
             loc = loc.getBlock().getLocation();
 
-            for (Player gazelle : inazumaUHC.rm.getRole(Gazelle.class).getPlayers()) {
-                gazelle.sendMessage(Preset.instance.p.prefixName()+" §7Le cadavre de §c§lTorch§7 se trouve en X: " + loc.getX() + " Y: " + loc.getY() + " Z: " + loc.getZ());
+            if(inazumaUHC.rm.getRole(Gazelle.class) == null)
+            {
+                for (Player gazelle : inazumaUHC.rm.getRole(Gazelle.class).getPlayers()) {
+                    gazelle.sendMessage(Preset.instance.p.prefixName()+" §7Le cadavre de §c§lTorch§7 se trouve en X: " + loc.getX() + " Y: " + loc.getY() + " Z: " + loc.getZ());
+                }
             }
-
         }
     }
 

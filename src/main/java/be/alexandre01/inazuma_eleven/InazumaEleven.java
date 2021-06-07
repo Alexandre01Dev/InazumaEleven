@@ -84,6 +84,7 @@ public class InazumaEleven extends PresetData implements IPreset{
                 Shawn.class,
                 William.class,
                 Aiden.class,
+                Bobby.class,
 
                 Byron.class,
 
