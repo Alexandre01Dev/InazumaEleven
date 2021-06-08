@@ -19,6 +19,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -34,6 +35,10 @@ public class Bobby extends Role implements Listener
 
         setRoleCategory(Raimon.class);
         addListener(this);
+
+
+
+
         RoleItem roleItem = new RoleItem();
         ItemBuilder ib = new ItemBuilder(Material.MAGMA_CREAM).setName("§c§lScie§r-§c§lCirculaire");
         roleItem.setItemstack(ib.toItemStack());

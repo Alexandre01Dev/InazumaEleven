@@ -10,6 +10,7 @@ import be.alexandre01.inazuma.uhc.roles.RoleItem;
 import be.alexandre01.inazuma.uhc.utils.CustomComponentBuilder;
 import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
 import be.alexandre01.inazuma.uhc.utils.PatchedEntity;
+import be.alexandre01.inazuma.uhc.utils.PlayerUtils;
 import be.alexandre01.inazuma_eleven.categories.Alius;
 import be.alexandre01.inazuma_eleven.roles.raimon.Jude;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -59,13 +60,24 @@ public class Joseph extends Role {
         onLoad(new load() {
             @Override
             public void a(Player player) {
-                onLoad(new load() {
-                    @Override
-                    public void a(Player player) {
-                        inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.RESISTANCE,2,120);
-                    }
+                inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.RESISTANCE,2,120);
 
-                });
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        for(Player target : PlayerUtils.getNearbyPlayersFromPlayer(player,20,20,20))
+                        {
+                            if(inazumaUHC.rm.getRole(Caleb.class).getPlayers().contains(target) && inazumaUHC.rm.getRole(Caleb.class) != null)
+                            {
+                                if(player.hasPotionEffect(PotionEffectType.SPEED))
+                                {
+                                    player.removePotionEffect(PotionEffectType.SPEED);
+                                }
+                                player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20*5, 0));
+                            }
+                        }
+                    }
+                }.runTaskTimerAsynchronously(inazumaUHC, 1, 20*3);
             }
         });
 
