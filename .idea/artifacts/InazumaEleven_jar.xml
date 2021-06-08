@@ -1,0 +1,23 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="InazumaEleven:jar">
+    <output-path>$PROJECT_DIR$/../Export</output-path>
+    <root id="archive" name="InazumaEleven.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/src/main/java/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="InazumaEleven" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/javassist/javassist/3.12.1.GA/javassist-3.12.1.GA.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/InazumaUHC-1.0-SNAPSHOT-jar-with-dependencies.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jboss/jboss-vfs/3.2.15.Final/jboss-vfs-3.2.15.Final.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jboss/logging/jboss-logging/3.1.4.GA/jboss-logging-3.1.4.GA.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/FastAsyncWorldEdit-bukkit-21.03.26-b67f782-1287-22.3.10.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/dom4j/dom4j/1.6.1/dom4j-1.6.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/xml-apis/xml-apis/1.0.b2/xml-apis-1.0.b2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/ispigot.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.30/slf4j-api-1.7.30.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/packetListenerAPI.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.20/lombok-1.18.20.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jooq/joor-java-8/0.9.13/joor-java-8-0.9.13.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
