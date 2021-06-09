@@ -8,6 +8,7 @@ import be.alexandre01.inazuma.uhc.roles.Role;
 import be.alexandre01.inazuma.uhc.utils.ScoreboardUtil;
 import be.alexandre01.inazuma_eleven.categories.Raimon;
 import be.alexandre01.inazuma_eleven.objects.LocalRaimon;
+import be.alexandre01.inazuma_eleven.roles.alius.Nero;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -130,6 +131,13 @@ public class Jude extends Role implements Listener {
 
                 LocalRaimon localRaimon = new LocalRaimon();
                 localRaimon.spawn();
+
+                if(inazumaUHC.rm.getRole(Nero.class) != null)
+                {
+                    Nero nero = (Nero) inazumaUHC.rm.getRole(Nero.class);
+
+                    nero.MessageLocal(localRaimon);
+                }
 
                 new BukkitRunnable() {
                     @Override
