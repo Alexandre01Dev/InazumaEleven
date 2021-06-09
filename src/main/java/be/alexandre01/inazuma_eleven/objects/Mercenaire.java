@@ -98,6 +98,7 @@ public class Mercenaire{
                         //target.spigot().sendMessage(mercenaireButton);
                         target.sendMessage(" ");
                         target.sendMessage(mercenaireButton);
+                        role.setRoleToSpoil(Axel.class);
 
                         role.addDescription(mercenaireButton);
 

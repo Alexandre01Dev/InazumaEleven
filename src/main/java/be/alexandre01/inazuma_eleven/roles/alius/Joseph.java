@@ -7,10 +7,7 @@ import be.alexandre01.inazuma.uhc.presets.Preset;
 
 import be.alexandre01.inazuma.uhc.roles.Role;
 import be.alexandre01.inazuma.uhc.roles.RoleItem;
-import be.alexandre01.inazuma.uhc.utils.CustomComponentBuilder;
-import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
-import be.alexandre01.inazuma.uhc.utils.PatchedEntity;
-import be.alexandre01.inazuma.uhc.utils.PlayerUtils;
+import be.alexandre01.inazuma.uhc.utils.*;
 import be.alexandre01.inazuma_eleven.categories.Alius;
 import be.alexandre01.inazuma_eleven.roles.raimon.Jude;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -74,6 +71,7 @@ public class Joseph extends Role {
                                     player.removePotionEffect(PotionEffectType.SPEED);
                                 }
                                 player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20*5, 0));
+                                TitleUtils.sendActionBar(player,"§7§lRaisonnance avec la §5§lPierre §lAlius");
                             }
                         }
                     }
@@ -92,7 +90,6 @@ public class Joseph extends Role {
             if(!firstUse && !secondUse)
             {
                 player.sendMessage("vous venez d'activer Manchot empreur apres recharge sans la premiere utilisation");
-                player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60*20, 0));
                 player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60*20, 1));
                 firstUse = true;
                 specialUse = true;
@@ -102,7 +99,6 @@ public class Joseph extends Role {
             if(!firstUse)
             {
                 player.sendMessage("Vous venez d'activer la morsure sauvage");
-                player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60*20, 0));
                 player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60*20, 1));
                 firstUse = true;
 
@@ -124,8 +120,7 @@ public class Joseph extends Role {
             {
                 if(player.hasPotionEffect(PotionEffectType.WEAKNESS))
                     player.removePotionEffect(PotionEffectType.WEAKNESS);
-
-                player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60*20, 0));
+                
                 player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60*20, 1));
                 numberOfUse--;
 

@@ -8,10 +8,7 @@ import be.alexandre01.inazuma.uhc.presets.Preset;
 
 import be.alexandre01.inazuma.uhc.roles.Role;
 import be.alexandre01.inazuma.uhc.roles.RoleItem;
-import be.alexandre01.inazuma.uhc.utils.CustomComponentBuilder;
-import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
-import be.alexandre01.inazuma.uhc.utils.PatchedEntity;
-import be.alexandre01.inazuma.uhc.utils.PlayerUtils;
+import be.alexandre01.inazuma.uhc.utils.*;
 import be.alexandre01.inazuma_eleven.InazumaEleven;
 import be.alexandre01.inazuma_eleven.categories.Alius;
 import be.alexandre01.inazuma_eleven.roles.raimon.Jude;
@@ -85,6 +82,7 @@ public class David extends Role implements Listener {
                                     player.removePotionEffect(PotionEffectType.SPEED);
                                 }
                                 player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20*5, 0));
+                                TitleUtils.sendActionBar(player,"§7§lRaisonnance avec la §5§lPierre §lAlius");
                             }
                         }
                     }
@@ -102,8 +100,7 @@ public class David extends Role implements Listener {
             if(!firstUse && !secondUse)
             {
                 player.sendMessage("vous venez d'activer Manchot empreur apres recharge sans la premiere utilisation");
-                player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60*20, 0));
-                player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60*20, 0));
+                player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60*20, 1));
                 firstUse = true;
                 specialUse = true;
                 return;
@@ -112,8 +109,7 @@ public class David extends Role implements Listener {
             if(!firstUse)
             {
                 player.sendMessage("Vous venez d'activer Manchot empreur");
-                player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60*20, 0));
-                player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60*20, 0));
+                player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60*20, 1));
                 firstUse = true;
 
                 new BukkitRunnable()
@@ -135,8 +131,7 @@ public class David extends Role implements Listener {
                 if(player.hasPotionEffect(PotionEffectType.WEAKNESS))
                     player.removePotionEffect(PotionEffectType.WEAKNESS);
 
-                player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60*20, 0));
-                player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60*20, 0));
+                player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60*20, 1));
                 numberOfUse--;
 
                 switch (numberOfUse)

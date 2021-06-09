@@ -31,6 +31,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -224,7 +225,17 @@ public class Gazelle extends Role implements Listener {
             loc = loc.getBlock().getLocation();
 
             for (Player torch : inazumaUHC.rm.getRole(Torch.class).getPlayers()) {
-                torch.sendMessage(Preset.instance.p.prefixName()+" §7Le cadavre de §b§lGazelle§7 se trouve en X: " + loc.getX() + " Y: " + loc.getY() + " Z: " + loc.getZ());
+
+                new BukkitRunnable(){
+                    @Override
+                    public void run(){
+
+                        torch.sendMessage(Preset.instance.p.prefixName()+" §7Le cadavre de §b§lGazelle§7 se trouve en X: " + loc.getX() + " Y: " + loc.getY() + " Z: " + loc.getZ());
+
+                    }
+
+                }.runTaskLater(InazumaUHC.get, 1);
+                
             }
 
         }
