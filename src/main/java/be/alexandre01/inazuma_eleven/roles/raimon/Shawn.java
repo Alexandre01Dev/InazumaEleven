@@ -281,7 +281,12 @@ public class Shawn extends Role implements Listener {
     public void onDeath(PlayerInstantDeathEvent event){
         Player player = event.getPlayer();
         Role role = inazumaUHC.rm.getRole(player);
-        ArrayList<Player> p = inazumaUHC.rm.getRole(Aiden.class).getPlayers();
+        ArrayList<Player> p;
+        if(inazumaUHC.rm.getRole(Aiden.class) != null)
+            p = inazumaUHC.rm.getRole(Aiden.class).getPlayers();
+        else
+            return;
+
         if (fusion){
             if(p.contains(player)){
                 if(p.size() == 1){
