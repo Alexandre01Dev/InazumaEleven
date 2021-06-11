@@ -9,6 +9,7 @@ import be.alexandre01.inazuma.uhc.timers.utils.DateBuilderTimer;
 import be.alexandre01.inazuma.uhc.timers.utils.MSToSec;
 import be.alexandre01.inazuma.uhc.utils.CustomComponentBuilder;
 import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
+import be.alexandre01.inazuma.uhc.utils.PlayerUtils;
 import be.alexandre01.inazuma.uhc.utils.TitleUtils;
 import be.alexandre01.inazuma_eleven.categories.Raimon;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -17,6 +18,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.minecraft.server.v1_8_R3.MobEffectList;
 import net.minecraft.server.v1_8_R3.Tuple;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_8_R3.potion.CraftPotionEffectType;
 import org.bukkit.enchantments.Enchantment;
@@ -25,8 +27,15 @@ import org.bukkit.event.Listener;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 public class Hurley extends Role implements Listener {
+
+    Player nearestPlayer = null;
+    double distance = 0;
+    int i = 0;
+    BukkitTask darrenTask;
+    BukkitTask playerTask;
 
     public Hurley(IPreset preset) {
         super("Hurley Kane",preset);
@@ -68,6 +77,105 @@ public class Hurley extends Role implements Listener {
         ItemBuilder itemBuilder = new ItemBuilder(Material.BUCKET).setName("§7§lSceau §7§lDe §c§lVie");
 
         roleItem.setItemstack(itemBuilder.toItemStack());
+        //roleItem.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.USAGES, 1)));
+        roleItem.setRightClick(player -> {
+            nearestPlayer = PlayerUtils.getNearestPlayerInSight(player, 500);
+            Bukkit.broadcastMessage(nearestPlayer.getName());
+            Location location = player.getLocation();
+
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    darrenTask.cancel();
+                    playerTask.cancel();
+                }
+            }.runTaskLaterAsynchronously(inazumaUHC, 20*20);
+
+            darrenTask = new BukkitRunnable() {
+                @Override
+                public void run() {
+                    for(Player target : PlayerUtils.getNearbyPlayers(location,9,9,9))
+                    {
+                        if(inazumaUHC.rm.getRole(target) instanceof Darren)
+                        {
+                            if(target.hasPotionEffect(PotionEffectType.REGENERATION))
+                                target.removePotionEffect(PotionEffectType.REGENERATION);
+                            target.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 4*20, 0));
+                            break;
+                        }
+                    }
+                }
+            }.runTaskTimerAsynchronously(inazumaUHC, 1, 20*3);
+
+
+            playerTask = new BukkitRunnable() {
+                @Override
+                public void run() {
+                    if(inazumaUHC.rm.getRole(nearestPlayer) instanceof Darren)
+                    {
+                        i = 0;
+                        for(Player nearbyPlayer : PlayerUtils.getNearbyPlayers(location, 9,9,9))
+                        {
+                            i++;
+
+                            if(i == PlayerUtils.getNearbyPlayers(location, 9,9,9).size())
+                            {
+                                if(nearestPlayer.hasPotionEffect(PotionEffectType.REGENERATION))
+                                    nearestPlayer.removePotionEffect(PotionEffectType.REGENERATION);
+                                nearestPlayer.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 4*20, 0));
+                            }
+
+                            if(distance == 0)
+                            {
+                                nearestPlayer = nearbyPlayer;
+                                distance = player.getLocation().distance(nearbyPlayer.getLocation());
+                                continue;
+                            }
+                            if(distance > player.getLocation().distance(nearbyPlayer.getLocation()))
+                            {
+                                distance = player.getLocation().distance(nearbyPlayer.getLocation());
+                                nearestPlayer = nearbyPlayer;
+                            }
+                        }
+                    }
+
+                    for(Player nearbyPlayer : PlayerUtils.getNearbyPlayers(location, 9,9,9))
+                    {
+                        if(nearbyPlayer == nearestPlayer)
+                        {
+                            if(nearestPlayer.hasPotionEffect(PotionEffectType.REGENERATION))
+                                nearestPlayer.removePotionEffect(PotionEffectType.REGENERATION);
+                            nearestPlayer.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 4*20, 0));
+                        }
+                    }
+
+                    for(Player hurley : getPlayers())
+                    {
+                        if(hurley == player)
+                        {
+                            for(Player nearbyPlayer : PlayerUtils.getNearbyPlayers(location, 9,9,9))
+                            {
+                                if(nearbyPlayer == hurley)
+                                {
+                                    if(hurley.hasPotionEffect(PotionEffectType.REGENERATION))
+                                        hurley.removePotionEffect(PotionEffectType.REGENERATION);
+
+                                    hurley.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 4*20, 0));
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }.runTaskTimerAsynchronously(inazumaUHC,1,20*3);
+
+
+
+
+
+
+
+        });
         addRoleItem(roleItem);
 
             addCommand("ina sea", new command() {
