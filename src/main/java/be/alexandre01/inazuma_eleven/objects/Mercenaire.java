@@ -36,176 +36,187 @@ public class Mercenaire{
 
 
     public ArrayList<Player> list;
+    boolean hasAxel = true;
 
     public void onPvP(){
 
-        Axel axel = (Axel) InazumaUHC.get.rm.getRole(Axel.class);;
-
-        if (axel == null){
-            return;
-        }
-
-
-
-            new BukkitRunnable(){
-                @Override
-                public void run(){
-
-                    boolean hasFound = false;
-
-                    while(!hasFound){
-
-                        ArrayList<Role> alius = new ArrayList<>(InazumaUHC.get.rm.getRoleCategory(Alius.class).getRoles());
-
-                        Collections.shuffle(alius);
-
-                        if (alius.isEmpty()){
-                            return;
-                        }
-
-                        Role role = alius.get(0);
-
-                        if (role.getPlayers().isEmpty()){
-                            alius.remove(role);
-                            continue;
-                        }
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (InazumaUHC.get.rm.getRole(Axel.class) == null)
+                    return;
 
 
 
-                        Player target = role.getPlayers().get(0);
-
-                        InazumaUHC.get.spectatorManager.getPlayers().contains(target);
-
-                        if (InazumaUHC.get.spectatorManager.getPlayers().contains(target)){
-                            alius.remove(role);
-                            continue;
-                        }
-
-                        hasFound = true;
-
-
-                        target.sendMessage(Preset.instance.p.prefixName()+" §7Vous êtes le §c§lMercenaire§7 de §d§lJulia§7.");
-                        target.sendMessage(Preset.instance.p.prefixName()+" §7Votre objectif est de faire en sorte qu'§c§lAlex§7 ne soit plus avec §6§lRaimon§7.");
-                        target.sendMessage(" ");
-                        BaseComponent mercenaireButton = new TextComponent("§8- §7Vous avez une commande : " + "§5/kidnapping");
-
-                        BaseComponent mercenaireDesc = new TextComponent();
-                        mercenaireDesc.addExtra("§e- §7[Cooldown de §a10 minutes§7]\n");
-                        mercenaireDesc.addExtra("§e- §9Permet de forcer le départ d'§cAxel Blaze§9 de §6Raimon§9 afin qu'il win solo\n");
-                        mercenaireDesc.addExtra("§c⚠§9 Vous devez être à moins de §515 blocks§9 d'§cAxel Blaze§9 pour effectuer la commande. §c⚠\n");
-                        mercenaireDesc.addExtra("§c⚠ §cAxel§9 aura une liste de pseudo qui baissera quand il tue des joueurs. §c⚠\n");
-                        mercenaireDesc.addExtra("§c⚠§9 S'il participe à votre mort, il reviendra chez §6Raimon§9. §c⚠");
-                        mercenaireButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,mercenaireDesc.getExtra().toArray(new BaseComponent[0])));
-                        //target.spigot().sendMessage(mercenaireButton);
-                        target.sendMessage(" ");
-                        target.sendMessage(mercenaireButton);
-                        role.setRoleToSpoil(Axel.class);
-
-                        role.addDescription(mercenaireButton);
-
-                        role.addCommand("kidnapping", new Role.command() {
-                            public boolean kidnacommand = false;
-                            @Override
-                            public void a(String[] args, Player player) {
-                                if (kidnacommand) {
-                                    player.sendMessage("Vous ne pouvez pas faire la commande.");
-                                    return;
-                                }
-                                        Location mercenaireloc = player.getLocation();
-                                        Location axelloc = null;
-
-                                        for(Player axel : InazumaUHC.get.rm.getRole(Axel.class).getPlayers()){
-                                            axelloc = axel.getLocation();
-                                        }
-
-                                        if (axelloc == null){
-
-                                            player.sendMessage(Preset.instance.p.prefixName()+"co axel = null, mort?");
-                                            return;
-
-                                        }
-
-
-                                        if (mercenaireloc.distance(axelloc) /2 <= 15){
-
-                                            kidnacommand = true;
-                                            player.sendMessage(Preset.instance.p.prefixName()+"Axel quiterra Raimon dans 2 minutes.");
-
-                                            Axel r_axel = (Axel) InazumaUHC.get.rm.getRole(Axel.class);
+                Axel axel = (Axel) InazumaUHC.get.rm.getRole(Axel.class);
 
 
 
 
 
-                                                new BukkitRunnable(){
-                                                    @Override
-                                                    public void run(){
+                new BukkitRunnable(){
+                    @Override
+                    public void run(){
 
-                                                        r_axel.setRoleCategory(Solo.class);
+                        boolean hasFound = false;
+
+                        while(!hasFound){
+
+                            ArrayList<Role> alius = new ArrayList<>(InazumaUHC.get.rm.getRoleCategory(Alius.class).getRoles());
+
+                            Collections.shuffle(alius);
+
+                            if (alius.isEmpty()){
+                                return;
+                            }
+
+                            Role role = alius.get(0);
+
+                            if (role.getPlayers().isEmpty()){
+                                alius.remove(role);
+                                continue;
+                            }
 
 
-                                                        ArrayList<Player> players = new ArrayList<>(InazumaUHC.get.getRemainingPlayers());
 
-                                                        list = new ArrayList<>();
+                            Player target = role.getPlayers().get(0);
 
-                                                        Collections.shuffle(players);
+                            InazumaUHC.get.spectatorManager.getPlayers().contains(target);
 
-                                                        for (Player player : players) {
+                            if (InazumaUHC.get.spectatorManager.getPlayers().contains(target)){
+                                alius.remove(role);
+                                continue;
+                            }
 
-                                                            if (r_axel.getPlayers().contains(player) || role.getPlayers().contains(player))
-                                                                continue;
+                            hasFound = true;
 
-                                                            list.add(player);
+                            Bukkit.broadcastMessage("Le mercenaire est : " + role.getPlayers().get(0));
 
-                                                            if (list.size() == 3){
-                                                                break;
-                                                            }
 
-                                                        }
+                            target.sendMessage(Preset.instance.p.prefixName()+" §7Vous êtes le §c§lMercenaire§7 de §d§lJulia§7.");
+                            target.sendMessage(Preset.instance.p.prefixName()+" §7Votre objectif est de faire en sorte qu'§c§lAlex§7 ne soit plus avec §6§lRaimon§7.");
+                            target.sendMessage(" ");
+                            BaseComponent mercenaireButton = new TextComponent("§8- §7Vous avez une commande : " + "§5/kidnapping");
 
-                                                        list.add(player);
+                            BaseComponent mercenaireDesc = new TextComponent();
+                            mercenaireDesc.addExtra("§e- §7[Cooldown de §a10 minutes§7]\n");
+                            mercenaireDesc.addExtra("§e- §9Permet de forcer le départ d'§cAxel Blaze§9 de §6Raimon§9 afin qu'il win solo\n");
+                            mercenaireDesc.addExtra("§c⚠§9 Vous devez être à moins de §515 blocks§9 d'§cAxel Blaze§9 pour effectuer la commande. §c⚠\n");
+                            mercenaireDesc.addExtra("§c⚠ §cAxel§9 aura une liste de pseudo qui baissera quand il tue des joueurs. §c⚠\n");
+                            mercenaireDesc.addExtra("§c⚠§9 S'il participe à votre mort, il reviendra chez §6Raimon§9. §c⚠");
+                            mercenaireButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,mercenaireDesc.getExtra().toArray(new BaseComponent[0])));
+                            //target.spigot().sendMessage(mercenaireButton);
+                            target.sendMessage(" ");
+                            target.sendMessage(mercenaireButton);
+                            role.setRoleToSpoil(Axel.class);
 
-                                                        Collections.shuffle(list);
+                            role.addDescription(mercenaireButton);
 
-                                                        r_axel.addCommand("mercenaire", new Role.command() {
+                            role.addCommand("kidnapping", new Role.command() {
+                                public boolean kidnacommand = false;
+                                @Override
+                                public void a(String[] args, Player player) {
+                                    if (kidnacommand) {
+                                        player.sendMessage("Vous ne pouvez pas faire la commande.");
+                                        return;
+                                    }
+                                    Location mercenaireloc = player.getLocation();
+                                    Location axelloc = null;
 
-                                                            @Override
-                                                            public void a(String[] strings, Player player) {
+                                    for(Player axel : InazumaUHC.get.rm.getRole(Axel.class).getPlayers()){
+                                        axelloc = axel.getLocation();
+                                    }
 
-                                                                player.sendMessage("test");
-                                                                sendList(player);
+                                    if (axelloc == null){
 
-                                                            }
-                                                        });
+                                        player.sendMessage(Preset.instance.p.prefixName()+"co axel = null, mort?");
+                                        return;
 
-                                                        for(Player axel : r_axel.getPlayers()){
+                                    }
 
-                                                        axel.sendMessage(Preset.instance.p.prefixName()+"Votre soeur a était pris en otage, pour quel n'est pas de problème, vous quittez Raimon.");
-                                                        axel.sendMessage(Preset.instance.p.prefixName()+"Si vous espérez re venir dans Raimon, vous devez retrouver et participer à la mort du Mercenaire qui se cache dans la liste suivante :");
-                                                        sendList(axel);
 
-                                                        }
+                                    if (mercenaireloc.distance(axelloc) /2 <= 15){
+
+                                        kidnacommand = true;
+                                        player.sendMessage(Preset.instance.p.prefixName()+"Axel quiterra Raimon dans 2 minutes.");
+
+                                        Axel r_axel = (Axel) InazumaUHC.get.rm.getRole(Axel.class);
+
+
+
+
+
+                                        new BukkitRunnable(){
+                                            @Override
+                                            public void run(){
+
+                                                r_axel.setRoleCategory(Solo.class);
+
+
+                                                ArrayList<Player> players = new ArrayList<>(InazumaUHC.get.getRemainingPlayers());
+
+                                                list = new ArrayList<>();
+
+                                                Collections.shuffle(players);
+
+                                                for (Player player : players) {
+
+                                                    if (r_axel.getPlayers().contains(player) || role.getPlayers().contains(player))
+                                                        continue;
+
+                                                    list.add(player);
+
+                                                    if (list.size() == 3){
+                                                        break;
                                                     }
 
-                                            }.runTaskLaterAsynchronously(InazumaUHC.get, 20*60*2);
+                                                }
+
+                                                list.add(player);
+
+                                                Collections.shuffle(list);
+
+                                                r_axel.addCommand("mercenaire", new Role.command() {
+
+                                                    @Override
+                                                    public void a(String[] strings, Player player) {
+
+                                                        player.sendMessage("test");
+                                                        sendList(player);
+
+                                                    }
+                                                });
+
+                                                for(Player axel : r_axel.getPlayers()){
+
+                                                    axel.sendMessage(Preset.instance.p.prefixName()+"Votre soeur a était pris en otage, pour quel n'est pas de problème, vous quittez Raimon.");
+                                                    axel.sendMessage(Preset.instance.p.prefixName()+"Si vous espérez re venir dans Raimon, vous devez retrouver et participer à la mort du Mercenaire qui se cache dans la liste suivante :");
+                                                    sendList(axel);
+
+                                                }
+                                            }
+
+                                        }.runTaskLaterAsynchronously(InazumaUHC.get, 20*60*2);
 
 
+                                    }
 
-                                        }
 
+                                }
+                            });
 
-                            }
-                        });
+                        }
+
 
                     }
+                }.runTaskLaterAsynchronously(InazumaUHC.get, 20*10);
+
+            }
+
+        }.runTaskLater(InazumaUHC.get, 1);
 
 
 
-
-
-
-                }
-            }.runTaskLaterAsynchronously(InazumaUHC.get, 20*10);
 
 
 
