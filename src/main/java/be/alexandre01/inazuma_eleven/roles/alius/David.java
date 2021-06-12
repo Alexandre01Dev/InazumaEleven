@@ -75,7 +75,9 @@ public class David extends Role implements Listener {
                     public void run() {
                         for(Player target : PlayerUtils.getNearbyPlayersFromPlayer(player,20,20,20))
                         {
-                            if(inazumaUHC.rm.getRole(Caleb.class).getPlayers().contains(target) && inazumaUHC.rm.getRole(Caleb.class) != null)
+                            if(inazumaUHC.rm.getRole(Caleb.class) == null)
+                                break;
+                            if(inazumaUHC.rm.getRole(Caleb.class).getPlayers().contains(target))
                             {
                                 if(player.hasPotionEffect(PotionEffectType.SPEED))
                                 {
