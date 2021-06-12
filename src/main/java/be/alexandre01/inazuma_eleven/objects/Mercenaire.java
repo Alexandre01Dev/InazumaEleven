@@ -40,9 +40,10 @@ public class Mercenaire{
     public void onPvP(){
 
         Axel axel = (Axel) InazumaUHC.get.rm.getRole(Axel.class);;
-        /*if (axel == null){
+
+        if (axel == null){
             return;
-        }*/
+        }
 
 
 
@@ -100,7 +101,6 @@ public class Mercenaire{
                         target.sendMessage(mercenaireButton);
                         role.setRoleToSpoil(Axel.class);
 
-
                         role.addDescription(mercenaireButton);
 
                         role.addCommand("kidnapping", new Role.command() {
@@ -111,89 +111,89 @@ public class Mercenaire{
                                     player.sendMessage("Vous ne pouvez pas faire la commande.");
                                     return;
                                 }
-                                Location mercenaireloc = player.getLocation();
-                                Location axelloc = null;
+                                        Location mercenaireloc = player.getLocation();
+                                        Location axelloc = null;
 
-                                for(Player axel : InazumaUHC.get.rm.getRole(Axel.class).getPlayers()){
-                                    axelloc = axel.getLocation();
-                                }
-
-                                if (axelloc == null){
-
-                                    player.sendMessage(Preset.instance.p.prefixName()+"co axel = null, mort?");
-                                    return;
-
-                                }
-
-
-                                if (mercenaireloc.distance(axelloc) /2 <= 15){
-
-                                    kidnacommand = true;
-                                    player.sendMessage(Preset.instance.p.prefixName()+"Axel quiterra Raimon dans 2 minutes.");
-
-                                    Axel r_axel = (Axel) InazumaUHC.get.rm.getRole(Axel.class);
-
-
-
-                                    new BukkitRunnable(){
-                                        @Override
-                                        public void run(){
-
-                                            r_axel.setRoleCategory(Solo.class);
-
-                                            ArrayList<Player> players = new ArrayList<>(InazumaUHC.get.getRemainingPlayers());
-
-                                            list = new ArrayList<>();
-
-                                            Collections.shuffle(players);
-
-                                            for (Player player : players) {
-
-                                                if (r_axel.getPlayers().contains(player) || role.getPlayers().contains(player))
-                                                    continue;
-
-                                                list.add(player);
-
-                                                if (list.size() == 3){
-                                                    break;
-                                                }
-                                            }
-
-                                            list.add(player);
-
-                                            Collections.shuffle(list);
-
-                                            r_axel.addCommand("mercenaire", new Role.command() {
-
-                                                @Override
-                                                public void a(String[] strings, Player player) {
-
-                                                    player.sendMessage("test");
-                                                    sendList(player);
-
-                                                }
-                                            });
-
-                                            for(Player axel : r_axel.getPlayers()){
-
-                                                axel.sendMessage(Preset.instance.p.prefixName()+"Votre soeur a était pris en otage, pour quel n'est pas de problème, vous quittez Raimon.");
-                                                axel.sendMessage(Preset.instance.p.prefixName()+"Si vous espérez re venir dans Raimon, vous devez retrouver et participer à la mort du Mercenaire qui se cache dans la liste suivante :");
-                                                sendList(axel);
-
-                                            }
+                                        for(Player axel : InazumaUHC.get.rm.getRole(Axel.class).getPlayers()){
+                                            axelloc = axel.getLocation();
                                         }
 
-                                    }.runTaskLaterAsynchronously(InazumaUHC.get, 20*60*2);
+                                        if (axelloc == null){
 
-                                }
+                                            player.sendMessage(Preset.instance.p.prefixName()+"co axel = null, mort?");
+                                            return;
 
-                            }
-                        });
+                                        }
 
-                        axel.addCommand("mercenaire", new Role.command() {
-                            @Override
-                            public void a(String[] strings, Player player) {
-                                sendList(player);
+
+                                        if (mercenaireloc.distance(axelloc) /2 <= 15){
+
+                                            kidnacommand = true;
+                                            player.sendMessage(Preset.instance.p.prefixName()+"Axel quiterra Raimon dans 2 minutes.");
+
+                                            Axel r_axel = (Axel) InazumaUHC.get.rm.getRole(Axel.class);
+
+
+
+
+
+                                                new BukkitRunnable(){
+                                                    @Override
+                                                    public void run(){
+
+                                                        r_axel.setRoleCategory(Solo.class);
+
+
+                                                        ArrayList<Player> players = new ArrayList<>(InazumaUHC.get.getRemainingPlayers());
+
+                                                        list = new ArrayList<>();
+
+                                                        Collections.shuffle(players);
+
+                                                        for (Player player : players) {
+
+                                                            if (r_axel.getPlayers().contains(player) || role.getPlayers().contains(player))
+                                                                continue;
+
+                                                            list.add(player);
+
+                                                            if (list.size() == 3){
+                                                                break;
+                                                            }
+
+                                                        }
+
+                                                        list.add(player);
+
+                                                        Collections.shuffle(list);
+
+                                                        r_axel.addCommand("mercenaire", new Role.command() {
+
+                                                            @Override
+                                                            public void a(String[] strings, Player player) {
+
+                                                                player.sendMessage("test");
+                                                                sendList(player);
+
+                                                            }
+                                                        });
+
+                                                        for(Player axel : r_axel.getPlayers()){
+
+                                                        axel.sendMessage(Preset.instance.p.prefixName()+"Votre soeur a était pris en otage, pour quel n'est pas de problème, vous quittez Raimon.");
+                                                        axel.sendMessage(Preset.instance.p.prefixName()+"Si vous espérez re venir dans Raimon, vous devez retrouver et participer à la mort du Mercenaire qui se cache dans la liste suivante :");
+                                                        sendList(axel);
+
+                                                        }
+                                                    }
+
+                                            }.runTaskLaterAsynchronously(InazumaUHC.get, 20*60*2);
+
+
+
+                                        }
+
+
                             }
                         });
 

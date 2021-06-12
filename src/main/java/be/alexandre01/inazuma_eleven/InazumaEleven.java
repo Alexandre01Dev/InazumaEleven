@@ -72,8 +72,8 @@ public class InazumaEleven extends PresetData implements IPreset{
 
         //INITIALIZE ROLES
 
-        Role.addRoles(Nathan.class,
-                Axel.class,
+        Role.addRoles(Axel.class,
+                Nathan.class,
                 Darren.class,
                 Hurley.class,
                 Jack.class,
@@ -96,8 +96,9 @@ public class InazumaEleven extends PresetData implements IPreset{
                 Gazelle.class,
                 Dvalin.class,
                 David.class,
-                Bellatrix.class,
-                Nero.class
+                Nero.class,
+                Bellatrix.class
+
         );
 
         Role.initializeRoles();
