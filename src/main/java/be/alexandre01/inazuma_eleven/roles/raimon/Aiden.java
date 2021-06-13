@@ -113,6 +113,7 @@ public class Aiden extends Role implements Listener {
 
             }
             else if(shawnKiller != null){
+
                 for(Player player : inazumaUHC.rm.getRole(Aiden.class).getPlayers()){
                     player.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
                     player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS,Integer.MAX_VALUE,0,false,false), true);

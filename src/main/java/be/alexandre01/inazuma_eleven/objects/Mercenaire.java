@@ -54,6 +54,7 @@ public class Mercenaire{
 
 
 
+
                 new BukkitRunnable(){
                     @Override
                     public void run(){
@@ -108,6 +109,7 @@ public class Mercenaire{
                             //target.spigot().sendMessage(mercenaireButton);
                             target.sendMessage(" ");
                             target.sendMessage(mercenaireButton);
+
                             role.setRoleToSpoil(Axel.class);
 
                             role.addDescription(mercenaireButton);
@@ -120,6 +122,7 @@ public class Mercenaire{
                                         player.sendMessage("Vous ne pouvez pas faire la commande.");
                                         return;
                                     }
+
                                     Location mercenaireloc = player.getLocation();
                                     Location axelloc = null;
 
@@ -128,7 +131,6 @@ public class Mercenaire{
                                     }
 
                                     if (axelloc == null){
-
                                         player.sendMessage(Preset.instance.p.prefixName()+"co axel = null, mort?");
                                         return;
 
@@ -143,15 +145,11 @@ public class Mercenaire{
                                         Axel r_axel = (Axel) InazumaUHC.get.rm.getRole(Axel.class);
 
 
-
-
-
                                         new BukkitRunnable(){
                                             @Override
                                             public void run(){
 
                                                 r_axel.setRoleCategory(Solo.class);
-
 
                                                 ArrayList<Player> players = new ArrayList<>(InazumaUHC.get.getRemainingPlayers());
 
@@ -176,6 +174,14 @@ public class Mercenaire{
 
                                                 Collections.shuffle(list);
 
+                                                for(Player axel : r_axel.getPlayers()){
+
+                                                    axel.sendMessage(Preset.instance.p.prefixName()+" Votre soeur a était pris en otage, pour quel n'est pas de problème, vous quittez Raimon.");
+                                                    axel.sendMessage(Preset.instance.p.prefixName()+" Si vous espérez re venir dans Raimon, vous devez retrouver et participer à la mort du Mercenaire qui se cache dans la liste suivante :");
+                                                    sendList(axel);
+
+                                                }
+
                                                 r_axel.addCommand("mercenaire", new Role.command() {
 
                                                     @Override
@@ -187,58 +193,37 @@ public class Mercenaire{
                                                     }
                                                 });
 
-                                                for(Player axel : r_axel.getPlayers()){
-
-                                                    axel.sendMessage(Preset.instance.p.prefixName()+"Votre soeur a était pris en otage, pour quel n'est pas de problème, vous quittez Raimon.");
-                                                    axel.sendMessage(Preset.instance.p.prefixName()+"Si vous espérez re venir dans Raimon, vous devez retrouver et participer à la mort du Mercenaire qui se cache dans la liste suivante :");
-                                                    sendList(axel);
-
-                                                }
                                             }
 
-                                        }.runTaskLaterAsynchronously(InazumaUHC.get, 20*60*2);
-
-
+                                        }.runTaskLater(InazumaUHC.get, 20*60*2);
                                     }
-
-
                                 }
                             });
-
                         }
-
-
                     }
-                }.runTaskLaterAsynchronously(InazumaUHC.get, 20*10);
+                }.runTaskLater(InazumaUHC.get, 20*10);
 
             }
 
         }.runTaskLater(InazumaUHC.get, 1);
+    }
 
-
-
-
-
-
-        }
-
-        private void sendList(Player player){
-
+    private void sendList(Player player){
         StringBuilder sb = new StringBuilder();
 
-            for (int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
 
-                Player target = list.get(i);
+            Player target = list.get(i);
 
-                if(!InazumaUHC.get.getRemainingPlayers().contains(target))
-                    continue;
-                sb.append(target.getName());
-                if (i < list.size()-1){
-                    sb.append(", ");
-                }
+            if(!InazumaUHC.get.getRemainingPlayers().contains(target))
+                continue;
+            sb.append(target.getName());
+            if (i < list.size()-1){
+                sb.append(", ");
             }
-            player.sendMessage("VoICI lA LISte Des joUEurS : ");
-            player.sendMessage(sb.toString());
         }
+        player.sendMessage("VoICI lA LISte Des joUEurS : ");
+        player.sendMessage(sb.toString());
+    }
 
 }

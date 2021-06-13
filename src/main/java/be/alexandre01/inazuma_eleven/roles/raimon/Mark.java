@@ -162,9 +162,8 @@ public class Mark extends Role implements Listener {
                 }.runTaskTimerAsynchronously(InazumaUHC.get, 20*2, 20*2);
 
 
-                }
-                }
-        );
+            }
+        });
 
 
         addCommand("corrupt", new command() {
