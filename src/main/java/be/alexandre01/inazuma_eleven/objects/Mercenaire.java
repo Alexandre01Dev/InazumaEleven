@@ -193,12 +193,15 @@ public class Mercenaire{
                                                     }
                                                 });
 
+                                                r_axel.loadCommands();
+
                                             }
 
                                         }.runTaskLater(InazumaUHC.get, 20*60*2);
                                     }
                                 }
                             });
+                            role.loadCommands();
                         }
                     }
                 }.runTaskLater(InazumaUHC.get, 20*10);

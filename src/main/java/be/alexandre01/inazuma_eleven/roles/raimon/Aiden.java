@@ -83,7 +83,6 @@ public class Aiden extends Role implements Listener {
 
         blizzardEternel.setItemstack(itemBuilder.toItemStack());
         addRoleItem(blizzardEternel);
-        addListener(this);
     }
 
     @EventHandler
