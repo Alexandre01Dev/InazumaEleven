@@ -4,23 +4,29 @@ import be.alexandre01.inazuma.uhc.InazumaUHC;
 import be.alexandre01.inazuma.uhc.custom_events.episode.EpisodeChangeEvent;
 import be.alexandre01.inazuma.uhc.presets.Preset;
 import be.alexandre01.inazuma.uhc.roles.Role;
+import be.alexandre01.inazuma.uhc.roles.RoleItem;
 import be.alexandre01.inazuma.uhc.timers.game.PVPTimer;
 import be.alexandre01.inazuma.uhc.timers.utils.DateBuilderTimer;
 import be.alexandre01.inazuma.uhc.timers.utils.MSToSec;
 import be.alexandre01.inazuma.uhc.utils.CustomComponentBuilder;
 import be.alexandre01.inazuma.uhc.utils.Episode;
+import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
 import be.alexandre01.inazuma.uhc.utils.TitleUtils;
 import be.alexandre01.inazuma_eleven.categories.Alius;
 import be.alexandre01.inazuma_eleven.categories.Raimon;
 import be.alexandre01.inazuma_eleven.categories.Solo;
+import be.alexandre01.inazuma_eleven.roles.alius.Gazelle;
 import be.alexandre01.inazuma_eleven.roles.alius.Torch;
 import be.alexandre01.inazuma_eleven.roles.raimon.Aiden;
 import be.alexandre01.inazuma_eleven.roles.raimon.Axel;
+import be.alexandre01.inazuma_eleven.roles.raimon.Jude;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.minecraft.server.v1_8_R3.Tuple;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -180,6 +186,19 @@ public class Mercenaire{
                                                     axel.sendMessage(Preset.instance.p.prefixName()+" Si vous espérez re venir dans Raimon, vous devez retrouver et participer à la mort du Mercenaire qui se cache dans la liste suivante :");
                                                     sendList(axel);
 
+
+                                                    RoleItem TempeteDeFeu = new RoleItem();
+                                                    TempeteDeFeu.setItemstack(new ItemBuilder(Material.NETHER_STAR).setName("Tempête de Feu").toItemStack());
+                                                    TempeteDeFeu.deployVerificationsOnRightClick(TempeteDeFeu.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
+                                                    TempeteDeFeu.setRightClick(player -> {
+                                                        player.sendMessage(Preset.instance.p.prefixName()+" Vpus venez d'activer votre Tornade de Feu.");
+
+                                                    });
+                                                    r_axel.addRoleItem(TempeteDeFeu);;
+
+
+
+
                                                 }
 
                                                 r_axel.addCommand("mercenaire", new Role.command() {
@@ -187,7 +206,6 @@ public class Mercenaire{
                                                     @Override
                                                     public void a(String[] strings, Player player) {
 
-                                                        player.sendMessage("test");
                                                         sendList(player);
 
                                                     }
@@ -225,7 +243,7 @@ public class Mercenaire{
                 sb.append(", ");
             }
         }
-        player.sendMessage("VoICI lA LISte Des joUEurS : ");
+        player.sendMessage(Preset.instance.p.prefixName()+" Voici la liste des joueurs dans laquelle se trouve le Mercenaire : ");
         player.sendMessage(sb.toString());
     }
 
