@@ -122,7 +122,7 @@ public class Kim extends Role implements Listener {
         ItemBuilder healAlius = new ItemBuilder(Material.DIAMOND_SWORD).setName("Heal");
         healAlius.setUnbreakable();
         healSword.setItemstack(healAlius.toItemStack());
-
+        healSword.deployVerificationsOnRightClick(healSword.generateVerification(new Tuple<>(RoleItem.VerificationType.COOLDOWN,10)));
 
         healSword.setRightClick(player -> {
 
@@ -133,22 +133,19 @@ public class Kim extends Role implements Listener {
                 }
                 if (player.getHealth()+2 > player.getMaxHealth()){
                     player.setHealth(player.getHealth());
-                    healSword.deployVerificationsOnRightClick(healSword.generateVerification(new Tuple<>(RoleItem.VerificationType.COOLDOWN,10)));
+
                     player.sendMessage(Preset.instance.p.prefixName()+" Vous vous êtes regen de 1 coeur ");
                     points = points - 10;
                     return;
                 }
                 if (player.getHealth()+2 < player.getMaxHealth()){
                     player.sendMessage(Preset.instance.p.prefixName()+" Vous vous êtes regen de 1 coeur ");
-                    healSword.deployVerificationsOnRightClick(healSword.generateVerification(new Tuple<>(RoleItem.VerificationType.COOLDOWN,10)));
                     player.setHealth(player.getHealth()+2);
                     points = points - 10;
-                    return;
                 }
             }
-            else if(points<10){
+            else{
                 player.sendMessage(Preset.instance.p.prefixName()+"Il vous faut minimum 10% pour vous healh.");
-                return;
             }
         });
         addRoleItem(healSword);
@@ -191,85 +188,74 @@ public class Kim extends Role implements Listener {
                 if(role.getClass().equals(Kim.class)){
                     if(!isValidItem(kim.getItemInHand()))
                         return;
+
                     if(kim.getItemInHand().hasItemMeta() && kim.getItemInHand().getItemMeta().hasDisplayName()){
                         if(kim.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase("Vol")) {
                             if(points>=100){
                                 kim.sendMessage(Preset.instance.p.prefixName()+" Votre Heal Sword est remplit.");
-                                return;
                             }
                             else{
                                 points = points +5;
-                                return;
                             }
                         }
                         else if(kim.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase("Heal")) {
                             event.setDamage(0);
                             if(points>=10){
                                 if (damaged.getHealth() >= damaged.getMaxHealth()){
-                                    kim.sendMessage(Preset.instance.p.prefixName()+" Vous ne pouvez pas heal" + damaged.getCustomName() + " car il est full hp.");
+                                    kim.sendMessage(Preset.instance.p.prefixName()+" Vous ne pouvez pas heal" + damaged.getCustomName() + " car il est full vie.");
                                     return;
                                 }
                                 if (timer == 0){
-                                    if (damaged.getHealth()+2 > damaged.getMaxHealth()){
-                                        damaged.setHealth(damaged.getHealth());
-                                        kim.sendMessage(Preset.instance.p.prefixName()+" Vous avez regen " + damaged.getCustomName() + " de 1 coeur.");
+                                    if (damaged.getHealth() + 2 > damaged.getMaxHealth()){
+                                        damaged.setHealth(damaged.getMaxHealth());
+                                        kim.sendMessage(Preset.instance.p.prefixName()+" Vous avez mis full vie " + damaged.getName() + ".");
                                         damaged.sendMessage(Preset.instance.p.prefixName()+" Kim Powell vous a heal.");
                                         points = points - 10;
 
-                                        new BukkitRunnable() {
-                                            @Override
-                                            public void run() {
-                                                timer = timer +5;
-
-                                            }
-                                        }.runTaskLaterAsynchronously(inazumaUHC, 20*5);
+                                        timer = 5;
 
                                         new BukkitRunnable() {
                                             @Override
                                             public void run() {
 
-                                                if(timer==0){
+                                                Bukkit.broadcastMessage("plein de fois");
+                                                timer--;
+                                                if(timer == 0){
                                                     cancel();
+                                                    Bukkit.broadcastMessage(String.valueOf(timer));
                                                 }
 
-                                                timer = timer - 1;
                                             }
                                         }.runTaskTimerAsynchronously(inazumaUHC, 20, 20);
-                                        return;
                                     }
-                                    if (damaged.getHealth()+2 < damaged.getMaxHealth()){
-                                        kim.sendMessage(Preset.instance.p.prefixName()+" Vous avez regen " + damaged.getCustomName() + " de 1 coeur.");
-                                        damaged.sendMessage(Preset.instance.p.prefixName()+" Kim Powell vous a heal.");
-                                        damaged.setHealth(damaged.getHealth()+2);
+                                    else {
+                                        kim.sendMessage(Preset.instance.p.prefixName()+" Vous avez regen le monsieur qui est :  " + damaged.getName() + " de 1 coeur.");
+                                        damaged.sendMessage(Preset.instance.p.prefixName()+" Kim Powell vous a gentilement heal.");
+                                        damaged.setHealth(damaged.getHealth() + 2);
                                         points = points - 10;
 
-                                        new BukkitRunnable() {
-                                            @Override
-                                            public void run() {
-                                                timer = timer +5;
-                                            }
-                                        }.runTaskLaterAsynchronously(inazumaUHC, 20*5);
+                                        timer = 5;
 
                                         new BukkitRunnable() {
                                             @Override
                                             public void run() {
 
-                                                if(timer==0){
+                                                Bukkit.broadcastMessage("plein de fois");
+                                                timer--;
+                                                if(timer == 0){
                                                     cancel();
+                                                    Bukkit.broadcastMessage(String.valueOf(timer));
                                                 }
-                                                timer = timer - 1;
                                             }
                                         }.runTaskTimerAsynchronously(inazumaUHC, 20, 20);
-                                        return;
                                     }
                                 }
                                 else if(timer>0){
                                     kim.sendMessage(Preset.instance.p.prefixName()+" Merci d'attendre " + timer + " secondes avant de heal un joueur.");
                                 }
                             }
-                            else if(points<10){
+                            else{
                                 kim.sendMessage(Preset.instance.p.prefixName()+"Il vous faut minimum 10% pour heal un joueur.");
-                                return;
                             }
 
                         }
