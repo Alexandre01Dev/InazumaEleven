@@ -47,6 +47,7 @@ public class Kim extends Role implements Listener {
     private int damage = 0;
     private int points = damage;
     private Scoreboard score = null;
+    private boolean cooldown = false;
     private HashMap<Player,Long> playersTag;
 
 
@@ -125,22 +126,8 @@ public class Kim extends Role implements Listener {
         ItemBuilder healAlius = new ItemBuilder(Material.DIAMOND_SWORD).setName("Heal");
         healAlius.setUnbreakable();
         healSword.setItemstack(healAlius.toItemStack());
-        healSword.setRightClickOnPlayer(10,(player, rightClicked) -> {
+        healSword.deployVerificationsOnRightClick(healSword.generateVerification(new Tuple<>(RoleItem.VerificationType.COOLDOWN,5)));
 
-            int damage = points;
-
-            if(damage>=10){
-                player.sendMessage(Preset.instance.p.prefixName()+" Vous avez regen de 1 coeur " + rightClicked.getName());
-                rightClicked.sendMessage(Preset.instance.p.prefixName()+ "Kim Powell vous a heal.");
-                rightClicked.setHealth(rightClicked.getHealth()+2);
-                points = points - 10;
-                healSword.deployVerificationsOnRightClick(healSword.generateVerification(new Tuple<>(RoleItem.VerificationType.COOLDOWN,5)));
-            }
-            else if(damage<10){
-                player.sendMessage(Preset.instance.p.prefixName()+"Il vous faut minimum 10% pour healh un joueur.");
-            }
-
-        });
 
         //healSword.setRightClick(player -> {
 
@@ -157,12 +144,6 @@ public class Kim extends Role implements Listener {
 
         //});
         addRoleItem(healSword);
-
-
-
-
-
-
 
     }
 
@@ -199,21 +180,47 @@ public class Kim extends Role implements Listener {
 
         if(event.getDamager() instanceof Player && event.getEntity() instanceof Player){
             Player kim = (Player) event.getDamager();
+            Player damaged = (Player) event.getEntity();
             Role role = inazumaUHC.rm.getRole(kim);
             if(role != null){
                 if(role.getClass().equals(Kim.class)){
                     if(!isValidItem(kim.getItemInHand()))
                         return;
-                    if(kim.getItemInHand().hasItemMeta() && kim.getItemInHand().getItemMeta().hasDisplayName() && kim.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase("Vol")){
+                    if(kim.getItemInHand().hasItemMeta() && kim.getItemInHand().getItemMeta().hasDisplayName()){
+                        if(kim.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase("Vol"))
+                        {
+                            if(damage>=100){
+                                kim.sendMessage(Preset.instance.p.prefixName()+" Votre Heal Sword est remplit.");
+                                return;
+                            }
+                            else{
+                                points = points +5;
+                                return;
+                            }
+                        }
+                        else if(kim.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase("Heal") && !cooldown)
+                        {
+                            cooldown = true;
+                            if(damage>=10){
+                                kim.sendMessage(Preset.instance.p.prefixName()+" Vous avez regen de 1 coeur " + damaged.getName());
+                                damaged.sendMessage(Preset.instance.p.prefixName()+ "Kim Powell vous a heal.");
+                                damaged.setHealth(damaged.getHealth()+2);
+                                points = points - 10;
+                            }
+                            else{
+                                kim.sendMessage(Preset.instance.p.prefixName()+"Il vous faut minimum 10% pour healh un joueur.");
+                            }
 
-                        if(damage>=100){
-                            kim.sendMessage(Preset.instance.p.prefixName()+" Votre Heal Sword est remplit.");
-                            return;
+                            new BukkitRunnable() {
+                                @Override
+                                public void run() {
+                                    cooldown = false;
+                                }
+                            }.runTaskLaterAsynchronously(inazumaUHC, 20*5);
+
                         }
-                        else if (damage<100){
-                            points = points +5;
-                            return;
-                        }
+
+
                     }
                 }
             }
