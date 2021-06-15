@@ -159,7 +159,7 @@ public class Mark extends Role implements Listener {
                             TitleUtils.sendActionBar(player,"§7§lEntrainement §7Terminé");
                         }
                     }
-                }.runTaskTimerAsynchronously(InazumaUHC.get, 20*2, 20*2);
+                }.runTaskTimerAsynchronously(InazumaUHC.get, 20*1, 20*1);
 
 
             }

@@ -71,7 +71,7 @@ public class Axel extends Role implements Listener {
 
         roleItem.setRightClick(player -> {
             player.sendMessage(Preset.instance.p.prefixName()+" Vous venez d'utiliser la §4§lTornade §c§lDe §4§lFeu§7.");
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 90*20, 1,false,false), true);
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 90*20, 0,false,false), true);
         });
         addRoleItem(roleItem);
     }
@@ -86,7 +86,7 @@ public class Axel extends Role implements Listener {
                     @Override
                     public void run(){
 
-                        killer.sendMessage(Preset.instance.p.prefixName()+" Tu reçois une pomme en or");
+                        killer.sendMessage(Preset.instance.p.prefixName()+" Vous recevez une pomme d'or supplémentaire pour avoir fait un kill.");
 
                     }
 

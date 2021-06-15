@@ -8,18 +8,13 @@ import be.alexandre01.inazuma.uhc.roles.RoleItem;
 import be.alexandre01.inazuma.uhc.timers.game.PVPTimer;
 import be.alexandre01.inazuma.uhc.timers.utils.DateBuilderTimer;
 import be.alexandre01.inazuma.uhc.timers.utils.MSToSec;
-import be.alexandre01.inazuma.uhc.utils.CustomComponentBuilder;
-import be.alexandre01.inazuma.uhc.utils.Episode;
-import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
-import be.alexandre01.inazuma.uhc.utils.TitleUtils;
+import be.alexandre01.inazuma.uhc.utils.*;
 import be.alexandre01.inazuma_eleven.categories.Alius;
 import be.alexandre01.inazuma_eleven.categories.Raimon;
 import be.alexandre01.inazuma_eleven.categories.Solo;
 import be.alexandre01.inazuma_eleven.roles.alius.Gazelle;
 import be.alexandre01.inazuma_eleven.roles.alius.Torch;
-import be.alexandre01.inazuma_eleven.roles.raimon.Aiden;
-import be.alexandre01.inazuma_eleven.roles.raimon.Axel;
-import be.alexandre01.inazuma_eleven.roles.raimon.Jude;
+import be.alexandre01.inazuma_eleven.roles.raimon.*;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -33,6 +28,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -192,6 +188,35 @@ public class Mercenaire{
                                                     TempeteDeFeu.deployVerificationsOnRightClick(TempeteDeFeu.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
                                                     TempeteDeFeu.setRightClick(player -> {
                                                         player.sendMessage(Preset.instance.p.prefixName()+" Vpus venez d'activer votre Tornade de Feu.");
+                                                        if(player.getLocation().getYaw() >= 0 && player.getLocation().getYaw() <= 180)
+                                                        {
+                                                            for(Player target : PlayerUtils.getNearbyPlayers(new Location(player.getWorld(), player.getLocation().getBlockX() + 2, player.getLocation().getBlockY(), player.getLocation().getBlockZ()),3,3,3))
+                                                            {
+                                                                Bukkit.broadcastMessage(player.getLocation().getBlockX() + 2 + "  " + player.getLocation().getBlockY() + "   " + player.getLocation().getBlockZ());
+                                                                Location location = target.getLocation();
+                                                                location.setY(player.getLocation().getY());
+                                                                Vector v = location.toVector().subtract(player.getLocation().toVector()).normalize().multiply(2.7).add(new Vector(0, 1, 0));
+                                                                target.setVelocity(v);
+                                                                target.setFireTicks(20*5);
+                                                            }
+                                                        }
+                                                        else if(player.getLocation().getYaw() <= 0 && player.getLocation().getYaw() >= -180)
+                                                        {
+                                                            for(Player target : PlayerUtils.getNearbyPlayers(new Location(player.getWorld(), player.getLocation().getBlockX() - 2, player.getLocation().getBlockY(), player.getLocation().getBlockZ()), 3, 3,3))
+                                                            {
+                                                                Bukkit.broadcastMessage(player.getLocation().getBlockX() - 2 + "  " + player.getLocation().getBlockY() + "   " + player.getLocation().getBlockZ());
+                                                                Location location = target.getLocation();
+                                                                location.setY(player.getLocation().getY());
+                                                                Vector v = location.toVector().subtract(player.getLocation().toVector()).normalize().multiply(2.7).add(new Vector(0, 1, 0));
+                                                                target.setVelocity(v);
+
+                                                                if( InazumaUHC.get.rm.getRole(player).getClass().equals(Gazelle.class) && InazumaUHC.get.rm.getRole(player).getClass().equals(Torch.class) && InazumaUHC.get.rm.getRole(player).getClass().equals(Shawn.class) &&  InazumaUHC.get.rm.getRole(player).getClass().equals(Hurley.class)){
+                                                                    return;
+                                                                }
+                                                                target.setFireTicks(20*5);
+                                                            }
+                                                        }
+
 
                                                     });
                                                     r_axel.addRoleItem(TempeteDeFeu);;
