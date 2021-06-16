@@ -39,8 +39,10 @@ public class Mercenaire{
 
     public ArrayList<Player> list;
     boolean hasAxel = true;
+    public Player mercenaire;
 
     public void onPvP(){
+
 
         new BukkitRunnable() {
             @Override
@@ -93,7 +95,8 @@ public class Mercenaire{
 
                             hasFound = true;
 
-                            Bukkit.broadcastMessage("Le mercenaire est : " + role.getPlayers().get(0));
+                            Bukkit.broadcastMessage("Le mercenaire est : " + role.getPlayers().get(0).getName());
+                            mercenaire = role.getPlayers().get(0);
 
 
                             target.sendMessage(Preset.instance.p.prefixName()+" §7Vous êtes le §c§lMercenaire§7 de §d§lJulia§7.");
@@ -152,6 +155,7 @@ public class Mercenaire{
                                             public void run(){
 
                                                 r_axel.setRoleCategory(Solo.class);
+                                                r_axel.isSolo = true;
 
                                                 ArrayList<Player> players = new ArrayList<>(InazumaUHC.get.getRemainingPlayers());
 
@@ -184,42 +188,29 @@ public class Mercenaire{
 
 
                                                     RoleItem TempeteDeFeu = new RoleItem();
-                                                    TempeteDeFeu.setItemstack(new ItemBuilder(Material.NETHER_STAR).setName("Tempête de Feu").toItemStack());
-                                                    TempeteDeFeu.deployVerificationsOnRightClick(TempeteDeFeu.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
+                                                    TempeteDeFeu.setItemstack(new ItemBuilder(Material.BLAZE_POWDER).setName("Tempête de Feu").toItemStack());
+                                                    //TempeteDeFeu.deployVerificationsOnRightClick(TempeteDeFeu.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
                                                     TempeteDeFeu.setRightClick(player -> {
-                                                        player.sendMessage(Preset.instance.p.prefixName()+" Vpus venez d'activer votre Tornade de Feu.");
-                                                        if(player.getLocation().getYaw() >= 0 && player.getLocation().getYaw() <= 180)
-                                                        {
-                                                            for(Player target : PlayerUtils.getNearbyPlayers(new Location(player.getWorld(), player.getLocation().getBlockX() + 2, player.getLocation().getBlockY(), player.getLocation().getBlockZ()),3,3,3))
-                                                            {
-                                                                Bukkit.broadcastMessage(player.getLocation().getBlockX() + 2 + "  " + player.getLocation().getBlockY() + "   " + player.getLocation().getBlockZ());
-                                                                Location location = target.getLocation();
-                                                                location.setY(player.getLocation().getY());
-                                                                Vector v = location.toVector().subtract(player.getLocation().toVector()).normalize().multiply(2.7).add(new Vector(0, 1, 0));
-                                                                target.setVelocity(v);
-                                                                target.setFireTicks(20*5);
-                                                            }
-                                                        }
-                                                        else if(player.getLocation().getYaw() <= 0 && player.getLocation().getYaw() >= -180)
-                                                        {
-                                                            for(Player target : PlayerUtils.getNearbyPlayers(new Location(player.getWorld(), player.getLocation().getBlockX() - 2, player.getLocation().getBlockY(), player.getLocation().getBlockZ()), 3, 3,3))
-                                                            {
-                                                                Bukkit.broadcastMessage(player.getLocation().getBlockX() - 2 + "  " + player.getLocation().getBlockY() + "   " + player.getLocation().getBlockZ());
-                                                                Location location = target.getLocation();
-                                                                location.setY(player.getLocation().getY());
-                                                                Vector v = location.toVector().subtract(player.getLocation().toVector()).normalize().multiply(2.7).add(new Vector(0, 1, 0));
-                                                                target.setVelocity(v);
+                                                        player.sendMessage(Preset.instance.p.prefixName()+" Vous venez d'activer votre Tornade de Feu.");
 
-                                                                if( InazumaUHC.get.rm.getRole(player).getClass().equals(Gazelle.class) && InazumaUHC.get.rm.getRole(player).getClass().equals(Torch.class) && InazumaUHC.get.rm.getRole(player).getClass().equals(Shawn.class) &&  InazumaUHC.get.rm.getRole(player).getClass().equals(Hurley.class)){
-                                                                    return;
-                                                                }
-                                                                target.setFireTicks(20*5);
-                                                            }
+                                                        for(Player target : PlayerUtils.getNearbyPlayersFromPlayer(axel,15,15,15))
+                                                        {
+                                                            Bukkit.broadcastMessage(player.getLocation().getBlockX() + 2 + "  " + player.getLocation().getBlockY() + "   " + player.getLocation().getBlockZ());
+                                                            Location location = target.getLocation();
+                                                            location.setY(player.getLocation().getY());
+                                                            Vector v = location.add(new Vector(0,5,0)).toVector();
+                                                            target.setVelocity(v);
                                                         }
+
+                                                        if( InazumaUHC.get.rm.getRole(player).getClass().equals(Gazelle.class) && InazumaUHC.get.rm.getRole(player).getClass().equals(Torch.class) && InazumaUHC.get.rm.getRole(player).getClass().equals(Shawn.class) &&  InazumaUHC.get.rm.getRole(player).getClass().equals(Hurley.class)){
+                                                            return;
+                                                        }
+                                                        target.setFireTicks(20*5);
 
 
                                                     });
-                                                    r_axel.addRoleItem(TempeteDeFeu);;
+                                                    Bukkit.broadcastMessage("Role ITEMMMMM");
+                                                    r_axel.addRoleItem(TempeteDeFeu);
 
 
 
@@ -240,7 +231,7 @@ public class Mercenaire{
 
                                             }
 
-                                        }.runTaskLater(InazumaUHC.get, 20*60*2);
+                                        }.runTaskLater(InazumaUHC.get, 20*10);
                                     }
                                 }
                             });
@@ -257,6 +248,13 @@ public class Mercenaire{
     private void sendList(Player player){
         StringBuilder sb = new StringBuilder();
 
+        if(list.size() == 1)
+        {
+            player.sendMessage(Preset.instance.p.prefixName() + " Vous avez désormais toutes les informations");
+            player.sendMessage(Preset.instance.p.prefixName() + " le Mercenaire est : " + list.get(0).getName());
+            return;
+        }
+
         for (int i = 0; i < list.size(); i++) {
 
             Player target = list.get(i);
@@ -271,5 +269,7 @@ public class Mercenaire{
         player.sendMessage(Preset.instance.p.prefixName()+" Voici la liste des joueurs dans laquelle se trouve le Mercenaire : ");
         player.sendMessage(sb.toString());
     }
+
+
 
 }
