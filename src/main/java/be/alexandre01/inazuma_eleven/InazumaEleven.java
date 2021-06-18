@@ -97,6 +97,7 @@ public class InazumaEleven extends PresetData implements IPreset{
                 Dvalin.class,
                 David.class,
                 Nero.class,
+                Kim.class,
                 Bellatrix.class
 
         );

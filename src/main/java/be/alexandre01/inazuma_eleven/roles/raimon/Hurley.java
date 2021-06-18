@@ -15,11 +15,15 @@ import be.alexandre01.inazuma_eleven.categories.Raimon;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.MobEffectList;
+import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import net.minecraft.server.v1_8_R3.Tuple;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_8_R3.potion.CraftPotionEffectType;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -29,6 +33,9 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Hurley extends Role implements Listener {
 
     Player nearestPlayer = null;
@@ -36,6 +43,7 @@ public class Hurley extends Role implements Listener {
     int i = 0;
     BukkitTask darrenTask;
     BukkitTask playerTask;
+    BukkitTask particleTask;
 
     public Hurley(IPreset preset) {
         super("Hurley Kane",preset);
@@ -80,7 +88,11 @@ public class Hurley extends Role implements Listener {
         //roleItem.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.USAGES, 1)));
         roleItem.setRightClick(player -> {
             nearestPlayer = PlayerUtils.getNearestPlayerInSight(player, 500);
-            Bukkit.broadcastMessage(nearestPlayer.getName());
+            if(nearestPlayer != null)
+            {
+                Bukkit.broadcastMessage(nearestPlayer.getName());
+            }
+
             Location location = player.getLocation();
 
             new BukkitRunnable() {
@@ -88,6 +100,7 @@ public class Hurley extends Role implements Listener {
                 public void run() {
                     darrenTask.cancel();
                     playerTask.cancel();
+                    particleTask.cancel();
                 }
             }.runTaskLaterAsynchronously(inazumaUHC, 20*20);
 
@@ -111,7 +124,7 @@ public class Hurley extends Role implements Listener {
             playerTask = new BukkitRunnable() {
                 @Override
                 public void run() {
-                    if(inazumaUHC.rm.getRole(nearestPlayer) instanceof Darren)
+                    if(nearestPlayer != null && inazumaUHC.rm.getRole(nearestPlayer) instanceof Darren)
                     {
                         i = 0;
                         for(Player nearbyPlayer : PlayerUtils.getNearbyPlayers(location, 9,9,9))
@@ -168,6 +181,32 @@ public class Hurley extends Role implements Listener {
 
                 }
             }.runTaskTimerAsynchronously(inazumaUHC,1,20*3);
+
+
+            /*World world = player.getLocation().getWorld();
+
+            double minX, maxX, minY, maxY, minZ, maxZ;
+            minX = location.getX() - 9;
+            maxX = location.getX() + 9;
+            minY = location.getY() - 9;
+            maxY = location.getY() + 9;
+            minZ = location.getZ() - 9;
+            maxZ = location.getZ() + 9;*/
+
+
+            particleTask = new BukkitRunnable() {
+                @Override
+                public void run() {
+                    for (Location particle : getHollowCube(location.clone().add(9,5,9), location.clone().subtract(9,5,9))) {
+
+                        PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(EnumParticle.DRIP_WATER,true, (float) (particle.getX()), (float) (particle.getY()), (float) (particle.getZ()), 0, 0, 0, 0, 1);
+
+                        for(Player online : Bukkit.getOnlinePlayers()) {
+                            ((CraftPlayer) online).getHandle().playerConnection.sendPacket(packet);
+                        }
+                    }
+                }
+            }.runTaskTimerAsynchronously(inazumaUHC, 1, 5);
 
 
 
@@ -229,4 +268,32 @@ public class Hurley extends Role implements Listener {
             });
         addRoleItem(depthItem);
     }
+
+    public List<Location> getHollowCube(Location corner1, Location corner2) {
+        List<Location> result = new ArrayList<Location>();
+        World world = corner1.getWorld();
+        double minX = Math.min(corner1.getX(), corner2.getX());
+        double minY = Math.min(corner1.getY(), corner2.getY());
+        double minZ = Math.min(corner1.getZ(), corner2.getZ());
+        double maxX = Math.max(corner1.getX(), corner2.getX());
+        double maxY = Math.max(corner1.getY(), corner2.getY());
+        double maxZ = Math.max(corner1.getZ(), corner2.getZ());
+
+        for (double x = minX; x <= maxX; x++) {
+            for (double y = minY; y <= maxY; y++) {
+                for (double z = minZ; z <= maxZ; z++) {
+                    int components = 0;
+                    if (x == minX || x == maxX) components++;
+                    if (y == minY || y == maxY) components++;
+                    if (z == minZ || z == maxZ) components++;
+                    if (components >= 2) {
+                        result.add(new Location(world, x, y, z));
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
 }
