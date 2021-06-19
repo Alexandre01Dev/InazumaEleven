@@ -37,7 +37,7 @@ public class GameScoreboard {
 
                 @Override
                 public void lines(String ip, ObjectiveSign objectiveSign) {
-                    objectiveSign.setDisplayName("§8»§3§lInazuma§8§l-§3§lEleven§8«");
+                    objectiveSign.setDisplayName("§8»§3§lInazuma §3§lEleven§8 §c§lV1«");
 
                     objectiveSign.setLine(4,    "§8§m*----§7§m--§f§lINFOS§7§m--§8§m----*");
                     objectiveSign.setLine(5,"§7Episode §l» §e"+ Episode.getEpisode());
