@@ -12,17 +12,21 @@ import be.alexandre01.inazuma.uhc.utils.Episode;
 import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
 import be.alexandre01.inazuma_eleven.InazumaEleven;
 import be.alexandre01.inazuma_eleven.categories.Alius;
+import be.alexandre01.inazuma_eleven.objects.MeteorEntity;
 import be.alexandre01.inazuma_eleven.roles.raimon.Jude;
 import lombok.Setter;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.minecraft.server.v1_8_R3.Tuple;
+import net.minecraft.server.v1_8_R3.World;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -36,6 +40,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 public class Xavier extends Role implements Listener {
     private int i = 0;
@@ -83,6 +88,11 @@ public class Xavier extends Role implements Listener {
                     inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.INCREASE_DAMAGE,1,110);
                     player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Integer.MAX_VALUE, 0,false,false), true);
             }
+        });
+        addCommand("mr",(args, player) -> {
+            MeteorEntity meteorEntity = MeteorEntity.spawn(player.getLocation());
+            CraftEntity craftEntity = meteorEntity.getBukkitEntity();
+            craftEntity.setVelocity(new Vector(0,-1,0));
         });
         inventory = ((InazumaEleven)preset).getBallonInv().toInventory();
         RoleItem roleItem = new RoleItem();
@@ -267,7 +277,7 @@ public class Xavier extends Role implements Listener {
                 Player player = (Player) projectileSource;
 
                 if (getPlayers().contains(player)) {
-
+                    meteorDestruction(arrow.getLocation());
                 }
             }
         }
@@ -277,8 +287,17 @@ public class Xavier extends Role implements Listener {
     public void onCollisionWithEntity(EntityDamageByEntityEvent event){
 
     }
+    public void spawnMeteor(Location location){
 
+    }
     public void meteorDestruction(Location location){
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                World world = ((CraftWorld)location.getWorld()).getHandle();
 
+                world.createExplosion(null,1,1,1,1,true,true);
+            }
+        }.runTaskLaterAsynchronously(inazumaUHC,20*5);
     }
 }
