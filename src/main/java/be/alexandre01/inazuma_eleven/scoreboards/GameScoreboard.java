@@ -39,22 +39,22 @@ public class GameScoreboard {
                 public void lines(String ip, ObjectiveSign objectiveSign) {
                     objectiveSign.setDisplayName("§8»§3§lInazuma §3§lEleven§8 §c§lV1«");
 
-                    objectiveSign.setLine(4,    "§8§m*----§7§m--§f§lINFOS§7§m--§8§m----*");
-                    objectiveSign.setLine(5,"§7Episode §l» §e"+ Episode.getEpisode());
-                    objectiveSign.setLine(6, "§7Joueurs §l» §e" + InazumaUHC.get.getRemainingPlayers().size());
-                    objectiveSign.setLine(7,    "§r§8§m*----§7§m--§f§lTIMERS§7§m--§8§m----*");
+                    objectiveSign.setLine(4,    "§8§m*------§f§lINFOS§8§m------");
+                    objectiveSign.setLine(5,"§7Episode §f§l» §e"+ Episode.getEpisode());
+                    objectiveSign.setLine(6, "§7Joueurs §f§l» §e" + InazumaUHC.get.getRemainingPlayers().size());
+                    objectiveSign.setLine(7,    "§r§8§m*------§f§lTIMERS§8§m------");
                     objectiveSign.setLine(8, "§7Temps §f§l» §e" + inazuma.totalTimeValue);
                     objectiveSign.setLine(9, "§7PvP §f§l» §e" + inazuma.pvpValue);
                     if(inazuma.hasNether()){
                         objectiveSign.setLine(10,"§7Meetup §f§l» §e" + inazuma.netherValue);
                     }
                     objectiveSign.setLine(11,"§7"+inazuma.bordureText+" §l» §e" + inazuma.bordureValue);
-                    objectiveSign.setLine(17,    "§8§m*----§7§m--§f§lBORDURES§7§m--§8§m----*");
+                    objectiveSign.setLine(17,    "§8§m*------§f§lBORDURES§8§m------");
                     World world = player.getWorld();
                     int borderSize = (int) world.getWorldBorder().getSize() /2;
                     objectiveSign.setLine(18,"§7Bordure §l» §e-"+ borderSize+"§7/§e"+borderSize);
                     objectiveSign.setLine(19,"§7Centre §l» §e "+ inazuma.getArrows().get(player.getUniqueId()));
-                    objectiveSign.setLine(17,    "§8§m*----§7§m--§7§m--§8§m----*");
+                    objectiveSign.setLine(20,    "§8§m*------------");
                     objectiveSign.setLine(22, ip);
 
                     objectiveSign.updateLines();
