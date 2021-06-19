@@ -39,17 +39,17 @@ public class GameScoreboard {
                 public void lines(String ip, ObjectiveSign objectiveSign) {
                     objectiveSign.setDisplayName("§3§lInazuma §3§lEleven§8 §c§lV1");
 
-                    objectiveSign.setLine(4,    "§8§m------§f§lInfos§8§m------");
-                    objectiveSign.setLine(5, "§7Temps §f§l» §e" + inazuma.totalTimeValue);
-                    objectiveSign.setLine(6,"§7Episode §f§l» §e"+ Episode.getEpisode());
-                    objectiveSign.setLine(7, "§7Joueurs §f§l» §e" + InazumaUHC.get.getRemainingPlayers().size());
-                    objectiveSign.setLine(8,    "§r§8§m------§f§lTemps§8§m------");
+                    objectiveSign.setLine(4,    "§l§8»§f§lInfos§l§8«");
+                    objectiveSign.setLine(5,"§7Episode §f§l» §e"+ Episode.getEpisode());
+                    objectiveSign.setLine(6, "§7Joueurs §f§l» §e" + InazumaUHC.get.getRemainingPlayers().size());
+                    objectiveSign.setLine(7,    "§l§8»§f§lTimer§l§8«");
+                    objectiveSign.setLine(8, "§7Temps §f§l» §e" + inazuma.totalTimeValue);
                     objectiveSign.setLine(9, "§7PvP §f§l» §e" + inazuma.pvpValue);
                     if(inazuma.hasNether()){
                         objectiveSign.setLine(10,"§7Meetup §f§l» §e" + inazuma.netherValue);
                     }
                     objectiveSign.setLine(11,"§7Meetup §f§l» §e" + inazuma.bordureValue);
-                    objectiveSign.setLine(17,    "§8§m------§f§lMeetup§8§m------");
+                    objectiveSign.setLine(12,    "§l§8»§f§lBordure§l§8«");
                     World world = player.getWorld();
                     int borderSize = (int) world.getWorldBorder().getSize() /2;
                     objectiveSign.setLine(18,"§7Bordure §l» §e-"+ borderSize+"§7/§e"+borderSize);
