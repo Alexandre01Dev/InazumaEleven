@@ -115,11 +115,52 @@ public class Darren extends Role implements Listener {
             return;
         }
 
-            tracker.setTargetToPlayer(player,tracked);
-            player.setMaxHealth(player.getMaxHealth()-4);
-            tracked.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 60*5*20, 0,false,false), true);
-            player.sendMessage(Preset.instance.p.prefixName()+" Tu as perdu 2 §ccoeurs§7... Mais en echange son assasin est devenu plus faible, bat-le pour devenir plus fort. ");
-            revenge = true;
+        player.sendMessage(Preset.instance.p.prefixName()+" Vous avez refusé de remplacer Mark ! Vous traquez désormais son assassin et vous disposez du /ina revenge qui en revanche de vos 2 coeurs lui mettra Faiblesse durant 5 minutes.");
+
+            addCommand("ina revenge", new command() {
+                public int i = 0;
+                @Override
+                public void a(String[] args, Player player) {
+
+                    tracker.setTargetToPlayer(player,tracked);
+                    player.setMaxHealth(player.getMaxHealth()-4);
+                    tracked.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 60*5*20, 0,false,false), true);
+                    player.sendMessage(Preset.instance.p.prefixName()+" Tu as perdu 2 §ccoeurs§7... Mais en echange son assasin est devenu plus faible, bat-le pour devenir plus fort. ");
+                    revenge = true;
+
+                }
+            });
+            loadCommands();
+
+
+        addCommand("corrupt", new command() {
+            public int i = 0;
+            @Override
+            public void a(String[] args, Player player) {
+                if(i >= 2){
+                    player.sendMessage(Preset.instance.p.prefixName()+" Vous avez dépassé le nombre d'utilisation de cette commande");
+                    return;
+                }
+                int a = 0;
+                for(Player p : PlayerUtils.getNearbyPlayersFromPlayer(player,15,15,15)){
+                    if(inazumaUHC.rm.getRole(p).getRoleCategory() == null){
+                        System.out.println(inazumaUHC.rm.getRole(p).getName());
+                        continue;
+                    }
+                    if(inazumaUHC.rm.getRole(p).getRoleCategory().getClass().equals(Alius.class)){
+                        a++;
+                    }
+                }
+                if( a == 0){
+                    player.sendMessage(Preset.instance.p.prefixName()+"Il n'y a aucun joueur(s) de l'Académie-Alius autour de vous.");
+                }
+                if( a > 0){
+                    player.sendMessage(Preset.instance.p.prefixName()+"Il y a "+a+" joueur(s) de l'Académie-Alius proche de vous.");
+                }
+                i++;
+            }
+        });
+        loadCommands();
 
     }
 
@@ -183,7 +224,7 @@ public class Darren extends Role implements Listener {
                     tracked = killer;
                     for(Player players : getPlayers()){
                         BaseComponent b = new TextComponent(role.getRoleCategory().getPrefixColor()+role.getName()+"§7 vient de mourir.\n");
-                        b.addExtra("§7Souhaite tu le remplacer ");
+                        b.addExtra("§7Souhaitez vous le remplacer ?");
                         BaseComponent yes = new TextComponent("§a[OUI]");
                         yes.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/mark accept"));
                         b.addExtra(yes);
@@ -220,19 +261,38 @@ public class Darren extends Role implements Listener {
                 tracker.removeTargetToPlayer(players);
             }
 
-            new BukkitRunnable(){
-                @Override
-                public void run(){
+            if (!revenge){
 
-                    killer.sendMessage(Preset.instance.p.prefixName()+" Tu as tué §cl'assassin §7, tu reçois tes 2 §ccoeurs §7 ainsi qu'un effet de résistance permanent ! ");
+                killer.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 0,false,false), true);
 
-                }
+                new BukkitRunnable(){
+                    @Override
+                    public void run(){
 
-            }.runTaskLater(InazumaUHC.get, 1);
+                        killer.sendMessage(Preset.instance.p.prefixName()+" Vous avez tué §cl'assassin §7, vous recevez tes 2 Résistance permanent ! ");
 
+                    }
 
-            killer.setMaxHealth(player.getMaxHealth()+4);
-            killer.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 0,false,false), true);
+                }.runTaskLater(InazumaUHC.get, 1);
+
+            }
+
+            else{
+
+                killer.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 0,false,false), true);
+                killer.setMaxHealth(player.getMaxHealth()+4);
+
+                new BukkitRunnable(){
+                    @Override
+                    public void run(){
+
+                        killer.sendMessage(Preset.instance.p.prefixName()+" Vous avez tué §cl'assassin §7, vous recevez tes 2 Résistance permanent et récupéré vos 2 coeurs ! ");
+
+                    }
+
+                }.runTaskLater(InazumaUHC.get, 1);
+
+            }
         }
     }
 }

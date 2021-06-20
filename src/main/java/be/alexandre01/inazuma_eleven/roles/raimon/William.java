@@ -61,10 +61,13 @@ public class William extends Role implements Listener {
         addListener(this);
 
         RoleItem roleItem = new RoleItem();
-        ItemBuilder itemBuilder = new ItemBuilder(Material.GLASS_BOTTLE).setName("§b§lLunette");
+        ItemBuilder itemBuilder = new ItemBuilder(Material.PRISMARINE_CRYSTALS).setName("§b§lLunette §c§lCassé");
 
         roleItem.setItemstack(itemBuilder.toItemStack());
         addRoleItem(roleItem);
+
+
+
 
     }
 

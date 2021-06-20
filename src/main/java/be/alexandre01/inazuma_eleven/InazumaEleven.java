@@ -114,6 +114,9 @@ public class InazumaEleven extends PresetData implements IPreset{
         InazumaUHC.get.registerCommand("structure",new Structure("structure"));
         InazumaUHC.get.registerCommand("particles",new Particles("particles"));
         playerSize = Role.getRoles().size();
+
+        CustomGlasses items = new CustomGlasses();
+        items.craftCustom();
     }
 
     @Override

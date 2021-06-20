@@ -218,11 +218,9 @@ public class Kim extends Role implements Listener {
                                             @Override
                                             public void run() {
 
-                                                Bukkit.broadcastMessage("plein de fois");
                                                 timer--;
                                                 if(timer == 0){
                                                     cancel();
-                                                    Bukkit.broadcastMessage(String.valueOf(timer));
                                                 }
 
                                             }
@@ -240,11 +238,9 @@ public class Kim extends Role implements Listener {
                                             @Override
                                             public void run() {
 
-                                                Bukkit.broadcastMessage("plein de fois");
                                                 timer--;
                                                 if(timer == 0){
                                                     cancel();
-                                                    Bukkit.broadcastMessage(String.valueOf(timer));
                                                 }
                                             }
                                         }.runTaskTimerAsynchronously(inazumaUHC, 20, 20);

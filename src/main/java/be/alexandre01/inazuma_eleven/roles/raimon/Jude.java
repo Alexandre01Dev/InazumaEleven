@@ -118,6 +118,7 @@ public class Jude extends Role implements Listener {
 
             for(Player p : getPlayers()){
 
+
                 new BukkitRunnable(){
                     @Override
                     public void run(){
