@@ -40,12 +40,10 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class Bellatrix extends Role implements Listener {
     private boolean xeneDead = false;
@@ -157,42 +155,65 @@ public class Bellatrix extends Role implements Listener {
                 }
 
             }
-        }.runTaskTimerAsynchronously(inazumaUHC, 20*1, 20*1);
+        }.runTaskTimerAsynchronously(inazumaUHC, 20, 20);
 
 
         List<Role> alius = new ArrayList<>(InazumaUHC.get.rm.getRoleCategory(Alius.class).getRoles());
 
         alius.remove(this);
         Collections.shuffle(alius);
+        List<Role> mateAliusRole = alius;
+        List<Player> mateAliusPlayer = new ArrayList<>();
+
 
         for (int j = 0; j < alius.size(); j++) {
 
             Role role = alius.get(i);
             if (role.getPlayers().isEmpty()){
-                alius.remove(role);
-                continue;
+                mateAliusRole.remove(role);
             }
-
         }
 
-        alius = alius.subList(0,5);
-
-        Collections.shuffle(alius);
-
-        for (Role role: alius) {
-            role.getPlayers();
+        for (Role role: mateAliusRole) {
+            mateAliusPlayer.addAll(role.getPlayers());
         }
 
+        mateAliusPlayer = mateAliusPlayer.subList(0, 6);
 
-        player.sendMessage("Voici la liste de vos 6 mates : " + alius);
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < mateAliusPlayer.size(); i++) {
+
+            Player target = mateAliusPlayer.get(i);
+
+            sb.append(target.getName());
+            if(i != mateAliusPlayer.size() - 1)
+                sb.append(", ");
+        }
+
+            player.sendMessage("Voici la liste de vos mates : " + sb);
 
         for(Player byron : inazumaUHC.rm.getRole(Byron.class).getPlayers()){
 
             ArrayList<Player> players = new ArrayList<>(InazumaUHC.get.getRemainingPlayers());
+            players.subList(0,1);
+            for(Player target : getPlayers())
+            {
+                players.add(target);
+            }
+            Collections.shuffle(players);
+
+            StringBuilder stringBuilder = new StringBuilder();
+            for (int j = 0; j < players.size(); j++) {
+                Player sendPlayer = players.get(i);
+                stringBuilder.append(sendPlayer);
+                if(i != mateAliusPlayer.size() - 1)
+                    stringBuilder.append(", ");
+            }
+
+            byron.sendMessage(Preset.instance.p.prefixName() + "Voici la liste des joueurs dans laquelle se trouve Bellatrix : " + sb);
 
         }
-
-
     }
 
 
