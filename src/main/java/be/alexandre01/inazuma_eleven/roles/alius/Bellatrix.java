@@ -11,19 +11,27 @@ import be.alexandre01.inazuma.uhc.roles.Role;
 import be.alexandre01.inazuma.uhc.roles.RoleItem;
 import be.alexandre01.inazuma.uhc.utils.Episode;
 import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
+import be.alexandre01.inazuma.uhc.utils.PlayerUtils;
 import be.alexandre01.inazuma.uhc.utils.Tracker;
 import be.alexandre01.inazuma_eleven.InazumaEleven;
 import be.alexandre01.inazuma_eleven.categories.Alius;
+import be.alexandre01.inazuma_eleven.categories.Raimon;
 import be.alexandre01.inazuma_eleven.categories.Solo;
+import be.alexandre01.inazuma_eleven.roles.raimon.Hurley;
 import be.alexandre01.inazuma_eleven.roles.raimon.Jude;
 import be.alexandre01.inazuma_eleven.roles.raimon.Mark;
+import be.alexandre01.inazuma_eleven.roles.raimon.Shawn;
+import be.alexandre01.inazuma_eleven.roles.solo.Byron;
 import lombok.Setter;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.minecraft.server.v1_8_R3.EnumParticle;
+import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import net.minecraft.server.v1_8_R3.Tuple;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -32,11 +40,16 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 public class Bellatrix extends Role implements Listener {
     private boolean xeneDead = false;
+    public ArrayList<Player> list;
     private UUID uuid = null;
     private boolean revenge = false;
     private boolean hasChoose = false;
@@ -102,14 +115,12 @@ public class Bellatrix extends Role implements Listener {
 
             if(args[0].equalsIgnoreCase("accept")){
                 hasChoose = true;
-                accept();
-                announceRole(true);
+                accept(player);
                 return;
             }
             if (args[0].equalsIgnoreCase("refuse")) {
                 hasChoose = true;
                 refuse(player);
-                announceRole(false);
                 return;
             }
             player.sendMessage(Preset.instance.p.prefixName()+" Veuillez mettre §a/xene accept §7ou §a/xene refuse");
@@ -119,91 +130,69 @@ public class Bellatrix extends Role implements Listener {
 
 }
     private void refuse(Player player){
+        String message;
         player.setMaxHealth(player.getMaxHealth()+2);
-        player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Integer.MAX_VALUE, 0,false,false), true);
-        inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.INCREASE_DAMAGE,1,110);
-        player.sendMessage(Preset.instance.p.prefixName()+" Tu viens de recevoir 1 §ccoeur §7 et un effet de §c§lFORCE §7. ");
+        //+ 1 use de mété
+        player.sendMessage(Preset.instance.p.prefixName()+" Vous avez refusé de remplacer Xavier, vous gagnez donc 1 coeur permanent et 1 utilisation de la météorite.");
+        player.setMaxHealth(player.getMaxHealth()+2);
         revenge = true;
 
-    }
-    private void announceRole(boolean hasAccept){
-        String message;
-        if(hasAccept){
-            message = Preset.instance.p.prefixName()+" §cBellatrix a §a§laccepté §cde remplacer Xavier !";
-        }else{
-            message = Preset.instance.p.prefixName()+" §cBellatrix a §c§lrefusé de remplacer Xavier !";
-        }
-     for(Player player : Bukkit.getOnlinePlayers()){
-         player.sendMessage(message);
-     }
+        message = Preset.instance.p.prefixName()+" §cBellatrix a §c§lrefusé de remplacer Xavier !";
+
+        Bukkit.broadcastMessage(message);
 
     }
-    private void accept(){
-        inventory = ((InazumaEleven)Preset.instance.p).getBallonInv().toInventory();
+    private void accept(Player player){
 
 
+        player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, Integer.MAX_VALUE, 0,false,false), true);
 
-        addCommand("inaball", new command() {
+        new BukkitRunnable() {
+
             @Override
-            public void a(String[] args, Player player) {
-                player.openInventory(inventory);
+            public void run() {
+
+                if(PlayerUtils.getNearbyPlayersFromPlayer(player,20,20,20).size() >= 3) {
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20*5, 0,false,false), true);
+                }
+
             }
-        });
-        addCommand("inaballtp", new command() {
-            @Override
-            public void a(String[] args, Player player) {
-                if(args.length == 0){
-                    player.sendMessage(Preset.instance.p.prefixName()+"§c Veuillez mettre /inaballtp [Joueur]");
-                    return;
-                }
+        }.runTaskTimerAsynchronously(inazumaUHC, 20*1, 20*1);
 
-                String arg = args[0];
-                Player p = Bukkit.getPlayer(arg);
-                if(p == null){
-                    player.sendMessage(Preset.instance.p.prefixName()+"§c Le joueur n'existe pas");
-                }
 
-                if(!canTeleportPlayer(player)){
-                    player.sendMessage(Preset.instance.p.prefixName()+" §cVous ne pouvez pas téléporter le joueur à votre ballon, car celui-ci est obstrué par plus de 3 blocks.");
-                }
-            }
-        });
-        loadCommands();
+        List<Role> alius = new ArrayList<>(InazumaUHC.get.rm.getRoleCategory(Alius.class).getRoles());
 
-        Tracker tracker = Tracker.getOrCreate();
-        if(tracker.getTrackerMap().containsKey(uuid)){
-            getPlayers().forEach(player -> {
-                tracker.setTargetToPlayer(player,tracker.getTrackerMap().get(uuid));
-            });
-        }
+        alius.remove(this);
+        Collections.shuffle(alius);
 
-        inazumaUHC.rm.getRoleCategory(Alius.class).getRoles().forEach(role -> {
-            role.getPlayers().forEach(player -> {
-                getPlayers().forEach(b -> {
-                    b.sendMessage(Preset.instance.p.prefixName()+" "+ player.getName()+" fait partie de ton équipe");
-                    player.sendMessage(Preset.instance.p.prefixName()+" "+ b.getName()+" est §5Bellatrix.");
-                });
-            });
-        });
+        for (int j = 0; j < alius.size(); j++) {
 
-        Role mark = inazumaUHC.rm.getRole(Mark.class);
-        if(mark != null){
-            if(!mark.getPlayers().isEmpty()){
-                for(Player player : mark.getPlayers()){
-                    getPlayers().forEach(b -> {
-                        player.sendMessage(Preset.instance.p.prefixName()+" "+ b.getName()+" est §5Bellatrix.");
-                    });
-                }
+            Role role = alius.get(i);
+            if (role.getPlayers().isEmpty()){
+                alius.remove(role);
+                continue;
             }
 
         }
-        inazumaUHC.rm.getRoleCategory(Solo.class).getRoles().forEach(role -> {
-            role.getPlayers().forEach(player -> {
-                getPlayers().forEach(b -> {
-                    player.sendMessage(Preset.instance.p.prefixName()+" "+ b.getName()+" est §5Bellatrix.");
-                });
-            });
-        });
+
+        alius = alius.subList(0,5);
+
+        Collections.shuffle(alius);
+
+        for (Role role: alius) {
+            role.getPlayers();
+        }
+
+
+        player.sendMessage("Voici la liste de vos 6 mates : " + alius);
+
+        for(Player byron : inazumaUHC.rm.getRole(Byron.class).getPlayers()){
+
+            ArrayList<Player> players = new ArrayList<>(InazumaUHC.get.getRemainingPlayers());
+
+        }
+
+
     }
 
 
@@ -225,7 +214,7 @@ public class Bellatrix extends Role implements Listener {
                     xeneDead = true;
                     for(Player players : getPlayers()){
                         BaseComponent b = new TextComponent( Preset.instance.p.prefixName()+ role.getRoleCategory().getPrefixColor()+role.getName()+"§7 vient de mourir.\n");
-                        b.addExtra("§7Souhaiteez vous le remplacer ?");
+                        b.addExtra("§7Souhaitez vous le remplacer ?");
                         BaseComponent yes = new TextComponent("§a[OUI]");
                         yes.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/xene accept"));
                         b.addExtra(yes);
@@ -244,7 +233,7 @@ public class Bellatrix extends Role implements Listener {
                                     refuse(player);
                                 }
                             }
-                        }.runTaskLaterAsynchronously(inazumaUHC,20*60);
+                        }.runTaskLaterAsynchronously(inazumaUHC,20*60*5);
                     }
 
                 }
@@ -253,102 +242,5 @@ public class Bellatrix extends Role implements Listener {
 
 
         }
-    }
-
-    @EventHandler
-    public void onInventoryClick(InventoryClickEvent event){
-        Player player = (Player) event.getWhoClicked();
-        if(inazumaUHC.rm.getRole(player) instanceof Bellatrix){
-        if(inventory == null)
-            return;
-        if(event.getClickedInventory() == null){
-            return;
-        }
-        if(event.getClickedInventory().getName() == null){
-            return;
-        }
-        if(!event.getClickedInventory().getName().equals(inventory.getName()))
-            return;
-        switch (event.getSlot()){
-            case 10:
-                player.sendMessage(Preset.instance.p.prefixName()+" §cCe ballon est réservé à Janus.");
-                break;
-            case 12:
-                player.sendMessage(Preset.instance.p.prefixName()+" §cCe ballon est réservé à Janus.");
-                break;
-            case 14:
-                player.sendMessage(Preset.instance.p.prefixName()+" §cCe ballon est réservé à Janus.");
-                break;
-            case 16:
-                onClick(player);
-                break;
-        }
-
-        }
-    }
-    private boolean canTeleportPlayer(Player player){
-        Location tpLoc = getTop(location);
-        if(tpLoc == null){
-            return false;
-        }
-        player.teleport(tpLoc);
-        InazumaUHC.get.invincibilityDamager.addPlayer(player, 1000);
-        player.playSound(player.getLocation(), Sound.ENDERMAN_TELEPORT, 1,1);
-        if(getPlayers().contains(player)){
-            player.sendMessage(Preset.instance.p.prefixName()+ " §cVous vous êtes téléporté a votre ballon");
-            return true;
-        }
-        player.sendMessage(Preset.instance.p.prefixName()+ " §cVous vous êtes téléporté au ballon de Xavier.");
-        return true;
-    }
-    private void onClick(Player player){
-        if(Episode.getEpisode() == this.episode){
-            player.sendMessage(Preset.instance.p.prefixName()+ " §cTu ne peux te téléporter que tout les épisodes.");
-
-            return;
-        }
-
-        if(location != null){
-            if(!canTeleportPlayer(player)){
-                player.sendMessage(Preset.instance.p.prefixName()+" §cVous ne pouvez pas vous téléportez à votre ballon, car celui-ci est obstrué par plus de 3 blocks.");
-                return;
-            }else {
-                this.episode = Episode.getEpisode();
-                i++;
-            }
-        }
-        player.sendMessage(Preset.instance.p.prefixName()+ " §cLe ballon n'existe pas");
-
-    }
-
-    private Location getTop(Location location){
-        Location cLoc = location.clone();
-        int t = 0;
-        int b = 0;
-        int a = 0;
-        for (int j = 1; j < 255-cLoc.getBlockY(); j++) {
-            if(a >= 2){
-                cLoc.add(0,-2,0);
-                return cLoc;
-            }
-            cLoc.add(0,j,0);
-            if(!cLoc.getWorld().getBlockAt(cLoc).getType().equals(Material.AIR)){
-                t++;
-                b++;
-                a = 0;
-                if(t > 2){
-                    return null;
-                }
-
-            }else {
-                a++;
-                b++;
-            }
-
-
-
-
-        }
-        return cLoc;
     }
 }

@@ -4,6 +4,7 @@ import be.alexandre01.inazuma.uhc.InazumaUHC;
 import be.alexandre01.inazuma.uhc.custom_events.episode.EpisodeChangeEvent;
 import be.alexandre01.inazuma.uhc.custom_events.player.PlayerInstantDeathEvent;
 import be.alexandre01.inazuma.uhc.managers.chat.Chat;
+import be.alexandre01.inazuma.uhc.managers.damage.DamageManager;
 import be.alexandre01.inazuma.uhc.presets.IPreset;
 import be.alexandre01.inazuma.uhc.presets.Preset;
 
@@ -12,13 +13,11 @@ import be.alexandre01.inazuma.uhc.roles.RoleItem;
 import be.alexandre01.inazuma.uhc.utils.CustomComponentBuilder;
 import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
 import be.alexandre01.inazuma_eleven.categories.Alius;
-import be.alexandre01.inazuma_eleven.roles.raimon.Aiden;
-import be.alexandre01.inazuma_eleven.roles.raimon.Axel;
-import be.alexandre01.inazuma_eleven.roles.raimon.Hurley;
-import be.alexandre01.inazuma_eleven.roles.raimon.Shawn;
+import be.alexandre01.inazuma_eleven.roles.raimon.*;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.minecraft.server.v1_8_R3.Tuple;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
@@ -134,7 +133,7 @@ public class Torch  extends Role implements Listener {
         onLoad(new load() {
             @Override
             public void a(Player player) {
-                player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Integer.MAX_VALUE, 0,false,false), true);
+                inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.INCREASE_DAMAGE,1,110);
                 player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, Integer.MAX_VALUE, 0,false,false), true);
                 Chat chat = inazumaUHC.cm.getChat("InaChat");
                 if(chat != null){
@@ -142,6 +141,17 @@ public class Torch  extends Role implements Listener {
                 }
             }
         });
+
+        RoleItem colierAllius = new RoleItem();
+        colierAllius.setItemstack(new ItemBuilder(Material.NETHER_STAR).setName("§d§lCollier§7§l-§5§lAlius").toItemStack());
+        colierAllius.deployVerificationsOnRightClick(colierAllius.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
+        colierAllius.setRightClick(player -> {
+            Jude.collierAlliusNotif(player.getLocation());
+            player.sendMessage(Preset.instance.p.prefixName()+" Vous rentrez en résonance avec la §8§lpierre§7§l-§5§lalius.");
+            player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 90*20, 0,false,false), true);
+        });
+        addRoleItem(colierAllius);
+
     }
 
     @EventHandler
@@ -296,7 +306,7 @@ public class Torch  extends Role implements Listener {
                     {
                         if (floatToInt(block.getX()) == gazelle.getGazelleLoc().getBlockX() && floatToInt(block.getY()) == gazelle.getGazelleLoc().getBlockY() && floatToInt(block.getZ()) == gazelle.getGazelleLoc().getBlockZ())
                         {
-                            if(inazumaUHC.rm.getRole(player) instanceof Gazelle)
+                            if(inazumaUHC.rm.getRole(player) instanceof Torch)
                             {
 
                                 RoleItem roleItem = new RoleItem();

@@ -10,8 +10,12 @@ import be.alexandre01.inazuma.uhc.presets.Preset;
 import be.alexandre01.inazuma.uhc.roles.Role;
 import be.alexandre01.inazuma.uhc.roles.RoleCategory;
 import be.alexandre01.inazuma.uhc.roles.RoleItem;
+import be.alexandre01.inazuma.uhc.utils.CustomComponentBuilder;
 import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
 import be.alexandre01.inazuma_eleven.categories.Raimon;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.minecraft.server.v1_8_R3.Tuple;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -36,9 +40,23 @@ public class William extends Role implements Listener {
         addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
         addDescription("§8- §7Vous disposez de §8§lFaiblesse 1§7.");
         addDescription(" ");
+        CustomComponentBuilder c = new CustomComponentBuilder("");
+        c.append("§8- §7Vous possédez également un paire de ");
+
+        BaseComponent lunetteButton = new TextComponent("§b§lLunette");
+
+        BaseComponent lunetteDesc = new TextComponent();
+        lunetteDesc.addExtra("§e- §9Utilisation §6unique\n");
+        lunetteDesc.addExtra("§e- §9Permet de renvoyer une technique utilisé sur vous si vous avez l'item dans votre hotbar\n");
+        lunetteDesc.addExtra("§e- §9Une fois utlisé, elle se casse mais vous pouvez la réparer (/craft) §c⚠");
+        lunetteButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,lunetteDesc.getExtra().toArray(new BaseComponent[0])));
+        c.append(lunetteButton);
+        addDescription(c);
+        addDescription(" ");
         addDescription("§8- §7Lorsqu'un joueur utilise son pouvoir, vous recevrez un message disant quel personnage a utilisé son pouvoir.");
         addDescription(" ");
         addDescription("§8- §7Vous aurez un allié de confiance tous les §e2 épisodes.");
+        addDescription(" ");
 
         William w = this;
         setRoleCategory(Raimon.class);
@@ -61,10 +79,14 @@ public class William extends Role implements Listener {
         addListener(this);
 
         RoleItem roleItem = new RoleItem();
-        ItemBuilder itemBuilder = new ItemBuilder(Material.GLASS_BOTTLE).setName("§b§lLunette");
+        ItemBuilder itemBuilder = new ItemBuilder(Material.PRISMARINE_SHARD).setName("§b§lLunette");
+        itemBuilder.setLore("");
 
         roleItem.setItemstack(itemBuilder.toItemStack());
         addRoleItem(roleItem);
+
+
+
 
     }
 
