@@ -32,6 +32,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import javax.sound.midi.Patch;
+import java.util.List;
 
 public class David extends Role implements Listener {
 
@@ -72,8 +73,12 @@ public class David extends Role implements Listener {
 
                 new BukkitRunnable() {
                     @Override
-                    public void run() {
-                        for(Player target : PlayerUtils.getNearbyPlayersFromPlayer(player,20,20,20))
+                    public void run(){
+                        List<Player> list = PlayerUtils.getNearbyPlayersFromPlayer(player,20,20,20);
+                        if (list.isEmpty()){
+                            return;
+                        }
+                        for(Player target : list)
                         {
                             if(inazumaUHC.rm.getRole(Caleb.class) == null)
                                 break;

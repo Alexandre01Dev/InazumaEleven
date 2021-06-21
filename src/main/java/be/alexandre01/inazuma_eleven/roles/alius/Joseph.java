@@ -25,6 +25,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.List;
+
 public class Joseph extends Role {
 
     boolean firstUse = false;
@@ -61,8 +63,12 @@ public class Joseph extends Role {
 
                 new BukkitRunnable() {
                     @Override
-                    public void run() {
-                        for(Player target : PlayerUtils.getNearbyPlayersFromPlayer(player,20,20,20))
+                    public void run(){
+                        List<Player> list = PlayerUtils.getNearbyPlayersFromPlayer(player,20,20,20);
+                        if (list.isEmpty()){
+                            return;
+                        }
+                        for(Player target : list)
                         {
                             if(inazumaUHC.rm.getRole(Caleb.class) == null)
                                 break;

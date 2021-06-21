@@ -54,18 +54,6 @@ public class Shawn extends Role implements Listener {
         addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
         addDescription("§8- §7Vous possédez l’effet §6§lRésistance 1§7.");
         addDescription(" ");
-        CustomComponentBuilder c = new CustomComponentBuilder("");
-        c.append("§8- §7Vous possédez également le ");
-
-        BaseComponent blizzardButton = new TextComponent("§3Blizzard Eternel §7*§8Curseur§7*");
-
-        BaseComponent blizzardDesc = new TextComponent();
-        blizzardDesc.addExtra("§e- §9Utilisation par §eEpisode\n");
-        blizzardDesc.addExtra("§e- §9Donne au joueur §7ciblé, §8Slowness 2§9 pendant §a7 secondes");
-        blizzardButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,blizzardDesc.getExtra().toArray(new BaseComponent[0])));
-        c.append(blizzardButton);
-        addDescription(c);
-        addDescription(" ");
         addDescription("§8- §7Les attaques de §cTorch§7, §bGazelle§7 et §6Axel§7 ne vous atteignent pas.");
 
         setRoleToSpoil(Axel.class);
