@@ -47,6 +47,7 @@ public class Axel extends Role implements Listener {
 
     public Axel(IPreset preset) {
         super("Axel Blaze",preset);
+        playersTag = new HashMap<>();
         setRoleCategory(Raimon.class);
         setRoleToSpoil(Mark.class);
 

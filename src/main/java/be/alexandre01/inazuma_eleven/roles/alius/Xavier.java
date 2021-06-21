@@ -13,7 +13,9 @@ import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
 import be.alexandre01.inazuma_eleven.InazumaEleven;
 import be.alexandre01.inazuma_eleven.categories.Alius;
 import be.alexandre01.inazuma_eleven.objects.MeteorEntity;
+import be.alexandre01.inazuma_eleven.objects.Sphere;
 import be.alexandre01.inazuma_eleven.roles.raimon.Jude;
+import be.alexandre01.inazuma_eleven.timer.DelayedTimeChangeTimer;
 import lombok.Setter;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -42,11 +44,14 @@ import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.util.Random;
+
 public class Xavier extends Role implements Listener {
     private int i = 0;
     private Inventory inventory;
     private boolean shootArrow = false;
     private int episode;
+    boolean meteor = false;
     @Setter
     private Block block = null;
      @Setter  Location location = null;
@@ -63,6 +68,7 @@ public class Xavier extends Role implements Listener {
         RoleItem meteor = new RoleItem();
         ItemBuilder it = new ItemBuilder(Material.BOW).setName("Météore Géant");
         meteor.setItemstack(it.toItemStack());
+        meteor.setPlaceableItem(true);
         addRoleItem(meteor);
 
         BaseComponent inaballtpButton = new TextComponent("§5/inaballtp §7(§9Pseudo§7) §7*§8Curseur§7*");
@@ -287,17 +293,129 @@ public class Xavier extends Role implements Listener {
     public void onCollisionWithEntity(EntityDamageByEntityEvent event){
 
     }
-    public void spawnMeteor(Location location){
 
-    }
-    public void meteorDestruction(Location location){
+    public void spawnMeteor(Location location){
+        location.setY(150);
+        MeteorEntity meteorEntity = MeteorEntity.spawn(location);
+        meteorEntity.getBukkitEntity().setVelocity(new Vector(0,-0.5,0));
         new BukkitRunnable() {
             @Override
             public void run() {
-                World world = ((CraftWorld)location.getWorld()).getHandle();
 
-                world.createExplosion(null,1,1,1,1,true,true);
+                DelayedTimeChangeTimer delayedTimeChangeTimer = (DelayedTimeChangeTimer) InazumaUHC.get.tm.getTimer(DelayedTimeChangeTimer.class);
+                if(delayedTimeChangeTimer.isRunning){
+                    delayedTimeChangeTimer.cancel();
+                }
+                delayedTimeChangeTimer.setState(DelayedTimeChangeTimer.State.NIGHT);
+
+                delayedTimeChangeTimer.runTaskTimerAsynchronously(InazumaUHC.get,0,1);
+                meteor = false;
             }
-        }.runTaskLaterAsynchronously(inazumaUHC,20*5);
+        }.runTaskLaterAsynchronously(inazumaUHC,20*6);
     }
+    public void meteorDestruction(Location location){
+        if(meteor)
+            return;
+
+        meteor = true;
+        DelayedTimeChangeTimer delayedTimeChangeTimer = (DelayedTimeChangeTimer) InazumaUHC.get.tm.getTimer(DelayedTimeChangeTimer.class);
+        if(delayedTimeChangeTimer.isRunning){
+            delayedTimeChangeTimer.cancel();
+        }
+        delayedTimeChangeTimer.setState(DelayedTimeChangeTimer.State.DAY);
+        delayedTimeChangeTimer.runTaskTimerAsynchronously(InazumaUHC.get,0,1);
+
+        new BukkitRunnable() {
+            int i = 3;
+            @Override
+            public void run() {
+                i--;
+                if(i==2){
+                    location.getWorld().playSound(location,Sound.ZOMBIE_WOODBREAK,1,1f);
+                    Sphere sphere = new Sphere(location,2);
+                    int j = 0;
+                    for(Block block : sphere.getBlocks()){
+                        if(j % 2 == 0){
+                            if(block.getType() != Material.AIR)
+                              block.setType(Material.NETHERRACK);
+                        }
+                        j++;
+                    }
+                }
+                if(i==1){
+                    location.getWorld().playSound(location,Sound.ZOMBIE_WOODBREAK,1,0.8f);
+                    Sphere sphere = new Sphere(location,6);
+                    int j = 0;
+                    for(Block block : sphere.getBlocks()){
+                        if(j % 6 == 0){
+                            if(block.getType() != Material.AIR)
+                                if(new Random().nextBoolean()){
+                                    block.setType(Material.NETHERRACK);
+                                }else {
+                                    block.setType(Material.SOUL_SAND);
+                                }
+                        }
+                        j++;
+                    }
+                }
+                if(i == 0){
+                    spawnMeteor(location);
+                    cancel();
+                }
+
+            }
+        }.runTaskTimer(inazumaUHC,20*1,20*1);
+    }
+
+    long l;
+    private State state;
+    private long delay;
+    private long initialDelay;
+    public enum State{
+        DAY,NIGHT;
+    }
+
+   /* public void timeDeploy(){
+        World world;
+        long from;
+        long timesToExecute;
+        long to;
+        long addition;
+        long timeCalc = 0;
+
+        if(state.equals(State.DAY)){
+            from = 1000L;
+            to = 20000L;
+        }else {
+            from = 20000L;
+            to = 1000L;
+        }
+        if(from > to){
+            timeCalc = 24000L-from+to;
+        }else {
+            timeCalc = to-from;
+        }
+
+        org.bukkit.World w = InazumaUHC.get.worldGen.defaultWorld;
+        timesToExecute = delay/initialDelay;
+        addition = timeCalc/timesToExecute;
+
+        w.setFullTime(from);
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                w.setFullTime(world.getTime()+addition);
+                if(timesToExecute == 0){
+                    w.setFullTime(to);
+                    cancel();
+                }
+                timesToExecute--;
+            }
+        }.runTaskTimer()
+
+
+
+    }*/
+
 }

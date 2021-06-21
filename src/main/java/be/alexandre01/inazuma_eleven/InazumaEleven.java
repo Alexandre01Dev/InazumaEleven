@@ -28,6 +28,7 @@ import be.alexandre01.inazuma_eleven.objects.Mercenaire;
 import be.alexandre01.inazuma_eleven.roles.alius.*;
 import be.alexandre01.inazuma_eleven.roles.raimon.*;
 import be.alexandre01.inazuma_eleven.roles.solo.Byron;
+import be.alexandre01.inazuma_eleven.timer.DelayedTimeChangeTimer;
 import com.boydti.fawe.object.schematic.Schematic;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
 import lombok.Getter;
@@ -162,6 +163,7 @@ public class InazumaEleven extends PresetData implements IPreset{
     @Override
     public ArrayList<Timer> getTimers() {
         if(timers.isEmpty()){
+            timers.add(new DelayedTimeChangeTimer(DelayedTimeChangeTimer.State.DAY,1,20*2));
         }
         return timers;
     }
