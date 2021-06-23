@@ -17,9 +17,12 @@ import be.alexandre01.inazuma_eleven.roles.raimon.*;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.minecraft.server.v1_8_R3.EnumParticle;
+import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import net.minecraft.server.v1_8_R3.Tuple;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -241,20 +244,45 @@ public class Torch  extends Role implements Listener {
             loc.getBlock().setType(Material.REDSTONE_BLOCK);
             loc = loc.getBlock().getLocation();
 
-            for (Player gazelle : inazumaUHC.rm.getRole(Gazelle.class).getPlayers()) {
+            if(inazumaUHC.rm.getRole(Gazelle.class) != null)
+            {
+                for (Player gazelle : inazumaUHC.rm.getRole(Gazelle.class).getPlayers()) {
 
-                new BukkitRunnable(){
-                    @Override
-                    public void run(){
+                    new BukkitRunnable(){
+                        @Override
+                        public void run(){
 
-                        gazelle.sendMessage(Preset.instance.p.prefixName()+" §7Le cadavre de §c§lTorch§7 se trouve en X: " + loc.getX() + " Y: " + loc.getY() + " Z: " + loc.getZ());
+                            gazelle.sendMessage(Preset.instance.p.prefixName()+" §7Le cadavre de §c§lTorch§7 se trouve en X: " + loc.getX() + " Y: " + loc.getY() + " Z: " + loc.getZ());
 
+                        }
+
+                    }.runTaskLater(InazumaUHC.get, 1);
+
+
+                }
+            }
+
+            new BukkitRunnable() {
+
+                double var = 0;
+                @Override
+                public void run() {
+
+                    if(loc.getBlock().getType() == Material.REDSTONE_BLOCK)
+                    {
+                        var += Math.PI / 12;
+
+                        PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(EnumParticle.LAVA,true, (loc.getBlockX() + 0.6f), (float) (loc.getY() + 1.5),  (loc.getBlockZ() + 0.6f), 0, 0, 0, 0, 1);
+                        for(Player online : Bukkit.getOnlinePlayers())
+                            ((CraftPlayer) online).getHandle().playerConnection.sendPacket(packet);
+                    }
+                    else {
+                        cancel();
                     }
 
-                }.runTaskLater(InazumaUHC.get, 1);
 
-
-            }
+                }
+            }.runTaskTimerAsynchronously(inazumaUHC, 1, 3);
 
         }
     }
@@ -300,7 +328,7 @@ public class Torch  extends Role implements Listener {
             if(action == Action.RIGHT_CLICK_BLOCK)
             {
                 Block block = event.getClickedBlock();
-                if(block.getType() == Material.LAPIS_ORE)
+                if(block.getType() == Material.LAPIS_BLOCK)
                 {
                     if(gazelle != null)
                     {

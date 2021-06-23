@@ -19,9 +19,12 @@ import be.alexandre01.inazuma_eleven.roles.raimon.Shawn;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.minecraft.server.v1_8_R3.EnumParticle;
+import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import net.minecraft.server.v1_8_R3.Tuple;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -236,21 +239,46 @@ public class Gazelle extends Role implements Listener {
             world = player.getWorld();
             loc = player.getLocation();
             loc.getBlock().setType(Material.LAPIS_BLOCK);
-            loc = loc.getBlock().getLocation();
 
-            for (Player torch : inazumaUHC.rm.getRole(Torch.class).getPlayers()) {
+            if(inazumaUHC.rm.getRole(Torch.class) != null)
+            {
+                for (Player torch : inazumaUHC.rm.getRole(Torch.class).getPlayers()) {
 
-                new BukkitRunnable(){
-                    @Override
-                    public void run(){
+                    new BukkitRunnable(){
+                        @Override
+                        public void run(){
 
-                        torch.sendMessage(Preset.instance.p.prefixName()+" §7Le cadavre de §b§lGazelle§7 se trouve en X: " + loc.getX() + " Y: " + loc.getY() + " Z: " + loc.getZ());
+                            torch.sendMessage(Preset.instance.p.prefixName()+" §7Le cadavre de §b§lGazelle§7 se trouve en X: " + (float)loc.getX() + " Y: " + (float)loc.getY() + " Z: " + (float)loc.getZ());
 
+                        }
+
+                    }.runTaskLater(InazumaUHC.get, 1);
+
+                }
+            }
+
+
+            new BukkitRunnable() {
+
+                double var = 0;
+                @Override
+                public void run() {
+
+                    if(loc.getBlock().getType() == Material.LAPIS_BLOCK)
+                    {
+                        var += Math.PI / 12;
+
+                        PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(EnumParticle.SMOKE_NORMAL, true, (loc.getBlockX() + 0.6f), (float) (loc.getY() + Math.sin(var) / 2 + 1.5),  (loc.getBlockZ() + 0.6f), 0, 0, 0, 0, 1);
+                        for(Player online : Bukkit.getOnlinePlayers())
+                            ((CraftPlayer) online).getHandle().playerConnection.sendPacket(packet);
+                    }
+                    else {
+                        cancel();
                     }
 
-                }.runTaskLater(InazumaUHC.get, 1);
-                
-            }
+
+                }
+            }.runTaskTimerAsynchronously(inazumaUHC, 1, 1);
 
         }
     }

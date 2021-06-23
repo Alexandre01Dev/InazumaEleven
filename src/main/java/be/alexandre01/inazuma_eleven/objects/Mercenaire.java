@@ -70,10 +70,8 @@ public class Mercenaire{
                     public void run(){
 
                         boolean hasFound = false;
-
+                        ArrayList<Role> alius = new ArrayList<>(InazumaUHC.get.rm.getRoleCategory(Alius.class).getRoles());
                         while(!hasFound){
-
-                            ArrayList<Role> alius = new ArrayList<>(InazumaUHC.get.rm.getRoleCategory(Alius.class).getRoles());
 
                             Collections.shuffle(alius);
 
