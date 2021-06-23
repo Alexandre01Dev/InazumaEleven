@@ -39,6 +39,7 @@ public class Mark extends Role implements Listener {
     HashMap<Integer,action> actionOnLevel = new HashMap<>();
 
     float toDecrement = 0;
+    String levelRomain;
     float death = 0;
     float time = 0;
     float minage = 0;
@@ -94,35 +95,44 @@ public class Mark extends Role implements Listener {
 
         actionOnLevel.put(1, player ->  {
             player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 0,false,false), true);
+            levelRomain = "I";
         });
         actionOnLevel.put(2, player ->  {
             corrupttest++;
+            levelRomain = "II";
         });
         actionOnLevel.put(3, player ->  {
             player.getInventory().addItem(new ItemStack(Material.GOLDEN_APPLE, 2));
             player.updateInventory();
+            levelRomain = "III";
         });
         actionOnLevel.put(4, player ->  {
             player.setMaxHealth(player.getMaxHealth()+2);
+            levelRomain = "IV";
         });
         actionOnLevel.put(5 , player ->  {
             corrupttest++;
+            levelRomain = "V";
             //Main Magique
         });
         actionOnLevel.put(6 , player ->  {
             player.getInventory().addItem(new ItemStack(Material.GOLDEN_APPLE, 2));
             player.updateInventory();
+            levelRomain = "VI";
         });
         actionOnLevel.put(7 , player ->  {
             //Entrainement Darren SOON V1.?  ou Mate Random pour la V1
+            levelRomain = "VII";
         });
         actionOnLevel.put(8 , player ->  {
             inaboost++;
+            levelRomain = "VIII";
             //Unlock Ina Boost
         });
         actionOnLevel.put(9 , player ->  {
             player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 1,false,false), true);
             inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.RESISTANCE,2,120);
+            levelRomain = "IX";
         });
         expToUnlockNextLevel.put(6,15);
         expToUnlockNextLevel.put(7,15);
@@ -231,7 +241,7 @@ public class Mark extends Role implements Listener {
         }
 
         if (total < 100){
-            TitleUtils.sendActionBar(player,"§3§lEntrainement §f§l: §6§l" + Math.round((double) total*10)/ 10.0 + "§c/§6§l100" + " §7(§cNiveau §6§l" + level + "§7)");
+            TitleUtils.sendActionBar(player,"§3§lEntrainement §f§l: §6§l" + Math.round((double) total*10)/ 10.0 + "§c/§6§l100" + " §7(§cNiveau §6§l" + levelRomain + "§7)");
         } else {
             TitleUtils.sendActionBar(player,"§7§lEntrainement §7Terminé");
         }

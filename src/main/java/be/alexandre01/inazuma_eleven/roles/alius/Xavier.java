@@ -7,19 +7,23 @@ import be.alexandre01.inazuma.uhc.presets.Preset;
 
 import be.alexandre01.inazuma.uhc.roles.Role;
 import be.alexandre01.inazuma.uhc.roles.RoleItem;
-import be.alexandre01.inazuma.uhc.utils.CustomComponentBuilder;
-import be.alexandre01.inazuma.uhc.utils.Episode;
-import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
+import be.alexandre01.inazuma.uhc.timers.utils.DateBuilderTimer;
+import be.alexandre01.inazuma.uhc.timers.utils.MSToSec;
+import be.alexandre01.inazuma.uhc.utils.*;
 import be.alexandre01.inazuma_eleven.InazumaEleven;
 import be.alexandre01.inazuma_eleven.categories.Alius;
 import be.alexandre01.inazuma_eleven.objects.MeteorEntity;
 import be.alexandre01.inazuma_eleven.objects.Sphere;
 import be.alexandre01.inazuma_eleven.roles.raimon.Jude;
+import be.alexandre01.inazuma_eleven.roles.solo.Byron;
 import be.alexandre01.inazuma_eleven.timer.DelayedTimeChangeTimer;
 import lombok.Setter;
 import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.minecraft.server.v1_8_R3.EnumParticle;
+import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import net.minecraft.server.v1_8_R3.Tuple;
 import net.minecraft.server.v1_8_R3.World;
 import org.bukkit.Bukkit;
@@ -29,6 +33,7 @@ import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -44,9 +49,14 @@ import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 public class Xavier extends Role implements Listener {
+    private boolean reunion = false;
+    private int number = 0;
     private int i = 0;
     private Inventory inventory;
     private boolean shootArrow = false;
@@ -100,6 +110,102 @@ public class Xavier extends Role implements Listener {
             CraftEntity craftEntity = meteorEntity.getBukkitEntity();
             craftEntity.setVelocity(new Vector(0,-1,0));
         });
+
+        addCommand("reunion start", new command() {
+            @Override
+            public void a(String[] args, Player player) {
+                List<Player> list = new ArrayList<>();
+                list.addAll(inazumaUHC.rm.getRole(Xavier.class).getPlayers());
+                list.addAll(inazumaUHC.rm.getRole(Janus.class).getPlayers());
+                list.addAll(inazumaUHC.rm.getRole(Dvalin.class).getPlayers());
+                list.addAll(inazumaUHC.rm.getRole(Torch.class).getPlayers());
+                list.addAll(inazumaUHC.rm.getRole(Gazelle.class).getPlayers());
+                list.addAll(inazumaUHC.rm.getRole(Caleb.class).getPlayers());
+                Bellatrix bellatrix = (Bellatrix) inazumaUHC.rm.getRole(Bellatrix.class);
+                if (bellatrix.accepted){
+                    list.addAll(bellatrix.getPlayers());
+                }
+
+                player.sendMessage("Vous avez start la réunion, tous les joueurs qui accepteront seront tp dans 5 minutes.");
+
+                for(Player players :  list){
+                    BaseComponent b = new TextComponent( Preset.instance.p.prefixName()+ getName() + " à start la réunion vous avez 5 minutes pour accepter.\n");
+                    b.addExtra("§7Voulez vous la rejoindre ?");
+                    BaseComponent yes = new TextComponent("§a[OUI]");
+                    yes.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/reunion accept"));
+                    b.addExtra(yes);
+                    b.addExtra(" §7ou ");
+                    BaseComponent no = new TextComponent("§a[NON]");
+                    no.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/reunion refuse"));
+
+                    b.addExtra(no);
+
+                    players.spigot().sendMessage(b);
+
+                    new BukkitRunnable() {
+
+                        @Override
+                        public void run() {
+
+                            reunion = true;
+                        }
+                    }.runTaskLaterAsynchronously(inazumaUHC, 20*60*5);
+
+
+                }
+
+            }
+        });
+
+        addCommand("reunion", new command() {
+            @Override
+            public void a(String[] args, Player player) {
+
+                if (reunion){
+                    player.sendMessage("reunion deja start");
+                }
+
+                if(args.length == 0){
+                    player.sendMessage(Preset.instance.p.prefixName()+" Veuillez mettre §a/reunion accept §7ou §a/reunion refuse");
+                    return;
+                }
+
+                if(args[0].equalsIgnoreCase("accept")){
+                    player.sendMessage(Preset.instance.p.prefixName()+" Vous avez accepté de rejoindre la réunion.");
+                    accept(player);
+                    number++;
+
+                    new BukkitRunnable() {
+
+                        @Override
+                        public void run() {
+
+                            List<Player> list = new ArrayList<>();
+                            list.addAll(inazumaUHC.rm.getRole(Xavier.class).getPlayers());
+                            list.addAll(inazumaUHC.rm.getRole(Janus.class).getPlayers());
+                            list.addAll(inazumaUHC.rm.getRole(Dvalin.class).getPlayers());
+                            list.addAll(inazumaUHC.rm.getRole(Torch.class).getPlayers());
+                            list.addAll(inazumaUHC.rm.getRole(Gazelle.class).getPlayers());
+                            list.addAll(inazumaUHC.rm.getRole(Caleb.class).getPlayers());
+                            Bellatrix bellatrix = (Bellatrix) inazumaUHC.rm.getRole(Bellatrix.class);
+                            if (bellatrix.accepted){
+                                list.addAll(bellatrix.getPlayers());
+                            }
+
+                            TitleUtils.sendActionBar(player,"Réunion :"  + number + "/" + list.size());
+
+                        }
+                    }.runTaskTimerAsynchronously(inazumaUHC, 20*1, 20*1);
+                    return;
+                }
+                if (args[0].equalsIgnoreCase("refuse")) {
+                    player.sendMessage(Preset.instance.p.prefixName()+" Vous avez refusé de rejoindre la réunion.");
+                    return;
+                }
+                player.sendMessage(Preset.instance.p.prefixName()+" Veuillez mettre §a/reunion accept §7ou §a/reunion refuse");
+            }
+        });
+
         inventory = ((InazumaEleven)preset).getBallonInv().toInventory();
         RoleItem roleItem = new RoleItem();
         ItemBuilder itemBuilder = new ItemBuilder(Material.NETHER_STAR).setName("§d§lCollier§7§l-§5§lAlius");
@@ -152,6 +258,11 @@ public class Xavier extends Role implements Listener {
                 }
             }
         });
+    }
+    private void accept(Player player){
+
+        player.teleport(player.getLocation());
+
     }
 
     @EventHandler
