@@ -46,6 +46,7 @@ import org.bukkit.util.Vector;
 import java.util.*;
 
 public class Bellatrix extends Role implements Listener {
+    public boolean accepted = false;
     private boolean xeneDead = false;
     public ArrayList<Player> list;
     private UUID uuid = null;
@@ -114,6 +115,7 @@ public class Bellatrix extends Role implements Listener {
             if(args[0].equalsIgnoreCase("accept")){
                 hasChoose = true;
                 accept(player);
+                accepted = true;
                 return;
             }
             if (args[0].equalsIgnoreCase("refuse")) {
