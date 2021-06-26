@@ -142,7 +142,9 @@ public class  Janus extends Role implements Listener {
                 player.sendMessage(Preset.instance.p.prefixName()+"§7Ballon n°§e"+(i)+" §aposé ! §e| §7X:"+ block.getLocation().getBlockX()+"§8| §7Y:"+block.getLocation().getBlockY()+ "§8| §7Z:"+block.getLocation().getBlockZ() );
             }
         });
+        Bukkit.broadcastMessage("la apres tu recois le ballon genre la mnt");
         addRoleItem(ballons);
+        Bukkit.broadcastMessage("la mnt t'a s les ballons et ca fonctionne genre trop bien");
 
         RoleItem ballonsXavier = new RoleItem();
         CustomHead customHeadXavier = new CustomHead(textureXavier,"§7Ballon de §5§lXavier");
