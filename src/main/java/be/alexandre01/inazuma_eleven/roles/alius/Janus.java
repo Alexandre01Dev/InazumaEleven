@@ -43,6 +43,7 @@ public class  Janus extends Role implements Listener {
     String texture = "ewogICJ0aW1lc3RhbXAiIDogMTYxNTczMzg1MTExMywKICAicHJvZmlsZUlkIiA6ICJhMjk1ODZmYmU1ZDk0Nzk2OWZjOGQ4ZGE0NzlhNDNlZSIsCiAgInByb2ZpbGVOYW1lIiA6ICJWaWVydGVsdG9hc3RpaWUiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjhiMjBmMWNmMWQ2YzRmYWJhN2Q1ZGIzY2RlMjkxMTNkZDIwZDA0MDdmNGY3NzkxNTViZmJlYTY4ZGZhNTM1ZiIKICAgIH0KICB9Cn0";
     String textureXavier = "ewogICJ0aW1lc3RhbXAiIDogMTYxNTc0NzUzMzc0NSwKICAicHJvZmlsZUlkIiA6ICI3MmNiMDYyMWU1MTA0MDdjOWRlMDA1OTRmNjAxNTIyZCIsCiAgInByb2ZpbGVOYW1lIiA6ICJNb3M5OTAiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2MyZGM3Mjk0OTQzNTlhZGVjOTNkMGZkZGFmMGVmMzE2OTNjMDdmMjg3NmFkOWM1NzcyNzQ3NDhkNjZmYjczOCIKICAgIH0KICB9Cn0=";
     public Janus(IPreset preset) {
+
         super("Janus",preset);
 
         addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
@@ -54,28 +55,29 @@ public class  Janus extends Role implements Listener {
 
 
         setRoleCategory(Alius.class);
+        addListener(this);
+
+        if(inazumaEleven != null)
+            inventory = inazumaEleven.getBallonInv().toInventory();
+
         onLoad(new load() {
             @Override
             public void a(Player player) {
                     player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0,false,false), true);
             }
         });
-        addCommand("inaball", new command() {
-            @Override
-            public void a(String[] args, Player player) {
-                player.openInventory(inventory);
-            }
-        });
+
+
+
+        loadCommands();
         inazumaEleven = (InazumaEleven) preset;
-        inventory = inazumaEleven.getBallonInv().toInventory();
-        addListener(this);
+
         RoleItem ballons = new RoleItem();
         CustomHead customHead = new CustomHead(texture,"§eBallons");
         ItemStack itemStack = customHead.toItemStack();
         itemStack.setAmount(3);
         ballons.setItemstack(itemStack);
         ballons.setSlot(8);
-        ballons.setItemstack(new ItemBuilder(Material.DIRT).setName("ballon").toItemStack());
         ballons.setPlaceBlock(new RoleItem.PlaceBlock() {
             int i = 0;
             @Override
@@ -143,9 +145,7 @@ public class  Janus extends Role implements Listener {
                 player.sendMessage(Preset.instance.p.prefixName()+"§7Ballon n°§e"+(i)+" §aposé ! §e| §7X:"+ block.getLocation().getBlockX()+"§8| §7Y:"+block.getLocation().getBlockY()+ "§8| §7Z:"+block.getLocation().getBlockZ() );
             }
         });
-        Bukkit.broadcastMessage("la apres tu recois le ballon genre la mnt");
         addRoleItem(ballons);
-        Bukkit.broadcastMessage("la mnt t'a s les ballons et ca fonctionne genre trop bien");
 
         RoleItem ballonsXavier = new RoleItem();
         CustomHead customHeadXavier = new CustomHead(textureXavier,"§7Ballon de §5§lXavier");
@@ -225,6 +225,15 @@ public class  Janus extends Role implements Listener {
             }
         });
         addRoleItem(ballonsXavier);
+
+
+        addCommand("inaball", new command() {
+            @Override
+            public void a(String[] args, Player player) {
+                player.openInventory(inventory);
+            }
+        });
+
     }
 
     @EventHandler
