@@ -75,6 +75,7 @@ public class  Janus extends Role implements Listener {
         itemStack.setAmount(3);
         ballons.setItemstack(itemStack);
         ballons.setSlot(8);
+        ballons.setItemstack(new ItemBuilder(Material.DIRT).setName("ballon").toItemStack());
         ballons.setPlaceBlock(new RoleItem.PlaceBlock() {
             int i = 0;
             @Override
