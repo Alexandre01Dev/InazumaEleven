@@ -6,10 +6,7 @@ import be.alexandre01.inazuma.uhc.presets.Preset;
 
 import be.alexandre01.inazuma.uhc.roles.Role;
 import be.alexandre01.inazuma.uhc.roles.RoleItem;
-import be.alexandre01.inazuma.uhc.utils.CustomHead;
-import be.alexandre01.inazuma.uhc.utils.Episode;
-import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
-import be.alexandre01.inazuma.uhc.utils.PatchedEntity;
+import be.alexandre01.inazuma.uhc.utils.*;
 import be.alexandre01.inazuma_eleven.InazumaEleven;
 import be.alexandre01.inazuma_eleven.categories.Alius;
 import org.bukkit.Bukkit;
@@ -22,6 +19,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -34,11 +32,13 @@ import java.util.HashMap;
 
 public class  Janus extends Role implements Listener {
     ArrayList<Location> ballonsLoc = new ArrayList<>();
+    int i = 0;
+    int choosedBall = 0;
     Location xavierBall;
     Block xavierBlock;
     HashMap<Block,Location> ballonsBlock = new HashMap<>();
     InazumaEleven inazumaEleven;
-    int episode =0;
+    int episode = 0;
     Inventory inventory;
     String texture = "ewogICJ0aW1lc3RhbXAiIDogMTYxNTczMzg1MTExMywKICAicHJvZmlsZUlkIiA6ICJhMjk1ODZmYmU1ZDk0Nzk2OWZjOGQ4ZGE0NzlhNDNlZSIsCiAgInByb2ZpbGVOYW1lIiA6ICJWaWVydGVsdG9hc3RpaWUiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjhiMjBmMWNmMWQ2YzRmYWJhN2Q1ZGIzY2RlMjkxMTNkZDIwZDA0MDdmNGY3NzkxNTViZmJlYTY4ZGZhNTM1ZiIKICAgIH0KICB9Cn0";
     String textureXavier = "ewogICJ0aW1lc3RhbXAiIDogMTYxNTc0NzUzMzc0NSwKICAicHJvZmlsZUlkIiA6ICI3MmNiMDYyMWU1MTA0MDdjOWRlMDA1OTRmNjAxNTIyZCIsCiAgInByb2ZpbGVOYW1lIiA6ICJNb3M5OTAiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2MyZGM3Mjk0OTQzNTlhZGVjOTNkMGZkZGFmMGVmMzE2OTNjMDdmMjg3NmFkOWM1NzcyNzQ3NDhkNjZmYjczOCIKICAgIH0KICB9Cn0=";
@@ -79,7 +79,6 @@ public class  Janus extends Role implements Listener {
         ballons.setItemstack(itemStack);
         ballons.setSlot(8);
         ballons.setPlaceBlock(new RoleItem.PlaceBlock() {
-            int i = 0;
             @Override
             public void execute(Player player, Block block) {
                 if(i >= 3){
@@ -125,6 +124,7 @@ public class  Janus extends Role implements Listener {
                         cloneMeta.setLore(Arrays.asList("§fX §7: §2"+block.getLocation().getBlockX() + "","§fY §7: §2"+block.getLocation().getBlockY()+ "","§fZ §7: §2" +block.getLocation().getBlockZ()));
                         clone.setItemMeta(cloneMeta);
                         inventory.setItem(10,clone);
+                        i++;
                         break;
                     case 1:
                         clone.setAmount(2);
@@ -132,6 +132,7 @@ public class  Janus extends Role implements Listener {
                         cloneMeta.setLore(Arrays.asList("§fX §7: §2"+block.getLocation().getBlockX() + "","§fY §7: §2"+block.getLocation().getBlockY()+ "","§fZ §7: §2" +block.getLocation().getBlockZ()));
                         clone.setItemMeta(cloneMeta);
                         inventory.setItem(12,clone);
+                        i++;
                         break;
                     case 2:
                         clone.setAmount(3);
@@ -139,6 +140,7 @@ public class  Janus extends Role implements Listener {
                         cloneMeta.setLore(Arrays.asList("§fX §7: §2"+block.getLocation().getBlockX() + "","§fY §7: §2"+block.getLocation().getBlockY()+ "","§fZ §7: §2" +block.getLocation().getBlockZ()));
                         clone.setItemMeta(cloneMeta);
                         inventory.setItem(14,clone);
+                        i++;
                         break;
                 }
                 i++;
@@ -226,14 +228,41 @@ public class  Janus extends Role implements Listener {
         });
         addRoleItem(ballonsXavier);
 
-
-        addCommand("inaball", new command() {
+        RoleItem selector = new RoleItem();
+        selector.setItemstack(new ItemBuilder(Material.NETHER_BRICK_ITEM).setName("Sélecteur de Ballons").toItemStack());
+        selector.setRightClick(new RoleItem.RightClick() {
             @Override
-            public void a(String[] args, Player player) {
-                player.openInventory(inventory);
+            public void execute(Player player) {
+
+                if(choosedBall == i)
+                {
+                    choosedBall = 0;
+                    return;
+                }
+
+                choosedBall++;
+            }
+        });
+        selector.setLeftClick(new RoleItem.LeftClick() {
+            @Override
+            public void execute(Player player) {
+
+                onClick(player, choosedBall);
+
             }
         });
 
+
+    }
+
+    @EventHandler
+    public void onSwitchItem(PlayerItemHeldEvent event)
+    {
+        ItemStack is = event.getPlayer().getItemInHand();
+        if(is.hasItemMeta() && is.getItemMeta().hasDisplayName() && is.getItemMeta().getDisplayName().equalsIgnoreCase("Sélecteur de Ballons"))
+        {
+            TitleUtils.sendActionBar(event.getPlayer(),"Vous avez sélectionné le ballon " + choosedBall + 1);
+        }
     }
 
     @EventHandler
@@ -259,7 +288,7 @@ public class  Janus extends Role implements Listener {
             case 16:
                 player.sendMessage(Preset.instance.p.prefixName()+" §cCe ballon est réservé à §5§lXavier§c.");
                 break;
-        }
+            }
 
         }
     }
