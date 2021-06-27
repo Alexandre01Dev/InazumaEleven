@@ -252,6 +252,8 @@ public class  Janus extends Role implements Listener {
             }
         });
 
+        addRoleItem(selector);
+
 
     }
 
