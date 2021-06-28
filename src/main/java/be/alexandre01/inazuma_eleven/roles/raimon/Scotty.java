@@ -9,7 +9,9 @@ import be.alexandre01.inazuma.uhc.roles.Role;
 import be.alexandre01.inazuma.uhc.roles.RoleItem;
 import be.alexandre01.inazuma.uhc.utils.*;
 import be.alexandre01.inazuma_eleven.categories.Raimon;
+import be.alexandre01.inazuma_eleven.roles.alius.Janus;
 import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -24,6 +26,10 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class Scotty extends Role {
+
+    boolean hasTrap = false;
+    int currentBall;
+
 
     public Scotty(IPreset preset) {
         super("Scotty Banyan",preset);
@@ -67,6 +73,26 @@ public class Scotty extends Role {
 
         });
 
+
+        addCommand("trap", new command() {
+            @Override
+            public void a(String[] strings, Player player) {
+                if(strings[0].equalsIgnoreCase("yes"))
+                {
+                    hasTrap = true;
+                    if(inazumaUHC.rm.getRole(Janus.class) != null)
+                    {
+                        Janus janus = (Janus) inazumaUHC.rm.getRole(Janus.class);
+                        janus.trappedBalls.set(currentBall, true);
+                        player.sendMessage(Preset.instance.p.prefixName() + "§aPiège de ballons réussi avec succès ! §7Quand Janus s'y téléportera il recevra l'effet slowness I pendant 30 secondes et vous recevrez les coordonnées du ballon 10 secondes après la téléportation");
+                    }
+                }
+                else if(strings[0].equalsIgnoreCase("no"))
+                {
+                    player.sendMessage(Preset.instance.p.prefixName() + "§7Vous avez décidé de ne pas pieger ce ballon");
+                }
+            }
+        });
 
         RoleItem roleItem = new RoleItem();
         roleItem.setItemstack(new ItemBuilder(Material.STRING,3).setName("§ePeau de banane").toItemStack());
@@ -246,5 +272,51 @@ public class Scotty extends Role {
             }
         }.runTaskTimerAsynchronously(inazumaUHC,20,20);
     }
+
+
+    public void trapBall(int i, boolean isNear)
+    {
+
+        currentBall = i;
+        if(!isNear)
+        {
+            for(Player scotty : getPlayers())
+            {
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        scotty.sendMessage(Preset.instance.p.prefixName()+" Janus vient de poser on ballon.");
+
+                    }
+                }.runTaskLaterAsynchronously(inazumaUHC, 20*60*2);
+            }
+        }
+
+        if(!hasTrap && isNear)
+        {
+            for(Player scotty : getPlayers())
+            {
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        BaseComponent b = new TextComponent(Preset.instance.p.prefixName()+" Vous êtes passé à côté d'un ballon de Janus. §7Vouez-vous le piéger ?");
+                        b.addExtra("");
+                        BaseComponent yes = new TextComponent("§a[§2OUI§a]");
+                        yes.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/trap yes"));
+                        b.addExtra(yes);
+                        b.addExtra(" §7ou ");
+                        BaseComponent no = new TextComponent("§c[§4NON§c]");
+                        no.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/trap no"));
+
+                        b.addExtra(no);
+
+                        scotty.spigot().sendMessage(b);
+                    }
+                }.runTaskLaterAsynchronously(inazumaUHC,20*60);
+
+            }
+        }
+    }
+
 }
 
