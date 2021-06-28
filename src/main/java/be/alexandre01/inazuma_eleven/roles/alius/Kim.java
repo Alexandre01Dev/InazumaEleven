@@ -53,6 +53,8 @@ public class Kim extends Role implements Listener {
     @Setter  Location location = null;
     public Kim(IPreset preset) {
         super("Kim Powell",preset);
+        setRoleCategory(Alius.class);
+        setRoleToSpoil(Xavier.class);
         addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
         addDescription("§8- §7Vous possédez l’effet §6§l§4§lForce 1§7.");
         addDescription(" ");
@@ -75,7 +77,6 @@ public class Kim extends Role implements Listener {
 
 
         addListener(this);
-        setRoleCategory(Alius.class);
         onLoad(new load() {
             @Override
             public void a(Player player) {
@@ -209,7 +210,7 @@ public class Kim extends Role implements Listener {
                                     if (damaged.getHealth() + 2 > damaged.getMaxHealth()){
                                         damaged.setHealth(damaged.getMaxHealth());
                                         kim.sendMessage(Preset.instance.p.prefixName()+" Vous avez mis full vie " + damaged.getName() + ".");
-                                        damaged.sendMessage(Preset.instance.p.prefixName()+" Kim Powell vous a heal.");
+                                        damaged.sendMessage(Preset.instance.p.prefixName()+" Kim Powell vous à rétabli.");
                                         points = points - 10;
 
                                         timer = 5;
@@ -228,7 +229,7 @@ public class Kim extends Role implements Listener {
                                     }
                                     else {
                                         kim.sendMessage(Preset.instance.p.prefixName()+" Vous avez regen le monsieur qui est :  " + damaged.getName() + " de 1 coeur.");
-                                        damaged.sendMessage(Preset.instance.p.prefixName()+" Kim Powell vous a gentilement heal.");
+                                        damaged.sendMessage(Preset.instance.p.prefixName()+" Kim Powell vous à rétabli.");
                                         damaged.setHealth(damaged.getHealth() + 2);
                                         points = points - 10;
 
