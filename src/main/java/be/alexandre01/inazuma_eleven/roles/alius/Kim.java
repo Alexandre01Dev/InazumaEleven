@@ -209,8 +209,8 @@ public class Kim extends Role implements Listener {
                                 if (timer == 0){
                                     if (damaged.getHealth() + 2 > damaged.getMaxHealth()){
                                         damaged.setHealth(damaged.getMaxHealth());
-                                        kim.sendMessage(Preset.instance.p.prefixName()+" Vous avez mis full vie " + damaged.getName() + ".");
-                                        damaged.sendMessage(Preset.instance.p.prefixName()+" §5§lKim §lPowell§7 vous à §crétabli§7.");
+                                        kim.sendMessage(Preset.instance.p.prefixName()+" Vous avez §csoigné§7  " + damaged.getName() + ".");
+                                        damaged.sendMessage(Preset.instance.p.prefixName()+" §5§lKim §lPowell§7 vous à §csoigné§7.");
                                         points = points - 10;
 
                                         timer = 5;
@@ -228,8 +228,8 @@ public class Kim extends Role implements Listener {
                                         }.runTaskTimerAsynchronously(inazumaUHC, 20, 20);
                                     }
                                     else {
-                                        kim.sendMessage(Preset.instance.p.prefixName()+" Vous avez regen le monsieur qui est :  " + damaged.getName() + " de 1 coeur.");
-                                        damaged.sendMessage(Preset.instance.p.prefixName()+" §5§lKim §lPowell§7 vous à §crétabli§7.");
+                                        kim.sendMessage(Preset.instance.p.prefixName()+" Vous avez §csoigné§7  " + damaged.getName() + ".");
+                                        damaged.sendMessage(Preset.instance.p.prefixName()+" §5§lKim §lPowell§7 vous à §csoigné§7.");
                                         damaged.setHealth(damaged.getHealth() + 2);
                                         points = points - 10;
 
