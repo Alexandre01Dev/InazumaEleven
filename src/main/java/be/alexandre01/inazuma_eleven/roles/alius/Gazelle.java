@@ -268,9 +268,26 @@ public class Gazelle extends Role implements Listener {
                     {
                         var += Math.PI / 12;
 
-                        PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(EnumParticle.SMOKE_NORMAL, true, (loc.getBlockX() + 0.6f), (float) (loc.getY() + Math.sin(var) / 2 + 1.5),  (loc.getBlockZ() + 0.6f), 0, 0, 0, 0, 1);
+                        float r = 1;
+                        float g = 255;
+                        float b = 255;
+
+                        float secondR = 255;
+
+                        PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(EnumParticle.REDSTONE, true, (loc.getBlockX()), (float) (loc.getBlockY() + Math.sin(var) + 2),  (loc.getBlockZ()), r / 255,g / 255, b / 255, 1, 0);
+                        PacketPlayOutWorldParticles redstonePacket = new PacketPlayOutWorldParticles(EnumParticle.REDSTONE, true, (loc.getBlockX() + 1), (float) (loc.getBlockY() + Math.sin(var) + 2),  (loc.getBlockZ() + 1), r / 255,g / 255, b / 255, 1, 0);
+                        PacketPlayOutWorldParticles snowballPacket = new PacketPlayOutWorldParticles(EnumParticle.REDSTONE, true, (loc.getBlockX() + 1), (float) (loc.getBlockY() + Math.sin(var) + 2),  (loc.getBlockZ()), (float) 1 / 255,(float) 1 / 255, b / 255, 1, 0);
+                        PacketPlayOutWorldParticles snowballPackette = new PacketPlayOutWorldParticles(EnumParticle.REDSTONE, true, (loc.getBlockX()), (float) (loc.getBlockY() + Math.sin(var) + 2),  (loc.getBlockZ() + 1), (float) 1 / 255,(float) 1 / 255, b / 255, 1, 0);
+                        PacketPlayOutWorldParticles snowball = new PacketPlayOutWorldParticles(EnumParticle.SNOWBALL, true, (loc.getBlockX() + 0.5f), (float) (loc.getBlockY() + Math.sin(var) + 2),  (loc.getBlockZ() + 0.5f), 0,0, 0, 0, 1);
                         for(Player online : Bukkit.getOnlinePlayers())
+                        {
                             ((CraftPlayer) online).getHandle().playerConnection.sendPacket(packet);
+                            ((CraftPlayer) online).getHandle().playerConnection.sendPacket(snowballPacket);
+                            ((CraftPlayer) online).getHandle().playerConnection.sendPacket(snowballPackette);
+                            ((CraftPlayer) online).getHandle().playerConnection.sendPacket(redstonePacket);
+                            ((CraftPlayer) online).getHandle().playerConnection.sendPacket(snowball);
+                        }
+
                     }
                     else {
                         cancel();
