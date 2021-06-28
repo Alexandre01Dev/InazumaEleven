@@ -53,6 +53,8 @@ public class Kim extends Role implements Listener {
     @Setter  Location location = null;
     public Kim(IPreset preset) {
         super("Kim Powell",preset);
+        setRoleCategory(Alius.class);
+        setRoleToSpoil(Xavier.class);
         addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
         addDescription("§8- §7Vous possédez l’effet §6§l§4§lForce 1§7.");
         addDescription(" ");
@@ -75,7 +77,6 @@ public class Kim extends Role implements Listener {
 
 
         addListener(this);
-        setRoleCategory(Alius.class);
         onLoad(new load() {
             @Override
             public void a(Player player) {
@@ -208,8 +209,8 @@ public class Kim extends Role implements Listener {
                                 if (timer == 0){
                                     if (damaged.getHealth() + 2 > damaged.getMaxHealth()){
                                         damaged.setHealth(damaged.getMaxHealth());
-                                        kim.sendMessage(Preset.instance.p.prefixName()+" Vous avez mis full vie " + damaged.getName() + ".");
-                                        damaged.sendMessage(Preset.instance.p.prefixName()+" Kim Powell vous a heal.");
+                                        kim.sendMessage(Preset.instance.p.prefixName()+" Vous avez §csoigné§7  " + damaged.getName() + ".");
+                                        damaged.sendMessage(Preset.instance.p.prefixName()+" §5§lKim §lPowell§7 vous à §csoigné§7.");
                                         points = points - 10;
 
                                         timer = 5;
@@ -227,8 +228,8 @@ public class Kim extends Role implements Listener {
                                         }.runTaskTimerAsynchronously(inazumaUHC, 20, 20);
                                     }
                                     else {
-                                        kim.sendMessage(Preset.instance.p.prefixName()+" Vous avez regen le monsieur qui est :  " + damaged.getName() + " de 1 coeur.");
-                                        damaged.sendMessage(Preset.instance.p.prefixName()+" Kim Powell vous a gentilement heal.");
+                                        kim.sendMessage(Preset.instance.p.prefixName()+" Vous avez §csoigné§7  " + damaged.getName() + ".");
+                                        damaged.sendMessage(Preset.instance.p.prefixName()+" §5§lKim §lPowell§7 vous à §csoigné§7.");
                                         damaged.setHealth(damaged.getHealth() + 2);
                                         points = points - 10;
 
