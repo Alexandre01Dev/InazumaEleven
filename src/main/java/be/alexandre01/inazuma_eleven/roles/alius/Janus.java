@@ -9,6 +9,7 @@ import be.alexandre01.inazuma.uhc.roles.RoleItem;
 import be.alexandre01.inazuma.uhc.utils.*;
 import be.alexandre01.inazuma_eleven.InazumaEleven;
 import be.alexandre01.inazuma_eleven.categories.Alius;
+import be.alexandre01.inazuma_eleven.roles.raimon.Scotty;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -25,14 +26,18 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
 public class  Janus extends Role implements Listener {
     ArrayList<Location> ballonsLoc = new ArrayList<>();
-    ArrayList<Boolean> ballsAvailable = new ArrayList<>();
+    public ArrayList<Boolean> ballsAvailable = new ArrayList<>();
+    public ArrayList<Boolean> trappedBalls = new ArrayList<>();
+    ArrayList<Boolean> notifBalls = new ArrayList<>();
     int i = 0;
     int choosedBall = 0;
     Location xavierBall;
@@ -74,6 +79,14 @@ public class  Janus extends Role implements Listener {
         ballsAvailable.add(false);
         ballsAvailable.add(false);
         ballsAvailable.add(false);
+
+        trappedBalls.add(false);
+        trappedBalls.add(false);
+        trappedBalls.add(false);
+
+        notifBalls.add(false);
+        notifBalls.add(false);
+        notifBalls.add(false);
 
         RoleItem ballons = new RoleItem();
         CustomHead customHead = new CustomHead(texture,"§eBallons");
@@ -143,7 +156,12 @@ public class  Janus extends Role implements Listener {
                         i++;
                         break;
                 }
-                player.sendMessage(Preset.instance.p.prefixName()+"§7Ballon n°§e"+(i)+" §aposé ! §e| §7X:"+ block.getLocation().getBlockX()+"§8| §7Y:"+block.getLocation().getBlockY()+ "§8| §7Z:"+block.getLocation().getBlockZ() );
+                player.sendMessage(Preset.instance.p.prefixName()+"§7Ballon n°§e"+(i)+" §aposé ! §e| §7X:"+ block.getLocation().getBlockX()+"§8| §7Y:"+block.getLocation().getBlockY()+ "§8| §7Z:"+block.getLocation().getBlockZ());
+                if(inazumaUHC.rm.getRole(Scotty.class) != null)
+                {
+                    Scotty scotty = (Scotty) inazumaUHC.rm.getRole(Scotty.class);
+                    scotty.trapBall(i-1, false);
+                }
             }
         });
         addRoleItem(ballons);
@@ -267,10 +285,54 @@ public class  Janus extends Role implements Listener {
 
                 onClick(player, choosedBall - 1);
 
+                if(trappedBalls.get(choosedBall - 1))
+                {
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20*30, 0));
+                    Location loc = player.getLocation();
+                    if(inazumaUHC.rm.getRole(Scotty.class) != null)
+                    {
+                        player.sendMessage(Preset.instance.p.prefixName() + "Vous vous êtes téléprté à un ballon piégé. Vous recevez l'effet Slowness I pendant 30 secondes et Scotty recevra les coordonnées du ballon dans 10 secondes");
+                        for(Player scotty : inazumaUHC.rm.getRole(Scotty.class).getPlayers())
+                        {
+                            new BukkitRunnable() {
+                                @Override
+                                public void run() {
+                                    scotty.sendMessage(Preset.instance.p.prefixName() + "Janus s'est téléporté à un ballon piégé. Voici ses coordonnées X: " + loc.getBlockX() + " Y: " + loc.getBlockY() + " Z: " + loc.getBlockZ());
+                                }
+                            }.runTaskLaterAsynchronously(inazumaUHC, 20*10);
+                        }
+                    }
+                }
+
+
+
             }
         });
 
         addRoleItem(selector);
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+
+                for(Location location : ballonsLoc)
+                {
+                    for( Player nearbyPlayer : PlayerUtils.getNearbyPlayers(location, 50, 50,50))
+                    {
+                        if(inazumaUHC.rm.getRole(nearbyPlayer) instanceof Scotty)
+                        {
+                            int locPositon = ballonsLoc.indexOf(location);
+                            if(!trappedBalls.get(locPositon) && !notifBalls.get(locPositon))
+                            {
+                                Scotty scotty = (Scotty) inazumaUHC.rm.getRole(nearbyPlayer);
+                                scotty.trapBall(ballonsLoc.indexOf(location), true);
+                                notifBalls.set(locPositon, true);
+                            }
+                        }
+                    }
+                }
+            }
+        }.runTaskTimerAsynchronously(inazumaUHC, 1, 20*7);
 
 
     }
@@ -297,8 +359,6 @@ public class  Janus extends Role implements Listener {
         Player player = (Player) event.getWhoClicked();
         if(inazumaUHC.rm.getRole(player) instanceof Janus){
 
-        if(!event.getClickedInventory().getName().equals(inventory.getName()))
-            return;
         switch (event.getSlot()){
             case 10:
                 onClick(player,0);
@@ -414,10 +474,6 @@ public class  Janus extends Role implements Listener {
                 a++;
                 b++;
             }
-
-
-
-
         }
         return cLoc;
     }
