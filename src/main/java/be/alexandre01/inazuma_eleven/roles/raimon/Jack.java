@@ -1,15 +1,24 @@
 package be.alexandre01.inazuma_eleven.roles.raimon;
 
+import be.alexandre01.inazuma.uhc.InazumaUHC;
 import be.alexandre01.inazuma.uhc.presets.IPreset;
 import be.alexandre01.inazuma.uhc.presets.Preset;
 
 import be.alexandre01.inazuma.uhc.roles.Role;
+import be.alexandre01.inazuma.uhc.roles.RoleItem;
+import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
+import be.alexandre01.inazuma.uhc.utils.LocationUtils;
 import be.alexandre01.inazuma.uhc.utils.PlayerUtils;
 import be.alexandre01.inazuma.uhc.utils.TitleUtils;
+import be.alexandre01.inazuma.uhc.worlds.utils.Cuboid;
 import be.alexandre01.inazuma_eleven.categories.Raimon;
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.Statistic;
+import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,11 +33,18 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.NameTagVisibility;
 import org.bukkit.scoreboard.Team;
+import org.bukkit.util.BlockIterator;
+import org.bukkit.util.Vector;
 import org.inventivetalent.packetlistener.PacketListenerAPI;
 import org.inventivetalent.packetlistener.handler.PacketHandler;
 import org.inventivetalent.packetlistener.handler.ReceivedPacket;
 import org.inventivetalent.packetlistener.handler.SentPacket;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Set;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class Jack extends Role implements Listener {
@@ -86,6 +102,119 @@ public class Jack extends Role implements Listener {
 
         };
 
+        RoleItem roleItem = new RoleItem();
+        roleItem.setItemstack(new ItemBuilder(Material.CARROT_ITEM).setName("Mur").toItemStack());
+        roleItem.setRightClick(new RoleItem.RightClick() {
+            @Override
+            public void execute(Player player) {
+                Location location = player.getLocation();
+                Block block = location.clone().add(location.getDirection().multiply(-5)).getBlock();
+                System.out.println(block);
+                System.out.println(block.getType());
+                Location bLocation = block.getLocation();
+                for (int y = bLocation.getBlockY(); y > 0; y--) {
+                  bLocation.setY(y);
+                  if(bLocation.getBlock().getType() != Material.AIR){
+                      bLocation.setY(y+1);
+                      break;
+                  }
+                }
+                System.out.println("Bloc > "+bLocation);
+                Vector vector = location.getDirection().normalize().multiply(5);
+                System.out.println("Vec"+location.clone().add(vector));
+                Location rotate = location.clone();
+                rotate.setPitch(0);
+                rotate.setYaw(rotate.getYaw()+90);
+                Location rotateInverse = location.clone();
+                rotateInverse.setYaw(rotateInverse.getYaw()+(90*3));
+                Vector borderMin = rotate.getDirection().normalize();
+                Vector borderMax = rotateInverse.getDirection().normalize();
+                System.out.println("VECY+ "+borderMax.getY());
+
+                ArrayList<Location> allBlocks = new ArrayList<>();
+                for (int i = 1; i < 20; i++) {
+                    allBlocks.add(bLocation.clone().add(borderMin.clone().multiply(i)));
+                    allBlocks.add(bLocation.clone().add(borderMax.clone().multiply(i)));
+                }
+                Material[] bannedMat = {Material.AIR,Material.YELLOW_FLOWER,Material.LONG_GRASS,Material.getMaterial(37),Material.RED_MUSHROOM,Material.BROWN_MUSHROOM,Material.CROPS,Material.DOUBLE_PLANT,Material.WATER,Material.STATIONARY_WATER};
+                ArrayList<Location> locs = new ArrayList<>();
+                int yMin = 255;
+                for(Location ab : allBlocks){
+                    for (int y = ab.getBlockY(); y > 0; y--) {
+                        ab.setY(y);
+                        if(!Arrays.asList(bannedMat).contains(ab.getBlock().getType())){
+                            if(yMin > y){
+                                yMin = y;
+                            }
+                            break;
+                        }
+                    }
+                }
+                for(Location ab : allBlocks){
+                    ab.setY(yMin);
+
+                    for (int i = ab.getBlockY(); i < (bLocation.getBlockY()+20); i++) {
+                        System.out.println("ADD " + ab.getBlockY() +"/ " + ab);
+                        Location loc = ab.clone();
+                        loc.setY(i);
+                        if(Arrays.asList(bannedMat).contains(loc.getBlock().getType())){
+                            locs.add(loc);
+                        }
+                        //loc.getBlock().setType(Material.WOOD);
+                    }
+                }
+
+                Collections.shuffle(locs);
+
+                new BukkitRunnable() {
+                    int i = 0;
+                    int d = locs.size()/2;
+                    int s = 0;
+                    @Override
+                    public void run() {
+                        Material[] mat = {Material.WOOD, Material.MOSSY_COBBLESTONE,Material.DIRT,Material.LOG};
+                        int k = 0;
+                        if(d > locs.size()-1){
+                            d = locs.size();
+                        }
+                        for(Location loc : locs.subList(i, d)){
+                            loc.getBlock().setType(mat[k]);
+                            if(k >= mat.length-1){
+                                k = 0;
+                            }
+
+                            k++;
+                        }
+                        Sound[] sounds = {Sound.ANVIL_USE,Sound.ZOMBIE_WOODBREAK};
+                        bLocation.getWorld().playSound(bLocation,sounds[s],5,1);
+                        if(s >= mat.length){
+                            s = 0;
+                        }
+                        s++;
+                        if(locs.size()-1 <= d){
+                            cancel();
+                        }
+
+                        i = d;
+                        d += d;
+
+
+                    }
+                }.runTaskTimer(inazumaUHC,5L,20L);
+
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        for(Location l : locs){
+                            l.getBlock().setType(Material.AIR);
+                        }
+                    }
+                }.runTaskLater(InazumaUHC.get,20*30);
+
+
+            }
+        });
+        addRoleItem(roleItem);
         addListener(this);
     }
 
@@ -162,6 +291,14 @@ public class Jack extends Role implements Listener {
                         inazumaUHC.invisibilityInventory.setInventoryToInitialToOther(player);
                         isSneakTimer = false;
                         Team t = Bukkit.getScoreboardManager().getMainScoreboard().getTeam(player.getName());
+                        if(t == null){
+                            if(register){
+                                PacketListenerAPI.removePacketHandler(packetHandler);
+                                register = false;
+                            }
+                            b.cancel();
+                            return;
+                        }
                         t.setNameTagVisibility(NameTagVisibility.ALWAYS);
                         if(register){
                             PacketListenerAPI.removePacketHandler(packetHandler);

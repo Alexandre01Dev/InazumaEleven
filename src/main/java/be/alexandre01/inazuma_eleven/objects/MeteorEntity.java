@@ -56,28 +56,57 @@ public class MeteorEntity extends EntityFireball implements Listener {
 
         List<Player> p = PlayerUtils.getNearbyPlayers(calc,12,12,12);
         if(!p.isEmpty()){
+            new BukkitRunnable() {
+                int i = 6*2;
+                @Override
+                public void run() {
+                    if(i == 0){
+                        for(Player player : p){
+                            player.removePotionEffect(PotionEffectType.BLINDNESS);
+                        }
+                        cancel();
+                        return;
+                    }
+                    for(Player player : p){
+                        if(i % 2 == 0){
+                            player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, i*20, 0,false,false), true);
+                        }else {
+                            player.removePotionEffect(PotionEffectType.BLINDNESS);
+                        };
+                    }
+
+                    i--;
+
+
+                }
+            }.runTaskTimer(InazumaUHC.get,10,10);
             for(Player player : p){
-                player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 8*20, 0,false,false), true);
+
+
                 player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 5*20, 0,false,false), true);
                 InazumaUHC.get.invincibilityDamager.addPlayer(player,1000, EntityDamageEvent.DamageCause.ENTITY_EXPLOSION);
                 InazumaUHC.get.invincibilityDamager.addPlayer(player,1000, EntityDamageEvent.DamageCause.BLOCK_EXPLOSION);
 
-                Vector vector = player.getLocation().subtract(calc).toVector().normalize().multiply(6).multiply(1/(calc.distance(player.getLocation())/2.5D));
+                double distance = ((calc.distance(player.getLocation())/2.5D));
+                if(distance < 1.5D){
+                    distance = 1.5D;
+                }
+                Vector vector = player.getLocation().subtract(calc).toVector().normalize().multiply(5).multiply(1/(distance));
 
                 vector.add(new Vector(0,1,0));
-                if(vector.getY() > 3)
-                    vector.setY(3);
+                if(vector.getY() > 2)
+                    vector.setY(2);
 
 
                 player.setVelocity(vector);
             }
         }
 
-        List<Player> p2 = PlayerUtils.getNearbyPlayers(calc,24,24,24);
+        List<Player> p2 = PlayerUtils.getNearbyPlayers(calc,40,24,40);
         if(!p2.isEmpty()){
             p2.removeAll(p);
             for(Player player : p2){
-                Vector vector = player.getLocation().subtract(calc).toVector().normalize().multiply(6).multiply(1/(calc.distance(player.getLocation())/1.5D));
+                Vector vector = player.getLocation().subtract(calc).toVector().normalize().multiply(24).multiply(1/(calc.distance(player.getLocation())/1.5D));
                 player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 2*20, 0,false,false), true);
                 vector.add(new Vector(0,0.6,0));
                 if(vector.getY() > 2)
