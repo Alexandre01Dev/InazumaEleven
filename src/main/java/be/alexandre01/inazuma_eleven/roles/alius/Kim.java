@@ -15,13 +15,16 @@ import lombok.Setter;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.Item;
+import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import net.minecraft.server.v1_8_R3.Tuple;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -77,10 +80,12 @@ public class Kim extends Role implements Listener {
 
 
         addListener(this);
+
         onLoad(new load() {
             @Override
             public void a(Player player) {
 
+                particles(player);
                 Bukkit.getScheduler().scheduleSyncDelayedTask(InazumaUHC.get, new Runnable() {
                     @Override
                     public void run() {
@@ -231,6 +236,11 @@ public class Kim extends Role implements Listener {
                                         kim.sendMessage(Preset.instance.p.prefixName()+" Vous avez §csoigné§7  " + damaged.getName() + ".");
                                         damaged.sendMessage(Preset.instance.p.prefixName()+" §5§lKim §lPowell§7 vous à §csoigné§7.");
                                         damaged.setHealth(damaged.getHealth() + 2);
+                                        damaged.playSound(damaged.getLocation(), Sound.LAVA_POP, 1, 2);
+
+
+
+
                                         points = points - 10;
 
                                         timer = 5;
@@ -263,5 +273,45 @@ public class Kim extends Role implements Listener {
             }
         }
 
+    }
+
+    private void particles(Player damaged)
+    {
+        new BukkitRunnable() {
+            double var = 0;
+            double secondVar = 0;
+            double y;
+            Location loc, first;
+            @Override
+            public void run() {
+
+                secondVar += Math.PI / 8;
+                loc = damaged.getLocation();
+
+                y = Math.sin(secondVar) / 2 + 0.5;
+
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        var += Math.PI / 8;
+                        if(var < 360)
+                        {
+                            double x = Math.sin(var) / 2;
+                            double z = Math.cos(var) / 2;
+
+                            first = loc.clone().add(x, y, z);
+
+                            PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(EnumParticle.HEART,true, (float) (first.getX() + x), (float) (first.getY() + y), (float) (first.getZ() + z), 0, 0, 0, 0, 1);
+                            for(Player online : Bukkit.getOnlinePlayers()) {
+                                ((CraftPlayer) online).getHandle().playerConnection.sendPacket(packet);
+                            }
+                        }
+                        else{
+                            cancel();
+                        }
+                    }
+                }.runTaskTimerAsynchronously(inazumaUHC, 1,1);
+            }
+        }.runTaskTimerAsynchronously(inazumaUHC, 1,5);
     }
 }
