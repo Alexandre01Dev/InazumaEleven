@@ -57,7 +57,7 @@ public class Eric extends Role implements Listener {
                     @Override
                     public void run() {
                         i++;
-                        Sphere sphere = new Sphere(arrow.getLocation(), 2);
+                        Sphere sphere = new Sphere(arrow.getLocation(), 3);
                         sphere.getBlocks().forEach(block -> {
                             if(block.getType() == Material.WATER || block.getType() == Material.BEDROCK)
                                 return;
