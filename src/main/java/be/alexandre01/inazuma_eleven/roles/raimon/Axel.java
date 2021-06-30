@@ -289,7 +289,9 @@ public class Axel extends Role implements Listener {
         if(role.getClass().equals(Axel.class)){
 
             if(feu = true){
-                player.setFireTicks(20*5);
+                (!inazumaUHC.rm.getRole(player).getClass().equals(Gazelle.class) && !inazumaUHC.rm.getRole(player).getClass().equals(Axel.class) && !inazumaUHC.rm.getRole(player).getClass().equals(Shawn.class) &&  !inazumaUHC.rm.getRole(player).getClass().equals(Hurley.class)){
+                    player.setFireTicks(20*5);
+                }
             }
 
             if(!isSolo){
