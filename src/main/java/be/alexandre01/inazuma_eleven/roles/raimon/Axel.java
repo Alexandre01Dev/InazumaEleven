@@ -42,9 +42,9 @@ import java.util.HashMap;
 
 public class Axel extends Role implements Listener {
 
+    public boolean isSolo = false;
     private HashMap<Player,Long> playersTag;
     Mercenaire mercenaire = new Mercenaire();
-    Mercenaire isSolo = new Mercenaire();
     boolean feu = false;
 
 
@@ -90,7 +90,7 @@ public class Axel extends Role implements Listener {
 
         roleItem.setRightClick(player -> {
             feu = true;
-            if(!solo){
+            if(!isSolo){
                 player.sendMessage(Preset.instance.p.prefixName()+" Vous venez d'utiliser la §4§lTornade §c§lDe §4§lFeu§7.");
                 player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 90*20, 0,false,false), true);
             }
@@ -98,6 +98,16 @@ public class Axel extends Role implements Listener {
                 player.sendMessage(Preset.instance.p.prefixName()+" Vous venez d'utiliser la §4§lTornade §c§lDe §4§lFeu§7.");
                 player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 90*20, 1,false,false), true);
             }
+
+            new BukkitRunnable(){
+                @Override
+                public void run(){
+
+                    feu = false;
+                    player.setWalkSpeed(0.2F);
+
+                }
+            }.runTaskLater(inazumaUHC,20*90);
 
         });
         addRoleItem(roleItem);
@@ -270,6 +280,27 @@ public class Axel extends Role implements Listener {
         }
     }
 
+    @EventHandler
+    public void onBurning(EntityDamageByEntityEvent event) {
+        Player axel = (Player) event.getDamager();
+        Player player = (Player) event.getEntity();
+        Role role = inazumaUHC.rm.getRole(axel);
 
+        if(role.getClass().equals(Axel.class)){
+
+            if(feu = true){
+                player.setFireTicks(20*5);
+            }
+
+            if(!isSolo){
+                axel.setWalkSpeed(0.4F);
+            }
+
+        }
+
+
+
+
+    }
 
 }

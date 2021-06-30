@@ -45,7 +45,6 @@ public class Mercenaire{
 
     public ArrayList<Player> list;
     boolean hasAxel = true;
-    public boolean Solo = false;
     public Player mercenaire;
 
     public void onPvP(){

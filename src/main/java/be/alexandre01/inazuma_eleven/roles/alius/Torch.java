@@ -175,8 +175,11 @@ public class Torch  extends Role implements Listener {
                                 if( !inazumaUHC.rm.getRole(player).getClass().equals(Torch.class) && !inazumaUHC.rm.getRole(player).getClass().equals(Axel.class) && !inazumaUHC.rm.getRole(player).getClass().equals(Shawn.class)){
                                     player.removePotionEffect(PotionEffectType.SLOW);
                                     player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20*5, 1,true,false));
-                                    player.setFireTicks(3*20);
                                     player.sendMessage(Preset.instance.p.prefixName()+" §cTorch§7 vient d'utiliser son épée sur vous.");
+                                    if(inazumaUHC.rm.getRole(player).getClass().equals(Hurley.class)){
+                                        return;
+                                    }
+                                    player.setFireTicks(3*20);
                                 }
                                 if( inazumaUHC.rm.getRole(player).getClass().equals(Torch.class) && inazumaUHC.rm.getRole(player).getClass().equals(Axel.class) && inazumaUHC.rm.getRole(player).getClass().equals(Shawn.class)){
                                     player.sendMessage(Preset.instance.p.prefixName()+" §cTorch§7 vient d'utiliser son épée sur vous, mais en vain.");
