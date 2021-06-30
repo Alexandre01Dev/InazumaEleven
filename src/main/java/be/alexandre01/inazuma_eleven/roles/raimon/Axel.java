@@ -99,16 +99,6 @@ public class Axel extends Role implements Listener {
                 player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 90*20, 1,false,false), true);
             }
 
-            new BukkitRunnable(){
-                @Override
-                public void run(){
-
-                    feu = false;
-                    player.setWalkSpeed(0.2F);
-
-                }
-            }.runTaskLater(inazumaUHC,20*90);
-
         });
         addRoleItem(roleItem);
 
@@ -296,6 +286,17 @@ public class Axel extends Role implements Listener {
 
             if(!isSolo){
                 axel.setWalkSpeed(0.4F);
+
+                new BukkitRunnable(){
+                    @Override
+                    public void run(){
+
+                        feu = false;
+                        player.setWalkSpeed(0.2F);
+
+                    }
+                }.runTaskLater(inazumaUHC,20*90);
+
             }
 
         }
