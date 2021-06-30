@@ -45,25 +45,16 @@ public class Mercenaire{
 
     public ArrayList<Player> list;
     boolean hasAxel = true;
+    public boolean Solo = false;
     public Player mercenaire;
 
     public void onPvP(){
-
 
         new BukkitRunnable() {
             @Override
             public void run() {
                 if (InazumaUHC.get.rm.getRole(Axel.class) == null)
                     return;
-
-
-
-                Axel axel = (Axel) InazumaUHC.get.rm.getRole(Axel.class);
-
-
-
-
-
 
                 new BukkitRunnable(){
                     @Override
@@ -97,11 +88,11 @@ public class Mercenaire{
 
                             hasFound = true;
 
-                            Bukkit.broadcastMessage("Le mercenaire est : " + role.getPlayers().get(0).getName());
                             mercenaire = role.getPlayers().get(0);
 
 
                             target.sendMessage(Preset.instance.p.prefixName()+" §7Vous êtes le §c§lMercenaire§7 de §d§lJulia§7.");
+                            target.sendMessage("§8- §7Vous disposez de §c§l2 §4❤§7 permanents supplémentaires.");
                             target.sendMessage(Preset.instance.p.prefixName()+" §7Votre objectif est de faire en sorte qu'§c§lAlex§7 ne soit plus avec §6§lRaimon§7.");
                             target.sendMessage(" ");
                             BaseComponent mercenaireButton = new TextComponent("§8- §7Vous avez une commande : " + "§5/kidnapping");
@@ -147,7 +138,8 @@ public class Mercenaire{
                                     if (mercenaireloc.distance(axelloc) /2 <= 15){
 
                                         kidnacommand = true;
-                                        player.sendMessage(Preset.instance.p.prefixName()+"Axel quiterra Raimon dans 2 minutes.");
+                                        target.setMaxHealth(target.getMaxHealth()+2);
+                                        player.sendMessage(Preset.instance.p.prefixName()+"Axel quiterra Raimon dans 2 minutes et vous gagnez 1 coeur.");
 
                                         Axel r_axel = (Axel) InazumaUHC.get.rm.getRole(Axel.class);
 

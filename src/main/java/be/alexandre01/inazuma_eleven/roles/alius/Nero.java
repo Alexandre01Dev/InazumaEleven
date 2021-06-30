@@ -26,6 +26,7 @@ public class Nero extends Role implements Listener {
         super("Nero", preset);
         addListener(this);
         setRoleCategory(Alius.class);
+        setRoleToSpoil(Xavier.class);
 
         addCommand("local", new command() {
 

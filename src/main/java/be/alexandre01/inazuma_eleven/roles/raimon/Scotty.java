@@ -33,6 +33,8 @@ public class Scotty extends Role {
 
     public Scotty(IPreset preset) {
         super("Scotty Banyan",preset);
+        setRoleCategory(Raimon.class);
+        setRoleToSpoil(Jack.class);
         addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
         addDescription("§8- §7Vous disposez de §b§lSpeed 1§7");
         addDescription(" ");
@@ -63,7 +65,7 @@ public class Scotty extends Role {
         addDescription(d);
 
 
-        setRoleCategory(Raimon.class);
+
         onLoad(new load() {
             @Override
             public void a(Player player) {

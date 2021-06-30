@@ -111,7 +111,7 @@ public class Xavier extends Role implements Listener {
             craftEntity.setVelocity(new Vector(0,-1,0));
         });
 
-        addCommand("reunion start", new command() {
+        /*addCommand("reunion start", new command() {
             @Override
             public void a(String[] args, Player player) {
                 List<Player> list = new ArrayList<>();
@@ -204,7 +204,7 @@ public class Xavier extends Role implements Listener {
                 }
                 player.sendMessage(Preset.instance.p.prefixName()+" Veuillez mettre §a/reunion accept §7ou §a/reunion refuse");
             }
-        });
+        });*/
 
         inventory = ((InazumaEleven)preset).getBallonInv().toInventory();
         RoleItem roleItem = new RoleItem();

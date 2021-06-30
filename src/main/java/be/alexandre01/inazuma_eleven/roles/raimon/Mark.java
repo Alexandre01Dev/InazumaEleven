@@ -105,6 +105,7 @@ public class Mark extends Role implements Listener {
             player.getInventory().addItem(new ItemStack(Material.GOLDEN_APPLE, 2));
             player.updateInventory();
             levelRomain = "III";
+            //Main Céleste
         });
         actionOnLevel.put(4, player ->  {
             player.setMaxHealth(player.getMaxHealth()+2);
@@ -113,12 +114,12 @@ public class Mark extends Role implements Listener {
         actionOnLevel.put(5 , player ->  {
             corrupttest++;
             levelRomain = "V";
-            //Main Magique
         });
         actionOnLevel.put(6 , player ->  {
             player.getInventory().addItem(new ItemStack(Material.GOLDEN_APPLE, 2));
             player.updateInventory();
             levelRomain = "VI";
+            //Main Magique
         });
         actionOnLevel.put(7 , player ->  {
             //Entrainement Darren SOON V1.?  ou Mate Random pour la V1
@@ -130,14 +131,19 @@ public class Mark extends Role implements Listener {
             //Unlock Ina Boost
         });
         actionOnLevel.put(9 , player ->  {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 1,false,false), true);
-            inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.RESISTANCE,2,120);
+            //Poing de la Justice
             levelRomain = "IX";
         });
-        expToUnlockNextLevel.put(6,15);
-        expToUnlockNextLevel.put(7,15);
-        expToUnlockNextLevel.put(8,15);
-        expToUnlockNextLevel.put(9,-1);
+        actionOnLevel.put(10 , player ->  {
+            player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 1,false,false), true);
+            inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.RESISTANCE,2,120);
+            levelRomain = "X";
+        });
+        expToUnlockNextLevel.put(6,10);
+        expToUnlockNextLevel.put(7,10);
+        expToUnlockNextLevel.put(8,10);
+        expToUnlockNextLevel.put(9,10);
+        expToUnlockNextLevel.put(10,-1);
 
 
 
@@ -152,7 +158,7 @@ public class Mark extends Role implements Listener {
                     new BukkitRunnable(){
                         @Override
                         public void run(){
-                            float f = 2.5f * multiplicateur;
+                            float f = 4f * multiplicateur;
                             time = time + f;
                             player.sendMessage(Preset.instance.p.prefixName()+"§7Vous avez survécu §a10 minutes§7. De se fait, vous gagné §6"+Math.round((double) f*100)/ 100.0+" points§7.");
                             checkLevel(player);
@@ -259,7 +265,7 @@ public class Mark extends Role implements Listener {
 
             if(roleCategory.getClass().equals(Raimon.class) && !inazumaUHC.rm.getRole(killed.getUniqueId()).getClass().equals(Mark.class)){
 
-                float c = 2f * multiplicateur;
+                float c = -1f * multiplicateur;
                 death = death + c;
                 checkLevel(killer);
 
@@ -290,7 +296,7 @@ public class Mark extends Role implements Listener {
 
             else if(roleCategory.getClass().equals(Alius.class)){
 
-                float c = 4f * multiplicateur;
+                float c = 5f * multiplicateur;
                 death = death + c;
                 checkLevel(killer);
 
@@ -316,7 +322,7 @@ public class Mark extends Role implements Listener {
 
             else if(roleCategory.getRoles().equals(Byron.class)){
 
-                float c = 8f * multiplicateur;
+                float c = 10f * multiplicateur;
                 death = death + c;
                 checkLevel(killer);
 
@@ -343,7 +349,7 @@ public class Mark extends Role implements Listener {
 
         if(roleCategory.getClass().equals(Raimon.class) && !inazumaUHC.rm.getRole(killed.getUniqueId()).getClass().equals(Mark.class)){
 
-            float b = 5f * multiplicateur;
+            float b = 4f * multiplicateur;
             death = death + b;
 
             for(Player player : inazumaUHC.rm.getRole(Mark.class).getPlayers()){
@@ -370,7 +376,7 @@ public class Mark extends Role implements Listener {
 
         if(roleCategory.getClass().equals(Alius.class)){
 
-            float d = 1f * multiplicateur;
+            float d = 2f * multiplicateur;
             death = death + d;
 
             for(Player player : inazumaUHC.rm.getRole(Mark.class).getPlayers()){
@@ -396,7 +402,7 @@ public class Mark extends Role implements Listener {
 
         if(roleCategory.getRoles().equals(Byron.class)){
 
-            float a = 2.5f * multiplicateur;
+            float a = 5f * multiplicateur;
             death = death + a;
 
             for(Player player : inazumaUHC.rm.getRole(Mark.class).getPlayers()){
@@ -428,16 +434,6 @@ public class Mark extends Role implements Listener {
                     p.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS,60*2,0),true);
                 });
             }
-        }
-    }
-    @EventHandler
-    public void onBlockDestroy(BlockBreakEvent event){
-        Player player = event.getPlayer();
-        Block block = event.getBlock();
-
-        if(block.getType().equals(Material.DIAMOND_ORE)){
-            minage = minage + 1 * multiplicateur;
-            checkLevel(player);
         }
     }
 

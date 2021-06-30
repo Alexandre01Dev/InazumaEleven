@@ -56,7 +56,7 @@ public class Jack extends Role implements Listener {
     public Jack(IPreset preset) {
         super("Jack Wallside",preset);
         addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
-        addDescription("§8- §7Vous disposez de §6§lRésistance 1§7 et également de §c§l2 §4❤§7 permanents.");
+        addDescription("§8- §7Vous disposez de §c§l3 §4❤§7 permanents supplémentaires.");
         addDescription(" ");
         addDescription("§8- §7Lorsque vous vous trouvez proche d'un joueur ayant activé son collier-alius dans un rayon de 20 blocks, étant très peureux vous aurez §b§lSpeed 1§7 pendant 1 minute.");
         addDescription(" ");
@@ -67,9 +67,8 @@ public class Jack extends Role implements Listener {
         onLoad(new load() {
             @Override
             public void a(Player player) {
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 0,false,false), true);
-                        player.setMaxHealth(24);
-                        player.setHealth(24);
+                        player.setMaxHealth(26);
+                        player.setHealth(26);
             }
         });
         packetHandler = new PacketHandler() {

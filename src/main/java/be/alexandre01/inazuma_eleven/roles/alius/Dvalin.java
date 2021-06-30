@@ -44,7 +44,7 @@ public class Dvalin extends Role implements Listener {
         addDescription(" ");
         c.append("§8- §7Si vous devenez : ");
 
-        BaseComponent defButton = new TextComponent("§7[§b§lDEFENSEUR§7] §7*§8Curseur§7*");
+        BaseComponent defButton = new TextComponent("§6[§6§lGARDIEN§6] §7*§8Curseur§7*");
 
         BaseComponent defDesc = new TextComponent();
         defDesc.addExtra("§e- §6§lRésistance 1\n");
@@ -58,7 +58,7 @@ public class Dvalin extends Role implements Listener {
         addDescription(" ");
         d.append("§8- §7Ou alors devenir : ");
 
-        BaseComponent attakButton = new TextComponent("§7[§c§lATTAQUANT§7] §7*§8Curseur§7*");
+        BaseComponent attakButton = new TextComponent("§c[§c§lATTAQUANT§c] §7*§8Curseur§7*");
 
         BaseComponent attakDesc = new TextComponent();
         attakDesc.addExtra("§e- §4§lForce 1\n");
@@ -81,13 +81,13 @@ public class Dvalin extends Role implements Listener {
 
         onLoad(player -> {
             Bukkit.getScheduler().runTaskLater(inazumaUHC, () -> {
-                BaseComponent b = new TextComponent(Preset.instance.p.prefixName()+" Début du match, quel poste voulez-vous obternir ?");
+                BaseComponent b = new TextComponent(Preset.instance.p.prefixName()+" Début du match, quel poste voulez-vous obtenir ?");
                 b.addExtra("");
-                BaseComponent yes = new TextComponent("§a[§cATTAQUANT§a]");
+                BaseComponent yes = new TextComponent("§c[§c§lATTAQUANT§c]");
                 yes.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/dvalin gungnir"));
                 b.addExtra(yes);
                 b.addExtra(" §7ou ");
-                BaseComponent no = new TextComponent("§a[§bDEFENSEUR§a]");
+                BaseComponent no = new TextComponent("§6[§6§lGARDIEN§6]");
                 no.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/dvalin troueDeVer"));
 
                 b.addExtra(no);
