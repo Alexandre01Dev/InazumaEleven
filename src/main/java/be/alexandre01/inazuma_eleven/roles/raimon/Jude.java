@@ -36,6 +36,7 @@ public class Jude extends Role implements Listener {
         super("Jude Sharp",preset);
         playersTag = new HashMap<>();
         setRoleCategory(Raimon.class);
+        setRoleToSpoil(Mark.class);
         addListener(this);
 
         addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
@@ -113,6 +114,9 @@ public class Jude extends Role implements Listener {
         if(playersTag.containsKey(player)){
             if(new Date().getTime()-playersTag.get(player) > 30000){
                 playersTag.remove(player);
+                return;
+            }
+            if (inazumaUHC.rm.getRole(player).getRoleCategory().equals(Raimon.class)){
                 return;
             }
 

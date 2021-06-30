@@ -109,7 +109,7 @@ public class Kim extends Role implements Listener {
                     @Override
                     public void run(){
 
-                        TitleUtils.sendActionBar(player,"§3§lHealth §f§l: §6§l" + points + "§l%");
+                        TitleUtils.sendActionBar(player,"§c§lVie §f§l: §4§l" + points + "§5§l%");
                     }
                 }.runTaskTimerAsynchronously(InazumaUHC.getGet(), 20*1, 20*1);
 
@@ -215,7 +215,7 @@ public class Kim extends Role implements Listener {
                                     if (damaged.getHealth() + 2 > damaged.getMaxHealth()){
                                         damaged.setHealth(damaged.getMaxHealth());
                                         kim.sendMessage(Preset.instance.p.prefixName()+" Vous avez §csoigné§7  " + damaged.getName() + ".");
-                                        damaged.sendMessage(Preset.instance.p.prefixName()+" §5§lKim §lPowell§7 vous à §csoigné§7.");
+                                        damaged.sendMessage(Preset.instance.p.prefixName()+" §5§lKim §lPowell§7 vous a §csoigné§7.");
                                         points = points - 10;
 
                                         timer = 5;
@@ -234,7 +234,7 @@ public class Kim extends Role implements Listener {
                                     }
                                     else {
                                         kim.sendMessage(Preset.instance.p.prefixName()+" Vous avez §csoigné§7  " + damaged.getName() + ".");
-                                        damaged.sendMessage(Preset.instance.p.prefixName()+" §5§lKim §lPowell§7 vous à §csoigné§7.");
+                                        damaged.sendMessage(Preset.instance.p.prefixName()+" §5§lKim §lPowell§7 vous a §csoigné§7.");
                                         damaged.setHealth(damaged.getHealth() + 2);
                                         damaged.playSound(damaged.getLocation(), Sound.LAVA_POP, 1, 2);
 

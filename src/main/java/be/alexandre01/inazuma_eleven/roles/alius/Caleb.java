@@ -1,6 +1,7 @@
 package be.alexandre01.inazuma_eleven.roles.alius;
 
 
+import be.alexandre01.inazuma.uhc.InazumaUHC;
 import be.alexandre01.inazuma.uhc.custom_events.episode.EpisodeChangeEvent;
 import be.alexandre01.inazuma.uhc.presets.IPreset;
 import be.alexandre01.inazuma.uhc.presets.Preset;
@@ -9,6 +10,7 @@ import be.alexandre01.inazuma.uhc.roles.Role;
 import be.alexandre01.inazuma.uhc.roles.RoleItem;
 import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
 import be.alexandre01.inazuma.uhc.utils.PatchedEntity;
+import be.alexandre01.inazuma.uhc.utils.ScoreboardUtil;
 import be.alexandre01.inazuma_eleven.categories.Alius;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -24,6 +26,9 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,6 +39,7 @@ public class Caleb extends Role implements Listener {
     private Player lastPlayer = null;
     private HashMap<Player,Integer> damages = new HashMap<>();
     private ArrayList<Player> usedRole = new ArrayList<>();
+    private Scoreboard score = null;
 
     boolean b = false;
     BukkitTask s = null;

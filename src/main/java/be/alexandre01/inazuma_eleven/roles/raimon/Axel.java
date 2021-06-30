@@ -27,6 +27,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -44,12 +45,14 @@ public class Axel extends Role implements Listener {
     public boolean isSolo = false;
     private HashMap<Player,Long> playersTag;
     Mercenaire mercenaire = new Mercenaire();
+    boolean feu = false;
+
 
     public Axel(IPreset preset) {
         super("Axel Blaze",preset);
         playersTag = new HashMap<>();
         setRoleCategory(Raimon.class);
-        setRoleToSpoil(Mark.class);
+        setRoleToSpoil(Jude.class);
 
         addListener(this);
         addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
@@ -86,8 +89,16 @@ public class Axel extends Role implements Listener {
         roleItem.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.COOLDOWN,60*10)));
 
         roleItem.setRightClick(player -> {
-            player.sendMessage(Preset.instance.p.prefixName()+" Vous venez d'utiliser la §4§lTornade §c§lDe §4§lFeu§7.");
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 90*20, 0,false,false), true);
+            feu = true;
+            if(!isSolo){
+                player.sendMessage(Preset.instance.p.prefixName()+" Vous venez d'utiliser la §4§lTornade §c§lDe §4§lFeu§7.");
+                player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 90*20, 0,false,false), true);
+            }
+            else{
+                player.sendMessage(Preset.instance.p.prefixName()+" Vous venez d'utiliser la §4§lTornade §c§lDe §4§lFeu§7.");
+                player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 90*20, 1,false,false), true);
+            }
+
         });
         addRoleItem(roleItem);
 
@@ -259,5 +270,40 @@ public class Axel extends Role implements Listener {
         }
     }
 
+    @EventHandler
+    public void onBurning(EntityDamageByEntityEvent event) {
+        Player axel = (Player) event.getDamager();
+        Player player = (Player) event.getEntity();
+        Role role = inazumaUHC.rm.getRole(axel);
+
+        if(role.getClass().equals(Axel.class)){
+
+            if(feu = true){
+                if(!inazumaUHC.rm.getRole(player).getClass().equals(Gazelle.class) && !inazumaUHC.rm.getRole(player).getClass().equals(Axel.class) && !inazumaUHC.rm.getRole(player).getClass().equals(Shawn.class) &&  !inazumaUHC.rm.getRole(player).getClass().equals(Hurley.class)){
+                    player.setFireTicks(20*5);
+                }
+            }
+
+            if(!isSolo){
+                axel.setWalkSpeed(0.4F);
+
+                new BukkitRunnable(){
+                    @Override
+                    public void run(){
+
+                        feu = false;
+                        player.setWalkSpeed(0.2F);
+
+                    }
+                }.runTaskLater(inazumaUHC,20*90);
+
+            }
+
+        }
+
+
+
+
+    }
 
 }

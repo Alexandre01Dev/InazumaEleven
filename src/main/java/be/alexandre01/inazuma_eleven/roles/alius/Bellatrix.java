@@ -17,10 +17,7 @@ import be.alexandre01.inazuma_eleven.InazumaEleven;
 import be.alexandre01.inazuma_eleven.categories.Alius;
 import be.alexandre01.inazuma_eleven.categories.Raimon;
 import be.alexandre01.inazuma_eleven.categories.Solo;
-import be.alexandre01.inazuma_eleven.roles.raimon.Hurley;
-import be.alexandre01.inazuma_eleven.roles.raimon.Jude;
-import be.alexandre01.inazuma_eleven.roles.raimon.Mark;
-import be.alexandre01.inazuma_eleven.roles.raimon.Shawn;
+import be.alexandre01.inazuma_eleven.roles.raimon.*;
 import be.alexandre01.inazuma_eleven.roles.solo.Byron;
 import lombok.Setter;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -61,6 +58,8 @@ public class Bellatrix extends Role implements Listener {
     Location location = null;
     public Bellatrix(IPreset preset) {
         super("Bellatrix",preset);
+        setRoleCategory(Alius.class);
+        setRoleToSpoil(Xavier.class);
 
         addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
         addDescription("§8- §7Vous possédez l’effet §b§lSpeed 1§.");
@@ -79,13 +78,12 @@ public class Bellatrix extends Role implements Listener {
         addDescription(" ");
         addDescription("§8- §7Une annonces sera faites comme quoi vous avez §crefusé§7 de le remplacer.");
 
-        setRoleCategory(Alius.class);
 
         addListener(this);
         onLoad(new load() {
             @Override
             public void a(Player player) {
-                    inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.RESISTANCE,1,110);
+                    inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.INCREASE_DAMAGE,1,110);
                     player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0,false,false), true);
             }
         });
@@ -95,7 +93,7 @@ public class Bellatrix extends Role implements Listener {
         colierAllius.setRightClick(player -> {
             Jude.collierAlliusNotif(player.getLocation());
             player.sendMessage(Preset.instance.p.prefixName()+" Vous rentrez en résonance avec la §8§lpierre§7§l-§5§lalius.");
-            player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 90*20, 0,false,false), true);
+            player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 90*20, 0,false,false), true);
         });
         addRoleItem(colierAllius);
 

@@ -49,6 +49,8 @@ public class Shawn extends Role implements Listener {
     public int totalms = 1000*20;
     public Shawn(IPreset preset) {
         super("Shawn Frost",preset);
+        setRoleToSpoil(Aiden.class);
+        setRoleCategory(Raimon.class);
         addListener(this);
         this.aidenLoc = new ArrayList<>();
         addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
@@ -56,9 +58,7 @@ public class Shawn extends Role implements Listener {
         addDescription(" ");
         addDescription("§8- §7Les attaques de §cTorch§7, §bGazelle§7 et §6Axel§7 ne vous atteignent pas.");
 
-        setRoleToSpoil(Axel.class);
-        setRoleToSpoil(Aiden.class);
-        setRoleCategory(Raimon.class);
+
         onLoad(new load() {
             @Override
             public void a(Player player) {

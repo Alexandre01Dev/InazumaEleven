@@ -78,12 +78,19 @@ public class William extends Role implements Listener {
         });
         addListener(this);
 
-        RoleItem roleItem = new RoleItem();
-        ItemBuilder itemBuilder = new ItemBuilder(Material.PRISMARINE_SHARD).setName("§b§lLunette");
-        itemBuilder.setLore("");
+        RoleItem lunetteItem = new RoleItem();
+        ItemBuilder lunetteBuilder = new ItemBuilder(Material.PRISMARINE_SHARD).setName("§b§lLunette");
+        lunetteBuilder.setLore("");
 
-        roleItem.setItemstack(itemBuilder.toItemStack());
-        addRoleItem(roleItem);
+        lunetteItem.setItemstack(lunetteBuilder.toItemStack());
+        addRoleItem(lunetteItem);
+
+        RoleItem lunettecasséItem = new RoleItem();
+        ItemBuilder lunettecasséBuilder = new ItemBuilder(Material.PRISMARINE_CRYSTALS).setName("§b§lLunette §c§lCassé");
+        lunettecasséBuilder.setLore("");
+
+        lunettecasséItem.setItemstack(lunettecasséBuilder.toItemStack());
+        addRoleItem(lunettecasséItem);
 
 
 

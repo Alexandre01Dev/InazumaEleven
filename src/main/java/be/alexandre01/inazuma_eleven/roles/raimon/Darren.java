@@ -10,6 +10,8 @@ import be.alexandre01.inazuma.uhc.utils.PlayerUtils;
 import be.alexandre01.inazuma.uhc.utils.Tracker;
 import be.alexandre01.inazuma_eleven.categories.Alius;
 import be.alexandre01.inazuma_eleven.categories.Raimon;
+import be.alexandre01.inazuma_eleven.listeners.CustomGlasses;
+import be.alexandre01.inazuma_eleven.roles.alius.Bellatrix;
 import be.alexandre01.inazuma_eleven.roles.alius.Xavier;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -34,6 +36,9 @@ public class Darren extends Role implements Listener {
 
     public Darren(IPreset preset) {
         super("Darren LaChance",preset);
+        setRoleToSpoil(Mark.class);
+        setRoleCategory(Raimon.class);
+
         addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
         addDescription("§8- §7Vous disposez de §c§l2 §4❤§7 permanent.");
         addDescription(" ");
@@ -49,8 +54,7 @@ public class Darren extends Role implements Listener {
         addDescription("§8- §7Également vous perdrez 2 coeurs permanents mais l'assassin aura §8Faiblesse 1§7 pendant §a5 minutes§7.");
         addDescription("§8- §7Si vous tuez son assassin, vous récupérerez vos §c§l2 §4❤§7 mais également la §6§lRésistance§7 de §6Mark§7.");
 
-        setRoleToSpoil(Mark.class);
-        setRoleCategory(Raimon.class);
+
 
         onLoad(new load() {
             @Override
@@ -165,6 +169,8 @@ public class Darren extends Role implements Listener {
     }
 
     private void accept(){
+
+
         addCommand("corrupt", new command() {
             public int i = 0;
             @Override

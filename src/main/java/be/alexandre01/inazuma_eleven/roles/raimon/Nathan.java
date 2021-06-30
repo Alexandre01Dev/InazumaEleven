@@ -28,7 +28,7 @@ public class Nathan extends Role {
     public Nathan(IPreset preset) {
         super("Nathan Swift",preset);
         setRoleCategory(Raimon.class);
-        setRoleToSpoil(Mark.class);
+        setRoleToSpoil(Kevin.class);
 
 
         addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
