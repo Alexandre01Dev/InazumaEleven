@@ -179,7 +179,7 @@ public class Torch  extends Role implements Listener {
                                     if(inazumaUHC.rm.getRole(player).getClass().equals(Hurley.class)){
                                         return;
                                     }
-                                    player.setFireTicks(3*20);
+                                    player.setFireTicks(5*20);
                                 }
                                 if( inazumaUHC.rm.getRole(player).getClass().equals(Torch.class) && inazumaUHC.rm.getRole(player).getClass().equals(Axel.class) && inazumaUHC.rm.getRole(player).getClass().equals(Shawn.class)){
                                     player.sendMessage(Preset.instance.p.prefixName()+" §cTorch§7 vient d'utiliser son épée sur vous, mais en vain.");
@@ -191,7 +191,7 @@ public class Torch  extends Role implements Listener {
 
                             if( !inazumaUHC.rm.getRole(player).getClass().equals(Gazelle.class) && !inazumaUHC.rm.getRole(player).getClass().equals(Axel.class) && !inazumaUHC.rm.getRole(player).getClass().equals(Shawn.class) &&  !inazumaUHC.rm.getRole(player).getClass().equals(Hurley.class)){
                                 player.sendMessage(Preset.instance.p.prefixName()+" §cTorch§7 vient d'utiliser son épée sur vous.");
-                                player.setFireTicks(3*20);
+                                player.setFireTicks(5*20);
                             }
                             if( inazumaUHC.rm.getRole(player).getClass().equals(Gazelle.class) && inazumaUHC.rm.getRole(player).getClass().equals(Axel.class) && inazumaUHC.rm.getRole(player).getClass().equals(Shawn.class) &&  inazumaUHC.rm.getRole(player).getClass().equals(Hurley.class)){
                                 player.sendMessage(Preset.instance.p.prefixName()+" §cTorch§7 vient d'utiliser son épée sur vous, mais en vain.");

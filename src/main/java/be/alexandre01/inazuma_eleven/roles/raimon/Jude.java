@@ -36,7 +36,6 @@ public class Jude extends Role implements Listener {
         super("Jude Sharp",preset);
         playersTag = new HashMap<>();
         setRoleCategory(Raimon.class);
-        setRoleToSpoil(Mark.class);
         addListener(this);
 
         addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");

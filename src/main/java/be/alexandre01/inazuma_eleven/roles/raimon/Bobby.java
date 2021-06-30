@@ -34,7 +34,7 @@ public class Bobby extends Role implements Listener
         super("Bobby", iPreset);
 
         setRoleCategory(Raimon.class);
-        //setRoleToSpoil(Eric.class);
+        setRoleToSpoil(Eric.class);
         addListener(this);
 
 
