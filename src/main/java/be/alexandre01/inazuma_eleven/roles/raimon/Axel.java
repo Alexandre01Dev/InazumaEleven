@@ -286,29 +286,31 @@ public class Axel extends Role implements Listener {
 
     @EventHandler
     public void onBurning(EntityDamageByEntityEvent event) {
-        Player axel = (Player) event.getDamager();
-        Player player = (Player) event.getEntity();
-        Role role = inazumaUHC.rm.getRole(axel);
+        if(event.getDamager() instanceof Player && event.getEntity() instanceof Player)
+        {
+            Player axel = (Player) event.getDamager();
+            Player player = (Player) event.getEntity();
+            Role role = inazumaUHC.rm.getRole(axel);
 
-        if(role.getClass().equals(Axel.class)){
+            if(role.getClass().equals(Axel.class)){
 
-            if(feu){
-                if(!inazumaUHC.rm.getRole(player).getClass().equals(Gazelle.class) && !inazumaUHC.rm.getRole(player).getClass().equals(Axel.class) && !inazumaUHC.rm.getRole(player).getClass().equals(Shawn.class) &&  !inazumaUHC.rm.getRole(player).getClass().equals(Hurley.class)&&  !inazumaUHC.rm.getRole(player).getClass().equals(Aiden.class)){
-                    player.setFireTicks(20*5);
-                }
+                if(feu){
+                    if(!inazumaUHC.rm.getRole(player).getClass().equals(Gazelle.class) && !inazumaUHC.rm.getRole(player).getClass().equals(Axel.class) && !inazumaUHC.rm.getRole(player).getClass().equals(Shawn.class) &&  !inazumaUHC.rm.getRole(player).getClass().equals(Hurley.class)&&  !inazumaUHC.rm.getRole(player).getClass().equals(Aiden.class)){
+                        player.setFireTicks(20*5);
+                    }
 
-                if(!isSolo){
+                    if(!isSolo){
 
-                    axel.setWalkSpeed(0.25F);
-                    speed = true;
+                        axel.setWalkSpeed(0.25F);
+                        speed = true;
+
+                    }
 
                 }
 
             }
-
-
-
         }
+
 
 
 
