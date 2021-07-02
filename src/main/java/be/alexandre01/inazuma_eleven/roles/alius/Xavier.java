@@ -1,6 +1,8 @@
 package be.alexandre01.inazuma_eleven.roles.alius;
 
 import be.alexandre01.inazuma.uhc.InazumaUHC;
+import be.alexandre01.inazuma.uhc.custom_events.episode.EpisodeChangeEvent;
+import be.alexandre01.inazuma.uhc.custom_events.player.PlayerInstantDeathEvent;
 import be.alexandre01.inazuma.uhc.managers.damage.DamageManager;
 import be.alexandre01.inazuma.uhc.presets.IPreset;
 import be.alexandre01.inazuma.uhc.presets.Preset;
@@ -14,7 +16,10 @@ import be.alexandre01.inazuma_eleven.InazumaEleven;
 import be.alexandre01.inazuma_eleven.categories.Alius;
 import be.alexandre01.inazuma_eleven.objects.MeteorEntity;
 import be.alexandre01.inazuma_eleven.objects.Sphere;
+import be.alexandre01.inazuma_eleven.roles.raimon.Darren;
+import be.alexandre01.inazuma_eleven.roles.raimon.Jack;
 import be.alexandre01.inazuma_eleven.roles.raimon.Jude;
+import be.alexandre01.inazuma_eleven.roles.raimon.Mark;
 import be.alexandre01.inazuma_eleven.roles.solo.Byron;
 import be.alexandre01.inazuma_eleven.timer.DelayedTimeChangeTimer;
 import lombok.Setter;
@@ -62,6 +67,8 @@ public class Xavier extends Role implements Listener {
     private boolean shootArrow = false;
     private int episode;
     boolean meteor = false;
+    boolean markDeath = false;
+    boolean darrenAccept = false;
     @Setter
     private Block block = null;
      @Setter  Location location = null;
@@ -98,6 +105,7 @@ public class Xavier extends Role implements Listener {
         setRoleToSpoil(Bellatrix.class);
         setRoleToSpoil(Janus.class);
         setRoleCategory(Alius.class);
+
         onLoad(new load() {
             @Override
             public void a(Player player) {
@@ -206,13 +214,13 @@ public class Xavier extends Role implements Listener {
             }
         });*/
 
-        inventory = ((InazumaEleven)preset).getBallonInv().toInventory();
         RoleItem roleItem = new RoleItem();
         ItemBuilder itemBuilder = new ItemBuilder(Material.NETHER_STAR).setName("§d§lCollier§7§l-§5§lAlius");
         roleItem.setItemstack(itemBuilder.toItemStack());
         roleItem.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
         roleItem.setRightClick(player -> {
             Jude.collierAlliusNotif(player.getLocation());
+            Jack.nearAliusActivation(player.getLocation());
             player.sendMessage(Preset.instance.p.prefixName()+" Vous rentrez en résonance avec la §8§lpierre§7§l-§5§lalius.");
             player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60*2*20, 0,false,false), true);
             player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 90*20, 0,false,false), true);
@@ -484,6 +492,42 @@ public class Xavier extends Role implements Listener {
     private long initialDelay;
     public enum State{
         DAY,NIGHT;
+    }
+
+    @EventHandler
+    void onDeath(PlayerInstantDeathEvent event)
+    {
+        if(inazumaUHC.rm.getRole(event.getPlayer()) instanceof Mark)
+        {
+            markDeath = true;
+        }
+    }
+
+    @EventHandler
+    void onEpisodeChange(EpisodeChangeEvent event)
+    {
+        Darren darren = (Darren)inazumaUHC.rm.getRole(Darren.class);
+        if(darren == null)
+        {
+            Bukkit.broadcastMessage("pas de darren");
+            return;
+        }
+
+
+        if(!darren.accepted)
+        {
+            Bukkit.broadcastMessage("darren bah il est mechant et il a pas accepté");
+            return;
+        }
+
+
+        for(Player player : getPlayers())
+        {
+            for (Player target : darren.getPlayers())
+            {
+                player.sendMessage(Preset.instance.p.prefixName() + "Darren se trouve en X: " + target.getLocation().getBlockX() + " Y: " + target.getLocation().getBlockY() + " Z: " + target.getLocation().getBlockZ());
+            }
+        }
     }
 
    /* public void timeDeploy(){

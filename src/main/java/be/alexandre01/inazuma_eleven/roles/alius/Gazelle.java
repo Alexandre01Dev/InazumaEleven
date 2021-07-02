@@ -13,6 +13,7 @@ import be.alexandre01.inazuma.uhc.roles.RoleItem;
 import be.alexandre01.inazuma.uhc.utils.CustomComponentBuilder;
 import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
 import be.alexandre01.inazuma_eleven.categories.Alius;
+import be.alexandre01.inazuma_eleven.objects.Capitaine;
 import be.alexandre01.inazuma_eleven.roles.raimon.Axel;
 import be.alexandre01.inazuma_eleven.roles.raimon.Jude;
 import be.alexandre01.inazuma_eleven.roles.raimon.Shawn;
@@ -69,6 +70,13 @@ public class Gazelle extends Role implements Listener {
         addDescription(c);
         addDescription(" ");
         addDescription("§8- §7Les attaques de §cTorch§7, §6Axel§7 et §6Shawn§7 ne vous atteignent pas.");
+        Class<?> clazz = Capitaine.giveCapitaine(this.getClass(), Torch.class);
+        System.out.println("apparement toi la tu connais lui : " + clazz);
+        if(clazz != null)
+            setRoleToSpoil(clazz);
+
+
+        //A retirer ???
         setRoleToSpoil(Xavier.class);
         setRoleCategory(Alius.class);
         addListener(this);

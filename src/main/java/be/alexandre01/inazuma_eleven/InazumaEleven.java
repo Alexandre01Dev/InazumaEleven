@@ -24,6 +24,7 @@ import be.alexandre01.inazuma_eleven.commands.Particles;
 import be.alexandre01.inazuma_eleven.commands.Structure;
 import be.alexandre01.inazuma_eleven.listeners.*;
 import be.alexandre01.inazuma_eleven.objects.BallonInv;
+import be.alexandre01.inazuma_eleven.objects.Capitaine;
 import be.alexandre01.inazuma_eleven.objects.Mercenaire;
 import be.alexandre01.inazuma_eleven.roles.alius.*;
 import be.alexandre01.inazuma_eleven.roles.raimon.*;
@@ -39,6 +40,7 @@ import org.bukkit.event.Listener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -70,6 +72,9 @@ public class InazumaEleven extends PresetData implements IPreset{
         new Raimon("Équipe Raimon","§6");
         new Alius("Académie-Alius","§5");
         new Solo("Solo","§c");
+
+        Capitaine.init();
+        Capitaine.addCapitaine(Dvalin.class, Torch.class, Gazelle.class, Janus.class, Xavier.class);
 
         //INITIALIZE ROLES
 
