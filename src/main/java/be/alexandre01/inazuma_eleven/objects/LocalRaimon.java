@@ -9,6 +9,8 @@ import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.WorldEditException;
+import com.sk89q.worldedit.bukkit.selections.CuboidSelection;
+import com.sk89q.worldedit.bukkit.selections.Selection;
 import com.sk89q.worldedit.extent.Extent;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
@@ -24,22 +26,29 @@ import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class LocalRaimon {
     public int x;
     public int z;
+    public Location min;
+    public Location location;
+    public Location max;
+    public Clipboard clipboard;
     public boolean spawn(){
+        System.out.println("Dacodac");
         ChunksData c = ChunksData.get();
-
+        System.out.println("OK1");
         if(!c.chunksByBiome.containsKey(Biome.PLAINS)){
             return spawnRandomized();
         }
-
+        System.out.println("OK2");
         ArrayList<Chunk> chunks = new ArrayList<>(c.chunksByBiome.get(Biome.PLAINS));
 
         synchronized (chunks){
@@ -49,6 +58,8 @@ public class LocalRaimon {
             //chunks.removeIf(chunk -> Math.abs(chunk.getX()) < 300 && Math.abs(chunk.getX()) < 300 ||  Math.abs(chunk.getX()) > Preset.instance.p.getBorderSize(World.Environment.NORMAL)-30 && Math.abs(chunk.getX()) > Preset.instance.p.getBorderSize(World.Environment.NORMAL)-30 );
         }
 
+        System.out.println("OK3");
+
        Chunk chunk = chunks.get(0);
 
 
@@ -56,11 +67,11 @@ public class LocalRaimon {
         try {
             Schematic schematic = clipboardFormat.load(new File(InazumaUHC.get.getDataFolder().getAbsolutePath()+"/schematics/fawetest.fawe"));
             World world  =FaweAPI.getWorld(InazumaUHC.get.worldGen.defaultWorld.getName()) ;
-            Clipboard clipboard = schematic.getClipboard();
+            clipboard = schematic.getClipboard();
 
 
 
-            Location location = new Location(chunk.getWorld(),chunk.getX()*16, 255, chunk.getZ()*16);
+            location = new Location(chunk.getWorld(),chunk.getX()*16, 255, chunk.getZ()*16);
             synchronized (location){
                 for (int i = 255; i > 0 ; i--) {
                     location.setY(i);
@@ -78,8 +89,7 @@ public class LocalRaimon {
             System.out.println("Reg MinP Z"+clipboard.getRegion().getMinimumPoint().getZ());
 
 
-
-            location.setY(location.getY()-10);
+            location.setY(location.getY()+40); //25
                 //EditSession editSession = schematic.paste(world,Vector.toBlockPoint(location.getX(),location.getY(),location.getZ()));
             EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(world, -1);
             System.out.println(editSession.getMaxY());
@@ -90,6 +100,21 @@ public class LocalRaimon {
             System.out.println(location.getX()+"|"+location.getY()+"|"+location.getZ());
             x = location.getBlockX();
             z = location.getBlockZ();
+
+             min = new Location(location.getWorld(),clipboard.getMinimumPoint().getBlockX() + location.getX(),clipboard.getMaximumPoint().getBlockY()+ location.getY() - 64 ,clipboard.getMinimumPoint().getBlockZ() + location.getZ());
+             max = new Location(location.getWorld(),clipboard.getMaximumPoint().getBlockX() + location.getX(),clipboard.getMaximumPoint().getBlockY()+ location.getY(),clipboard.getMaximumPoint().getBlockZ() + location.getZ());
+            double centerX = (1/2) * (min.getX() + max.getX());
+            double centerZ = (1/2) * (min.getZ() + max.getZ());
+
+            System.out.println("Center X "+ centerX);
+            System.out.println("Center Z "+ centerZ);
+
+            System.out.println(min);
+            System.out.println(max);
+
+            //Selection selection = new CuboidSelection(p.getWorld(),loc, loc2);
+            //CuboidSelection cuboidSelection =
+
           //  Operation o = editSession.commit();
             Operation operation = new ClipboardHolder(clipboard,world.getWorldData())
                     .createPaste(editSession,world.getWorldData())
@@ -98,10 +123,14 @@ public class LocalRaimon {
                     .build();
 
 
-
             try { // This simply completes our paste and then cleans up.
                 Operations.complete(operation);
                 editSession.flushQueue();
+                Location location = new Location(this.location.getWorld(),this.min.getBlockX()-52,clipboard.getMinimumPoint().getBlockY()+this.location.getY() - 24,this.min.getBlockZ()+43);
+                System.out.println(location);
+
+                location.getWorld().spawnEntity(location, EntityType.ARMOR_STAND);
+                location.getBlock().setType(Material.REDSTONE_BLOCK);
 
             } catch (WorldEditException e) { // If worldedit generated an exception it will go here
                 for(Player player : Bukkit.getOnlinePlayers()){
@@ -114,6 +143,8 @@ public class LocalRaimon {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
 
         return false;
     }
