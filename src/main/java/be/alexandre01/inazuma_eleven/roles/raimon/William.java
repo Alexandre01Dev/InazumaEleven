@@ -37,6 +37,7 @@ public class William extends Role implements Listener {
 
     public William(IPreset preset) {
         super("William Glass",preset);
+        setRoleCategory(Raimon.class);
         addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
         addDescription("§8- §7Vous disposez de §8§lFaiblesse 1§7.");
         addDescription(" ");
@@ -59,7 +60,6 @@ public class William extends Role implements Listener {
         addDescription(" ");
 
         William w = this;
-        setRoleCategory(Raimon.class);
 
 
         onLoad(new load() {

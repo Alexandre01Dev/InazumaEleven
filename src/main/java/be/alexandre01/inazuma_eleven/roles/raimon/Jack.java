@@ -131,7 +131,7 @@ public class Jack extends Role implements Listener {
                 System.out.println("VECY+ "+borderMax.getY());
 
                 ArrayList<Location> allBlocks = new ArrayList<>();
-                for (int i = 1; i < 20; i++) {
+                for (int i = 1; i < 15; i++) {
                     allBlocks.add(bLocation.clone().add(borderMin.clone().multiply(i)));
                     allBlocks.add(bLocation.clone().add(borderMax.clone().multiply(i)));
                 }
@@ -171,7 +171,7 @@ public class Jack extends Role implements Listener {
                     int s = 0;
                     @Override
                     public void run() {
-                        Material[] mat = {Material.WOOD, Material.MOSSY_COBBLESTONE,Material.DIRT,Material.LOG};
+                        Material[] mat = {Material.WOOD, Material.MOSSY_COBBLESTONE,Material.DIRT,Material.BEDROCK};
                         int k = 0;
                         if(d > locs.size()-1){
                             d = locs.size();
@@ -199,7 +199,7 @@ public class Jack extends Role implements Listener {
 
 
                     }
-                }.runTaskTimer(inazumaUHC,5L,20L);
+                }.runTaskTimer(inazumaUHC,5L,10L);
 
                 new BukkitRunnable() {
                     @Override

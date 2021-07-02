@@ -45,7 +45,8 @@ public class Axel extends Role implements Listener {
     public boolean isSolo = false;
     private HashMap<Player,Long> playersTag;
     Mercenaire mercenaire = new Mercenaire();
-    boolean feu = false;
+    public boolean feu = false;
+    public boolean speed = false;
 
 
     public Axel(IPreset preset) {
@@ -91,6 +92,19 @@ public class Axel extends Role implements Listener {
         roleItem.setRightClick(player -> {
             feu = true;
             if(!isSolo){
+                new BukkitRunnable(){
+                    @Override
+                    public void run(){
+
+                        feu = false;
+                        player.setWalkSpeed(0.2F);
+
+                    }
+                }.runTaskLater(inazumaUHC,20*90);
+
+            }
+
+            if(!isSolo){
                 player.sendMessage(Preset.instance.p.prefixName()+" Vous venez d'utiliser la §4§lTornade §c§lDe §4§lFeu§7.");
                 player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 90*20, 0,false,false), true);
             }
@@ -118,7 +132,7 @@ public class Axel extends Role implements Listener {
                     target.setVelocity(v);
 
 
-                    if (InazumaUHC.get.rm.getRole(player).getClass().equals(Gazelle.class) && InazumaUHC.get.rm.getRole(player).getClass().equals(Torch.class) && InazumaUHC.get.rm.getRole(player).getClass().equals(Shawn.class) && InazumaUHC.get.rm.getRole(player).getClass().equals(Hurley.class)) {
+                    if (InazumaUHC.get.rm.getRole(player).getClass().equals(Gazelle.class) && InazumaUHC.get.rm.getRole(player).getClass().equals(Torch.class) && InazumaUHC.get.rm.getRole(player).getClass().equals(Shawn.class) && InazumaUHC.get.rm.getRole(player).getClass().equals(Hurley.class) && InazumaUHC.get.rm.getRole(player).getClass().equals(Hurley.class)) {
                         return;
                     }
                     target.setFireTicks(20 * 5);
@@ -278,32 +292,46 @@ public class Axel extends Role implements Listener {
 
         if(role.getClass().equals(Axel.class)){
 
-            if(feu = true){
-                if(!inazumaUHC.rm.getRole(player).getClass().equals(Gazelle.class) && !inazumaUHC.rm.getRole(player).getClass().equals(Axel.class) && !inazumaUHC.rm.getRole(player).getClass().equals(Shawn.class) &&  !inazumaUHC.rm.getRole(player).getClass().equals(Hurley.class)){
+            if(feu){
+                if(!inazumaUHC.rm.getRole(player).getClass().equals(Gazelle.class) && !inazumaUHC.rm.getRole(player).getClass().equals(Axel.class) && !inazumaUHC.rm.getRole(player).getClass().equals(Shawn.class) &&  !inazumaUHC.rm.getRole(player).getClass().equals(Hurley.class)&&  !inazumaUHC.rm.getRole(player).getClass().equals(Aiden.class)){
                     player.setFireTicks(20*5);
                 }
-            }
 
-            if(!isSolo){
-                axel.setWalkSpeed(0.4F);
+                if(!isSolo){
 
-                new BukkitRunnable(){
-                    @Override
-                    public void run(){
+                    axel.setWalkSpeed(0.25F);
+                    speed = true;
 
-                        feu = false;
-                        player.setWalkSpeed(0.2F);
-
-                    }
-                }.runTaskLater(inazumaUHC,20*90);
+                }
 
             }
+
+
 
         }
 
 
 
 
+
+
+
     }
 
+    private void addEffectAfter(Player player, long l, Nathan.action a, PotionEffect... potionEffects){
+        Bukkit.getScheduler().runTaskLaterAsynchronously(inazumaUHC, new Runnable() {
+            @Override
+            public void run() {
+                for (PotionEffect p: potionEffects){
+                    player.addPotionEffect(p, true);
+                }
+                a.a();
+            }
+
+        },l);
+    }
+    public interface action{
+        public void a();
+    }
 }
+
