@@ -12,6 +12,7 @@ import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
 import be.alexandre01.inazuma.uhc.utils.PatchedEntity;
 import be.alexandre01.inazuma.uhc.utils.ScoreboardUtil;
 import be.alexandre01.inazuma_eleven.categories.Alius;
+import be.alexandre01.inazuma_eleven.objects.Capitaine;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -55,6 +56,11 @@ public class Caleb extends Role implements Listener {
         addDescription("§8- §c§l⚠ §7Vous pouvez également faire §5/power §aaccept§7 ou §5/power §crefuse§7.");
 
         setRoleCategory(Alius.class);
+        Class<?> clazz = Capitaine.giveCapitaine(this.getClass());
+        System.out.println("apparement toi la tu connais lui : " + clazz);
+        if(clazz != null)
+            setRoleToSpoil(clazz);
+
         onLoad(new load() {
             @Override
             public void a(Player player) {

@@ -13,9 +13,11 @@ import be.alexandre01.inazuma_eleven.roles.raimon.Jude;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.minecraft.server.v1_8_R3.EnumParticle;
+import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import net.minecraft.server.v1_8_R3.Tuple;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
+import org.bukkit.*;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
@@ -24,7 +26,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Joseph extends Role {
@@ -78,7 +83,7 @@ public class Joseph extends Role {
                                 {
                                     player.removePotionEffect(PotionEffectType.SPEED);
                                 }
-                                player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20*5, 0));
+                                player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20*5, 0, false, false), true);
                                 TitleUtils.sendActionBar(player,"§7§lRaisonnance avec la §5§lPierre §lAlius");
                             }
                         }
@@ -98,7 +103,8 @@ public class Joseph extends Role {
             if(!firstUse && !secondUse)
             {
                 player.sendMessage("vous venez d'activer Manchot empreur apres recharge sans la premiere utilisation");
-                player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60*20, 1));
+                bloodParticles(player);
+                player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60*20, 1, false, false), true);
                 firstUse = true;
                 specialUse = true;
                 return;
@@ -107,7 +113,8 @@ public class Joseph extends Role {
             if(!firstUse)
             {
                 player.sendMessage("Vous venez d'activer la morsure sauvage");
-                player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60*20, 1));
+                bloodParticles(player);
+                player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60*20, 1, false, false), true);
                 firstUse = true;
 
                 new BukkitRunnable()
@@ -116,7 +123,7 @@ public class Joseph extends Role {
                     public void run()
                     {
                         player.sendMessage("§cFin de votre capacite debut des problemes");
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, Integer.MAX_VALUE, 0));
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, Integer.MAX_VALUE, 0, false, false), true);
                         PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() - 4);
                     }
                 }.runTaskLaterAsynchronously(InazumaUHC.getGet(), 60*20);
@@ -128,8 +135,9 @@ public class Joseph extends Role {
             {
                 if(player.hasPotionEffect(PotionEffectType.WEAKNESS))
                     player.removePotionEffect(PotionEffectType.WEAKNESS);
-                
-                player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60*20, 1));
+
+                bloodParticles(player);
+                player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60*20, 1, false, false), true);
                 numberOfUse--;
 
                 switch (numberOfUse)
@@ -169,7 +177,7 @@ public class Joseph extends Role {
                             public void run()
                             {
                                 player.sendMessage("fin de votre capacite effets nefastes accrue");
-                                player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, Integer.MAX_VALUE, 0));
+                                player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, Integer.MAX_VALUE, 0, false, false), true);
                                 PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() - 2 );
                             }
                         }.runTaskLaterAsynchronously(InazumaUHC.getGet(), 60*20);
@@ -179,5 +187,11 @@ public class Joseph extends Role {
         });
 
     }
+
+    void bloodParticles(Player player)
+    {
+        player.getWorld().playEffect(player.getEyeLocation().add(0, -0.3, 0), Effect.STEP_SOUND, Material.REDSTONE_BLOCK);
+    }
+
 
 }

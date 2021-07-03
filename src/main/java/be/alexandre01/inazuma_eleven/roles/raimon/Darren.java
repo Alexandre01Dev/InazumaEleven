@@ -33,6 +33,7 @@ public class Darren extends Role implements Listener {
     private Player tracked = null;
     private boolean revenge = false;
     private boolean hasChoose = false;
+    public boolean accepted = false;
 
     public Darren(IPreset preset) {
         super("Darren LaChance",preset);
@@ -83,6 +84,7 @@ public class Darren extends Role implements Listener {
                 if(args[0].equalsIgnoreCase("accept")){
                     player.sendMessage(Preset.instance.p.prefixName()+" §aTu viens d'accepter la proposition.");
                     hasChoose = true;
+                    accepted = true;
                     accept();
                     return;
                 }
@@ -198,6 +200,15 @@ public class Darren extends Role implements Listener {
                 i++;
             }
         });
+
+        for(Role role : inazumaUHC.rm.getRoleCategory(Raimon.class).getRoles()){
+            role.getPlayers().forEach(p -> {
+                if(p.hasPotionEffect(PotionEffectType.WEAKNESS) && !(role instanceof William))
+                {
+                    p.removePotionEffect(PotionEffectType.WEAKNESS);
+                }
+            });
+        }
         loadCommands();
 
         Tracker tracker = Tracker.getOrCreate();

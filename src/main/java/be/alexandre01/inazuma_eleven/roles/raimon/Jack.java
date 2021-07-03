@@ -12,6 +12,7 @@ import be.alexandre01.inazuma.uhc.utils.PlayerUtils;
 import be.alexandre01.inazuma.uhc.utils.TitleUtils;
 import be.alexandre01.inazuma.uhc.worlds.utils.Cuboid;
 import be.alexandre01.inazuma_eleven.categories.Raimon;
+import be.alexandre01.inazuma_eleven.roles.alius.Janus;
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -131,7 +132,7 @@ public class Jack extends Role implements Listener {
                 System.out.println("VECY+ "+borderMax.getY());
 
                 ArrayList<Location> allBlocks = new ArrayList<>();
-                for (int i = 1; i < 20; i++) {
+                for (int i = 1; i < 15; i++) {
                     allBlocks.add(bLocation.clone().add(borderMin.clone().multiply(i)));
                     allBlocks.add(bLocation.clone().add(borderMax.clone().multiply(i)));
                 }
@@ -171,7 +172,7 @@ public class Jack extends Role implements Listener {
                     int s = 0;
                     @Override
                     public void run() {
-                        Material[] mat = {Material.WOOD, Material.MOSSY_COBBLESTONE,Material.DIRT,Material.LOG};
+                        Material[] mat = {Material.WOOD, Material.MOSSY_COBBLESTONE,Material.DIRT,Material.BEDROCK};
                         int k = 0;
                         if(d > locs.size()-1){
                             d = locs.size();
@@ -199,7 +200,7 @@ public class Jack extends Role implements Listener {
 
 
                     }
-                }.runTaskTimer(inazumaUHC,5L,20L);
+                }.runTaskTimer(inazumaUHC,5L,10L);
 
                 new BukkitRunnable() {
                     @Override
@@ -342,5 +343,23 @@ public class Jack extends Role implements Listener {
     public void packetHandler(){
         register = true;
         PacketListenerAPI.addPacketHandler(packetHandler);
-}
+    }
+
+    public static void nearAliusActivation(Location loc)
+    {
+
+        Jack jack = (Jack) InazumaUHC.get.rm.getRole(Jack.class);
+
+        if(jack == null)
+            return;
+
+        for(Player player : jack.getPlayers())
+        {
+            if(loc.distance(player.getLocation()) / 2 < 21)
+            {
+                player.sendMessage(Preset.instance.p.prefixName() + "Une personne vient d'utiliser son collier alius proche de vous. Vous recvez Speed I pendant 1 minute");
+            }
+        }
+    }
+
 }

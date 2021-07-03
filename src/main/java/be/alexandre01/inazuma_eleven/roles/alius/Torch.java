@@ -13,6 +13,7 @@ import be.alexandre01.inazuma.uhc.roles.RoleItem;
 import be.alexandre01.inazuma.uhc.utils.CustomComponentBuilder;
 import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
 import be.alexandre01.inazuma_eleven.categories.Alius;
+import be.alexandre01.inazuma_eleven.objects.Capitaine;
 import be.alexandre01.inazuma_eleven.roles.raimon.*;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -74,6 +75,12 @@ public class Torch  extends Role implements Listener {
         addDescription("§8- §7Les attaques de §bGazelle§7, §6Axel§7 et §6Shawn§7 ne vous atteignent pas.");
 
         setRoleCategory(Alius.class);
+        Class<?> clazz = Capitaine.giveCapitaine(this.getClass(), Gazelle.class);
+        System.out.println("apparement toi la tu connais lui : " + clazz);
+        if(clazz != null)
+            setRoleToSpoil(clazz);
+
+        //A retirer ????
         setRoleToSpoil(Xavier.class);
         addListener(this);
 

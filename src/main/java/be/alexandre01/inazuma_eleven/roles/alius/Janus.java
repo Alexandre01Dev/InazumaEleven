@@ -9,6 +9,7 @@ import be.alexandre01.inazuma.uhc.roles.RoleItem;
 import be.alexandre01.inazuma.uhc.utils.*;
 import be.alexandre01.inazuma_eleven.InazumaEleven;
 import be.alexandre01.inazuma_eleven.categories.Alius;
+import be.alexandre01.inazuma_eleven.objects.Capitaine;
 import be.alexandre01.inazuma_eleven.roles.raimon.Scotty;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -59,6 +60,10 @@ public class  Janus extends Role implements Listener {
         addDescription(" ");
         addDescription("§8- §7Et également un ballon réservé à §5Xavier§7, ou vous devrez lui donner les coordonnées et il pourra y téléporter 2 joueurs durant la game.");
 
+        Class<?> clazz = Capitaine.giveCapitaine(this.getClass());
+        System.out.println("apparement toi la tu connais lui : " + clazz);
+        if(clazz != null)
+            setRoleToSpoil(clazz);
 
         setRoleCategory(Alius.class);
         addListener(this);

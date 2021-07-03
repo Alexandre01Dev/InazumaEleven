@@ -99,8 +99,13 @@ public class Hurley extends Role implements Listener {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    darrenTask.cancel();
-                    playerTask.cancel();
+                    if(darrenTask != null)
+                        darrenTask.cancel();
+
+                    if(playerTask != null)
+                        playerTask.cancel();
+
+                    if(particleTask != null)
                     particleTask.cancel();
                 }
             }.runTaskLaterAsynchronously(inazumaUHC, 20*20);
