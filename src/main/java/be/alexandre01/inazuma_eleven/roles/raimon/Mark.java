@@ -39,7 +39,7 @@ public class Mark extends Role implements Listener {
     HashMap<Integer,action> actionOnLevel = new HashMap<>();
 
     float toDecrement = 0;
-    String levelRomain;
+    String levelRomain = "0";
     float death = 0;
     float time = 0;
     float minage = 0;
