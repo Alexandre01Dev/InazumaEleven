@@ -278,40 +278,29 @@ public class Kim extends Role implements Listener {
     private void particles(Player damaged)
     {
         new BukkitRunnable() {
-            double var = 0;
+            double varX = 0;
+            double varZ = 0;
             double secondVar = 0;
             double y;
             Location loc, first;
             @Override
             public void run() {
-
-                secondVar += Math.PI / 8;
+                secondVar += Math.PI / 6;
                 loc = damaged.getLocation();
 
                 y = Math.sin(secondVar) / 2 + 0.5;
 
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        var += Math.PI / 8;
-                        if(var < 360)
-                        {
-                            double x = Math.sin(var) / 2;
-                            double z = Math.cos(var) / 2;
+                    varX += Math.PI / 8;
+                    varZ += Math.PI / 8;
+                        double x = Math.sin(varX) / 2;
+                        double z = Math.cos(varZ) / 2;
 
-                            first = loc.clone().add(x, y, z);
-
-                            PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(EnumParticle.HEART,true, (float) (first.getX() + x), (float) (first.getY() + y), (float) (first.getZ() + z), 0, 0, 0, 0, 1);
-                            for(Player online : Bukkit.getOnlinePlayers()) {
-                                ((CraftPlayer) online).getHandle().playerConnection.sendPacket(packet);
-                            }
-                        }
-                        else{
-                            cancel();
-                        }
+                        first = loc.clone().add(x, y, z);
+                    PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(EnumParticle.HEART,true, (float) (first.getX() + x), (float) (first.getY() + y), (float) (first.getZ() + z), 0, 0, 0, 0, 1);
+                    for(Player online : Bukkit.getOnlinePlayers()) {
+                        ((CraftPlayer) online).getHandle().playerConnection.sendPacket(packet);
                     }
-                }.runTaskTimerAsynchronously(inazumaUHC, 1,1);
             }
-        }.runTaskTimerAsynchronously(inazumaUHC, 1,5);
+        }.runTaskTimerAsynchronously(inazumaUHC, 1,1);
     }
 }

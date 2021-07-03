@@ -2,13 +2,13 @@ package be.alexandre01.inazuma_eleven.objects;
 
 import be.alexandre01.inazuma.uhc.InazumaUHC;
 import be.alexandre01.inazuma.uhc.presets.Preset;
+import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
 import be.alexandre01.inazuma_eleven.InazumaEleven;
 import com.boydti.fawe.FaweAPI;
 import com.boydti.fawe.object.schematic.Schematic;
-import com.sk89q.worldedit.EditSession;
-import com.sk89q.worldedit.Vector;
-import com.sk89q.worldedit.WorldEdit;
-import com.sk89q.worldedit.WorldEditException;
+import com.sk89q.worldedit.*;
+import com.sk89q.worldedit.blocks.BaseBlock;
+import com.sk89q.worldedit.blocks.BlockType;
 import com.sk89q.worldedit.bukkit.selections.CuboidSelection;
 import com.sk89q.worldedit.bukkit.selections.Selection;
 import com.sk89q.worldedit.extent.Extent;
@@ -17,22 +17,27 @@ import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardReader;
 import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.function.operation.Operations;
+import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldedit.session.ClipboardHolder;
 import com.sk89q.worldedit.world.World;
 import com.sk89q.worldedit.world.registry.WorldData;
 import net.md_5.bungee.api.ChatColor;
-import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
+import org.bukkit.*;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Biome;
+import org.bukkit.block.BlockFace;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Painting;
 import org.bukkit.entity.Player;
+import org.checkerframework.checker.units.qual.C;
 
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class LocalRaimon {
     public int x;
@@ -89,7 +94,7 @@ public class LocalRaimon {
             System.out.println("Reg MinP Z"+clipboard.getRegion().getMinimumPoint().getZ());
 
 
-            location.setY(location.getY()+40); //25
+            location.setY(location.getY()+10); //25
                 //EditSession editSession = schematic.paste(world,Vector.toBlockPoint(location.getX(),location.getY(),location.getZ()));
             EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(world, -1);
             System.out.println(editSession.getMaxY());
@@ -112,8 +117,15 @@ public class LocalRaimon {
             System.out.println(min);
             System.out.println(max);
 
-            //Selection selection = new CuboidSelection(p.getWorld(),loc, loc2);
-            //CuboidSelection cuboidSelection =
+            Selection selection = new CuboidSelection(location.getWorld(),getLocationFromSchematic(22,0,-10), getLocationFromSchematic(-4,18,12));
+
+            CuboidSelection cuboidSelection = (CuboidSelection) selection;
+            Region region = cuboidSelection.getRegionSelector().getRegion();
+            editSession.setBlocks(region,new BaseBlock(0, 0));
+            editSession.flushQueue();
+
+            editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(world, -1);
+
 
           //  Operation o = editSession.commit();
             Operation operation = new ClipboardHolder(clipboard,world.getWorldData())
@@ -126,11 +138,54 @@ public class LocalRaimon {
             try { // This simply completes our paste and then cleans up.
                 Operations.complete(operation);
                 editSession.flushQueue();
-                Location location = new Location(this.location.getWorld(),this.min.getBlockX()-52,clipboard.getMinimumPoint().getBlockY()+this.location.getY() - 24,this.min.getBlockZ()+43);
+                Location location = new Location(this.location.getWorld(),this.min.getBlockX()+1.5d,clipboard.getMinimumPoint().getBlockY()+this.location.getY() + 0,this.min.getBlockZ()-5.5d);
                 System.out.println(location);
 
-                location.getWorld().spawnEntity(location, EntityType.ARMOR_STAND);
-                location.getBlock().setType(Material.REDSTONE_BLOCK);
+
+                CasierManager.init();
+                CasierManager casierManager = CasierManager.get();
+
+                CasierManager.Casier force = new CasierManager.Casier();
+                force.itemStack = new ItemBuilder(Material.BOOK).setName("§7§lManuel de §4§lForce").toItemStack();
+                force.border = new ItemBuilder(Material.STAINED_GLASS_PANE).setWoolColor(DyeColor.RED).toItemStack();
+                force.setupInventory();
+
+                CasierManager.Casier vitesse = new CasierManager.Casier();
+                vitesse.itemStack = new ItemBuilder(Material.BOOK).setName("§7§lManuel de §b§lVitesse").toItemStack();
+                vitesse.border = new ItemBuilder(Material.STAINED_GLASS_PANE).setWoolColor(DyeColor.CYAN).toItemStack();
+                vitesse.setupInventory();
+
+                CasierManager.Casier resistance = new CasierManager.Casier();
+                resistance.itemStack = new ItemBuilder(Material.BOOK).setName("§7§lManuel de §8§lRésistance").toItemStack();
+                resistance.border = new ItemBuilder(Material.STAINED_GLASS_PANE).setWoolColor(DyeColor.GRAY).toItemStack();
+                resistance.setupInventory();
+
+                CasierManager.Casier vie = new CasierManager.Casier();
+                vie.itemStack = new ItemBuilder(Material.BOOK).setName("§7§lManuel de §d§lVie").toItemStack();
+                vie.border = new ItemBuilder(Material.STAINED_GLASS_PANE).setWoolColor(DyeColor.PINK).toItemStack();
+                vie.setupInventory();
+
+                CasierManager.Casier mark = new CasierManager.Casier();
+                mark.itemStack = new ItemBuilder(Material.BOOK).setName("§6§lCahier de §7§lDavid §lEvans").toItemStack();
+                mark.border = new ItemBuilder(Material.STAINED_GLASS_PANE).setWoolColor(DyeColor.ORANGE).toItemStack();
+                mark.setupInventory();
+
+                ArrayList<CasierManager.Casier> casiers = new ArrayList<>(Arrays.asList(force, vitesse , resistance, vie, mark));
+
+                Collections.shuffle(casiers);
+
+                for (int i = 0; i < casiers.size(); i++) {
+                    CasierManager.Casier casier = casiers.get(i);
+                    casier.deploy(location);
+                    casierManager.addCasier(casier);
+                    location.add(1,0,0);
+                }
+
+                Location l = getLocationFromSchematic(6,2,6);
+                Painting painting = (Painting) l.getWorld().spawnEntity(l,EntityType.PAINTING);
+                painting.setFacingDirection(BlockFace.SOUTH);
+                painting.setArt(Art.BURNINGSKULL);
+                l.getBlock().setType(Material.PAINTING);
 
             } catch (WorldEditException e) { // If worldedit generated an exception it will go here
                 for(Player player : Bukkit.getOnlinePlayers()){
@@ -142,8 +197,9 @@ public class LocalRaimon {
 
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (IncompleteRegionException e) {
+            e.printStackTrace();
         }
-
 
 
         return false;
@@ -152,5 +208,9 @@ public class LocalRaimon {
     private boolean spawnRandomized(){
 
         return false;
+    }
+
+    public Location getLocationFromSchematic(double x, double y, double z){
+       return new Location(this.location.getWorld(),this.min.getBlockX()+x,clipboard.getMinimumPoint().getBlockY()+this.location.getY() + y,this.min.getBlockZ() + z);
     }
 }
