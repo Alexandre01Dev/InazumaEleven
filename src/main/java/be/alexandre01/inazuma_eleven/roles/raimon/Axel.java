@@ -292,6 +292,9 @@ public class Axel extends Role implements Listener {
             Player player = (Player) event.getEntity();
             Role role = inazumaUHC.rm.getRole(axel);
 
+            if(role == null)
+                return;
+
             if(role.getClass().equals(Axel.class)){
 
                 if(feu){
