@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 
 public class LocalRaimon {
@@ -50,21 +51,24 @@ public class LocalRaimon {
         System.out.println("Dacodac");
         ChunksData c = ChunksData.get();
         System.out.println("OK1");
+        System.out.println("BIOMES "+ c.chunksByBiome.entrySet());
+
         if(!c.chunksByBiome.containsKey(Biome.PLAINS)){
             return spawnRandomized();
         }
         System.out.println("OK2");
         ArrayList<Chunk> chunks = new ArrayList<>(c.chunksByBiome.get(Biome.PLAINS));
 
-        synchronized (chunks){
+
             if(chunks.isEmpty()){
                 return spawnRandomized();
             }
-            //chunks.removeIf(chunk -> Math.abs(chunk.getX()) < 300 && Math.abs(chunk.getX()) < 300 ||  Math.abs(chunk.getX()) > Preset.instance.p.getBorderSize(World.Environment.NORMAL)-30 && Math.abs(chunk.getX()) > Preset.instance.p.getBorderSize(World.Environment.NORMAL)-30 );
-        }
+
+            chunks.removeIf(chunk -> Math.abs(chunk.getX()*16) > 300 && Math.abs(chunk.getZ()*16) > 300 ||  Math.abs(chunk.getX()) > Preset.instance.p.getBorderSize(org.bukkit.World.Environment.NORMAL)-50 && Math.abs(chunk.getX()) > Preset.instance.p.getBorderSize(org.bukkit.World.Environment.NORMAL)-50 );
+
 
         System.out.println("OK3");
-
+        Collections.shuffle(chunks);
        Chunk chunk = chunks.get(0);
 
 
@@ -187,12 +191,14 @@ public class LocalRaimon {
                 painting.setArt(Art.BURNINGSKULL);
                 l.getBlock().setType(Material.PAINTING);
 
+                return true;
             } catch (WorldEditException e) { // If worldedit generated an exception it will go here
                 for(Player player : Bukkit.getOnlinePlayers()){
                     player.sendMessage(ChatColor.RED + "OUPSI! La génération d'une structure s'est mal passé");
                 }
 
                 e.printStackTrace();
+                return false;
             }
 
         } catch (IOException e) {
