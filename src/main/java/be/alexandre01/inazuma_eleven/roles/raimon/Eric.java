@@ -65,6 +65,8 @@ public class Eric extends Role implements Listener {
                 }
             }.runTaskTimerAsynchronously(inazumaUHC, 1,1);
 
+            addRoleItem(danse);
+
         });
 
     }
