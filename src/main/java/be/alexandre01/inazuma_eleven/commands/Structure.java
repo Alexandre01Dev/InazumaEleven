@@ -26,6 +26,17 @@ public class Structure extends Command {
             return true;
         }
 
+        if(args[0].equalsIgnoreCase("here")){
+            Player player = (Player) sender;
+                localRaimon = new LocalRaimon();
+
+                if(localRaimon.spawn(player.getLocation())){
+                    sender.sendMessage("Le local a spawn");
+                }else {
+                    sender.sendMessage("Le local n'a pas spawn");
+                }
+                return true;
+        }
         if(args[0].equalsIgnoreCase("getPos")){
             Player player = (Player) sender;
             System.out.println( localRaimon.clipboard.getMinimumPoint().getBlockX());

@@ -3,6 +3,7 @@ package be.alexandre01.inazuma_eleven.objects;
 import be.alexandre01.inazuma.uhc.InazumaUHC;
 import be.alexandre01.inazuma.uhc.presets.Preset;
 import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
+import be.alexandre01.inazuma.uhc.worlds.utils.Cuboid;
 import be.alexandre01.inazuma_eleven.InazumaEleven;
 import com.boydti.fawe.FaweAPI;
 import com.boydti.fawe.object.schematic.Schematic;
@@ -30,6 +31,9 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Painting;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.checkerframework.checker.units.qual.C;
 
 import java.io.File;
@@ -40,7 +44,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
-public class LocalRaimon {
+public class LocalRaimon implements Listener {
     public int x;
     public int z;
     public Location min;
@@ -64,7 +68,7 @@ public class LocalRaimon {
                 return spawnRandomized();
             }
 
-            chunks.removeIf(chunk -> Math.abs(chunk.getX()*16) > 300 && Math.abs(chunk.getZ()*16) > 300 ||  Math.abs(chunk.getX()) > Preset.instance.p.getBorderSize(org.bukkit.World.Environment.NORMAL)-50 && Math.abs(chunk.getX()) > Preset.instance.p.getBorderSize(org.bukkit.World.Environment.NORMAL)-50 );
+            chunks.removeIf(chunk -> (Math.abs(chunk.getX()*16) > 300 && Math.abs(chunk.getZ()*16) > 300) ||  Math.abs(chunk.getX()) > Preset.instance.p.getBorderSize(org.bukkit.World.Environment.NORMAL)-50 && Math.abs(chunk.getX()) > Preset.instance.p.getBorderSize(org.bukkit.World.Environment.NORMAL)-50 );
 
 
         System.out.println("OK3");
@@ -191,6 +195,167 @@ public class LocalRaimon {
                 painting.setArt(Art.BURNINGSKULL);
                 l.getBlock().setType(Material.PAINTING);
 
+
+                Cuboid cuboid = new Cuboid(getLocationFromSchematic(-30,-16,33),getLocationFromSchematic(40,28,-33));
+
+                for(Player player : Bukkit.getOnlinePlayers()){
+                    if(cuboid.contains(player.getLocation())){
+                        player.teleport(getLocationFromSchematic(10,0,17,-179f,2.2f));
+                        player.sendMessage("§cComme la structure vient d'apparaitre sur vous, vous venez d'être téléporté à l'entrée de celle-ci !");
+
+                    }
+                }
+                return true;
+            } catch (WorldEditException e) { // If worldedit generated an exception it will go here
+                for(Player player : Bukkit.getOnlinePlayers()){
+                    player.sendMessage(ChatColor.RED + "OUPSI! La génération d'une structure s'est mal passé");
+                }
+
+                e.printStackTrace();
+                return false;
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (IncompleteRegionException e) {
+            e.printStackTrace();
+        }
+
+
+        return false;
+    }
+
+    public boolean spawn(Location location){
+        this.location = location;
+        ClipboardFormat clipboardFormat = ClipboardFormat.findByFile(new File(InazumaUHC.get.getDataFolder().getAbsolutePath()+"/schematics/fawetest.fawe"));
+        try {
+            Schematic schematic = clipboardFormat.load(new File(InazumaUHC.get.getDataFolder().getAbsolutePath()+"/schematics/fawetest.fawe"));
+            World world  =FaweAPI.getWorld(InazumaUHC.get.worldGen.defaultWorld.getName()) ;
+            clipboard = schematic.getClipboard();
+
+
+
+
+
+                for (int i = 255; i > 0 ; i--) {
+                    location.setY(i);
+                    if(location.getBlock().getType()!= Material.AIR){
+                        location.setY(i+1);
+                        break;
+                    }
+                }
+
+            System.out.println("Dimension "+clipboard.getDimensions().getY());
+            System.out.println("Dimension X "+clipboard.getDimensions().getX());
+            System.out.println("Dimension Z "+clipboard.getDimensions().getZ());
+            System.out.println("Reg MaxP X"+clipboard.getRegion().getMaximumPoint().getX());
+            System.out.println("Reg MaxP Z"+clipboard.getRegion().getMaximumPoint().getZ());
+            System.out.println("Reg MinP Z"+clipboard.getRegion().getMinimumPoint().getZ());
+
+
+            location.setY(location.getY()+10); //25
+            //EditSession editSession = schematic.paste(world,Vector.toBlockPoint(location.getX(),location.getY(),location.getZ()));
+            EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(world, -1);
+            System.out.println(editSession.getMaxY());
+
+
+            //  editSession.setSize(9999);
+
+            System.out.println(location.getX()+"|"+location.getY()+"|"+location.getZ());
+            x = location.getBlockX();
+            z = location.getBlockZ();
+
+            min = new Location(location.getWorld(),clipboard.getMinimumPoint().getBlockX() + location.getX(),clipboard.getMaximumPoint().getBlockY()+ location.getY() - 64 ,clipboard.getMinimumPoint().getBlockZ() + location.getZ());
+            max = new Location(location.getWorld(),clipboard.getMaximumPoint().getBlockX() + location.getX(),clipboard.getMaximumPoint().getBlockY()+ location.getY(),clipboard.getMaximumPoint().getBlockZ() + location.getZ());
+            double centerX = (1/2) * (min.getX() + max.getX());
+            double centerZ = (1/2) * (min.getZ() + max.getZ());
+
+            System.out.println("Center X "+ centerX);
+            System.out.println("Center Z "+ centerZ);
+
+            System.out.println(min);
+            System.out.println(max);
+
+            Selection selection = new CuboidSelection(location.getWorld(),getLocationFromSchematic(22,0,-10), getLocationFromSchematic(-4,18,12));
+
+            CuboidSelection cuboidSelection = (CuboidSelection) selection;
+            Region region = cuboidSelection.getRegionSelector().getRegion();
+            editSession.setBlocks(region,new BaseBlock(0, 0));
+            editSession.flushQueue();
+
+            editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(world, -1);
+
+
+            //  Operation o = editSession.commit();
+            Operation operation = new ClipboardHolder(clipboard,world.getWorldData())
+                    .createPaste(editSession,world.getWorldData())
+                    .to(Vector.toBlockPoint(location.getX(),location.getY(),location.getZ()))
+                    .ignoreAirBlocks(true)
+                    .build();
+
+
+            try { // This simply completes our paste and then cleans up.
+                Operations.complete(operation);
+                editSession.flushQueue();
+                Location locationD = new Location(this.location.getWorld(),this.min.getBlockX()+1.5d,clipboard.getMinimumPoint().getBlockY()+this.location.getY() + 0,this.min.getBlockZ()-5.5d);
+                System.out.println(locationD);
+
+
+                CasierManager.init();
+                CasierManager casierManager = CasierManager.get();
+
+                CasierManager.Casier force = new CasierManager.Casier();
+                force.itemStack = new ItemBuilder(Material.BOOK).setName("§7§lManuel de §4§lForce").toItemStack();
+                force.border = new ItemBuilder(Material.STAINED_GLASS_PANE).setWoolColor(DyeColor.RED).toItemStack();
+                force.setupInventory();
+
+                CasierManager.Casier vitesse = new CasierManager.Casier();
+                vitesse.itemStack = new ItemBuilder(Material.BOOK).setName("§7§lManuel de §b§lVitesse").toItemStack();
+                vitesse.border = new ItemBuilder(Material.STAINED_GLASS_PANE).setWoolColor(DyeColor.CYAN).toItemStack();
+                vitesse.setupInventory();
+
+                CasierManager.Casier resistance = new CasierManager.Casier();
+                resistance.itemStack = new ItemBuilder(Material.BOOK).setName("§7§lManuel de §8§lRésistance").toItemStack();
+                resistance.border = new ItemBuilder(Material.STAINED_GLASS_PANE).setWoolColor(DyeColor.GRAY).toItemStack();
+                resistance.setupInventory();
+
+                CasierManager.Casier vie = new CasierManager.Casier();
+                vie.itemStack = new ItemBuilder(Material.BOOK).setName("§7§lManuel de §d§lVie").toItemStack();
+                vie.border = new ItemBuilder(Material.STAINED_GLASS_PANE).setWoolColor(DyeColor.PINK).toItemStack();
+                vie.setupInventory();
+
+                CasierManager.Casier mark = new CasierManager.Casier();
+                mark.itemStack = new ItemBuilder(Material.BOOK).setName("§6§lCahier de §7§lDavid §lEvans").toItemStack();
+                mark.border = new ItemBuilder(Material.STAINED_GLASS_PANE).setWoolColor(DyeColor.ORANGE).toItemStack();
+                mark.setupInventory();
+
+                ArrayList<CasierManager.Casier> casiers = new ArrayList<>(Arrays.asList(force, vitesse , resistance, vie, mark));
+
+                Collections.shuffle(casiers);
+
+                for (int i = 0; i < casiers.size(); i++) {
+                    CasierManager.Casier casier = casiers.get(i);
+                    casier.deploy(locationD);
+                    casierManager.addCasier(casier);
+                    locationD.add(1,0,0);
+                }
+
+                Location l = getLocationFromSchematic(6,2,6);
+                Painting painting = (Painting) l.getWorld().spawnEntity(l,EntityType.PAINTING);
+                painting.setFacingDirection(BlockFace.SOUTH);
+                painting.setArt(Art.BURNINGSKULL);
+                l.getBlock().setType(Material.PAINTING);
+
+
+                Cuboid cuboid = new Cuboid(getLocationFromSchematic(-30,-16,33),getLocationFromSchematic(40,28,-33));
+
+                for(Player player : Bukkit.getOnlinePlayers()){
+                    if(cuboid.contains(player.getLocation())){
+                        player.teleport(getLocationFromSchematic(10,0,17,-179f,2.2f));
+                        player.sendMessage("§cComme la structure vient d'apparaitre sur vous, vous venez d'être téléporté à l'entrée de celle-ci !");
+
+                    }
+                }
                 return true;
             } catch (WorldEditException e) { // If worldedit generated an exception it will go here
                 for(Player player : Bukkit.getOnlinePlayers()){
@@ -218,5 +383,12 @@ public class LocalRaimon {
 
     public Location getLocationFromSchematic(double x, double y, double z){
        return new Location(this.location.getWorld(),this.min.getBlockX()+x,clipboard.getMinimumPoint().getBlockY()+this.location.getY() + y,this.min.getBlockZ() + z);
+    }
+    public Location getLocationFromSchematic(double x, double y, double z,float yaw,float pitch){
+        return new Location(this.location.getWorld(),this.min.getBlockX()+x,clipboard.getMinimumPoint().getBlockY()+this.location.getY() + y,this.min.getBlockZ() + z,yaw,pitch);
+    }
+    @EventHandler
+    public void onMobSpawnOnStructure(CreatureSpawnEvent event){
+
     }
 }
