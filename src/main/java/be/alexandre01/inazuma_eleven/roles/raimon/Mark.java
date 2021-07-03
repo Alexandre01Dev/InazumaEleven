@@ -170,7 +170,7 @@ public class Mark extends Role implements Listener {
                     @Override
                     public void run(){
                         if (total < 100){
-                            TitleUtils.sendActionBar(player,"§3§lEntrainement §f§l: §6§l" + Math.round((double) total*10)/ 10.0 + "§c/§6§l100" + " §7(§cNiveau §6§l" + level + "§7)");
+                            TitleUtils.sendActionBar(player,"§3§lEntrainement §f§l: §6§l" + Math.round((double) total*10)/ 10.0 + "§c/§6§l100" + " §7(§cNiveau §6§l" + levelRomain + "§7)");
                         } else {
                             TitleUtils.sendActionBar(player,"§7§lEntrainement §7Terminé");
                         }
