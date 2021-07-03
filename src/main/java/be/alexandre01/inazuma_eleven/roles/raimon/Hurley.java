@@ -28,6 +28,7 @@ import org.bukkit.craftbukkit.v1_8_R3.potion.CraftPotionEffectType;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -76,8 +77,8 @@ public class Hurley extends Role implements Listener {
 
         RoleItem depthItem = new RoleItem();
         ItemBuilder depthBuilder = new ItemBuilder(Material.ENCHANTED_BOOK);
-        depthBuilder.addEnchant(Enchantment.DEPTH_STRIDER,2);
-        depthBuilder.setName("§eEnchanted Book");
+        EnchantmentStorageMeta meta = (EnchantmentStorageMeta)depthBuilder.toItemStack().getItemMeta();
+        meta.addStoredEnchant(Enchantment.DEPTH_STRIDER,2, true);
         depthItem.setItemstack(depthBuilder.toItemStack());
         depthItem.setPlaceableItem(true);
 
