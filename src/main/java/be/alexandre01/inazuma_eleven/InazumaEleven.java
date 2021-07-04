@@ -25,7 +25,6 @@ import be.alexandre01.inazuma_eleven.commands.Structure;
 import be.alexandre01.inazuma_eleven.listeners.*;
 import be.alexandre01.inazuma_eleven.objects.BallonInv;
 import be.alexandre01.inazuma_eleven.objects.Capitaine;
-import be.alexandre01.inazuma_eleven.objects.Mercenaire;
 import be.alexandre01.inazuma_eleven.roles.alius.*;
 import be.alexandre01.inazuma_eleven.roles.raimon.*;
 import be.alexandre01.inazuma_eleven.roles.solo.Byron;
@@ -40,7 +39,6 @@ import org.bukkit.event.Listener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -91,7 +89,7 @@ public class InazumaEleven extends PresetData implements IPreset{
                 William.class,
                 Aiden.class,
                 Bobby.class,
-                Eric.class,
+                Erik.class,
 
                 Byron.class,
 
