@@ -125,7 +125,7 @@ public class Shawn extends Role implements Listener {
                                     continue;
 
                                 paused = false;
-                                ms += 1000*60;
+                                ms += 1000;
                             }
                         }
                         int date = totalms - ms;
