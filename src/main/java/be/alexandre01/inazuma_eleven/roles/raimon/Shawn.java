@@ -46,7 +46,7 @@ public class Shawn extends Role implements Listener {
     public BukkitTask bukkitTask;
     public ArrayList<Location> aidenLoc;
     public int ms = 0;
-    public int totalms = 1000*20;
+    public int totalms = 1000*60*10;
     public Shawn(IPreset preset) {
         super("Shawn Frost",preset);
         setRoleToSpoil(Aiden.class);
@@ -152,7 +152,7 @@ public class Shawn extends Role implements Listener {
 
 
 
-                        if(ms >= 1000*20){
+                        if(ms >= 1000*60*10){
                             bukkitTask.cancel();
                             player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 0,false,false), true);
                             player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0,false,false), true);
