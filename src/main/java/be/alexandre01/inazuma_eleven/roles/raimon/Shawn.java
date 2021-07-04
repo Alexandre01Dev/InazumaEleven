@@ -125,7 +125,7 @@ public class Shawn extends Role implements Listener {
                                     continue;
 
                                 paused = false;
-                                ms += 20*30;
+                                ms += 1000*60;
                             }
                         }
                         int date = totalms - ms;
@@ -152,7 +152,7 @@ public class Shawn extends Role implements Listener {
 
 
 
-                        if(ms >= 1000*20){
+                        if(ms >= 1000*60){
                             bukkitTask.cancel();
                             player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 0,false,false), true);
                             player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0,false,false), true);
