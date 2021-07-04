@@ -91,11 +91,11 @@ public class Dvalin extends Role implements Listener {
                 BaseComponent b = new TextComponent(Preset.instance.p.prefixName()+" Début du match, quel poste voulez-vous obtenir ?");
                 b.addExtra("");
                 BaseComponent yes = new TextComponent("§c[§c§lATTAQUANT§c]");
-                yes.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/dvalin gungnir"));
+                yes.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/dvalin attaque"));
                 b.addExtra(yes);
                 b.addExtra(" §7ou ");
                 BaseComponent no = new TextComponent("§6[§6§lGARDIEN§6]");
-                no.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/dvalin troueDeVer"));
+                no.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/dvalin gardien"));
 
                 b.addExtra(no);
 
@@ -112,30 +112,30 @@ public class Dvalin extends Role implements Listener {
                 }
 
                 if(args.length == 0){
-                    player.sendMessage(Preset.instance.p.prefixName()+" Veuillez mettre §a/xene accept §7ou §a/xene refuse");
+                    player.sendMessage(Preset.instance.p.prefixName()+" Veuillez mettre §a/dvalin §cattaque §7ou §a/dvalin §6gardien");
                     return;
                 }
 
-                if(args[0].equalsIgnoreCase("troueDeVer")){
+                if(args[0].equalsIgnoreCase("gardien")){
                     hasChoose = true;
                     troueDeVer(player);
 
                     return;
                 }
-                if (args[0].equalsIgnoreCase("Gungnir")) {
+                if (args[0].equalsIgnoreCase("attaque")) {
                     hasChoose = true;
                     gungnir(player);
 
                     return;
                 }
-                player.sendMessage(Preset.instance.p.prefixName()+" Veuillez mettre §a/dvalin accept §7ou §a/dvalin refuse");
+                player.sendMessage(Preset.instance.p.prefixName()+" Veuillez mettre §a/dvalin §cattaque §7ou §a/dvalin §6gardien");
             }
         });
 
 
     }
     private void troueDeVer(Player player){
-        player.sendMessage(Preset.instance.p.prefixName()+" Tu viens de choisir ton passif ! Le Trou De Ver !");
+        player.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez de choisir d'être §c§lAttaquant §7!");
         inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.RESISTANCE,1,110);
         player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 0,false,false), true);
         RoleItem roleItem = new RoleItem();
@@ -153,7 +153,7 @@ public class Dvalin extends Role implements Listener {
         giveItem(player,roleItem);
     }
     private void gungnir(Player player){
-        player.sendMessage(Preset.instance.p.prefixName()+" Tu viens de choisir ton passif ! Le Gungnir !");
+        player.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez de choisir d'être §6§lGardien§7!");
         inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.INCREASE_DAMAGE,1,110);
         player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Integer.MAX_VALUE, 0,false,false), true);
         addListener(this);

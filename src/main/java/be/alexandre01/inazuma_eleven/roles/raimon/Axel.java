@@ -116,11 +116,11 @@ public class Axel extends Role implements Listener {
         });
         addRoleItem(roleItem);
 
-        RoleItem TempeteDeFeu = new RoleItem();
+        /*RoleItem TempeteDeFeu = new RoleItem();
         TempeteDeFeu.setItemstack(new ItemBuilder(Material.BLAZE_POWDER).setName("Tempête de Feu").toItemStack());
         //TempeteDeFeu.deployVerificationsOnRightClick(TempeteDeFeu.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
         TempeteDeFeu.setRightClick(player -> {
-            player.sendMessage(Preset.instance.p.prefixName()+" Vous venez d'activer votre Tornade de Feu.");
+            player.sendMessage(Preset.instance.p.prefixName()+" Vous venez d'activer votre Tempete de Feu.");
 
             for(Player axel : getPlayers())
             {
@@ -135,7 +135,17 @@ public class Axel extends Role implements Listener {
                     if (InazumaUHC.get.rm.getRole(player).getClass().equals(Gazelle.class) && InazumaUHC.get.rm.getRole(player).getClass().equals(Torch.class) && InazumaUHC.get.rm.getRole(player).getClass().equals(Shawn.class) && InazumaUHC.get.rm.getRole(player).getClass().equals(Hurley.class) && InazumaUHC.get.rm.getRole(player).getClass().equals(Hurley.class)) {
                         return;
                     }
-                    target.setFireTicks(20 * 5);
+                    new BukkitRunnable() {
+                        int i = 0;
+                        @Override
+                        public void run() {
+                            i++;
+                            target.setFireTicks(20 * 5);
+                            if(i == 30)
+                                cancel();
+                        }
+                    }.runTaskTimerAsynchronously(inazumaUHC, 20, 10);
+
                 }
 
                 new BukkitRunnable() {
@@ -146,7 +156,7 @@ public class Axel extends Role implements Listener {
                     public void run() {
 
                         Location loc = player.getLocation();
-                        /*int radius = 2;
+                        *//*int radius = 2;
 
                         for(double y = 0; y <= 50; y+=0.05) {
                             double x = radius * Math.cos(y);
@@ -155,7 +165,7 @@ public class Axel extends Role implements Listener {
                             for(Player online : Bukkit.getOnlinePlayers()) {
                                 ((CraftPlayer) online).getHandle().playerConnection.sendPacket(packet);
                             }
-                        }*/
+                        }*//*
 
                         var += Math.PI / 8;
 
@@ -188,7 +198,7 @@ public class Axel extends Role implements Listener {
         });
 
         Bukkit.broadcastMessage("Role ITEMMMMM");
-        addRoleItem(TempeteDeFeu);
+        addRoleItem(TempeteDeFeu);*/
     }
 
     @EventHandler

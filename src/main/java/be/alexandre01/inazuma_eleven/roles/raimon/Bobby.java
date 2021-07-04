@@ -9,7 +9,6 @@ import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
 import be.alexandre01.inazuma.uhc.utils.PatchedEntity;
 import be.alexandre01.inazuma.uhc.utils.PlayerUtils;
 import be.alexandre01.inazuma_eleven.categories.Raimon;
-import net.minecraft.server.v1_8_R3.ItemGoldenApple;
 import net.minecraft.server.v1_8_R3.Tuple;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -17,14 +16,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerItemConsumeEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
-
-import java.util.ArrayList;
 
 public class Bobby extends Role implements Listener
 {
@@ -34,7 +26,7 @@ public class Bobby extends Role implements Listener
         super("Bobby", iPreset);
 
         setRoleCategory(Raimon.class);
-        setRoleToSpoil(Eric.class);
+        setRoleToSpoil(Erik.class);
         addListener(this);
 
 

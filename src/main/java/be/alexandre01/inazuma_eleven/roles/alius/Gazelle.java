@@ -247,6 +247,7 @@ public class Gazelle extends Role implements Listener {
             world = player.getWorld();
             loc = player.getLocation();
             loc.getBlock().setType(Material.LAPIS_BLOCK);
+            player.getWorld().playSound(loc, Sound.SPLASH, 1, 1);
 
             if(inazumaUHC.rm.getRole(Torch.class) != null)
             {
@@ -256,7 +257,7 @@ public class Gazelle extends Role implements Listener {
                         @Override
                         public void run(){
 
-                            torch.sendMessage(Preset.instance.p.prefixName()+" §7Le cadavre de §b§lGazelle§7 se trouve en X: " + (float)loc.getX() + " Y: " + (float)loc.getY() + " Z: " + (float)loc.getZ());
+                            torch.sendMessage(Preset.instance.p.prefixName()+" §7Le cadavre de §b§lGazelle§7 se trouve en X: " + (float)loc.getBlockX() + " Y: " + (float)loc.getBlockY() + " Z: " + (float)loc.getBlockZ());
 
                         }
 

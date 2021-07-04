@@ -105,7 +105,7 @@ public class Caleb extends Role implements Listener {
 
 
                             }
-                        }.runTaskLaterAsynchronously(inazumaUHC,20*60);
+                        }.runTaskLaterAsynchronously(inazumaUHC,20*60*5);
                     }
                 },20*3);
             }
@@ -125,7 +125,6 @@ public class Caleb extends Role implements Listener {
         ArrayList<RoleItem.VerificationGeneration> verificationGenerations = new ArrayList<>();
         verificationGenerations.add(player -> {
             if(inazumaUHC.rm.getRole(player) instanceof Caleb){
-                player.sendMessage("T nul faux doné a t poteause");
                 return false;
             }
             //TOUT LE MONDE
@@ -150,13 +149,11 @@ public class Caleb extends Role implements Listener {
         {
             if(player.getItemInHand().getAmount() == 2)
             {
-                Bukkit.broadcastMessage("2 pierres alius");
                 player.getItemInHand().setAmount(1);
             }
 
             else if(player.getItemInHand().getAmount() == 1)
             {
-                Bukkit.broadcastMessage("1 pierre donc mnt plus de pierre");
                 player.setItemInHand(new ItemStack(Material.AIR));
             }
 
@@ -373,7 +370,7 @@ public class Caleb extends Role implements Listener {
 
 
                 }
-            }.runTaskLaterAsynchronously(inazumaUHC,20*60);
+            }.runTaskLaterAsynchronously(inazumaUHC,20*60*5);
         }
         }
 }

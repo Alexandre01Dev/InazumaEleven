@@ -187,18 +187,27 @@ public class Mercenaire{
 
                                                             for(Player target : PlayerUtils.getNearbyPlayersFromPlayer(axel,15,15,15)) {
                                                                 World world = axel.getWorld();
-                                                                world.createExplosion(axel.getLocation(),1f,false);
+                                                                //world.createExplosion(axel.getLocation(),1f,false);
                                                                 Bukkit.broadcastMessage(player.getLocation().getBlockX() + 2 + "  " + player.getLocation().getBlockY() + "   " + player.getLocation().getBlockZ());
                                                                 Location location = target.getLocation();
                                                                 location.setY(player.getLocation().getY());
-                                                                Vector v = location.add(new Vector(0, 5, 0)).toVector();
-                                                                target.setVelocity(v);
+                                                                Vector v = location.add(new Vector(0, 0, 0)).toVector();
+                                                                /*target.setVelocity(v);*/
 
 
                                                                 if (InazumaUHC.get.rm.getRole(player).getClass().equals(Gazelle.class) && InazumaUHC.get.rm.getRole(player).getClass().equals(Torch.class) && InazumaUHC.get.rm.getRole(player).getClass().equals(Shawn.class) && InazumaUHC.get.rm.getRole(player).getClass().equals(Hurley.class)) {
                                                                     return;
                                                                 }
-                                                                target.setFireTicks(20 * 5);
+                                                                new BukkitRunnable() {
+                                                                    int i = 0;
+                                                                    @Override
+                                                                    public void run() {
+                                                                        i++;
+                                                                        target.setFireTicks(20 * 5);
+                                                                        if(i == 30)
+                                                                            cancel();
+                                                                    }
+                                                                }.runTaskTimerAsynchronously(InazumaUHC.get, 40, 10);
                                                             }
 
                                                             new BukkitRunnable() {
