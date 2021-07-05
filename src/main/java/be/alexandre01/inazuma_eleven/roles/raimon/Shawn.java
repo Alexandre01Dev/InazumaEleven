@@ -34,6 +34,7 @@ import org.bukkit.scheduler.BukkitTask;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 public class Shawn extends Role implements Listener {
@@ -308,28 +309,7 @@ public class Shawn extends Role implements Listener {
                 new BukkitRunnable(){
                     @Override
                     public void run(){
-                        StringBuilder sb = new StringBuilder();
-                        sb.append("§c§lTransformation:");
-                        sb.append(" ");
-                        int v = coups/5;
-                        sb.append("§7[");
-                        sb.append("§c");
-                        for (int j = 0; j < v; j++) {
-                            sb.append("|");
-                        }
-                        sb.append("§8");
-                        for (int j = 0; j < 20-v; j++) {
-                            sb.append("|");
-                        }
-                        sb.append("§7]");
-
-                        for(Player shawn : getPlayers()){
-                            TitleUtils.sendActionBar(shawn,sb.toString());
-                        }
-
-                        if (coups >= 100){
-                            cancel();
-                        }
+                       refreshActionBar();
                     }
                 }.runTaskTimerAsynchronously(InazumaUHC.get, 20*2, 20*2);
 
@@ -339,6 +319,53 @@ public class Shawn extends Role implements Listener {
 
     }
 
+
+    public void refreshActionBar(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("§c§lTransformation:");
+        sb.append(" ");
+        int v = coups/5;
+        if(coups >= 100){
+            v = 100/5;
+        }
+        int i = new Random().nextInt(10);
+
+        if (coups >= 100){
+            sb.append("§7[");
+            sb.append("§c");
+            for (int j = 0; j < v; j++) {
+                if(i % 3 == 0){
+                    sb.append("§k");
+                }
+                sb.append("|");
+                sb.append("§c");
+                i++;
+            }
+            sb.append("§7]");
+
+            for(Player shawn : getPlayers()){
+                TitleUtils.sendActionBar(shawn,sb.toString());
+            }
+            return;
+        }
+
+        sb.append("§7[");
+        sb.append("§c");
+        for (int j = 0; j < v; j++) {
+            sb.append("|");
+        }
+        sb.append("§8");
+        for (int j = 0; j < 20-v; j++) {
+            sb.append("|");
+        }
+        sb.append("§7]");
+
+        for(Player shawn : getPlayers()){
+            TitleUtils.sendActionBar(shawn,sb.toString());
+        }
+
+
+    }
     @EventHandler
     public void onPlayerDamage(EntityDamageByEntityEvent event){
         if(!aidenDeath)
@@ -363,6 +390,7 @@ public class Shawn extends Role implements Listener {
                     coups +=3;
                     break;
             }
+            refreshActionBar();
         }
     }
 
