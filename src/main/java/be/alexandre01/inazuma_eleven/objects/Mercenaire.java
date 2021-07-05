@@ -36,6 +36,8 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -46,6 +48,8 @@ public class Mercenaire{
     public ArrayList<Player> list;
     boolean hasAxel = true;
     public Player mercenaire;
+    public int ms = 0;
+    public int totalms = 1000*60*5;
 
     public void onPvP(){
 
@@ -139,6 +143,34 @@ public class Mercenaire{
                                         kidnacommand = true;
                                         target.setMaxHealth(target.getMaxHealth()+2);
                                         player.sendMessage(Preset.instance.p.prefixName()+"Axel quiterra Raimon dans 2 minutes et vous gagnez 1 coeur.");
+
+                                        new BukkitRunnable() {
+                                            Format m = new SimpleDateFormat("mm");
+                                            Format s = new SimpleDateFormat("ss");
+                                            @Override
+                                            public void run() {
+
+                                                ms += 1000;
+
+                                                if(ms >= totalms)
+                                                    cancel();
+
+                                                int date = totalms - ms;
+
+                                                String minute = this.m.format(date);
+                                                String second = this.s.format(date);
+                                                StringBuilder sb = new StringBuilder();
+
+                                                sb.append("§6§lDépart d'Axel §f§l: §3§l ");
+                                                sb.append(minute + "m ");
+                                                sb.append(second+"s");
+
+                                                TitleUtils.sendActionBar(target,sb.toString());
+
+                                            }
+                                        }.runTaskTimerAsynchronously(InazumaUHC.get, 20, 20);
+
+
 
                                         Axel r_axel = (Axel) InazumaUHC.get.rm.getRole(Axel.class);
 
@@ -284,7 +316,7 @@ public class Mercenaire{
                             role.loadCommands();
                         }
                     }
-                }.runTaskLater(InazumaUHC.get, 20*10);
+                }.runTaskLater(InazumaUHC.get, 20*60*5);
 
             }
 
