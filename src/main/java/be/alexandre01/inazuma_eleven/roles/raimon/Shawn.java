@@ -159,6 +159,7 @@ public class Shawn extends Role implements Listener {
                             player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0,false,false), true);
                             player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Integer.MAX_VALUE, 0,false,false), true);
                             inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.INCREASE_DAMAGE,1,110);
+                            player.setMaxHealth(player.getMaxHealth()+6);
                             player.removePotionEffect(PotionEffectType.SLOW);
                             player.removePotionEffect(PotionEffectType.WEAKNESS);
                             fusionRegen = true;
@@ -245,6 +246,7 @@ public class Shawn extends Role implements Listener {
                             }
                             for(Player target : PlayerUtils.getNearbyPlayersFromPlayer(player,50,50,50)){
                                 target.sendMessage("Fusion de Shawn réussite");
+                                player.sendMessage("Fusion de Shawn réussite");
                             }
 
                         }
@@ -281,7 +283,7 @@ public class Shawn extends Role implements Listener {
                 if(p.size() == 1){
                     getPlayers().forEach(shawn -> {
                         shawn.removePotionEffect(PotionEffectType.SPEED);
-                        shawn.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
+                        shawn.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
                     });
                 }
             }
@@ -311,7 +313,7 @@ public class Shawn extends Role implements Listener {
                     public void run(){
                        refreshActionBar();
                     }
-                }.runTaskTimerAsynchronously(InazumaUHC.get, 20*2, 20*2);
+                }.runTaskTimerAsynchronously(InazumaUHC.get, 20*1, 20*1);
 
         }
 

@@ -355,7 +355,7 @@ public class Torch  extends Role implements Listener {
                                 roleItem.setItemstack(it);
                                 addRoleItem(roleItem);
                                 block.setType(Material.AIR);
-                                player.sendMessage(Preset.instance.p.prefixName()+" §7§lFélicitation§7, vous avez fusionné votre épée avec celle de §b§lGazelle§7, désormais votre épée en plus de ces pouvoirs de base, possède également celle de l'épée de §c§lGazelle§7.");
+                                player.sendMessage(Preset.instance.p.prefixName()+" §7§lFélicitation§7, vous avez fusionné votre épée avec celle de §b§lGazelle§7, votre épée a §aévolué§7 pour devenir le §b§lBlizzard§7-§4§lEnflammé§7 !");
                                 player.playSound(player.getLocation(), Sound.ORB_PICKUP, 5,5);
                                 changesword++;
                             }
