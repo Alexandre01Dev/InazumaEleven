@@ -287,7 +287,13 @@ public class Axel extends Role implements Listener {
             {
                 for (Player axel : getPlayers())
                 {
-                    axel.sendMessage(Preset.instance.p.prefixName() + "Ta vie c'est de la merde ta soeur elle est morte et le gars qui l'a tué aussi donc reste tout seul et chichi");
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            axel.sendMessage(Preset.instance.p.prefixName() + "Ta vie c'est de la merde ta soeur elle est morte et le gars qui l'a tué aussi donc reste tout seul et chichi");
+                        }
+                    }.runTaskLaterAsynchronously(inazumaUHC, 1);
+
                 }
 
             }

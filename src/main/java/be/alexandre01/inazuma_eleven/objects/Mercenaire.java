@@ -21,10 +21,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import net.minecraft.server.v1_8_R3.Tuple;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -152,8 +149,11 @@ public class Mercenaire{
 
                                                 ms += 1000;
 
-                                                if(ms >= totalms)
+                                                if(ms >= totalms){
+                                                    TitleUtils.sendActionBar(target,"Axel a quitté Raimon");
+                                                    player.playSound(player.getLocation(), Sound.ORB_PICKUP, 5,5);
                                                     cancel();
+                                                }
 
                                                 int date = totalms - ms;
 
@@ -161,14 +161,14 @@ public class Mercenaire{
                                                 String second = this.s.format(date);
                                                 StringBuilder sb = new StringBuilder();
 
-                                                sb.append("§6§lDépart d'Axel §f§l: §3§l ");
+                                                sb.append("§7Départ d'§c§lAxel §f§l: §a§l ");
                                                 sb.append(minute + "m ");
                                                 sb.append(second+"s");
 
                                                 TitleUtils.sendActionBar(target,sb.toString());
 
                                             }
-                                        }.runTaskTimerAsynchronously(InazumaUHC.get, 20, 20);
+                                        }.runTaskTimerAsynchronously(InazumaUHC.get, 20*1, 20*1);
 
 
 

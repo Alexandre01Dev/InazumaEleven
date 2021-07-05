@@ -41,25 +41,24 @@ public class WaitingScoreboard {
 
                 @Override
                 public void lines(String ip, ObjectiveSign objectiveSign) {
-                    objectiveSign.setDisplayName("§8»§3§lInazuma§8§l-§3§lEleven§8«");
+                    objectiveSign.setDisplayName("§3§lInazuma §3§lEleven§8 §c§lV1");
 
                     objectiveSign.setLine(4, "§r§l§8»§8§m------------§l§8«");
+                    objectiveSign.setLine(5, "§e§lHost§7 §l» §c§lNan0uche");
                     objectiveSign.setLine(6, "§7Joueurs §l» §e" + Bukkit.getOnlinePlayers().size() + "§7/§e"+inazuma.getPlayerSize());
-                    objectiveSign.setLine(7, "§7 §l» §cEn attentes de joueurs§e");
-                    objectiveSign.setLine(8, "§7 §l» §e§l"+inazuma.lastModifier+"s.");
                     objectiveSign.setLine(9, "§r§l§8»§8§m------------§l§8«§r");
                     World world = player.getWorld();
                     int borderSize = Preset.instance.p.getBorderSize(world.getEnvironment());
-                    objectiveSign.setLine(10,"§7Meetup §l» §e-"+ borderSize+"§7/§e"+borderSize);
-                    objectiveSign.setLine(11, "§l§8»§8§m------------§l§8«");
+                    objectiveSign.setLine(10, "§7PvP §f§l» §3" + inazuma.pvpValue);
+                    objectiveSign.setLine(12,"§7Meetup §f§l» §3" + inazuma.bordureValue);
+                    objectiveSign.setLine(13,"§7Bordure §f§l» §e-"+ borderSize+"§7/§e"+borderSize);
+                    objectiveSign.setLine(14, "§l§8»§8§m------------§l§8«");
+
+                    objectiveSign.setLine(15, "§7Scénario(s) §l» "+scenario);
 
 
-
-                    objectiveSign.setLine(13, "§7Scénario(s) §l» "+scenario);
-
-
-                    objectiveSign.setLine(14, "§l§8»§8§m------------§l§8« ");
-                    objectiveSign.setLine(15, ip);
+                    objectiveSign.setLine(16, "§l§8»§8§m------------§l§8« ");
+                    objectiveSign.setLine(17, ip);
 
                     objectiveSign.updateLines();
 
