@@ -2,6 +2,7 @@ package be.alexandre01.inazuma_eleven.objects;
 
 import be.alexandre01.inazuma.uhc.InazumaUHC;
 import be.alexandre01.inazuma.uhc.custom_events.episode.EpisodeChangeEvent;
+import be.alexandre01.inazuma.uhc.custom_events.player.PlayerInstantDeathEvent;
 import be.alexandre01.inazuma.uhc.presets.Preset;
 import be.alexandre01.inazuma.uhc.roles.Role;
 import be.alexandre01.inazuma.uhc.roles.RoleItem;
@@ -47,6 +48,7 @@ public class Mercenaire{
     public Player mercenaire;
     public int ms = 0;
     public int totalms = 1000*60*5;
+    boolean axelAlive;
 
     public void onPvP(){
 
@@ -147,25 +149,30 @@ public class Mercenaire{
                                             @Override
                                             public void run() {
 
-                                                ms += 1000;
+                                                if(axelAlive)
+                                                {
+                                                    ms += 1000;
 
-                                                if(ms >= totalms){
-                                                    TitleUtils.sendActionBar(target,"Axel a quitté Raimon");
-                                                    player.playSound(player.getLocation(), Sound.ORB_PICKUP, 5,5);
-                                                    cancel();
+                                                    if(ms >= totalms){
+                                                        TitleUtils.sendActionBar(target,"Axel a quitté Raimon");
+                                                        player.playSound(player.getLocation(), Sound.ORB_PICKUP, 5,5);
+                                                        cancel();
+                                                    }
+
+                                                    int date = totalms - ms;
+
+                                                    String minute = this.m.format(date);
+                                                    String second = this.s.format(date);
+                                                    StringBuilder sb = new StringBuilder();
+
+                                                    sb.append("§7Départ d'§c§lAxel §f§l: §a§l ");
+                                                    sb.append(minute + "m ");
+                                                    sb.append(second+"s");
+
+                                                    TitleUtils.sendActionBar(target,sb.toString());
                                                 }
 
-                                                int date = totalms - ms;
 
-                                                String minute = this.m.format(date);
-                                                String second = this.s.format(date);
-                                                StringBuilder sb = new StringBuilder();
-
-                                                sb.append("§7Départ d'§c§lAxel §f§l: §a§l ");
-                                                sb.append(minute + "m ");
-                                                sb.append(second+"s");
-
-                                                TitleUtils.sendActionBar(target,sb.toString());
 
                                             }
                                         }.runTaskTimerAsynchronously(InazumaUHC.get, 20*1, 20*1);
@@ -347,4 +354,12 @@ public class Mercenaire{
         player.sendMessage(Preset.instance.p.prefixName()+" Voici la liste des joueurs dans laquelle se trouve le Mercenaire : ");
         player.sendMessage(sb.toString());
     }
+
+    @EventHandler
+    void onDeath(PlayerInstantDeathEvent event)
+    {
+        if(InazumaUHC.get.rm.getRole(event.getPlayer()) instanceof Axel)
+            axelAlive = false;
+    }
+
 }
