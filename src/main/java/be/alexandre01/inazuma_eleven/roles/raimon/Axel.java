@@ -23,6 +23,7 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import net.minecraft.server.v1_8_R3.Tuple;
 import org.bukkit.*;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -302,36 +303,35 @@ public class Axel extends Role implements Listener {
 
     @EventHandler
     public void onBurning(EntityDamageByEntityEvent event) {
-        Player axel = (Player) event.getDamager();
-        Player player = (Player) event.getEntity();
-        Role role = inazumaUHC.rm.getRole(axel);
 
-        if(role.getClass().equals(Axel.class)){
+        if(event.getDamager() instanceof Player)
+        {
+            Player axel = (Player) event.getDamager();
+            Entity entity = event.getEntity();
+            Role role = inazumaUHC.rm.getRole(axel);
+            if(role.getClass().equals(Axel.class)){
 
-            if(feu){
-                if(!inazumaUHC.rm.getRole(player).getClass().equals(Gazelle.class) && !inazumaUHC.rm.getRole(player).getClass().equals(Axel.class) && !inazumaUHC.rm.getRole(player).getClass().equals(Shawn.class) &&  !inazumaUHC.rm.getRole(player).getClass().equals(Hurley.class)&&  !inazumaUHC.rm.getRole(player).getClass().equals(Aiden.class)){
-                    player.setFireTicks(20*5);
+                if(feu){
+                    if(entity instanceof Player)
+                    {
+                        Player player = (Player)entity;
+                        if(!inazumaUHC.rm.getRole(player).getClass().equals(Gazelle.class) && !inazumaUHC.rm.getRole(player).getClass().equals(Axel.class) && !inazumaUHC.rm.getRole(player).getClass().equals(Shawn.class) &&  !inazumaUHC.rm.getRole(player).getClass().equals(Hurley.class)&&  !inazumaUHC.rm.getRole(player).getClass().equals(Aiden.class)){
+                            player.setFireTicks(20*5);
+                        }
+                    }
+                    else {
+                        entity.setFireTicks(20*5);
+                    }
+
+
+                    if(!isSolo){
+
+                        axel.setWalkSpeed(0.225F);
+                        speed = true;
+                    }
                 }
-
-                if(!isSolo){
-
-                    axel.setWalkSpeed(0.225F);
-                    speed = true;
-
-                }
-
             }
-
-
-
         }
-
-
-
-
-
-
-
     }
 
     private void addEffectAfter(Player player, long l, Nathan.action a, PotionEffect... potionEffects){
