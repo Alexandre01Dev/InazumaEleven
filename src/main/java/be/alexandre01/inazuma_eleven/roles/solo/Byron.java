@@ -113,8 +113,8 @@ public class Byron extends Role implements Listener {
         pot1.setItemMeta(meta);
         meta.addCustomEffect(new PotionEffect(PotionEffectType.REGENERATION, 15*20, 1,false,false), true);
         meta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, 20*20, 0,false,false), true);
-        meta.setDisplayName("§f§lNectar §7§lDivin");
-        meta.setLore(Arrays.asList("Boisson Divine légué par §fDieu§r lui même","cette boisson vous rendra §fimmortel§r durant un certain moment."));
+        meta.setDisplayName("§f§lNectar des §7§lDieux");
+        meta.setLore(Arrays.asList("Boisson Divine légué par §fDieu§r lui même","cette boisson vous rendra §fimmortel§r durant un cours délais."));
         List<String> potLore = new ArrayList<String>();
         meta.setLore(potLore);
         pot1.setItemMeta(meta);

@@ -102,7 +102,7 @@ public class Joseph extends Role {
 
             if(!firstUse && !secondUse)
             {
-                player.sendMessage("vous venez d'activer Manchot empreur apres recharge sans la premiere utilisation");
+                player.sendMessage(Preset.instance.p.prefixName()+" Vous venez d'utiliser la §2Morsure§7-§2Sauvage§7.");
                 bloodParticles(player);
                 player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60*20, 1, false, false), true);
                 firstUse = true;
@@ -112,7 +112,7 @@ public class Joseph extends Role {
 
             if(!firstUse)
             {
-                player.sendMessage("Vous venez d'activer la morsure sauvage");
+                player.sendMessage(Preset.instance.p.prefixName()+" Vous venez d'utiliser la §2Morsure§7-§2Sauvage§7.");
                 bloodParticles(player);
                 player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60*20, 1, false, false), true);
                 firstUse = true;
@@ -122,7 +122,7 @@ public class Joseph extends Role {
                     @Override
                     public void run()
                     {
-                        player.sendMessage("§cFin de votre capacite debut des problemes");
+                        player.sendMessage(Preset.instance.p.prefixName()+" La §2Morsure§7-§2Sauvage§7 vous a énormément affaibli et vous avez donc désormais §8§lWeakness I§7 pendant §a5 minutes§7 et perdu §c§l2 §4❤§7 permanent. Retrouvez §5§lCaleb§7 afin de remédier à ce §cproblème§7.");
                         player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, Integer.MAX_VALUE, 0, false, false), true);
                         PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() - 4);
                     }
@@ -143,7 +143,7 @@ public class Joseph extends Role {
                 switch (numberOfUse)
                 {
                     case 1 :
-                        player.sendMessage("utilisation de la morsure sauvage apres recharge 1");
+                        player.sendMessage(Preset.instance.p.prefixName()+" Vous venez d'utiliser la §2Morsure§7-§2Sauvage§7.");
                         if (!specialUse)
                             PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() + 2);
 
@@ -152,7 +152,7 @@ public class Joseph extends Role {
                             @Override
                             public void run()
                             {
-                                player.sendMessage("§cfin de votre capacite effet nefaste reduit");
+                                player.sendMessage(Preset.instance.p.prefixName()+" La §2Morsure§7-§2Sauvage§7 vous a énormément affaibli et vous avez donc désormais perdu §c§l2 §4❤§7 permanent.");
                                 PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() - 4);
                             }
                         }.runTaskLaterAsynchronously(InazumaUHC.getGet(), 60*20);
@@ -160,13 +160,13 @@ public class Joseph extends Role {
 
                     case 0 :
                         secondUse = true;
-                        player.sendMessage("utilisation de la morsure sauvage apres recharge 2");
+                        player.sendMessage(Preset.instance.p.prefixName()+" Vous venez d'utiliser la §2Morsure§7-§2Sauvage§7.");
                         PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() + 4);
                         if(inazumaUHC.rm.getRole(Jude.class) != null)
                         {
                             for(Player p : inazumaUHC.rm.getRole(Jude.class).getPlayers()){
 
-                                p.sendMessage(Preset.instance.p.prefixName()+" Joseph a utilisé son item en x: " + player.getLocation().getBlockX() + " y: " + player.getLocation().getBlockY() + " z: " + player.getLocation().getBlockZ());
+                                p.sendMessage(Preset.instance.p.prefixName()+" §5§lJoseph§7 a utilisé son item en x: " + player.getLocation().getBlockX() + " y: " + player.getLocation().getBlockY() + " z: " + player.getLocation().getBlockZ());
 
                             }
                         }
@@ -176,7 +176,7 @@ public class Joseph extends Role {
                             @Override
                             public void run()
                             {
-                                player.sendMessage("fin de votre capacite effets nefastes accrue");
+                                player.sendMessage(Preset.instance.p.prefixName()+" La §2Morsure§7-§2Sauvage§7 vous a énormément affaibli et vous avez donc désormais §8§lWeakness I§7 permanent et perdu §c§l2 §4❤§7 permanent.");
                                 player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, Integer.MAX_VALUE, 0, false, false), true);
                                 PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() - 2 );
                             }

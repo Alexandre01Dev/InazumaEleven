@@ -10,6 +10,7 @@ import be.alexandre01.inazuma.uhc.roles.Role;
 import be.alexandre01.inazuma.uhc.roles.RoleItem;
 import be.alexandre01.inazuma.uhc.utils.*;
 import be.alexandre01.inazuma_eleven.categories.Raimon;
+import be.alexandre01.inazuma_eleven.listeners.CustomGlasses;
 import be.alexandre01.inazuma_eleven.listeners.EpisodeEvent;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -18,6 +19,7 @@ import net.minecraft.server.v1_8_R3.Tuple;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -26,6 +28,7 @@ import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -34,6 +37,8 @@ import org.bukkit.scheduler.BukkitTask;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -48,6 +53,9 @@ public class Shawn extends Role implements Listener {
     public ArrayList<Location> aidenLoc;
     public int ms = 0;
     public int totalms = 1000*60*10;
+    public boolean transformation = false;
+    public boolean isUsing = false;
+
     public Shawn(IPreset preset) {
         super("Shawn Frost",preset);
         setRoleToSpoil(Aiden.class);
@@ -65,15 +73,66 @@ public class Shawn extends Role implements Listener {
             public void a(Player player) {
                 inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.RESISTANCE,1,110);
                 player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 0,false,false), true);
+                player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0,false,false), true);
             }
 
         });
 
 
         RoleItem roleItem = new RoleItem();
-        ItemBuilder it = new ItemBuilder(Material.REDSTONE).setName("Transformation");
-        roleItem.setItemstack(it.toItemStack());
+        final String texture = "ewogICJ0aW1lc3RhbXAiIDogMTYyNTQ5MTUwMzg3NSwKICAicHJvZmlsZUlkIiA6ICJjNjc3MGJjZWMzZjE0ODA3ODc4MTU0NWRhMGFmMDI1NCIsCiAgInByb2ZpbGVOYW1lIiA6ICJDVUNGTDE2IiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzEyYThmMWZmYjY1N2Y2YzgzZDk3MmQ4MzhkNjMyMzczN2FhOTA2OTBkOGQxOWVhNjEzMzRhNDY3ZTNlZThlNDciCiAgICB9CiAgfQp9";
+        ItemStack it = new CustomHead(texture,"Transformation").toItemStack();
+        roleItem.setItemstack(it);
         addRoleItem(roleItem);
+
+        roleItem.deployVerificationsOnRightClick(  roleItem.generateMultipleVerification(new ArrayList<>(Arrays.asList(new RoleItem.VerificationGeneration() {
+            @Override
+            public boolean verification(Player player) {
+                if(!transformation)
+                    player.sendMessage(Preset.instance.p.prefixName()+"§cVous devez être en rage pour pouvoir utilisé ce pouvoir.");
+                return transformation;
+            }
+        }, new RoleItem.VerificationGeneration() {
+            @Override
+            public boolean verification(Player player) {
+                if(isUsing)
+                    player.sendMessage(Preset.instance.p.prefixName()+"§cVous utilisez déjà ce pouvoir.");
+                return !isUsing;
+            }
+        })),new Tuple<>(RoleItem.VerificationType.COOLDOWN,60*10)));
+
+        roleItem.setRightClick(player -> {
+            player.playSound(player.getLocation(), Sound.PISTON_RETRACT,1,1);
+            float walkspeed = player.getWalkSpeed();
+            isUsing = true;
+            player.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
+            player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 20*60*2, 0, false, false), true);
+            inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.INCREASE_DAMAGE,1,115);
+            player.setWalkSpeed(walkspeed+0.025F);
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.INCREASE_DAMAGE,1,110);
+                }
+            }.runTaskLaterAsynchronously(inazumaUHC,20*30);
+
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    player.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 0,false,false), true);
+                    player.setWalkSpeed(walkspeed);
+                    transformation = false;
+                    isUsing = false;
+                    player.sendMessage(Preset.instance.p.prefixName()+" fin de la rage.");
+
+                    coups = 0;
+                }
+            }.runTaskLaterAsynchronously(inazumaUHC,20*60*2);
+        });
+
+
+
 
         addCommand("fusion", new command() {
             @Override
@@ -82,6 +141,9 @@ public class Shawn extends Role implements Listener {
                     player.sendMessage("La commande est désactivé pour le moment. ");
                     return;
                 }
+                if(InazumaUHC.get.rm.getRole(Aiden.class) == null)
+                    return;
+
                 if(InazumaUHC.get.rm.getRole(Aiden.class).getPlayers().isEmpty()){
                     player.sendMessage("Aiden est mort :'(");
                     return;
@@ -307,11 +369,17 @@ public class Shawn extends Role implements Listener {
             }
             aidenDeath = true;
 
-
                 new BukkitRunnable(){
                     @Override
                     public void run(){
-                       refreshActionBar();
+                        if(!isUsing){
+                            refreshActionBar();
+                        }else{
+                            for(Player shawn : getPlayers()){
+                                TitleUtils.sendActionBar(shawn,"§cVo§ku§cs ête§ks§c en RA§kG§cE !");
+                            }
+                        }
+
                     }
                 }.runTaskTimerAsynchronously(InazumaUHC.get, 20*1, 20*1);
 
@@ -324,15 +392,17 @@ public class Shawn extends Role implements Listener {
 
     public void refreshActionBar(){
         StringBuilder sb = new StringBuilder();
-        sb.append("§c§lTransformation:");
-        sb.append(" ");
-        int v = coups/5;
+        int v = coups/4;
         if(coups >= 100){
-            v = 100/5;
+            v = 100/4;
         }
         int i = new Random().nextInt(10);
 
         if (coups >= 100){
+
+            sb.append("§c§lTr§ka§cn§ks§cfo§kr§cmati§ko§cn :");
+            sb.append(" ");
+
             sb.append("§7[");
             sb.append("§c");
             for (int j = 0; j < v; j++) {
@@ -350,14 +420,15 @@ public class Shawn extends Role implements Listener {
             }
             return;
         }
-
+        sb.append("§c§lTransformation :");
+        sb.append(" ");
         sb.append("§7[");
         sb.append("§c");
         for (int j = 0; j < v; j++) {
             sb.append("|");
         }
         sb.append("§8");
-        for (int j = 0; j < 20-v; j++) {
+        for (int j = 0; j < 25-v; j++) {
             sb.append("|");
         }
         sb.append("§7]");
@@ -381,18 +452,32 @@ public class Shawn extends Role implements Listener {
                 return;
             switch (damager.getItemInHand().getType()){
                 case DIAMOND_SWORD:
-                    coups +=5;
-                    break;
-
-                case IRON_SWORD:
                     coups +=4;
                     break;
 
-                case GOLD_SWORD:
+                case IRON_SWORD:
                     coups +=3;
                     break;
+
+                case GOLD_SWORD:
+                    coups +=2;
+                    break;
             }
-            refreshActionBar();
+            if(!isUsing)
+                refreshActionBar();
+            if(!transformation){
+                if(coups >= 100){
+                    Shawn shawn = (Shawn) InazumaUHC.get.rm.getRole(Shawn.class);
+                    if(shawn == null)
+                        return;
+                    shawn.getPlayers().forEach(player -> {
+                        player.sendMessage("transfo prete");
+                    });
+                    transformation = true;
+                }
+            }
+
+
         }
     }
 

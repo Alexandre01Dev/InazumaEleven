@@ -125,7 +125,7 @@ public class Kim extends Role implements Listener {
         addRoleItem(volSword);
 
         RoleItem healSword = new RoleItem();
-        ItemBuilder healAlius = new ItemBuilder(Material.DIAMOND_SWORD).setName("Heal");
+        ItemBuilder healAlius = new ItemBuilder(Material.DIAMOND_SWORD).setName("Vie");
         healAlius.setUnbreakable();
         healSword.setItemstack(healAlius.toItemStack());
         healSword.deployVerificationsOnRightClick(healSword.generateVerification(new Tuple<>(RoleItem.VerificationType.COOLDOWN,10)));
