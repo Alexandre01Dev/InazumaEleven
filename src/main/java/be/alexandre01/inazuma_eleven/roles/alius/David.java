@@ -99,15 +99,14 @@ public class David extends Role implements Listener {
         });
 
 
-        RoleItem roleItem = new RoleItem();
-        ItemBuilder it = new ItemBuilder(Material.NETHER_STAR).setName("§c§lManchot §c§lEmpereur §4§lN°1");
-        roleItem.setItemstack(it.toItemStack());
-        addRoleItem(roleItem);
-        roleItem.setRightClick(player -> {
+        RoleItem manchot = new RoleItem();
+        manchot.setItemstack(new ItemBuilder(Material.NETHER_WARTS).setName("§c§lManchot §c§lEmpereur §4§lN°1").toItemStack());
+        addRoleItem(manchot);
+        manchot.setRightClick(player -> {
 
             if(!firstUse && !secondUse)
             {
-                player.sendMessage("vous venez d'activer Manchot empreur apres recharge sans la premiere utilisation");
+                player.sendMessage(Preset.instance.p.prefixName()+" Vous venez d'utiliser le §c§lManchot §c§lEmpereur §4§lN°1§7.");
                 bloodParticles(player);
                 player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60*20, 1, false, false), true);
                 firstUse = true;
@@ -117,7 +116,7 @@ public class David extends Role implements Listener {
 
             if(!firstUse)
             {
-                player.sendMessage("Vous venez d'activer Manchot empreur");
+                player.sendMessage(Preset.instance.p.prefixName()+" Vous venez d'utiliser le §c§lManchot §c§lEmpereur §4§lN°1§7.");
                 bloodParticles(player);
                 player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60*20, 1, false, false), true);
                 firstUse = true;
@@ -127,7 +126,7 @@ public class David extends Role implements Listener {
                     @Override
                     public void run()
                     {
-                        player.sendMessage("§cFin de votre capacite debut des problemes");
+                        player.sendMessage(Preset.instance.p.prefixName()+" Le §c§lManchot §c§lEmpereur §4§lN°1§7 vous a énormément affaibli et vous avez donc désormais §8§lWeakness I§7 pendant §a5 minutes§7 et perdu §c§l2 §4❤§7 permanent. Retrouvez §5§lCaleb§7 afin de remédier à ce §cproblème§7.");
                         player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, Integer.MAX_VALUE, 0, false, false), true);
                         PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() - 4);
                     }
@@ -148,14 +147,14 @@ public class David extends Role implements Listener {
                 switch (numberOfUse)
                 {
                     case 1 :
-                        player.sendMessage("utilisation du manchot empreur apres recharge 1");
+                        player.sendMessage(Preset.instance.p.prefixName()+" Vous venez d'utiliser le §c§lManchot §c§lEmpereur §4§lN°1§7.");
 
                         new BukkitRunnable()
                         {
                             @Override
                             public void run()
                             {
-                                player.sendMessage("§cfin de votre capacite effet nefaste reduit");
+                                player.sendMessage(Preset.instance.p.prefixName()+" Le §c§lManchot §c§lEmpereur §4§lN°1§7 vous a énormément affaibli et vous avez donc désormais perdu §c§l2 §4❤§7 permanent.");
                                 player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 300*20, 0, false, false), true);
                                 PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() -2);
                             }
@@ -164,13 +163,13 @@ public class David extends Role implements Listener {
 
                     case 0 :
                         secondUse = true;
-                        player.sendMessage("utilisation du manchot empreur apres recharge 2");
+                        player.sendMessage(Preset.instance.p.prefixName()+" Vous venez d'utiliser le §c§lManchot §c§lEmpereur §4§lN°1§7.");
                         PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() + 2);
                         if(inazumaUHC.rm.getRole(Jude.class) != null)
                         {
                             for(Player p : inazumaUHC.rm.getRole(Jude.class).getPlayers()){
 
-                                p.sendMessage(Preset.instance.p.prefixName()+" David a utilisé son item en x: " + player.getLocation().getBlockX() + " y: " + player.getLocation().getBlockY() + " z: " + player.getLocation().getBlockZ());
+                                p.sendMessage(Preset.instance.p.prefixName()+" §5§lDavid§7 a utilisé son item en x: " + player.getLocation().getBlockX() + " y: " + player.getLocation().getBlockY() + " z: " + player.getLocation().getBlockZ());
 
                             }
                         }
@@ -181,7 +180,7 @@ public class David extends Role implements Listener {
                             @Override
                             public void run()
                             {
-                                player.sendMessage("fin de votre capacite effets nefastes accrue");
+                                player.sendMessage(Preset.instance.p.prefixName()+" Le §c§lManchot §c§lEmpereur §4§lN°1§7 vous a énormément affaibli et vous avez donc désormais §8§lWeakness I§7 permanent et perdu §c§l2 §4❤§7 permanent.");
                                 player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, Integer.MAX_VALUE, 0, false, false), true);
                                 PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() -4 );
                             }

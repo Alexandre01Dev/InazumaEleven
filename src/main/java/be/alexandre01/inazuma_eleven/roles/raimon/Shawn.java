@@ -124,6 +124,7 @@ public class Shawn extends Role implements Listener {
                     player.setWalkSpeed(walkspeed);
                     transformation = false;
                     isUsing = false;
+                    player.sendMessage(Preset.instance.p.prefixName()+" fin de la rage.");
 
                     coups = 0;
                 }
@@ -368,7 +369,6 @@ public class Shawn extends Role implements Listener {
             }
             aidenDeath = true;
 
-
                 new BukkitRunnable(){
                     @Override
                     public void run(){
@@ -376,7 +376,7 @@ public class Shawn extends Role implements Listener {
                             refreshActionBar();
                         }else{
                             for(Player shawn : getPlayers()){
-                                TitleUtils.sendActionBar(shawn,"§cVous êtes en §lRAGE§c !");
+                                TitleUtils.sendActionBar(shawn,"§cVo§ku§cs ête§ks§c en RA§kG§cE !");
                             }
                         }
 
@@ -392,8 +392,6 @@ public class Shawn extends Role implements Listener {
 
     public void refreshActionBar(){
         StringBuilder sb = new StringBuilder();
-        sb.append("§c§lTransformation:");
-        sb.append(" ");
         int v = coups/4;
         if(coups >= 100){
             v = 100/4;
@@ -401,6 +399,10 @@ public class Shawn extends Role implements Listener {
         int i = new Random().nextInt(10);
 
         if (coups >= 100){
+
+            sb.append("§c§lTr§ka§cn§ks§cfo§kr§cmati§ko§cn :");
+            sb.append(" ");
+
             sb.append("§7[");
             sb.append("§c");
             for (int j = 0; j < v; j++) {
@@ -418,7 +420,8 @@ public class Shawn extends Role implements Listener {
             }
             return;
         }
-
+        sb.append("§c§lTransformation :");
+        sb.append(" ");
         sb.append("§7[");
         sb.append("§c");
         for (int j = 0; j < v; j++) {
@@ -468,7 +471,7 @@ public class Shawn extends Role implements Listener {
                     if(shawn == null)
                         return;
                     shawn.getPlayers().forEach(player -> {
-                        player.sendMessage("Transf§ko§frmati§ko§fn pr§kê§fte !");
+                        player.sendMessage("transfo prete");
                     });
                     transformation = true;
                 }
