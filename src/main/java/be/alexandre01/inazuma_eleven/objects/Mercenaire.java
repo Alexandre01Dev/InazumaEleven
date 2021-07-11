@@ -230,8 +230,15 @@ public class Mercenaire{
                                                                 Bukkit.broadcastMessage(player.getLocation().getBlockX() + 2 + "  " + player.getLocation().getBlockY() + "   " + player.getLocation().getBlockZ());
                                                                 Location location = target.getLocation();
                                                                 location.setY(player.getLocation().getY());
-                                                                Vector v = location.add(new Vector(0, 0, 0)).toVector();
-                                                                /*target.setVelocity(v);*/
+                                                                Vector v = target.getLocation().toVector().subtract(player.getLocation().toVector()).normalize().multiply(4);
+                                                                v.add(new Vector(0,1,0));
+                                                                if(v.getY() > 2)
+                                                                    v.setY(2);
+                                                                if(v.getX() > 2)
+                                                                    v.setX(2);
+                                                                if(v.getY() > 2)
+                                                                    v.setY(2);
+                                                                target.setVelocity(v);
 
 
                                                                 if (InazumaUHC.get.rm.getRole(player).getClass().equals(Gazelle.class) && InazumaUHC.get.rm.getRole(player).getClass().equals(Torch.class) && InazumaUHC.get.rm.getRole(player).getClass().equals(Shawn.class) && InazumaUHC.get.rm.getRole(player).getClass().equals(Hurley.class)) {
@@ -242,7 +249,11 @@ public class Mercenaire{
                                                                     @Override
                                                                     public void run() {
                                                                         i++;
-                                                                        target.setFireTicks(20 * 5);
+                                                                        if(target.getFireTicks() == 0)
+                                                                        {
+                                                                            target.setFireTicks(20 * 5);
+                                                                        }
+
                                                                         if(i == 30)
                                                                             cancel();
                                                                     }
@@ -323,7 +334,7 @@ public class Mercenaire{
                             role.loadCommands();
                         }
                     }
-                }.runTaskLater(InazumaUHC.get, 20*60*5);
+                }.runTaskLater(InazumaUHC.get, 20*60);
 
             }
 

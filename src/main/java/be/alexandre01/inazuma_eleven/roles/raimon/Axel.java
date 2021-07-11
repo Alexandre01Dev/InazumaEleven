@@ -210,7 +210,7 @@ public class Axel extends Role implements Listener {
 
                 if(isSolo)
                 {
-                    if(mercenaire.list.size() > 1)
+                    if(mercenaire != null && mercenaire.list != null && mercenaire.list.size() > 1)
                     {
                         Collections.shuffle(mercenaire.list);
                         if(mercenaire.list.get(0) == mercenaire.mercenaire)
