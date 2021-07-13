@@ -310,6 +310,7 @@ public class Axel extends Role implements Listener {
             Entity entity = event.getEntity();
             Role role = inazumaUHC.rm.getRole(axel);
             if(role.getClass().equals(Axel.class)){
+                float walkspeed = axel.getWalkSpeed();
 
                 if(feu){
                     if(entity instanceof Player)
@@ -325,8 +326,7 @@ public class Axel extends Role implements Listener {
 
 
                     if(!isSolo){
-
-                        axel.setWalkSpeed(0.225F);
+                        axel.setWalkSpeed(walkspeed+0.255F);
                         speed = true;
                     }
                 }

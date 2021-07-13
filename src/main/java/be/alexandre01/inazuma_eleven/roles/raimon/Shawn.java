@@ -113,7 +113,7 @@ public class Shawn extends Role implements Listener {
             player.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
             player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 20*60*2, 0, false, false), true);
             inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.INCREASE_DAMAGE,1,115);
-            player.setWalkSpeed(walkspeed+0.025F);
+            player.setWalkSpeed(walkspeed+0.255F);
             new BukkitRunnable() {
                 @Override
                 public void run() {
@@ -455,16 +455,13 @@ public class Shawn extends Role implements Listener {
                 return;
             switch (damager.getItemInHand().getType()){
                 case DIAMOND_SWORD:
-                    coups +=4;
-                    break;
-
-                case IRON_SWORD:
                     coups +=3;
                     break;
 
-                case GOLD_SWORD:
+                case IRON_SWORD:
                     coups +=2;
                     break;
+
             }
             if(!isUsing)
                 refreshActionBar();
