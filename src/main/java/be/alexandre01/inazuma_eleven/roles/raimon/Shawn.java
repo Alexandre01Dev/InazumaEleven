@@ -74,6 +74,11 @@ public class Shawn extends Role implements Listener {
                 inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.RESISTANCE,1,110);
                 player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 0,false,false), true);
                 player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0,false,false), true);
+
+                if (InazumaUHC.get.rm.getRole(Aiden.class) == null){
+                    aidenDeath = true;
+                    return;
+                }
             }
 
         });
@@ -81,7 +86,7 @@ public class Shawn extends Role implements Listener {
 
         RoleItem roleItem = new RoleItem();
         final String texture = "ewogICJ0aW1lc3RhbXAiIDogMTYyNTQ5MTUwMzg3NSwKICAicHJvZmlsZUlkIiA6ICJjNjc3MGJjZWMzZjE0ODA3ODc4MTU0NWRhMGFmMDI1NCIsCiAgInByb2ZpbGVOYW1lIiA6ICJDVUNGTDE2IiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzEyYThmMWZmYjY1N2Y2YzgzZDk3MmQ4MzhkNjMyMzczN2FhOTA2OTBkOGQxOWVhNjEzMzRhNDY3ZTNlZThlNDciCiAgICB9CiAgfQp9";
-        ItemStack it = new CustomHead(texture,"Transformation").toItemStack();
+        ItemStack it = new CustomHead(texture,"§c§lTransformation").toItemStack();
         roleItem.setItemstack(it);
         addRoleItem(roleItem);
 
@@ -89,7 +94,7 @@ public class Shawn extends Role implements Listener {
             @Override
             public boolean verification(Player player) {
                 if(!transformation)
-                    player.sendMessage(Preset.instance.p.prefixName()+"§cVous devez être en rage pour pouvoir utilisé ce pouvoir.");
+                    player.sendMessage("§c§lRAGE§8»§cVous devez être en rage pour pouvoir utiliser ce pouvoir.");
                 return transformation;
             }
         }, new RoleItem.VerificationGeneration() {
@@ -124,7 +129,7 @@ public class Shawn extends Role implements Listener {
                     player.setWalkSpeed(walkspeed);
                     transformation = false;
                     isUsing = false;
-                    player.sendMessage(Preset.instance.p.prefixName()+" fin de la rage.");
+                    player.sendMessage("§c§lRAGE§8»§7 §c§lAiden§7 ne vous possède plus.");
 
                     coups = 0;
                 }
@@ -138,14 +143,14 @@ public class Shawn extends Role implements Listener {
             @Override
             public void a(String[] strings, Player player) {
                 if(!fusionCommand){
-                    player.sendMessage("La commande est désactivé pour le moment. ");
+                    player.sendMessage("§6§lFusion§8»§7 Vous pouvez faire la §5§lcommande§7 uniquement au bout de §a§l1h30§7 de jeu.");
                     return;
                 }
                 if(InazumaUHC.get.rm.getRole(Aiden.class) == null)
                     return;
 
                 if(InazumaUHC.get.rm.getRole(Aiden.class).getPlayers().isEmpty()){
-                    player.sendMessage("Aiden est mort :'(");
+                    player.sendMessage("§6§lFusion§8»§7 §c§lAiden§4 est mort, il est donc impossible de faire la fusion.");
                     return;
                 }
 
@@ -165,16 +170,16 @@ public class Shawn extends Role implements Listener {
                         aidenLoc.clear();
                         if(aidens.isEmpty()){
                             getPlayers().forEach(shawn -> {
-                                shawn.sendMessage("Aiden est mort donc fusion cancel");
+                                player.sendMessage("§6§lFusion§8»§7 §c§lAiden§4 est mort, la §6§lfusion§7 s'est donc stropé.");
                             });
                             fusionRegen = true;
                             cancel();
 
-                            for(Player player : inazumaUHC.rm.getRole(Shawn.class).getPlayers()){
-                                player.sendMessage("§7Vous venez de commencer la fusion." );
+                            for(Player shawn : inazumaUHC.rm.getRole(Shawn.class).getPlayers()){
+                                shawn.sendMessage("§6§lFusion§8»§7 Vous venez de commencer la §6§lfusion§7 avec §c§lAiden§7.");
                             }
-                            for(Player player : inazumaUHC.rm.getRole(Aiden.class).getPlayers()){
-                                player.sendMessage("§7Shawn a commencé la fusion." );
+                            for(Player aiden : inazumaUHC.rm.getRole(Aiden.class).getPlayers()){
+                                aiden.sendMessage("§6§lFusion§8»§7 §bShawn§7 a commencé la §6§lfusion§7 avec vous.");
                             }
                         }
                         for(Player p : aidens){
@@ -307,8 +312,8 @@ public class Shawn extends Role implements Listener {
                                 j+= 2;
                             }
                             for(Player target : PlayerUtils.getNearbyPlayersFromPlayer(player,50,50,50)){
-                                target.sendMessage("Fusion de Shawn réussite");
-                                player.sendMessage("Fusion de Shawn réussite");
+                                player.sendMessage("§6§lFusion§8»§7 Vous avez §6§lfusionnés§7 avec §c§lAiden§7, de ce fait vous gagnez §4§lForce§7, §b§lSpeed§7 ainsi que §6§lRésistance§7.");
+                                target.sendMessage("§6§lFusion§8»§7 §b§lShawn§7 vient de fusionner avec §c§lAiden§7 !");
                             }
 
                         }
@@ -358,9 +363,7 @@ public class Shawn extends Role implements Listener {
                 new BukkitRunnable(){
                     @Override
                     public void run(){
-
-                        shawn.sendMessage("Aiden vient de mourir, en conséquence vous perdez la fusion si elle était faites mais vous debloquer la Transformation en Aiden.");
-
+                        shawn.sendMessage("§c§lRAGE§8»§7 §c§lAiden§7 vient de mourir, en conséquence vous perdez la §6§lfusion§7 si elle était faites mais vous débloquer la §c§lTransformation§7 en §c§lAiden§7.");
                     }
 
                 }.runTaskLater(InazumaUHC.get, 1);
@@ -471,7 +474,7 @@ public class Shawn extends Role implements Listener {
                     if(shawn == null)
                         return;
                     shawn.getPlayers().forEach(player -> {
-                        player.sendMessage("transfo prete");
+                        player.sendMessage("§c§lRAGE§8»§7 §c§lAiden§7 est prêt à déclencher sa §c§lrage§7.");
                     });
                     transformation = true;
                 }
@@ -489,11 +492,11 @@ public class Shawn extends Role implements Listener {
                 if(shawn == null)
                     return;
                 shawn.getPlayers().forEach(player -> {
-                    player.sendMessage("Fusion dispo");
+                    player.sendMessage("§6§lFusion§8»§7 §c§lAiden§7 est prêt à §6§lfusionner§7 avec vous, faites §5/fusion§7 pour §6§lfusionner§7 avec.");
                 });
                 shawn.fusionCommand = true;
             }
-        }.runTaskLaterAsynchronously(InazumaUHC.get,20*30);
+        }.runTaskLaterAsynchronously(InazumaUHC.get,20*90*60);
     }
 
 

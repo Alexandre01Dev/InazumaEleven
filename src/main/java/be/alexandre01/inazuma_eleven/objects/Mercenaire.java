@@ -167,7 +167,7 @@ public class Mercenaire{
                                                     StringBuilder sb = new StringBuilder();
 
                                                     sb.append("§7Départ d'§c§lAxel §f§l: §a§l ");
-                                                    sb.append(minute + "m ");
+                                                    sb.append(minute + "m");
                                                     sb.append(second+"s");
 
                                                     TitleUtils.sendActionBar(target,sb.toString());
