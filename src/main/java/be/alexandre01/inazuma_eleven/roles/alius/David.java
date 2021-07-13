@@ -189,6 +189,8 @@ public class David extends Role implements Listener {
             }
         });
 
+        addRoleItem(manchot);
+
     }
 
     void bloodParticles(Player player)
