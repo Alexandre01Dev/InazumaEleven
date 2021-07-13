@@ -103,7 +103,7 @@ public class Jack extends Role implements Listener {
         };
 
         RoleItem roleItem = new RoleItem();
-        roleItem.setItemstack(new ItemBuilder(Material.CARROT_ITEM).setName("Mur").toItemStack());
+        roleItem.setItemstack(new ItemBuilder(Material.BRICK).setName("Mur").toItemStack());
         roleItem.setRightClick(new RoleItem.RightClick() {
             @Override
             public void execute(Player player) {
@@ -172,7 +172,7 @@ public class Jack extends Role implements Listener {
                     int s = 0;
                     @Override
                     public void run() {
-                        Material[] mat = {Material.WOOD, Material.MOSSY_COBBLESTONE,Material.DIRT,Material.BEDROCK};
+                        Material[] mat = {Material.COBBLESTONE, Material.MOSSY_COBBLESTONE,Material.OBSIDIAN,Material.BEDROCK};
                         int k = 0;
                         if(d > locs.size()-1){
                             d = locs.size();

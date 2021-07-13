@@ -47,7 +47,7 @@ public class Mercenaire{
     boolean hasAxel = true;
     public Player mercenaire;
     public int ms = 0;
-    public int totalms = 1000*60*5;
+    public int totalms = 300000;
     boolean axelAlive;
 
     public void onPvP(){
@@ -94,7 +94,7 @@ public class Mercenaire{
 
 
                             target.sendMessage(Preset.instance.p.prefixName()+" §7Vous êtes le §c§lMercenaire§7 de §d§lJulia§7.");
-                            target.sendMessage("§8- §7Vous disposez de §c§l2 §4❤§7 permanents supplémentaires.");
+                            target.sendMessage("§8- §7Vous disposez de §c§l2 §4❤§7 permanents supplémentaires des qu'Axel quitte Raimon et quand il va quiiter.");
                             target.sendMessage(Preset.instance.p.prefixName()+" §7Votre objectif est de faire en sorte qu'§c§lAlex§7 ne soit plus avec §6§lRaimon§7.");
                             target.sendMessage(" ");
                             BaseComponent mercenaireButton = new TextComponent("§8- §7Vous avez une commande : " + "§5/kidnapping");
@@ -139,9 +139,10 @@ public class Mercenaire{
 
                                     if (mercenaireloc.distance(axelloc) /2 <= 15){
 
+                                        axelAlive = true;
                                         kidnacommand = true;
                                         target.setMaxHealth(target.getMaxHealth()+2);
-                                        player.sendMessage(Preset.instance.p.prefixName()+"Axel quiterra Raimon dans 2 minutes et vous gagnez 1 coeur.");
+                                        player.sendMessage(Preset.instance.p.prefixName()+"Axel quiterra Raimon dans 5 minutes et vous gagnez 1 coeur.");
 
                                         new BukkitRunnable() {
                                             Format m = new SimpleDateFormat("mm");
@@ -186,6 +187,8 @@ public class Mercenaire{
                                             @Override
                                             public void run(){
 
+                                                target.setMaxHealth(target.getMaxHealth()+2);
+                                                target.sendMessage(Preset.instance.p.prefixName()+"Axel a quitté Raimon et vous gagnez 1 coeur.");
                                                 r_axel.setRoleCategory(Solo.class);
                                                 r_axel.isSolo = true;
 
@@ -326,8 +329,7 @@ public class Mercenaire{
                                                 r_axel.loadCommands();
 
                                             }
-
-                                        }.runTaskLater(InazumaUHC.get, 20*10);
+                                        }.runTaskLater(InazumaUHC.get, 20*60*5);
                                     }
                                 }
                             });

@@ -43,17 +43,17 @@ public class GameScoreboard {
                     objectiveSign.setLine(5,"§7Episode §f§l» §3"+ Episode.getEpisode());
                     objectiveSign.setLine(6, "§7Joueurs §f§l» §3" + InazumaUHC.get.getRemainingPlayers().size());
                     objectiveSign.setLine(7,    "        §l§8»§f§lTimer§l§8«");
-                    objectiveSign.setLine(8, "§7Temps §f§l» §3" + inazuma.totalTimeValue);
-                    objectiveSign.setLine(9, "§7PvP §f§l» §3" + inazuma.pvpValue);
+                    objectiveSign.setLine(8, "§7Temps §f§l» §e" + inazuma.totalTimeValue);
+                    objectiveSign.setLine(9, "§7PvP §f§l» §e" + inazuma.pvpValue);
                     if(inazuma.hasNether()){
-                        objectiveSign.setLine(10,"§7Meetup §f§l» §3" + inazuma.netherValue);
+                        objectiveSign.setLine(10,"§7Meetup §f§l» §e" + inazuma.netherValue);
                     }
-                    objectiveSign.setLine(11,"§7Meetup §f§l» §3" + inazuma.bordureValue);
+                    objectiveSign.setLine(11,"§7Meetup §f§l» §e" + inazuma.bordureValue);
                     objectiveSign.setLine(12,"        §l§8»§f§lBordure§l§8«");
                     World world = player.getWorld();
                     int borderSize = (int) world.getWorldBorder().getSize() /2;
-                    objectiveSign.setLine(18,"§7Bordure §f§l» §3"+ borderSize+"§7/§3-"+borderSize);
-                    objectiveSign.setLine(19,"§7Centre §f§l» §3 "+ inazuma.getArrows().get(player.getUniqueId()));
+                    objectiveSign.setLine(18,"§7Bordure §f§l» §6± "+ borderSize);
+                    objectiveSign.setLine(19,"§7Centre §f§l» §6 "+ inazuma.getArrows().get(player.getUniqueId()));
                     objectiveSign.setLine(20,"        §l§8»§f§lServeur§l§8«");
                     objectiveSign.setLine(22, ip);
 
