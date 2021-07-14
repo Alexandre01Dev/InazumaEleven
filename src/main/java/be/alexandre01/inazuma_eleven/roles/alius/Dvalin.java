@@ -118,13 +118,13 @@ public class Dvalin extends Role implements Listener {
 
                 if(args[0].equalsIgnoreCase("gardien")){
                     hasChoose = true;
-                    troueDeVer(player);
+                    gardien(player);
 
                     return;
                 }
                 if (args[0].equalsIgnoreCase("attaque")) {
                     hasChoose = true;
-                    gungnir(player);
+                    attaquant(player);
 
                     return;
                 }
@@ -134,8 +134,8 @@ public class Dvalin extends Role implements Listener {
 
 
     }
-    private void troueDeVer(Player player){
-        player.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez de choisir d'être §c§lAttaquant §7!");
+    private void gardien(Player player){
+        player.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez de choisir d'être §6§lGardien§7!");
         inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.RESISTANCE,1,110);
         player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 0,false,false), true);
         RoleItem roleItem = new RoleItem();
@@ -152,8 +152,8 @@ public class Dvalin extends Role implements Listener {
         addRoleItem(roleItem);
         giveItem(player,roleItem);
     }
-    private void gungnir(Player player){
-        player.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez de choisir d'être §6§lGardien§7!");
+    private void attaquant(Player player){
+        player.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez de choisir d'être §c§lAttaquant §7!");
         inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.INCREASE_DAMAGE,1,110);
         player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Integer.MAX_VALUE, 0,false,false), true);
         addListener(this);
