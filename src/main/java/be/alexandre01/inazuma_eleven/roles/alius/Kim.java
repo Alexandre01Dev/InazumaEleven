@@ -203,7 +203,7 @@ public class Kim extends Role implements Listener {
                                 points = points +5;
                             }
                         }
-                        else if(kim.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase("Heal")) {
+                        else if(kim.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase("Vie")) {
                             event.setDamage(0);
                             if(points>=10){
                                 if (damaged.getHealth() >= damaged.getMaxHealth()){

@@ -309,6 +309,8 @@ public class Erik extends Role implements Listener {
         if(inazumaUHC.rm.getRole(event.getPlayer()) instanceof Erik)
         {
             ItemStack it = event.getItem();
+            if(it == null)
+                return;
             if(timer && it.hasItemMeta() && it.getItemMeta().hasDisplayName() && it.getItemMeta().getDisplayName().equalsIgnoreCase("§l§7Tir-§3Pegase"))
             {
                 if(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)
