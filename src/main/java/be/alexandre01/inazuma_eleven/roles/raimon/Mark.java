@@ -102,10 +102,8 @@ public class Mark extends Role implements Listener {
             levelRomain = "II";
         });
         actionOnLevel.put(3, player ->  {
-            player.getInventory().addItem(new ItemStack(Material.GOLDEN_APPLE, 2));
-            player.updateInventory();
             levelRomain = "III";
-            //Main Céleste
+            //Main Céleste Clef Casier
         });
         actionOnLevel.put(4, player ->  {
             player.setMaxHealth(player.getMaxHealth()+2);
@@ -116,10 +114,8 @@ public class Mark extends Role implements Listener {
             levelRomain = "V";
         });
         actionOnLevel.put(6 , player ->  {
-            player.getInventory().addItem(new ItemStack(Material.GOLDEN_APPLE, 2));
-            player.updateInventory();
             levelRomain = "VI";
-            //Main Magique
+            //Main Magique Darren pour V1
         });
         actionOnLevel.put(7 , player ->  {
             //Entrainement Darren SOON V1.?  ou Mate Random pour la V1

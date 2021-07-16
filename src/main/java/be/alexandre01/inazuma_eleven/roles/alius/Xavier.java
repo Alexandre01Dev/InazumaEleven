@@ -223,6 +223,17 @@ public class Xavier extends Role implements Listener {
             Jack.nearAliusActivation(player.getLocation());
             player.sendMessage(Preset.instance.p.prefixName()+" Vous rentrez en résonance avec la §8§lpierre§7§l-§5§lalius.");
             player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60*2*20, 0,false,false), true);
+            inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.INCREASE_DAMAGE,1,115);
+
+            new BukkitRunnable(){
+                @Override
+                public void run(){
+
+                    inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.INCREASE_DAMAGE,1,110);
+                }
+            }.runTaskLater(inazumaUHC,20*2*60);
+
+
         });
         addRoleItem(roleItem);
         setRoleToSpoil(Bellatrix.class, Janus.class);
@@ -324,7 +335,7 @@ public class Xavier extends Role implements Listener {
 
             }
 
-            }.runTaskLaterAsynchronously(InazumaUHC.get, 20*10);
+            }.runTaskLater(InazumaUHC.get, 20*10);
 
         return true;
 

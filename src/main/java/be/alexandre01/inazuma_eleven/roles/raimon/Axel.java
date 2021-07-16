@@ -54,7 +54,6 @@ public class Axel extends Role implements Listener {
         super("Axel Blaze",preset);
         playersTag = new HashMap<>();
         setRoleCategory(Raimon.class);
-        setRoleToSpoil(Jude.class);
 
         addListener(this);
         addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");

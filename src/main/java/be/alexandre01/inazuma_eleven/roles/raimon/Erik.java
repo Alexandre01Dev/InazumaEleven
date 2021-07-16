@@ -56,6 +56,7 @@ public class Erik extends Role implements Listener {
 
 
         setRoleCategory(Raimon.class);
+        setRoleToSpoil(Bobby.class);
         addListener(this);
 
         RoleItem roleItem = new RoleItem();

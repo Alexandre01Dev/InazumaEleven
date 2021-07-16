@@ -80,8 +80,6 @@ public class Torch  extends Role implements Listener {
         if(clazz != null)
             setRoleToSpoil(clazz);
 
-        //A retirer ????
-        setRoleToSpoil(Xavier.class);
         addListener(this);
 
         RoleItem roleItem = new RoleItem();
@@ -157,6 +155,7 @@ public class Torch  extends Role implements Listener {
         colierAllius.deployVerificationsOnRightClick(colierAllius.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
         colierAllius.setRightClick(player -> {
             Jude.collierAlliusNotif(player.getLocation());
+            Jack.nearAliusActivation(player.getLocation());
             player.sendMessage(Preset.instance.p.prefixName()+" Vous rentrez en résonance avec la §8§lpierre§7§l-§5§lalius.");
             player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 90*20, 0,false,false), true);
         });

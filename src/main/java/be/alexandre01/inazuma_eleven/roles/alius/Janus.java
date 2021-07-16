@@ -1,6 +1,7 @@
 package be.alexandre01.inazuma_eleven.roles.alius;
 
 import be.alexandre01.inazuma.uhc.InazumaUHC;
+import be.alexandre01.inazuma.uhc.managers.damage.DamageManager;
 import be.alexandre01.inazuma.uhc.presets.IPreset;
 import be.alexandre01.inazuma.uhc.presets.Preset;
 
@@ -10,7 +11,10 @@ import be.alexandre01.inazuma.uhc.utils.*;
 import be.alexandre01.inazuma_eleven.InazumaEleven;
 import be.alexandre01.inazuma_eleven.categories.Alius;
 import be.alexandre01.inazuma_eleven.objects.Capitaine;
+import be.alexandre01.inazuma_eleven.roles.raimon.Jack;
+import be.alexandre01.inazuma_eleven.roles.raimon.Jude;
 import be.alexandre01.inazuma_eleven.roles.raimon.Scotty;
+import net.minecraft.server.v1_8_R3.Tuple;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -52,7 +56,7 @@ public class  Janus extends Role implements Listener {
     public Janus(IPreset preset) {
 
         super("Janus",preset);
-
+        setRoleCategory(Alius.class);
         addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
         addDescription("§8- §7Vous possédez l’effet §b§lSpeed 1§.");
         addDescription(" ");
@@ -65,7 +69,6 @@ public class  Janus extends Role implements Listener {
         if(clazz != null)
             setRoleToSpoil(clazz);
 
-        setRoleCategory(Alius.class);
         addListener(this);
 
         if(inazumaEleven != null)
@@ -76,6 +79,18 @@ public class  Janus extends Role implements Listener {
             public void a(Player player) {
                     player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0,false,false), true);
             }
+        });
+
+        RoleItem roleItem = new RoleItem();
+        ItemBuilder itemBuilder = new ItemBuilder(Material.NETHER_STAR).setName("§d§lCollier§7§l-§5§lAlius");
+        roleItem.setItemstack(itemBuilder.toItemStack());
+        roleItem.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
+        roleItem.setRightClick(player -> {
+            Jude.collierAlliusNotif(player.getLocation());
+            Jack.nearAliusActivation(player.getLocation());
+            player.sendMessage(Preset.instance.p.prefixName()+" Vous rentrez en résonance avec la §8§lpierre§7§l-§5§lalius.");
+            inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.INCREASE_DAMAGE,1,110);
+            player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Integer.MAX_VALUE, 0,false,false), true);
         });
 
 

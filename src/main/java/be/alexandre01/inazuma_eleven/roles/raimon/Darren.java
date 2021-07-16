@@ -37,7 +37,6 @@ public class Darren extends Role implements Listener {
 
     public Darren(IPreset preset) {
         super("Darren LaChance",preset);
-        setRoleToSpoil(Mark.class);
         setRoleCategory(Raimon.class);
 
         addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
