@@ -32,6 +32,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
 import java.text.Format;
@@ -49,6 +50,8 @@ public class Mercenaire{
     public int ms = 0;
     public int totalms = 300000;
     boolean axelAlive;
+    BukkitTask particlesTask;
+    BukkitTask fireTask;
 
     public void onPvP(){
 
@@ -223,7 +226,7 @@ public class Mercenaire{
 
                                                     RoleItem TempeteDeFeu = new RoleItem();
                                                     TempeteDeFeu.setItemstack(new ItemBuilder(Material.BLAZE_POWDER).setName("Tempête de Feu").toItemStack());
-                                                    //TempeteDeFeu.deployVerificationsOnRightClick(TempeteDeFeu.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
+                                                    TempeteDeFeu.deployVerificationsOnRightClick(TempeteDeFeu.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
                                                     TempeteDeFeu.setRightClick(player -> {
                                                         player.sendMessage(Preset.instance.p.prefixName()+" Vous venez d'activer votre Tornade de Feu.");
 
@@ -242,28 +245,15 @@ public class Mercenaire{
                                                                 if(v.getY() > 2)
                                                                     v.setY(2);
                                                                 target.setVelocity(v);
+                                                                target.setFireTicks(20 * 5);
 
 
                                                                 if (InazumaUHC.get.rm.getRole(player).getClass().equals(Gazelle.class) && InazumaUHC.get.rm.getRole(player).getClass().equals(Torch.class) && InazumaUHC.get.rm.getRole(player).getClass().equals(Shawn.class) && InazumaUHC.get.rm.getRole(player).getClass().equals(Hurley.class)) {
                                                                     return;
                                                                 }
-                                                                new BukkitRunnable() {
-                                                                    int i = 0;
-                                                                    @Override
-                                                                    public void run() {
-                                                                        i++;
-                                                                        if(target.getFireTicks() == 0)
-                                                                        {
-                                                                            target.setFireTicks(20 * 5);
-                                                                        }
-
-                                                                        if(i == 30)
-                                                                            cancel();
-                                                                    }
-                                                                }.runTaskTimerAsynchronously(InazumaUHC.get, 40, 10);
                                                             }
 
-                                                            new BukkitRunnable() {
+                                                            particlesTask = new BukkitRunnable() {
 
                                                                 double var = 0;
                                                                 Location loc, first, second;
@@ -307,6 +297,25 @@ public class Mercenaire{
                                                                     //axel.getWorld().spigot().playEffect(second, Effect.FLAME, 0,0,0f,0f,0f,0f,1,1);
                                                                 }
                                                             }.runTaskTimerAsynchronously(InazumaUHC.get, 1, 1);
+
+
+                                                            fireTask = new BukkitRunnable() {
+                                                                @Override
+                                                                public void run() {
+                                                                    for (Player target : PlayerUtils.getNearbyPlayersFromPlayer(axel, 5,5,5))
+                                                                    {
+                                                                        target.setFireTicks(20*5);
+                                                                    }
+                                                                }
+                                                            }.runTaskTimerAsynchronously(InazumaUHC.get, 20, 20);
+
+                                                        new BukkitRunnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                particlesTask.cancel();
+                                                                fireTask.cancel();
+                                                            }
+                                                        }.runTaskLaterAsynchronously(InazumaUHC.get, 20*60*5);
 
                                                     });
                                                     r_axel.addRoleItem(TempeteDeFeu);

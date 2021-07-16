@@ -1,6 +1,8 @@
 package be.alexandre01.inazuma_eleven.roles.raimon;
 
+import be.alexandre01.inazuma.uhc.custom_events.episode.EpisodeChangeEvent;
 import be.alexandre01.inazuma.uhc.presets.IPreset;
+import be.alexandre01.inazuma.uhc.presets.Preset;
 import be.alexandre01.inazuma.uhc.roles.Role;
 import be.alexandre01.inazuma.uhc.roles.RoleItem;
 import be.alexandre01.inazuma.uhc.timers.game.StabilizationTimer;
@@ -44,6 +46,7 @@ public class Erik extends Role implements Listener {
     Location location;
     float force = 0;
     boolean timer = false;
+    boolean canShoot = true;
     float r = 54;
     float g = 141;
     float b = 227;
@@ -110,29 +113,22 @@ public class Erik extends Role implements Listener {
 
             if(event.getBow().hasItemMeta() && event.getBow().getItemMeta().hasDisplayName() && event.getBow().getItemMeta().getDisplayName().equalsIgnoreCase("§l§7Tir-§3Pegase"))
             {
-                if(timer)
+                if(timer || !canShoot)
                 {
-                    event.setCancelled(true);
                     return;
                 }
-                timer = true;
+                canShoot = false;
                 world = ((CraftWorld) player.getWorld()).getHandle();
                 specialArrow = arrow;
                 arrowRespawn();
                 new BukkitRunnable() {
                     @Override
                     public void run() {
+                        timer = true;
                         arrowTask.cancel();
                     }
                 }.runTaskLaterAsynchronously(inazumaUHC, 30);
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        timer = false;
-                    }
-                }.runTaskLaterAsynchronously(inazumaUHC, 20*60*10);
             }
-
         }
 
     }
@@ -310,14 +306,22 @@ public class Erik extends Role implements Listener {
         if(inazumaUHC.rm.getRole(event.getPlayer()) instanceof Erik)
         {
             ItemStack it = event.getItem();
-            if(timer && it.hasItemMeta() && it.getItemMeta().hasDisplayName() && it.getItemMeta().getDisplayName().equalsIgnoreCase("§l§7Tir-§3Pegase"))
+            if(it == null)
+                return;
+
+            if(!canShoot && it.getType() == Material.BOW && it.hasItemMeta() && it.getItemMeta().hasDisplayName() && it.getItemMeta().getDisplayName().equalsIgnoreCase("§l§7Tir-§3Pegase"))
             {
                 if(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)
                 {
-                    event.setCancelled(true);
+                    event.getPlayer().sendMessage(Preset.instance.p.prefixName() + "§cVous avez déjà utilisé votre §l§7Tir-§3Pegase §r§ccet épisode");
                 }
             }
         }
 
+    }
+    @EventHandler
+    void onEpisodeChange(EpisodeChangeEvent event)
+    {
+        canShoot = true;
     }
 }

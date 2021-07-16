@@ -3,6 +3,7 @@ package be.alexandre01.inazuma_eleven.roles.raimon;
 import be.alexandre01.inazuma.uhc.custom_events.episode.EpisodeChangeEvent;
 import be.alexandre01.inazuma.uhc.custom_events.player.PlayerInstantDeathEvent;
 import be.alexandre01.inazuma.uhc.presets.IPreset;
+import be.alexandre01.inazuma.uhc.presets.Preset;
 import be.alexandre01.inazuma.uhc.roles.Role;
 import be.alexandre01.inazuma.uhc.roles.RoleItem;
 import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
@@ -23,6 +24,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
@@ -52,7 +55,7 @@ public class Bobby extends Role implements Listener
         RoleItem roleItem = new RoleItem();
         ItemBuilder ib = new ItemBuilder(Material.MAGMA_CREAM).setName("§c§lScie§r-§c§lCirculaire");
         roleItem.setItemstack(ib.toItemStack());
-        //roleItem.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
+        roleItem.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
         roleItem.setRightClick(player -> {
 
             Location loc = player.getLocation();
@@ -61,23 +64,6 @@ public class Bobby extends Role implements Listener
 
             Location rotate = loc.clone();
             rotate.setPitch(0);
-            /*rotate.setYaw(rotate.getYaw()+90);
-            Vector rotateVector = rotate.getDirection().normalize().multiply(3);
-            rotate.add(rotateVector.getX(), 0, rotateVector.getZ());
-
-            Location rotateInverse = loc.clone();
-            rotateInverse.setYaw(rotateInverse.getYaw()+(90*3));
-            Vector rotateInverseVector = rotateInverse.getDirection().normalize().multiply(3);
-            rotateInverse.add(rotateInverseVector.getX(), 0, rotateInverseVector.getZ());
-
-            //rotate.setYaw(loc.getYaw() + 90);
-            rotate.getBlock().setType(Material.BEDROCK);
-            System.out.println(rotate);
-
-            rotateInverse.setPitch(0);
-            //rotateInverse.setYaw(loc.getYaw() - 90);
-            rotateInverse.getBlock().setType(Material.BEDROCK);
-            */
 
 
             rotate.setYaw(rotate.getYaw() - 40);
@@ -106,17 +92,7 @@ public class Bobby extends Role implements Listener
                     locations.put(location.getBlockX(), a);
                 }
             }
-            for(Location location : particles(player.getLocation()))
-            {
-                float r = 252;
-                float g = 94;
-                float b = 3;
-                PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(EnumParticle.REDSTONE,true, (float) (location.getX()), (float) (location.getY()), (float) (location.getZ()), r / 255,g / 255, b / 255, 1, 0);
 
-                for(Player online : Bukkit.getOnlinePlayers()) {
-                    ((CraftPlayer) online).getHandle().playerConnection.sendPacket(packet);
-                }
-            }
             for (Player near : PlayerUtils.getNearbyPlayersFromPlayer(player, 10, 10, 10))
             {
                 Location nearLocation = near.getLocation().clone();
@@ -139,100 +115,18 @@ public class Bobby extends Role implements Listener
 
             locations.clear();
 
-
-            /*
-            rotateVector = rotate.getDirection().normalize().multiply(2);
-            rotate.add(rotateVector.getX(), 0, rotateVector.getZ());
-            rotate.getBlock().setType(Material.BEDROCK);
-            rotateVector = rotate.getDirection().normalize().multiply(3);
-            rotate.add(rotateVector.getX(), 0, rotateVector.getZ());
-            rotate.getBlock().setType(Material.BEDROCK);
-            rotateVector = rotate.getDirection().normalize().multiply(4);
-            rotate.add(rotateVector.getX(), 0, rotateVector.getZ());
-            rotate.getBlock().setType(Material.BEDROCK);
-            rotateVector = rotate.getDirection().normalize().multiply(5);
-            rotate.add(rotateVector.getX(), 0, rotateVector.getZ());
-            rotate.getBlock().setType(Material.BEDROCK);*/
-
-
-
-            //A gauche
-           /* rotateInverse.setYaw(rotateInverse.getYaw() + 90);
-            for (int i = 0; i < 10; i++) {
-                Vector vec = rotateInverse.getDirection().normalize().multiply(i);
-                Location location = rotateInverse.clone().add(vec.getX(), 0, vec.getZ());
-                location.getBlock().setType(Material.BEDROCK);
-                reverseLocations.add(location);
-            }
-            rotate.setYaw(rotate.getYaw() - 90);
-
-            //A droite
-            for (int i = 0; i < 10; i++) {
-                Vector vec = rotate.getDirection().normalize().multiply(i);
-                Location location = rotate.clone().add(vec.getX(), 0, vec.getZ());
-                location.getBlock().setType(Material.BEDROCK);
-            }
-
-            rotate.setYaw(rotate.getYaw() - 90);
-
-            for (int i = 1; i < 8; i++) {
-                Vector vec = rotate.getDirection().normalize().multiply(i);
-                Location location = rotate.clone().add(vec.getX(), 0, vec.getZ());
-                System.out.println(location);
-                if(reverseLocations.contains(location))
-                    break;
-
-                location.getBlock().setType(Material.BEDROCK);
-                locations.add(location);
-                //allLocations(location, vec);
-                System.out.println(location);
-            }
-            rotate.setYaw(rotate.getYaw() - 5);
-            for (int i = 1; i < 8; i++) {
-                Vector vec = rotate.getDirection().normalize().multiply(i);
-                Location location = rotate.clone().add(vec.getX(), 0, vec.getZ());
-                System.out.println(location);
-                if(reverseLocations.contains(location))
-                    break;
-
-                location.getBlock().setType(Material.BEDROCK);
-                locations.add(location);
-                //allLocations(location, vec);
-                System.out.println(location);
-            }
-            rotate.setYaw(rotate.getYaw() + 5);
-
-            System.out.println("les locations sont : " + locations);
-
-            /*for (int i = 1; i < locations.size(); i++) {
-                Vector vec = rotate.getDirection().normalize().multiply(i);
-                Location location = locations.get(i).clone().add(vec.getX(), 0, vec.getZ());
-                System.out.println(location);
-                if(reverseLocations.contains(location))
-                    break;
-
-                location.getBlock().setType(Material.BEDROCK);
-                locations.add(location);
-                //allLocations(location, vec);
-                System.out.println(location);
-            }*/
-
-            /*for(Location location : locations)
-            {
-                allLocations(location);
-            }*/
-
         });
 
 
         RoleItem reduceAbsorption = new RoleItem();
         reduceAbsorption.setItemstack(new ItemBuilder(Material.BONE).setName("§c§lTacle de la Mort").toItemStack());
-        reduceAbsorption.deployVerificationsOnRightClick(reduceAbsorption.generateVerification(new Tuple<>(RoleItem.VerificationType.USAGES,1)));
+        reduceAbsorption.deployVerificationsOnRightClick(reduceAbsorption.generateVerification(new Tuple<>(RoleItem.VerificationType.COOLDOWN,10*60)));
         reduceAbsorption.setRightClickOnPlayer(5, new RoleItem.RightClickOnPlayer() {
             @Override
             public void execute(Player player, Player rightClicked) {
-                hurt = rightClicked;
-                PatchedEntity.setMaxHealthInSilent(rightClicked, rightClicked.getMaxHealth() - 4);
+                rightClicked.sendMessage(Preset.instance.p.prefixName()+ "§7Vous venez de vous faire toucher par le §cTacle de la Mort");
+                rightClicked.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 10*20, 250,false,false), true);
+                rightClicked.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20*60, 0, false,false), true);
             }
         });
 
@@ -323,20 +217,6 @@ public class Bobby extends Role implements Listener
         forLongParticles(particlesLocation, longestFirst, 2.5);
 
         return particlesLocation;
-        /*location.add(vector.getX(), 0, vector.getZ());
-        PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(EnumParticle.DRIP_WATER,true, (float) (location.getX()), (float) (location.getY()), (float) (location.getZ()), 0, 0, 0, 0, 1);
-
-        for(Player online : Bukkit.getOnlinePlayers()) {
-            ((CraftPlayer) online).getHandle().playerConnection.sendPacket(packet);
-        }
-        location.setYaw(location.getYaw() + 120);
-        vector = location.getDirection().normalize().multiply(9);
-        location.add(vector.getX(), 0, vector.getZ());
-        packet = new PacketPlayOutWorldParticles(EnumParticle.DRIP_WATER,true, (float) (location.getX()), (float) (location.getY()), (float) (location.getZ()), 0, 0, 0, 0, 1);
-
-        for(Player online : Bukkit.getOnlinePlayers()) {
-            ((CraftPlayer) online).getHandle().playerConnection.sendPacket(packet);
-        }*/
 
     }
 
@@ -360,19 +240,5 @@ public class Bobby extends Role implements Listener
         particlesLocation.add(increaseLocation);
     }
 
-    /*void allLocations(Location rotate)
-    {
-        rotate.setYaw(rotate.getYaw() + 90);
-        for (int i = 1; i < 8; i++) {
-            Vector vec = rotate.getDirection().normalize().multiply(i);
-            Location location = rotate.clone().add(vec.getX(), 0, vec.getZ());
-            System.out.println(location);
-            if(location.getBlock().getType() == Material.BEDROCK)
-                break;
-
-            location.getBlock().setType(Material.BEDROCK);
-            System.out.println(location);
-        }
-    }*/
 
 }
