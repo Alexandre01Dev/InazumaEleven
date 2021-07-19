@@ -371,31 +371,6 @@ public class  Janus extends Role implements Listener {
         }
     }
 
-    @EventHandler
-    public void onInventoryClick(InventoryClickEvent event){
-        if(event.getClickedInventory() == null){
-            return;
-        }
-        Player player = (Player) event.getWhoClicked();
-        if(inazumaUHC.rm.getRole(player) instanceof Janus){
-
-        switch (event.getSlot()){
-            case 10:
-                onClick(player,0);
-                break;
-            case 12:
-                onClick(player,1);
-                break;
-            case 14:
-                onClick(player,2);
-                break;
-            case 16:
-                player.sendMessage(Preset.instance.p.prefixName()+" §cCe ballon est réservé à §5§lXavier§c.");
-                break;
-            }
-
-        }
-    }
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event){
@@ -420,7 +395,6 @@ public class  Janus extends Role implements Listener {
                 ballsAvailable.set(2, true);
                 break;
 
-
         }
         ballonsLoc.remove(ballonsBlock.get(event.getBlock()));
         ballonsBlock.remove(event.getBlock());
@@ -443,7 +417,6 @@ public class  Janus extends Role implements Listener {
             }
 
             ItemStack barrier = new ItemBuilder(Material.BARRIER).setName("§cCassé").toItemStack();
-            inventory.setItem(16,barrier);
         }
 
     }
