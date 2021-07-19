@@ -16,10 +16,7 @@ import be.alexandre01.inazuma_eleven.InazumaEleven;
 import be.alexandre01.inazuma_eleven.categories.Alius;
 import be.alexandre01.inazuma_eleven.objects.MeteorEntity;
 import be.alexandre01.inazuma_eleven.objects.Sphere;
-import be.alexandre01.inazuma_eleven.roles.raimon.Darren;
-import be.alexandre01.inazuma_eleven.roles.raimon.Jack;
-import be.alexandre01.inazuma_eleven.roles.raimon.Jude;
-import be.alexandre01.inazuma_eleven.roles.raimon.Mark;
+import be.alexandre01.inazuma_eleven.roles.raimon.*;
 import be.alexandre01.inazuma_eleven.roles.solo.Byron;
 import be.alexandre01.inazuma_eleven.timer.DelayedTimeChangeTimer;
 import lombok.Setter;
@@ -252,7 +249,6 @@ public class Xavier extends Role implements Listener {
                 }
                 if(i >= 2){
                     player.sendMessage(Preset.instance.p.prefixName()+ " §cTu ne peux téléporter quelqu'un que 2x en total");
-
                     return;
                 }
                 if(Episode.getEpisode() == episode){
@@ -267,10 +263,11 @@ public class Xavier extends Role implements Listener {
                     player.sendMessage(Preset.instance.p.prefixName()+"§c Le joueur n'existe pas");
                 }
 
-                if(!canTeleportPlayer(p)){
+                if(!canTeleportPlayer(player,p)){
                     player.sendMessage(Preset.instance.p.prefixName()+" §cVous ne pouvez pas téléporter le joueur à votre ballon, car celui-ci est obstrué par plus de 3 blocks.");
                 }else {
-                    player.sendMessage(Preset.instance.p.prefixName()+" §aLe joueur a bien été téléporté.");
+
+                    player.sendMessage(Preset.instance.p.prefixName()+" §aLe joueur va bien être téléporté.");
                     episode = Episode.getEpisode();
                     i++;
                 }
@@ -310,7 +307,7 @@ public class Xavier extends Role implements Listener {
         }
         }
     }
-    private boolean canTeleportPlayer(Player player){
+    private boolean canTeleportPlayer(Player xene,Player player){
         Location tpLoc = getTop(location);
         if(tpLoc == null){
             return false;
@@ -321,17 +318,24 @@ public class Xavier extends Role implements Listener {
             player.sendMessage(Preset.instance.p.prefixName()+ " §cVous allez être téléporté à votre §5ballon§c dans §a10 secondes§c.");
             return true;
         }
+        if(InazumaUHC.get.rm.getRole(player) instanceof William){
+            Player p = William.williamLunette(xene,player);
+            if(p != null){
+                player = p;
+            }
+        }
         player.playSound(player.getLocation(), Sound.NOTE_PLING,5,1);
         player.sendMessage(Preset.instance.p.prefixName()+ " §c⚠ Attention, vous allez être téléporté au §5ballon§c de §5Xavier§c dans §a10 secondes§c en X:" + tpLoc.getBlockX() + "Z:" + tpLoc.getBlockZ());
 
 
+        Player finalPlayer = player;
         new BukkitRunnable(){
             @Override
             public void run(){
 
-                player.teleport(tpLoc);
-                InazumaUHC.get.invincibilityDamager.addPlayer(player, 1000);
-                player.playSound(player.getLocation(), Sound.ENDERMAN_TELEPORT, 1,1);
+                finalPlayer.teleport(tpLoc);
+                InazumaUHC.get.invincibilityDamager.addPlayer(finalPlayer, 1000);
+                finalPlayer.playSound(finalPlayer.getLocation(), Sound.ENDERMAN_TELEPORT, 1,1);
 
             }
 
@@ -348,7 +352,7 @@ public class Xavier extends Role implements Listener {
         }
 
         if(location != null){
-          if(!canTeleportPlayer(player)){
+          if(!canTeleportPlayer(player,player)){
               player.sendMessage(Preset.instance.p.prefixName()+" §cVous ne pouvez pas vous téléportez à votre ballon, car celui-ci est obstrué par plus de 3 blocks.");
               return;
           }else {
