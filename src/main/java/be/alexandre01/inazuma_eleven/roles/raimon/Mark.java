@@ -43,7 +43,7 @@ public class Mark extends Role implements Listener {
     float death = 0;
     float time = 0;
     float minage = 0;
-    float multiplicateur = 1;
+    public float multiplicateur = 1;
     public int corrupttest = 0;
     public int inaboost = 0;
     float total = death + time + minage;
@@ -74,9 +74,14 @@ public class Mark extends Role implements Listener {
         addDescription("§8- §7Si §5Bellatrix§7 accepte de remplacer §5Xavier§7, vous aurez son pseudo.");
 
 
+        RoleItem clef = new RoleItem();
+        clef.setDroppableItem(true);
+        clef.setItemstack(new ItemBuilder(Material.NAME_TAG).setName("§eClef du casier").toItemStack());
 
 
-        RoleItem roleItem = new RoleItem();
+        addRoleItem(clef);
+
+       /* RoleItem roleItem = new RoleItem();
         ItemBuilder itemBuilder = new ItemBuilder(Material.BOOK).setName("§6§lCahier de §7§lDavid §lEvans");
 
             roleItem.setRightClick(player -> {
@@ -87,7 +92,7 @@ public class Mark extends Role implements Listener {
                 player.playSound(player.getLocation(), Sound.ORB_PICKUP, 5,5);
             });
         roleItem.setItemstack(itemBuilder.toItemStack());
-        addRoleItem(roleItem);
+        addRoleItem(roleItem);*/
 
         for (int i = 0; i < 5; i++) {
             expToUnlockNextLevel.put(i,10);

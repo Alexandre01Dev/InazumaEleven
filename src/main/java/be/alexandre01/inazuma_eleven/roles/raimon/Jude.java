@@ -30,6 +30,7 @@ import java.util.HashMap;
 public class Jude extends Role implements Listener {
 
     private Scoreboard score = null;
+    private boolean isSpawned = false;
     private boolean isStructureSpawned = false;
     private HashMap<Player,Long> playersTag;
     public Jude(IPreset preset) {
@@ -109,6 +110,7 @@ public class Jude extends Role implements Listener {
 
     @EventHandler
     public void onDeathDuringTag(PlayerInstantDeathEvent event){
+        if(isSpawned) return;
         Player player = event.getPlayer();
         if(playersTag.containsKey(player)){
             if(new Date().getTime()-playersTag.get(player) > 30000){
@@ -135,6 +137,7 @@ public class Jude extends Role implements Listener {
 
                 LocalRaimon localRaimon = new LocalRaimon();
                 localRaimon.spawn();
+                isSpawned = true;
 
                 if(inazumaUHC.rm.getRole(Nero.class) != null)
                 {

@@ -1,5 +1,6 @@
 package be.alexandre01.inazuma_eleven.roles.raimon;
 
+import be.alexandre01.inazuma.uhc.InazumaUHC;
 import be.alexandre01.inazuma.uhc.presets.IPreset;
 import be.alexandre01.inazuma.uhc.presets.Preset;
 
@@ -60,6 +61,13 @@ public class Kevin extends Role {
                 if(i > 3){
                     player.sendMessage(Preset.instance.p.prefixName()+"§c Vous avez dépassé le nombre d'utilisation de cette commande");
                     return;
+                }
+
+                if(InazumaUHC.get.rm.getRole(target) instanceof William){
+                    Player near = William.williamLunette(player,target);
+                    if(near != null){
+                        target = near;
+                    }
                 }
                 target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS,20,0,false,false));
                 TitleUtils.sendActionBar(target, Preset.instance.p.prefixName()+" Tu as été intimidé par Kevin!");

@@ -3,6 +3,7 @@ package be.alexandre01.inazuma_eleven.roles.raimon;
 import be.alexandre01.inazuma.uhc.InazumaUHC;
 
 import be.alexandre01.inazuma.uhc.custom_events.episode.EpisodeChangeEvent;
+import be.alexandre01.inazuma.uhc.custom_events.roles.RoleItemTargetEvent;
 import be.alexandre01.inazuma.uhc.custom_events.roles.RoleItemUseEvent;
 import be.alexandre01.inazuma.uhc.presets.IPreset;
 import be.alexandre01.inazuma.uhc.presets.Preset;
@@ -18,10 +19,12 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.minecraft.server.v1_8_R3.Tuple;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -33,7 +36,7 @@ public class William extends Role implements Listener {
     private static William w = null;
     private int episode = 0;
     private boolean playerToSend = false;
-
+    private RoleItem lunettecasséItem;
 
     public William(IPreset preset) {
         super("William Glass",preset);
@@ -85,12 +88,12 @@ public class William extends Role implements Listener {
         lunetteItem.setItemstack(lunetteBuilder.toItemStack());
         addRoleItem(lunetteItem);
 
-        RoleItem lunettecasséItem = new RoleItem();
+        lunettecasséItem = new RoleItem();
         ItemBuilder lunettecasséBuilder = new ItemBuilder(Material.PRISMARINE_CRYSTALS).setName("§b§lLunette §c§lCassé");
         lunettecasséBuilder.setLore("");
 
         lunettecasséItem.setItemstack(lunettecasséBuilder.toItemStack());
-        addRoleItem(lunettecasséItem);
+        //addRoleItem(lunettecasséItem);
 
 
 
@@ -106,6 +109,106 @@ public class William extends Role implements Listener {
 
         for(Player william : InazumaUHC.get.rm.getRole(William.class).getPlayers()){
             william.sendMessage(Preset.instance.p.prefixName()+"Le pouvoir "+event.getRoleItem().getItemStack().getItemMeta().getDisplayName()+"§7 a été utilisé");
+        }
+    }
+
+    public static Player williamLunette(Player player,Player target){
+        Role role = InazumaUHC.get.rm.getRole(target);
+
+        if(role instanceof William){
+            William william = (William) role;
+            int i = -1;
+            for(ItemStack itemStack :  target.getInventory().getContents()){
+                i++;
+                if(itemStack == null)
+                    continue;
+                if(!itemStack.hasItemMeta())
+                    continue;
+                if(!itemStack.getItemMeta().hasDisplayName())
+                    continue;
+                if(itemStack.getItemMeta().getDisplayName().equals("§b§lLunette")){
+
+
+                    Player near = william.foundNearPlayer(target,player);
+                    if(near == null){
+                        target.sendMessage(Preset.instance.p.prefixName()+"§cVous n'avez aucune personne à qui renvoyer l'attaque !");
+                        return null;
+                    }
+                    target.sendMessage(Preset.instance.p.prefixName()+"§cVous avez renvoyé l'attaque sur le joueur le plus proche. !");
+                    near.sendMessage(Preset.instance.p.prefixName()+"§cWilliam a renvoyé l'attaque sur vous !");
+
+                   // event.getRoleItem().getRightClickOnPlayerFarTuple().b().execute(target,event.getPlayer());
+
+
+                    int finalI = i;
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(InazumaUHC.get,() -> {
+                        target.getInventory().setItem(finalI,null);
+
+                        itemStack.setType(Material.AIR);
+                        william.addRoleItem(william.lunettecasséItem);
+                        william.giveItem(target, william.lunettecasséItem);
+                        target.updateInventory();
+
+                    });
+
+                    return near;
+                }
+            }
+        }
+        return null;
+        }
+
+
+    @EventHandler
+    public void onItemTarget(RoleItemTargetEvent event){
+        for(Player william : InazumaUHC.get.rm.getRole(William.class).getPlayers()){
+            william.sendMessage(Preset.instance.p.prefixName()+"Le pouvoir "+event.getRoleItem().getItemStack().getItemMeta().getDisplayName()+"§7 a été utilisé");
+        }
+        Player target = event.getTarget();
+        System.out.println("Target to "+ target.getName());
+        Role role = InazumaUHC.get.rm.getRole(target);
+        if(role instanceof William){
+            int i = -1;
+            for(ItemStack itemStack :  target.getInventory().getContents()){
+                i++;
+                if(itemStack == null)
+                    continue;
+                if(!itemStack.hasItemMeta())
+                    continue;
+                if(!itemStack.getItemMeta().hasDisplayName())
+                    continue;
+                if(itemStack.getItemMeta().getDisplayName().equals("§b§lLunette")){
+
+                    Player near = foundNearPlayer(target,event.getPlayer());
+                    if(near == null){
+                        target.sendMessage(Preset.instance.p.prefixName()+"§cVous n'avez aucune personne à qui renvoyer l'attaque !");
+                        return;
+                    }
+                    target.sendMessage(Preset.instance.p.prefixName()+"§cVous avez renvoyé l'attaque sur le joueur le plus proche. !");
+
+                    event.setCancelled(true);
+
+                    near.sendMessage(Preset.instance.p.prefixName()+"§cWilliam a renvoyé l'attaque sur vous !");
+
+                    event.getRoleItem().getRightClickOnPlayerFarTuple().b().execute(event.getPlayer(),foundNearPlayer(target,event.getPlayer()));
+
+
+                    int finalI = i;
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(inazumaUHC,() -> {
+                        target.getInventory().setItem(finalI,null);
+
+                        itemStack.setType(Material.AIR);
+                        addRoleItem(lunettecasséItem);
+                        giveItem(target,lunettecasséItem);
+                        target.updateInventory();
+
+                    });
+
+
+                    return;
+                }
+            }
+
         }
     }
 
@@ -168,5 +271,21 @@ public class William extends Role implements Listener {
 
 
         }
+    }
+    public Player foundNearPlayer(Player william,Player player){
+        double distance = Double.MAX_VALUE;
+        Player finalP = null;
+        Location location = william.getLocation();
+        for(Player p : InazumaUHC.get.getRemainingPlayers()){
+            if(p == player || p == william)
+                continue;
+
+            double d = p.getLocation().distance(location);
+            if(d > distance){
+                distance = d;
+                finalP = p;
+            }
+        }
+        return finalP;
     }
 }
