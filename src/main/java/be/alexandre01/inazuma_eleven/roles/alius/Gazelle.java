@@ -72,7 +72,6 @@ public class Gazelle extends Role implements Listener {
         addDescription(" ");
         addDescription("§8- §7Les attaques de §cTorch§7, §6Axel§7 et §6Shawn§7 ne vous atteignent pas.");
         Class<?> clazz = Capitaine.giveCapitaine(this.getClass(), Torch.class);
-        System.out.println("apparement toi la tu connais lui : " + clazz);
         if(clazz != null)
             setRoleToSpoil(clazz);
 

@@ -65,7 +65,6 @@ public class  Janus extends Role implements Listener {
         addDescription("§8- §7Et également un ballon réservé à §5Xavier§7, ou vous devrez lui donner les coordonnées et il pourra y téléporter 2 joueurs durant la game.");
 
         Class<?> clazz = Capitaine.giveCapitaine(this.getClass());
-        System.out.println("apparement toi la tu connais lui : " + clazz);
         if(clazz != null)
             setRoleToSpoil(clazz);
 

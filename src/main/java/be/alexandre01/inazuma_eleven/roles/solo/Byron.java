@@ -146,33 +146,37 @@ public class Byron extends Role implements Listener {
 
         timeStop.deployVerificationsOnRightClick(timeStop.generateVerification(verificationGenerations,new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
 
-
         timeStop.setRightClick(new RoleItem.RightClick() {
-
-
             int i = 0;
             @Override
             public void execute(Player player) {
                 FreezePlayerListener f = new FreezePlayerListener();
                 Freeze freeze = new Freeze(10);
                 ArrayList<Player> p = new ArrayList<>();
-                System.out.println("target");
-                player.sendMessage(Preset.instance.p.prefixName()+" Vous venez d'utiliser l'§7§lInstant Céleste§7.");
                 player.playSound(player.getLocation(),"instantceleste",5,1);
-                for(Player target : PlayerUtils.getNearbyPlayersFromPlayer(player,25,25,25)){
-                        freeze.freezePlayer(target);
-                        p.add(target);
-                        TitleUtils.sendTitle(target,20,20*8,20,"§7§lINSTANT CELESTE§7"," ");
-                        target.playSound(player.getLocation(),"instantceleste",5,1);
-                }
-                f.setP(p);
-                InazumaUHC.get.lm.addListener(f);
-                freeze.setOnStop((() -> {
-                    InazumaUHC.get.lm.removeListener(f.getClass());
-                }));
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        player.sendMessage(Preset.instance.p.prefixName()+" Vous venez d'utiliser l'§7§lInstant Céleste§7.");
+                        for(Player target : PlayerUtils.getNearbyPlayersFromPlayer(player,25,25,25)){
+                            freeze.freezePlayer(target);
+                            p.add(target);
+                            TitleUtils.sendTitle(target,20,20*8,20,"§7§lINSTANT CELESTE§7"," ");
+                            target.playSound(player.getLocation(),"instantceleste",5,1);
+                        }
+                        f.setP(p);
+                        InazumaUHC.get.lm.addListener(f);
+                        freeze.setOnStop((() -> {
+                            InazumaUHC.get.lm.removeListener(f.getClass());
+                        }));
 
-                freeze.launchTimer();
-                i++;
+                        freeze.launchTimer();
+                        i++;
+
+                    }
+                }.runTaskLaterAsynchronously(inazumaUHC,20*1);
+
+
             }
         });
         addRoleItem(timeStop);
