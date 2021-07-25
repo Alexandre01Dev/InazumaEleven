@@ -9,6 +9,7 @@ import be.alexandre01.inazuma.uhc.roles.RoleItem;
 import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
 import be.alexandre01.inazuma_eleven.categories.Alius;
 import be.alexandre01.inazuma_eleven.categories.Raimon;
+import be.alexandre01.inazuma_eleven.categories.Solo;
 import be.alexandre01.inazuma_eleven.roles.solo.Byron;
 import lombok.Data;
 import lombok.Getter;
@@ -314,10 +315,13 @@ public class CasierManager implements Listener {
             location.getBlock().getRelative(BlockFace.UP).setType(Material.BARRIER);
             List<Class<?>> all = InazumaUHC.get.rm.getRoleCategory(Raimon.class).getRoles().stream().map(role -> role.getClass()).collect(Collectors.toList());
             all.addAll(InazumaUHC.get.rm.getRoleCategory(Alius.class).getRoles().stream().map(role -> role.getClass()).collect(Collectors.toList()));
+            all.addAll(InazumaUHC.get.rm.getRoleCategory(Solo.class).getRoles().stream().map(role -> role.getClass()).collect(Collectors.toList()));
+
 
             roleItem.setRolesToAccess(new ArrayList<>(all));
             if(canUse == null){
                 List<Class<?>> c = InazumaUHC.get.rm.getRoleCategory(Raimon.class).getRoles().stream().map(role -> role.getClass()).collect(Collectors.toList());
+                c.addAll(InazumaUHC.get.rm.getRoleCategory(Solo.class).getRoles().stream().map(role -> role.getClass()).collect(Collectors.toList()));
                 roleAccess = new ArrayList<>(c);
             }else {
                 roleAccess = new ArrayList<Class<?>>(Arrays.asList(canUse));

@@ -168,6 +168,7 @@ public class LocalRaimon implements Listener {
 
                 CasierManager.init();
                 CasierManager casierManager = CasierManager.get();
+                casierManager.setLinkedLocalRaimon(this);
 
                 System.out.println("Livres");
                 CasierManager.Casier force = new CasierManager.Casier();
