@@ -94,14 +94,14 @@ public class Shawn extends Role implements Listener {
             @Override
             public boolean verification(Player player) {
                 if(!transformation)
-                    player.sendMessage("§c§lRAGE§8»§cVous devez être en rage pour pouvoir utiliser ce pouvoir.");
+                    player.sendMessage("§c§lRAGE§8» §cVous devez être en rage pour pouvoir utiliser ce pouvoir.");
                 return transformation;
             }
         }, new RoleItem.VerificationGeneration() {
             @Override
             public boolean verification(Player player) {
                 if(isUsing)
-                    player.sendMessage(Preset.instance.p.prefixName()+"§cVous utilisez déjà ce pouvoir.");
+                    player.sendMessage("§c§lRAGE§8» §cVous utilisez déjà ce pouvoir.");
                 return !isUsing;
             }
         })),new Tuple<>(RoleItem.VerificationType.COOLDOWN,60*10)));
@@ -113,7 +113,7 @@ public class Shawn extends Role implements Listener {
             player.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
             player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 20*60*2, 0, false, false), true);
             inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.INCREASE_DAMAGE,1,115);
-            player.setWalkSpeed(walkspeed+0.255F);
+            player.setWalkSpeed(walkspeed+0.225F);
             new BukkitRunnable() {
                 @Override
                 public void run() {
@@ -129,7 +129,7 @@ public class Shawn extends Role implements Listener {
                     player.setWalkSpeed(walkspeed);
                     transformation = false;
                     isUsing = false;
-                    player.sendMessage("§c§lRAGE§8»§7 §c§lAiden§7 ne vous possède plus.");
+                    player.sendMessage("§c§lRAGE§8» §c§lAiden§7 ne vous possède plus.");
 
                     coups = 0;
                 }
