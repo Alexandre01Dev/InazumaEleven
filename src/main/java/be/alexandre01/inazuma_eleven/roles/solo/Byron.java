@@ -150,13 +150,14 @@ public class Byron extends Role implements Listener {
             int i = 0;
             @Override
             public void execute(Player player) {
-                FreezePlayerListener f = new FreezePlayerListener();
-                Freeze freeze = new Freeze(10);
-                ArrayList<Player> p = new ArrayList<>();
+
                 player.playSound(player.getLocation(),"instantceleste",5,1);
                 new BukkitRunnable() {
                     @Override
                     public void run() {
+                        FreezePlayerListener f = new FreezePlayerListener();
+                        Freeze freeze = new Freeze(10);
+                        ArrayList<Player> p = new ArrayList<>();
                         player.sendMessage(Preset.instance.p.prefixName()+" Vous venez d'utiliser l'§7§lInstant Céleste§7.");
                         for(Player target : PlayerUtils.getNearbyPlayersFromPlayer(player,25,25,25)){
                             freeze.freezePlayer(target);

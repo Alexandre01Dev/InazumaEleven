@@ -113,7 +113,7 @@ public class Shawn extends Role implements Listener {
             player.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
             player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 20*60*2, 0, false, false), true);
             inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.INCREASE_DAMAGE,1,115);
-            player.setWalkSpeed(walkspeed+0.225F);
+            player.setWalkSpeed(walkspeed+0.025F);
             new BukkitRunnable() {
                 @Override
                 public void run() {
@@ -363,7 +363,7 @@ public class Shawn extends Role implements Listener {
                 new BukkitRunnable(){
                     @Override
                     public void run(){
-                        shawn.sendMessage("§c§lRAGE§8»§7 §c§lAiden§7 vient de mourir, en conséquence vous perdez la §6§lfusion§7 si elle était faites mais vous débloquer la §c§lTransformation§7 en §c§lAiden§7.");
+                        shawn.sendMessage("§c§lRAGE§8»§7 §c§lAiden§7 vient de mourir, en conséquence vous perdez la §6§lfusion§7 si elle était faites mais vous débloquez la §c§lTransformation§7 en §c§lAiden§7.");
                     }
 
                 }.runTaskLater(InazumaUHC.get, 1);
@@ -486,10 +486,14 @@ public class Shawn extends Role implements Listener {
             @Override
             public void run() {
                 Shawn shawn = (Shawn) InazumaUHC.get.rm.getRole(Shawn.class);
+                Aiden aiden = (Aiden) InazumaUHC.get.rm.getRole(Aiden.class);
                 if(shawn == null)
                     return;
                 shawn.getPlayers().forEach(player -> {
                     player.sendMessage("§6§lFusion§8»§7 §c§lAiden§7 est prêt à §6§lfusionner§7 avec vous, faites §5/fusion§7 pour §6§lfusionner§7 avec.");
+                });
+                aiden.getPlayers().forEach(player -> {
+                    player.sendMessage("§6§lFusion§8»§7 §b§lShawn§7 est prêt à §6§lfusionner§7 avec vous.");
                 });
                 shawn.fusionCommand = true;
             }
