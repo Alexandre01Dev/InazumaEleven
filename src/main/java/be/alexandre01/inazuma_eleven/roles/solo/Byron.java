@@ -175,7 +175,7 @@ public class Byron extends Role implements Listener {
                         i++;
 
                     }
-                }.runTaskLaterAsynchronously(inazumaUHC,20*1);
+                }.runTaskLater(inazumaUHC,20*1);
 
 
             }
