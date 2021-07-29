@@ -173,6 +173,7 @@ public class LocalRaimon implements Listener {
                 System.out.println("Livres");
                 CasierManager.Casier force = new CasierManager.Casier();
                 force.setItemStack(new ItemBuilder(Material.BOOK).setName("§7§lManuel de §4§lForce").toItemStack());
+                force.armorStandItem = new ItemBuilder(Material.SPONGE).setName("§cRouge").toItemStack();
                 force.border = new ItemBuilder(Material.STAINED_GLASS_PANE).setWoolColor(DyeColor.RED).toItemStack();
                 force.setupInventory();
                 System.out.println("Rightclick ?");
@@ -190,7 +191,7 @@ public class LocalRaimon implements Listener {
                 CasierManager.Casier vitesse = new CasierManager.Casier();
                 vitesse.setItemStack( new ItemBuilder(Material.BOOK).setName("§7§lManuel de §b§lVitesse").toItemStack());
                 vitesse.border = new ItemBuilder(Material.STAINED_GLASS_PANE).setWoolColor(DyeColor.CYAN).toItemStack();
-                vitesse.armorStandItem = new ItemBuilder(Material.COMPASS).setName("§bBleu").toItemStack();
+                vitesse.armorStandItem = new ItemBuilder(Material.SPONGE).setName("§bBleu").toItemStack();
                 vitesse.setupInventory();
 
                 vitesse.setRightClick((player, casier) -> {
@@ -203,7 +204,7 @@ public class LocalRaimon implements Listener {
                 resistance.setItemStack(new ItemBuilder(Material.BOOK).setName("§7§lManuel de §8§lRésistance").toItemStack());
                 resistance.border = new ItemBuilder(Material.STAINED_GLASS_PANE).setWoolColor(DyeColor.GRAY).toItemStack();
                 resistance.setupInventory();
-                resistance.armorStandItem = new ItemBuilder(Material.COMPASS).setName("§7Gris").toItemStack();
+                resistance.armorStandItem = new ItemBuilder(Material.SPONGE).setName("§7Gris").toItemStack();
                 resistance.setRightClick((player, casier) -> {
                     System.out.println("Click wow");
                     HashMap<Player, Double> resistanceH =InazumaUHC.get.dm.getResistance();
@@ -220,7 +221,7 @@ public class LocalRaimon implements Listener {
                 CasierManager.Casier vie = new CasierManager.Casier();
                 vie.setItemStack(new ItemBuilder(Material.BOOK).setName("§7§lManuel de §d§lVie").toItemStack());
                 vie.border = new ItemBuilder(Material.STAINED_GLASS_PANE).setWoolColor(DyeColor.PINK).toItemStack();
-                vie.armorStandItem = new ItemBuilder(Material.COMPASS).setName("§dRose").toItemStack();
+                vie.armorStandItem = new ItemBuilder(Material.SPONGE).setName("§dRose").toItemStack();
                 vie.setupInventory();
                 vie.setRightClick((player, casier) -> {
                     player.setMaxHealth(player.getMaxHealth()+2);
@@ -230,9 +231,10 @@ public class LocalRaimon implements Listener {
 
                 mark.setItemStack(new ItemBuilder(Material.BOOK).setName("§6§lCahier de §7§lDavid §lEvans").toItemStack());
                 mark.border = new ItemBuilder(Material.STAINED_GLASS_PANE).setWoolColor(DyeColor.ORANGE).toItemStack();
-                mark.armorStandItem = new ItemBuilder(Material.COMPASS).setName("§6Orange").toItemStack();
+                mark.armorStandItem = new ItemBuilder(Material.SPONGE).setName("§6Orange").toItemStack();
 
                 mark.canUse = new Class[]{Mark.class};
+                mark.setupInventory();
                 mark.setRightClick((player, casier) -> {
                     casier.roleItem.updateItem(new ItemStack(Material.AIR));
                     player.updateInventory();

@@ -263,7 +263,7 @@ public class CasierManager implements Listener {
         public ItemStack border;
         public Inventory inventory;
         public ArmorStand as;
-        public ItemStack armorStandItem = new ItemBuilder(Material.COMPASS).setName("casier").toItemStack();
+        public ItemStack armorStandItem = new ItemBuilder(Material.SPONGE).setName("casier").toItemStack();
         public ArrayList<Block> blocks = new ArrayList<>();
 
         public Casier(Location location) {
@@ -303,7 +303,7 @@ public class CasierManager implements Listener {
 
             as.setArms(true);
 
-            as.setItemInHand(armorStandItem);
+            as.setHelmet(armorStandItem);
 
             as.setGravity(false);
 

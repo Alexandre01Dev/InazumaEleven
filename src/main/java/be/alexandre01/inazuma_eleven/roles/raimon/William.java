@@ -277,11 +277,12 @@ public class William extends Role implements Listener {
         Player finalP = null;
         Location location = william.getLocation();
         for(Player p : InazumaUHC.get.getRemainingPlayers()){
+            System.out.println(p.getName());
             if(p == player || p == william)
                 continue;
 
             double d = p.getLocation().distance(location);
-            if(d > distance){
+            if(d < distance){
                 distance = d;
                 finalP = p;
             }
