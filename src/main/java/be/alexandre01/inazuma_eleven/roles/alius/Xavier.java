@@ -521,14 +521,16 @@ public class Xavier extends Role implements Listener {
     void onEpisodeChange(EpisodeChangeEvent event)
     {
         Darren darren = (Darren)inazumaUHC.rm.getRole(Darren.class);
-        if(darren == null)
+        if(darren.getPlayers().isEmpty())
         {
+            System.out.println("pas de darren");
             return;
         }
 
 
         if(!darren.accepted)
         {
+            System.out.println("darren bah il est mechant et il a pas accepté");
             return;
         }
 

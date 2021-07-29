@@ -58,7 +58,7 @@ public class Mercenaire{
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (InazumaUHC.get.rm.getRole(Axel.class) == null)
+                if (InazumaUHC.get.rm.getRole(Axel.class).getPlayers().size() == 0)
                     return;
 
                 new BukkitRunnable(){

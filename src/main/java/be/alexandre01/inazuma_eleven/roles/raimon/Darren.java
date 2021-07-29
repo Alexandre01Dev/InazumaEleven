@@ -120,19 +120,18 @@ public class Darren extends Role implements Listener {
             return;
         }
 
-        player.sendMessage(Preset.instance.p.prefixName()+" Vous avez refusé de remplacer Mark ! Vous traquez désormais son assassin et vous disposez du /ina revenge qui en revanche de vos 2 coeurs lui mettra Faiblesse durant 5 minutes.");
-
-            addCommand("ina revenge", new command() {
+        player.sendMessage(Preset.instance.p.prefixName()+" Vous avez refusé de remplacer Mark ! Vous traquez désormais son assassin et vous disposez du /revenge qui en revanche de vos 2 coeurs lui mettra Faiblesse durant 5 minutes.");
+        tracker.setTargetToPlayer(player,tracked);
+            addCommand("revenge", new command() {
                 public int i = 0;
                 @Override
                 public void a(String[] args, Player player) {
 
-                    tracker.setTargetToPlayer(player,tracked);
+
                     player.setMaxHealth(player.getMaxHealth()-4);
                     tracked.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 60*5*20, 0,false,false), true);
                     player.sendMessage(Preset.instance.p.prefixName()+" Tu as perdu 2 §ccoeurs§7... Mais en echange son assassin est devenu plus faible, bat-le pour devenir plus fort. ");
                     revenge = true;
-
                 }
             });
             loadCommands();
@@ -181,6 +180,8 @@ public class Darren extends Role implements Listener {
         }
 
         Tracker tracker = Tracker.getOrCreate();
+        System.out.println("Role >" + inazumaUHC.rm.getRole(Xavier.class));
+        System.out.println( inazumaUHC.rm.getRole(Xavier.class).getPlayers());
         for(Player players : inazumaUHC.rm.getRole(Xavier.class).getPlayers()){
             for(Player d : getPlayers()){
                 tracker.setTargetToPlayer(players,d);

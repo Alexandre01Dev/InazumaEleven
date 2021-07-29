@@ -75,7 +75,7 @@ public class Shawn extends Role implements Listener {
                 player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 0,false,false), true);
                 player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0,false,false), true);
 
-                if (InazumaUHC.get.rm.getRole(Aiden.class) == null){
+                if (InazumaUHC.get.rm.getRole(Aiden.class).getPlayers().size() == 0){
                     aidenDeath = true;
                     return;
                 }
@@ -146,7 +146,7 @@ public class Shawn extends Role implements Listener {
                     player.sendMessage("§6§lFusion§8»§7 Vous pouvez faire la §5§lcommande§7 uniquement au bout de §a§l1h30§7 de jeu.");
                     return;
                 }
-                if(InazumaUHC.get.rm.getRole(Aiden.class) == null)
+                if(InazumaUHC.get.rm.getRole(Aiden.class).getPlayers().size() == 0)
                     return;
 
                 if(InazumaUHC.get.rm.getRole(Aiden.class).getPlayers().isEmpty()){
@@ -468,7 +468,7 @@ public class Shawn extends Role implements Listener {
             if(!transformation){
                 if(coups >= 100){
                     Shawn shawn = (Shawn) InazumaUHC.get.rm.getRole(Shawn.class);
-                    if(shawn == null)
+                    if(shawn.getPlayers().isEmpty())
                         return;
                     shawn.getPlayers().forEach(player -> {
                         player.sendMessage("§c§lRAGE§8»§7 §c§lAiden§7 est prêt à déclencher sa §c§lrage§7.");
@@ -487,7 +487,7 @@ public class Shawn extends Role implements Listener {
             public void run() {
                 Shawn shawn = (Shawn) InazumaUHC.get.rm.getRole(Shawn.class);
                 Aiden aiden = (Aiden) InazumaUHC.get.rm.getRole(Aiden.class);
-                if(shawn == null)
+                if(shawn.getPlayers().isEmpty())
                     return;
                 shawn.getPlayers().forEach(player -> {
                     player.sendMessage("§6§lFusion§8»§7 §c§lAiden§7 est prêt à §6§lfusionner§7 avec vous, faites §5/fusion§7 pour §6§lfusionner§7 avec.");
