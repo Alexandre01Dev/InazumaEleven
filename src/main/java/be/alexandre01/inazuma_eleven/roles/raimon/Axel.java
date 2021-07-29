@@ -44,6 +44,7 @@ import java.util.HashMap;
 public class Axel extends Role implements Listener {
 
     public boolean isSolo = false;
+    int cc = 0;
     private HashMap<Player,Long> playersTag;
     Mercenaire mercenaire = new Mercenaire();
     public boolean feu = false;
@@ -98,6 +99,7 @@ public class Axel extends Role implements Listener {
 
                         feu = false;
                         player.setWalkSpeed(0.2F);
+                        cc = 0;
 
                     }
                 }.runTaskLater(inazumaUHC,20*90);
@@ -325,8 +327,12 @@ public class Axel extends Role implements Listener {
 
 
                     if(!isSolo){
-                        axel.setWalkSpeed(walkspeed+0.025F);
-                        speed = true;
+                        if(cc== 0){
+                            axel.setWalkSpeed(walkspeed+0.025F);
+                            speed = true;
+                            cc = 1;
+                        }
+
                     }
                 }
             }

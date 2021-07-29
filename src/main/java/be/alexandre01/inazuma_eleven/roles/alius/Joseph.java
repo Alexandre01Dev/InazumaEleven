@@ -97,6 +97,7 @@ public class Joseph extends Role {
 
         RoleItem morsure = new RoleItem();
         morsure.setItemstack(new ItemBuilder(Material.GHAST_TEAR).setName("§2Morsure§7-§2Sauvage").toItemStack());
+        morsure.deployVerificationsOnRightClick(morsure.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
         addRoleItem(morsure);
         morsure.setRightClick(player -> {
 

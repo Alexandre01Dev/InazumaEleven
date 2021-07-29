@@ -103,6 +103,7 @@ public class Jack extends Role implements Listener {
         };
 
         RoleItem roleItem = new RoleItem();
+        roleItem.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
         roleItem.setItemstack(new ItemBuilder(Material.BRICK).setName("Mur").toItemStack());
         roleItem.setRightClick(new RoleItem.RightClick() {
             @Override

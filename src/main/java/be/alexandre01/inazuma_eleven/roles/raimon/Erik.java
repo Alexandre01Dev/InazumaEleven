@@ -64,6 +64,7 @@ public class Erik extends Role implements Listener {
 
         RoleItem roleItem = new RoleItem();
         roleItem.setItemstack(new ItemBuilder(Material.BOW).setName("§l§7Tir-§3Pegase").toItemStack());
+        roleItem.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
         roleItem.setPlaceableItem(true);
         roleItem.setRightClick(player -> {
             if(timer)

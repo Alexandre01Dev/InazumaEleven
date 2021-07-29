@@ -523,14 +523,12 @@ public class Xavier extends Role implements Listener {
         Darren darren = (Darren)inazumaUHC.rm.getRole(Darren.class);
         if(darren == null)
         {
-            Bukkit.broadcastMessage("pas de darren");
             return;
         }
 
 
         if(!darren.accepted)
         {
-            Bukkit.broadcastMessage("darren bah il est mechant et il a pas accepté");
             return;
         }
 

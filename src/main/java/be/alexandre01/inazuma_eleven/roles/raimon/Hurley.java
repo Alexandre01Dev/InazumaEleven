@@ -84,15 +84,11 @@ public class Hurley extends Role implements Listener {
 
         RoleItem roleItem = new RoleItem();
         ItemBuilder itemBuilder = new ItemBuilder(Material.BUCKET).setName("§7§lSceau §7§lDe §c§lVie");
-
+        roleItem.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
         roleItem.setItemstack(itemBuilder.toItemStack());
         //roleItem.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.USAGES, 1)));
         roleItem.setRightClick(player -> {
             nearestPlayer = PlayerUtils.getNearestPlayerInSight(player, 500);
-            if(nearestPlayer != null)
-            {
-                Bukkit.broadcastMessage(nearestPlayer.getName());
-            }
 
             Location location = player.getLocation();
 

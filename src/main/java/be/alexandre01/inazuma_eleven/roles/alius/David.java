@@ -101,6 +101,7 @@ public class David extends Role implements Listener {
 
         RoleItem manchot = new RoleItem();
         manchot.setItemstack(new ItemBuilder(Material.NETHER_WARTS).setName("§c§lManchot §c§lEmpereur §4§lN°1").toItemStack());
+        manchot.deployVerificationsOnRightClick(manchot.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
         addRoleItem(manchot);
         manchot.setRightClick(player -> {
 

@@ -138,35 +138,6 @@ public class Darren extends Role implements Listener {
             loadCommands();
 
 
-        addCommand("corrupt", new command() {
-            public int i = 0;
-            @Override
-            public void a(String[] args, Player player) {
-                if(i >= 2){
-                    player.sendMessage(Preset.instance.p.prefixName()+" Vous avez dépassé le nombre d'utilisation de cette commande");
-                    return;
-                }
-                int a = 0;
-                for(Player p : PlayerUtils.getNearbyPlayersFromPlayer(player,15,15,15)){
-                    if(inazumaUHC.rm.getRole(p).getRoleCategory() == null){
-                        System.out.println(inazumaUHC.rm.getRole(p).getName());
-                        continue;
-                    }
-                    if(inazumaUHC.rm.getRole(p).getRoleCategory().getClass().equals(Alius.class)){
-                        a++;
-                    }
-                }
-                if( a == 0){
-                    player.sendMessage(Preset.instance.p.prefixName()+"Il n'y a aucun joueur(s) de l'Académie-Alius autour de vous.");
-                }
-                if( a > 0){
-                    player.sendMessage(Preset.instance.p.prefixName()+"Il y a "+a+" joueur(s) de l'Académie-Alius proche de vous.");
-                }
-                i++;
-            }
-        });
-        loadCommands();
-
     }
 
     private void accept(Player player){
@@ -284,7 +255,7 @@ public class Darren extends Role implements Listener {
                     @Override
                     public void run(){
 
-                        killer.sendMessage(Preset.instance.p.prefixName()+" Vous avez tué §cl'assassin §7, vous recevez tes 2 Résistance permanent ! ");
+                        killer.sendMessage(Preset.instance.p.prefixName()+" Vous avez tué §cl'assassin §7, vous recevez Résistance permanent ! ");
 
                     }
 
@@ -301,7 +272,7 @@ public class Darren extends Role implements Listener {
                     @Override
                     public void run(){
 
-                        killer.sendMessage(Preset.instance.p.prefixName()+" Vous avez tué §cl'assassin §7, vous recevez tes 2 Résistance permanent et récupéré vos 2 coeurs ! ");
+                        killer.sendMessage(Preset.instance.p.prefixName()+" Vous avez tué §cl'assassin §7, vous recevez Résistance permanent et récupéré vos 2 coeurs ! ");
 
                     }
 

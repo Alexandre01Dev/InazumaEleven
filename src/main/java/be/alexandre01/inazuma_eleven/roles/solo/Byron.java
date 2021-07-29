@@ -151,13 +151,7 @@ public class Byron extends Role implements Listener {
             @Override
             public void execute(Player player) {
 
-                Bukkit.getScheduler().scheduleSyncDelayedTask(InazumaUHC.get, new Runnable() {
-                    @Override
-                    public void run() {
-                        player.playSound(player.getLocation(),"instantceleste",5,1);
-                    }
-                });
-
+                player.playSound(player.getLocation(),"instantceleste",5,1);
                 new BukkitRunnable() {
                     @Override
                     public void run() {
@@ -181,7 +175,7 @@ public class Byron extends Role implements Listener {
                         i++;
 
                     }
-                }.runTaskLater(inazumaUHC,20*1);
+                }.runTaskLater(inazumaUHC,20*2);
 
 
             }
