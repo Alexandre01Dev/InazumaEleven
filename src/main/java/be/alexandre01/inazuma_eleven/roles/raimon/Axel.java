@@ -325,7 +325,7 @@ public class Axel extends Role implements Listener {
 
 
                     if(!isSolo){
-                        axel.setWalkSpeed(walkspeed+0.225F);
+                        axel.setWalkSpeed(walkspeed+0.025F);
                         speed = true;
                     }
                 }

@@ -84,7 +84,7 @@ public class Darren extends Role implements Listener {
                     player.sendMessage(Preset.instance.p.prefixName()+" §aTu viens d'accepter la proposition.");
                     hasChoose = true;
                     accepted = true;
-                    accept();
+                    accept(player);
                     return;
                 }
                 if (args[0].equalsIgnoreCase("refuse")) {
@@ -169,8 +169,7 @@ public class Darren extends Role implements Listener {
 
     }
 
-    private void accept(){
-
+    private void accept(Player player){
 
         addCommand("corrupt", new command() {
             public int i = 0;
@@ -199,6 +198,7 @@ public class Darren extends Role implements Listener {
                 i++;
             }
         });
+        loadCommands();
 
         for(Role role : inazumaUHC.rm.getRoleCategory(Raimon.class).getRoles()){
             role.getPlayers().forEach(p -> {
@@ -208,13 +208,12 @@ public class Darren extends Role implements Listener {
                 }
             });
         }
-        loadCommands();
 
         Tracker tracker = Tracker.getOrCreate();
-        for(Player player : inazumaUHC.rm.getRole(Xavier.class).getPlayers()){
+        for(Player players : inazumaUHC.rm.getRole(Xavier.class).getPlayers()){
             for(Player d : getPlayers()){
-                tracker.setTargetToPlayer(player,d);
-                player.sendMessage(Preset.instance.p.prefixName()+" Darren vient de remplacer Mark, C'est "+d.getName());
+                tracker.setTargetToPlayer(players,d);
+                players.sendMessage(Preset.instance.p.prefixName()+" Darren vient de remplacer Mark, C'est "+d.getName());
             }
 
         }
