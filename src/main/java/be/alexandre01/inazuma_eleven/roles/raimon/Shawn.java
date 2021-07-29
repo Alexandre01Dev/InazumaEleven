@@ -62,10 +62,10 @@ public class Shawn extends Role implements Listener {
         setRoleCategory(Raimon.class);
         addListener(this);
         this.aidenLoc = new ArrayList<>();
-        addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
+        /*addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
         addDescription("§8- §7Vous possédez l’effet §6§lRésistance 1§7.");
         addDescription(" ");
-        addDescription("§8- §7Les attaques de §cTorch§7, §bGazelle§7 et §6Axel§7 ne vous atteignent pas.");
+        addDescription("§8- §7Les attaques de §cTorch§7, §bGazelle§7 et §6Axel§7 ne vous atteignent pas.");*/
 
 
         onLoad(new load() {

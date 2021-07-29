@@ -228,7 +228,7 @@ public class Mercenaire{
                                                     TempeteDeFeu.setItemstack(new ItemBuilder(Material.BLAZE_POWDER).setName("Tempête de Feu").toItemStack());
                                                     TempeteDeFeu.deployVerificationsOnRightClick(TempeteDeFeu.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
                                                     TempeteDeFeu.setRightClick(player -> {
-                                                        player.sendMessage(Preset.instance.p.prefixName()+" Vous venez d'activer votre Tornade de Feu.");
+                                                        player.sendMessage(Preset.instance.p.prefixName()+" Vous venez d'activer la tempête de Feu.");
 
                                                             for(Player target : PlayerUtils.getNearbyPlayersFromPlayer(axel,15,15,15)) {
                                                                 World world = axel.getWorld();
@@ -315,7 +315,7 @@ public class Mercenaire{
                                                                 particlesTask.cancel();
                                                                 fireTask.cancel();
                                                             }
-                                                        }.runTaskLaterAsynchronously(InazumaUHC.get, 20*60*5);
+                                                        }.runTaskLaterAsynchronously(InazumaUHC.get, 20*60*3);
 
                                                     });
                                                     r_axel.addRoleItem(TempeteDeFeu);

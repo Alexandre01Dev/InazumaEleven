@@ -1,6 +1,7 @@
 package be.alexandre01.inazuma_eleven.roles.raimon;
 
 import be.alexandre01.inazuma.uhc.InazumaUHC;
+import be.alexandre01.inazuma.uhc.custom_events.episode.EpisodeChangeEvent;
 import be.alexandre01.inazuma.uhc.custom_events.player.PlayerInstantDeathEvent;
 import be.alexandre01.inazuma.uhc.presets.IPreset;
 import be.alexandre01.inazuma.uhc.presets.Preset;
@@ -12,6 +13,7 @@ import be.alexandre01.inazuma_eleven.categories.Alius;
 import be.alexandre01.inazuma_eleven.categories.Raimon;
 import be.alexandre01.inazuma_eleven.listeners.CustomGlasses;
 import be.alexandre01.inazuma_eleven.roles.alius.Bellatrix;
+import be.alexandre01.inazuma_eleven.roles.alius.Gazelle;
 import be.alexandre01.inazuma_eleven.roles.alius.Xavier;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -34,6 +36,7 @@ public class Darren extends Role implements Listener {
     private boolean revenge = false;
     private boolean hasChoose = false;
     public boolean accepted = false;
+    public boolean coordonate = false;
 
     public Darren(IPreset preset) {
         super("Darren LaChance",preset);
@@ -140,7 +143,7 @@ public class Darren extends Role implements Listener {
     }
 
     private void accept(Player player){
-
+        coordonate = true;
         addCommand("corrupt", new command() {
             public int i = 0;
             @Override
@@ -185,11 +188,10 @@ public class Darren extends Role implements Listener {
         for(Player players : inazumaUHC.rm.getRole(Xavier.class).getPlayers()){
             for(Player d : getPlayers()){
                 tracker.setTargetToPlayer(players,d);
-                players.sendMessage(Preset.instance.p.prefixName()+" Darren vient de remplacer Mark, C'est "+d.getName());
+                players.sendMessage(Preset.instance.p.prefixName()+" Darren vient de remplacer Mark.");
             }
 
         }
-
 
     }
 
@@ -199,6 +201,10 @@ public class Darren extends Role implements Listener {
         Player player = event.getPlayer();
         Player killer = event.getKiller();
         Role role = inazumaUHC.rm.getRole(player);
+
+        if(inazumaUHC.rm.getRole(player.getUniqueId()).getClass().equals(Darren.class)){
+            coordonate = false;
+        }
 
         //MARK DEATH ✝
         if(role.getClass() == Mark.class){
@@ -279,6 +285,15 @@ public class Darren extends Role implements Listener {
 
                 }.runTaskLater(InazumaUHC.get, 1);
 
+            }
+        }
+    }
+    @EventHandler
+    public void onEpisode(EpisodeChangeEvent e){
+        Player darren = (Player) inazumaUHC.rm.getRole(Darren.class).getPlayers();
+        if(coordonate){
+            for (Player xavier : inazumaUHC.rm.getRole(Xavier.class).getPlayers()) {
+                xavier.sendMessage("Darren se trouve en " + "§fX §7: §2"+ darren.getLocation().getBlockX() + "","§fY §7: §2"+ darren.getLocation().getBlockY()+ "","§fZ §7: §2" + darren.getLocation().getBlockZ());
             }
         }
     }

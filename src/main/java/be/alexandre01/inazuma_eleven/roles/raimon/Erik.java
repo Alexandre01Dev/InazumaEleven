@@ -47,6 +47,7 @@ public class Erik extends Role implements Listener {
     float force = 0;
     boolean timer = false;
     boolean canShoot = true;
+    BukkitTask particleTask;
     float r = 54;
     float g = 141;
     float b = 227;
@@ -81,7 +82,7 @@ public class Erik extends Role implements Listener {
             player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 20*150, 0, false, false), true);
             player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20*150, 0, false, false), true);
 
-            new BukkitRunnable() {
+            particleTask = new BukkitRunnable() {
                 double var = 0;
                 @Override
                 public void run() {
@@ -96,6 +97,13 @@ public class Erik extends Role implements Listener {
                     }
                 }
             }.runTaskTimerAsynchronously(inazumaUHC, 1,1);
+
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    particleTask.cancel();
+                }
+            }.runTaskLaterAsynchronously(inazumaUHC, 20*150);
 
         });
         addRoleItem(danse);

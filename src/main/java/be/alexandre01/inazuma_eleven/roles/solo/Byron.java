@@ -41,8 +41,7 @@ public class Byron extends Role implements Listener {
     public Byron(IPreset preset) {
         super("Byron Love",preset);
 
-
-        addDescription("§8- §7Votre objectif est de gagner §c§lSeul");
+        /*addDescription("§8- §7Votre objectif est de gagner §c§lSeul");
         addDescription("§8- §7Vous possédez l’effet §4§lForce 1 et §c§l2 §4❤§7§7 permanent");
         addDescription(" ");
         CustomComponentBuilder c = new CustomComponentBuilder("");
@@ -75,7 +74,7 @@ public class Byron extends Role implements Listener {
 
         addDescription("§8- §7A chaque §4§lkill§7, vous gagnerez §c§l0.5 §4❤§7 permanent");
         addDescription(" ");
-        addDescription("§8- §7Vous pouvez également lire les messages entre §cTorch§7 et §bGazelle§7.");
+        addDescription("§8- §7Vous pouvez également lire les messages entre §cTorch§7 et §bGazelle§7.");*/
 
         setRoleCategory(Solo.class);
         onLoad(new load() {
@@ -136,7 +135,7 @@ public class Byron extends Role implements Listener {
             @Override
             public boolean verification(Player player) {
                 if(InazumaUHC.get.lm.listeners.containsKey(FreezePlayerListener.class)){
-                    player.sendMessage(Preset.instance.p.prefixName()+" Tu ne peux pas utiliser l'§7§lInstant Céleste§7 en ce moment.");
+                    player.sendMessage(Preset.instance.p.prefixName()+" Vous ne pouvez pas utiliser l'§7§lInstant Céleste§7 en ce moment.");
                     return false;
                 }
              return true;

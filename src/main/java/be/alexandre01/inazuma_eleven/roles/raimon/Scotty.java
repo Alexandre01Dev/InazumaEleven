@@ -34,7 +34,7 @@ public class Scotty extends Role {
     public Scotty(IPreset preset) {
         super("Scotty Banyan",preset);
         setRoleCategory(Raimon.class);
-        addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
+        /*addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
         addDescription("§8- §7Vous disposez de §b§lSpeed 1§7");
         addDescription(" ");
         addDescription("§8- §7Étant très malicieux, vous disposez de 2 pièges qui sont les suivants :");
@@ -61,7 +61,7 @@ public class Scotty extends Role {
         casierDesc.addExtra("§e- §9Téléporte le joueur marchant dessus pendant §a20 secondes.");
         casierButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,casierDesc.getExtra().toArray(new BaseComponent[0])));
         d.append(casierButton);
-        addDescription(d);
+        addDescription(d);*/
 
 
 

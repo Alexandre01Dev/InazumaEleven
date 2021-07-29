@@ -37,11 +37,13 @@ public class William extends Role implements Listener {
     private int episode = 0;
     private boolean playerToSend = false;
     private RoleItem lunettecasséItem;
+    private int connexion = 0;
 
     public William(IPreset preset) {
         super("William Glass",preset);
         setRoleCategory(Raimon.class);
-        addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
+
+        /*addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
         addDescription("§8- §7Vous disposez de §8§lFaiblesse 1§7.");
         addDescription(" ");
         CustomComponentBuilder c = new CustomComponentBuilder("");
@@ -60,7 +62,7 @@ public class William extends Role implements Listener {
         addDescription("§8- §7Lorsqu'un joueur utilise son pouvoir, vous recevrez un message disant quel personnage a utilisé son pouvoir.");
         addDescription(" ");
         addDescription("§8- §7Vous aurez un allié de confiance tous les §e2 épisodes.");
-        addDescription(" ");
+        addDescription(" ");*/
 
         William w = this;
 
@@ -70,10 +72,14 @@ public class William extends Role implements Listener {
             public void a(Player player) {
                 William.w = w;
 
+                if(connexion == 0){
+                    Bukkit.getScheduler().runTaskLater(inazumaUHC, () -> {
+                        episodeChanged();
+                    },20);
+                    connexion++;
+                }
 
-                Bukkit.getScheduler().runTaskLater(inazumaUHC, () -> {
-                    episodeChanged();
-                },20);
+
 
                 player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, Integer.MAX_VALUE, 0,false,false), true);
             }
