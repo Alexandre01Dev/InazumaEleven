@@ -136,7 +136,7 @@ public class Bellatrix extends Role implements Listener {
         player.sendMessage(Preset.instance.p.prefixName()+" Vous avez refusé de remplacer Xavier, vous gagnez donc 1 coeur permanent et 1 utilisation de la météorite.");
         player.setMaxHealth(player.getMaxHealth()+2);
         revenge = true;
-
+        player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0,false,false), true);
         message = Preset.instance.p.prefixName()+" §cBellatrix a §c§lrefusé de remplacer Xavier !";
 
         Bukkit.broadcastMessage(message);
@@ -152,7 +152,7 @@ public class Bellatrix extends Role implements Listener {
             @Override
             public void run() {
 
-                if(PlayerUtils.getNearbyPlayersFromPlayer(player,20,20,20).size() >= 3) {
+                if(PlayerUtils.getNearbyPlayersFromPlayer(player,20,20,20).size() > 3) {
                     player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20*5, 0,false,false), true);
                 }
 

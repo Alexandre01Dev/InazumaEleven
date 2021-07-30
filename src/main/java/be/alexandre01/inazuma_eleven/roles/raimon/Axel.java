@@ -52,7 +52,7 @@ public class Axel extends Role implements Listener {
 
 
     public Axel(IPreset preset) {
-        super("Axel Blaze",preset);
+        super("§6Axel Blaze",preset);
         playersTag = new HashMap<>();
         setRoleCategory(Raimon.class);
         addDescription("https://app.gitbook.com/@inazumauhcpro/s/inazuma-gitbook/inazuma-eleven-uhc/roles/raimon/axel-blaze");
