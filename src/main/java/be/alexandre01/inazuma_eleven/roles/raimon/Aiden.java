@@ -35,7 +35,8 @@ public class Aiden extends Role implements Listener {
         setRoleCategory(Raimon.class);
         setRoleToSpoil(Shawn.class);
         addListener(this);
-        addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
+        addDescription("https://app.gitbook.com/@inazumauhcpro/s/inazuma-gitbook/inazuma-eleven-uhc/roles/raimon/aiden-frost");
+        /*addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
         addDescription("§8- §7Vous possédez l’effet §4§lForce 1§7.");
         addDescription(" ");
         CustomComponentBuilder c = new CustomComponentBuilder("");
@@ -50,7 +51,7 @@ public class Aiden extends Role implements Listener {
         c.append(blizzardButton);
         addDescription(c);
         addDescription(" ");
-        addDescription("§8- §7Les attaques de §bShawn§7 ne vous atteignent pas.");
+        addDescription("§8- §7Les attaques de §bShawn§7 ne vous atteignent pas.");*/
         onLoad(new load() {
             @Override
             public void a(Player player) {

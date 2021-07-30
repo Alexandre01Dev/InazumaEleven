@@ -43,7 +43,8 @@ public class Joseph extends Role {
     public Joseph(IPreset preset) {
         super("Joseph King",preset);
         setRoleCategory(Alius.class);
-        addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
+        addDescription("https://app.gitbook.com/@inazumauhcpro/s/inazuma-gitbook/inazuma-eleven-uhc/roles/alius/joseph");
+        /*addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
         CustomComponentBuilder c = new CustomComponentBuilder("");
         c.append("§8- §7Vous avez un iteme nommée ");
 
@@ -57,7 +58,7 @@ public class Joseph extends Role {
         morsureDesc.addExtra("§e- §9La troisieme utilisation vous mettra §8§lFaiblesse 1§7 permanent");
         morsureButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,morsureDesc.getExtra().toArray(new BaseComponent[0])));
         c.append(morsureButton);
-        addDescription(c);
+        addDescription(c);*/
 
 
 

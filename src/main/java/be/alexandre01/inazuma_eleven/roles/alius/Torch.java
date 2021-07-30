@@ -54,8 +54,8 @@ public class Torch  extends Role implements Listener {
 
     public Torch(IPreset preset) {
         super("Torch",preset);
-
-        addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
+        addDescription("https://app.gitbook.com/@inazumauhcpro/s/inazuma-gitbook/inazuma-eleven-uhc/roles/alius/torch");
+        /*addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
         addDescription("§8- §7Vous possédez l’effet §6§l§4§lForce 1 §7ainsi que §6§lFire Résistance§7.");
         addDescription(" ");
         CustomComponentBuilder c = new CustomComponentBuilder("");
@@ -72,7 +72,7 @@ public class Torch  extends Role implements Listener {
         c.append(fire_swordButton);
         addDescription(c);
         addDescription(" ");
-        addDescription("§8- §7Les attaques de §bGazelle§7, §6Axel§7 et §6Shawn§7 ne vous atteignent pas.");
+        addDescription("§8- §7Les attaques de §bGazelle§7, §6Axel§7 et §6Shawn§7 ne vous atteignent pas.");*/
 
         setRoleCategory(Alius.class);
         Class<?> clazz = Capitaine.giveCapitaine(this.getClass(), Gazelle.class);

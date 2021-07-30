@@ -60,8 +60,8 @@ public class Bellatrix extends Role implements Listener {
         super("Bellatrix",preset);
         setRoleCategory(Alius.class);
         setRoleToSpoil(Xavier.class);
-
-        addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
+        addDescription("https://app.gitbook.com/@inazumauhcpro/s/inazuma-gitbook/inazuma-eleven-uhc/roles/alius/bellatrix");
+        /*addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
         addDescription("§8- §7Vous possédez l’effet §b§lSpeed 1§.");
         addDescription(" ");
         addDescription("§8- §7Vous disposez du §d§lCollier§7§l-§5§lAlius§7 qui vous donnera §6§lRésistance 1§7 (NERF) pendant §a1 minute 30§7.");
@@ -76,7 +76,8 @@ public class Bellatrix extends Role implements Listener {
         addDescription("§8- §7Vous pouvez également §crefuser§7 cette demande.");
         addDescription("§8- §7Si vous §crefusez§7 de le remplacer, vous obtiendrez l’effet §4§lForce 1 et §c§l1 §4❤§7§7 permanent.");
         addDescription(" ");
-        addDescription("§8- §7Une annonces sera faites comme quoi vous avez §crefusé§7 de le remplacer.");
+        addDescription("§8- §7Une annonces sera faites comme quoi vous avez §crefusé§7 de le remplacer.");*/
+
 
 
         addListener(this);

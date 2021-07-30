@@ -57,12 +57,13 @@ public class  Janus extends Role implements Listener {
 
         super("Janus",preset);
         setRoleCategory(Alius.class);
-        addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
+        addDescription("https://app.gitbook.com/@inazumauhcpro/s/inazuma-gitbook/inazuma-eleven-uhc/roles/alius/janus");
+        /*addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
         addDescription("§8- §7Vous possédez l’effet §b§lSpeed 1§.");
         addDescription(" ");
         addDescription("§8- §7Vous disposez de 3 ballons que vous pourrez placer et vous y téléporter une fois par épisode avec le §5/inaball§7");
         addDescription(" ");
-        addDescription("§8- §7Et également un ballon réservé à §5Xavier§7, ou vous devrez lui donner les coordonnées et il pourra y téléporter 2 joueurs durant la game.");
+        addDescription("§8- §7Et également un ballon réservé à §5Xavier§7, ou vous devrez lui donner les coordonnées et il pourra y téléporter 2 joueurs durant la game.");*/
 
         Class<?> clazz = Capitaine.giveCapitaine(this.getClass());
         if(clazz != null)

@@ -38,11 +38,11 @@ public class Jude extends Role implements Listener {
         playersTag = new HashMap<>();
         setRoleCategory(Raimon.class);
         addListener(this);
-
-        addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
+        addDescription("https://app.gitbook.com/@inazumauhcpro/s/inazuma-gitbook/inazuma-eleven-uhc/roles/raimon/jude-sharp");
+        /*addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
         addDescription("§8- §7Vous possédez l’effet §b§lSpeed 1§7.");
         addDescription("§8- §7Vous voyez également la §4vie§7 des joueurs au-dessus de leurs têtes.");
-        addDescription("§8- §7Vous recevrez les coordonnées approximatives à chaque utilisation d'un §d§lCollier§7§l-§5§lAlius§7.");
+        addDescription("§8- §7Vous recevrez les coordonnées approximatives à chaque utilisation d'un §d§lCollier§7§l-§5§lAlius§7.");*/
 
 
         onLoad(new load() {
@@ -128,7 +128,7 @@ public class Jude extends Role implements Listener {
                     @Override
                     public void run(){
 
-                        p.sendMessage(Preset.instance.p.prefixName()+" "+ player+" vient de mourir, vous allez recevoir les cordonnées dans 5 minutes.");
+                        p.sendMessage(Preset.instance.p.prefixName()+" "+ player.getName()  +" vient de mourir, vous allez recevoir les cordonnées du Local dans 5 minutes.");
 
                     }
 

@@ -46,7 +46,7 @@ public class David extends Role implements Listener {
     public David(IPreset preset) {
         super("David Samford",preset);
 
-        addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
+        /*addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
         addDescription(" ");
         CustomComponentBuilder c = new CustomComponentBuilder("");
         c.append("§8- §7En échange de §c§l2 §4❤§7§7 permanent :");
@@ -61,8 +61,8 @@ public class David extends Role implements Listener {
         manchotDesc.addExtra("§e- §c⚠§9 Vous avez §a5 minutes§9 à chaque début d'§eEpisode§9 pour le prendre");
         manchotButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,manchotDesc.getExtra().toArray(new BaseComponent[0])));
         c.append(manchotButton);
-        addDescription(c);;
-
+        addDescription(c);;*/
+        addDescription("https://app.gitbook.com/@inazumauhcpro/s/inazuma-gitbook/inazuma-eleven-uhc/roles/alius/david");
 
         addListener(this);
         setRoleCategory(Alius.class);

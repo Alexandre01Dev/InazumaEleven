@@ -22,8 +22,8 @@ public class Kevin extends Role {
     public Kevin(IPreset preset) {
         super("Kevin Dragonfly",preset);
         setRoleCategory(Raimon.class);
-
-        addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
+        addDescription("https://app.gitbook.com/@inazumauhcpro/s/inazuma-gitbook/inazuma-eleven-uhc/roles/raimon/kevin-dragonfly");
+        /*addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
         CustomComponentBuilder c = new CustomComponentBuilder("");
         c.append("§8- §7Vous avez une commande nommée ");
 
@@ -34,7 +34,7 @@ public class Kevin extends Role {
         intimidateDesc.addExtra("§e- §9Donne au joueur §7ciblé, §8Faiblesse§9 et §8Slowness 1§7 pendant §a20 secondes");
         intimidateButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,intimidateDesc.getExtra().toArray(new BaseComponent[0])));
         c.append(intimidateButton);
-        addDescription(c);
+        addDescription(c);*/
 
         addCommand("intimidate", new command() {
         public int i = 0;

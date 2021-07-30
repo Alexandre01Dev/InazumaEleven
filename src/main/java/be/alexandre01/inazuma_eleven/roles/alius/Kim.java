@@ -58,7 +58,8 @@ public class Kim extends Role implements Listener {
         super("Kim Powell",preset);
         setRoleCategory(Alius.class);
         setRoleToSpoil(Xavier.class);
-        addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
+        addDescription("https://app.gitbook.com/@inazumauhcpro/s/inazuma-gitbook/inazuma-eleven-uhc/roles/alius/kim-powell");
+        /*addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
         addDescription("§8- §7Vous possédez l’effet §6§l§4§lForce 1§7.");
         addDescription(" ");
         addDescription("§8- §7Vous disposez du §d§lCollier§7§l-§5§lAlius§7 qui vous donnera §b§lSpeed 1 §7et §6§lRésistance 1§7 (NERF) pendant §a1 minute 30§7.");
@@ -76,7 +77,7 @@ public class Kim extends Role implements Listener {
         c.append(inaballtpButton);
         addDescription(c);;
         addDescription(" ");
-        addDescription("§8- §7Vous pouvez également voir ou se situent les différents ballons de §5Janus§7 avec le §5/inaball§7.");
+        addDescription("§8- §7Vous pouvez également voir ou se situent les différents ballons de §5Janus§7 avec le §5/inaball§7.");*/
 
 
         addListener(this);

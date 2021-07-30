@@ -28,9 +28,9 @@ public class Nathan extends Role {
     public Nathan(IPreset preset) {
         super("Nathan Swift",preset);
         setRoleCategory(Raimon.class);
+        addDescription("https://app.gitbook.com/@inazumauhcpro/s/inazuma-gitbook/inazuma-eleven-uhc/roles/raimon/nathan-swift");
 
-
-        addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
+        /*addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
         addDescription("§8- §7Vous possédez l’effet §b§lSpeed 1§7.");
         addDescription(" ");
         CustomComponentBuilder c = new CustomComponentBuilder("");
@@ -56,7 +56,7 @@ public class Nathan extends Role {
         dashButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,dashDesc.getExtra().toArray(new BaseComponent[0])));
         d.append(dashButton);
         addDescription(d);
-        addDescription(" ");
+        addDescription(" ");*/
 
         onLoad(new load() {
             @Override

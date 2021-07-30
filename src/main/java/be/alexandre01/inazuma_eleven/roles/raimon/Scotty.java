@@ -34,6 +34,7 @@ public class Scotty extends Role {
     public Scotty(IPreset preset) {
         super("Scotty Banyan",preset);
         setRoleCategory(Raimon.class);
+        addDescription("https://app.gitbook.com/@inazumauhcpro/s/inazuma-gitbook/inazuma-eleven-uhc/roles/raimon/scotty-banyan");
         /*addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
         addDescription("§8- §7Vous disposez de §b§lSpeed 1§7");
         addDescription(" ");

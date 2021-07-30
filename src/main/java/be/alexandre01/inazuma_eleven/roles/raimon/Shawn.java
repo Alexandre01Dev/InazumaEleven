@@ -62,6 +62,7 @@ public class Shawn extends Role implements Listener {
         setRoleCategory(Raimon.class);
         addListener(this);
         this.aidenLoc = new ArrayList<>();
+        addDescription("https://app.gitbook.com/@inazumauhcpro/s/inazuma-gitbook/inazuma-eleven-uhc/roles/raimon/shawn-frost");
         /*addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
         addDescription("§8- §7Vous possédez l’effet §6§lRésistance 1§7.");
         addDescription(" ");

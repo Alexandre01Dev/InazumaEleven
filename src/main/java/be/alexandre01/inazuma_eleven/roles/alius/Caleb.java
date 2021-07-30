@@ -47,13 +47,14 @@ public class Caleb extends Role implements Listener {
     public Caleb(IPreset preset) {
         super("Caleb Stonewall",preset);
 
-        addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
+        /*addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
         addDescription(" ");
         addDescription("§8- §7A chaque début d'§eEpisode§7, un choix s'offre à vous :");
         addDescription("§8- §7Faire perdre ou non 2 coeurs permanents durant §e1 Epsiode§7 à un mate random.");
         addDescription("§8- §7Afin d'obtenir §4§lForce 1 et §c§l2 §4❤§7 permanent pendant l'Episode.");
         addDescription("§c⚠§7 Vous avez §a5 minutes§7 à chaque début d'§eEpisode§7 pour faire votre choix.");
-        addDescription("§8- §c§l⚠ §7Vous pouvez également faire §5/power §aaccept§7 ou §5/power §crefuse§7.");
+        addDescription("§8- §c§l⚠ §7Vous pouvez également faire §5/power §aaccept§7 ou §5/power §crefuse§7.");*/
+        addDescription("https://app.gitbook.com/@inazumauhcpro/s/inazuma-gitbook/inazuma-eleven-uhc/roles/alius/caleb");
 
         setRoleCategory(Alius.class);
         Class<?> clazz = Capitaine.giveCapitaine(this.getClass());

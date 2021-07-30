@@ -53,7 +53,8 @@ public class Mark extends Role implements Listener {
         setRoleCategory(Raimon.class);
        // setRoleToSpoil(Victoria);
         addListener(this);
-        addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
+        addDescription("https://app.gitbook.com/@inazumauhcpro/s/inazuma-gitbook/inazuma-eleven-uhc/roles/raimon/mark-evans");
+        /*addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
         addDescription("§8- §7Vous possédez l’effet §6§lRésistance 1§7.");
         addDescription(" ");
         addDescription("§8- §7A chaque mort d'un joueur de §6§lRaimon§7, vous perdrez §c§l0.5 §4❤§7 permanent.");
@@ -71,28 +72,8 @@ public class Mark extends Role implements Listener {
         c.append(corruptButton);
         addDescription(c);
         addDescription(" ");
-        addDescription("§8- §7Si §5Bellatrix§7 accepte de remplacer §5Xavier§7, vous aurez son pseudo.");
+        addDescription("§8- §7Si §5Bellatrix§7 accepte de remplacer §5Xavier§7, vous aurez son pseudo.");*/
 
-
-        RoleItem clef = new RoleItem();
-        clef.setDroppableItem(true);
-        clef.setItemstack(new ItemBuilder(Material.NAME_TAG).setName("§eClef du casier").toItemStack());
-
-
-        addRoleItem(clef);
-
-       /* RoleItem roleItem = new RoleItem();
-        ItemBuilder itemBuilder = new ItemBuilder(Material.BOOK).setName("§6§lCahier de §7§lDavid §lEvans");
-
-            roleItem.setRightClick(player -> {
-                roleItem.updateItem(new ItemStack(Material.AIR));
-                player.updateInventory();
-                multiplicateur += 0.25f;
-                player.sendMessage(Preset.instance.p.prefixName()+" §7§lFélicitation, vous avez trouvé le §6§lCahier §7de §7§lDavis Evans, désormais tout vos points gagné serront §c§lmultiplié §7par §c§l125% !");
-                player.playSound(player.getLocation(), Sound.ORB_PICKUP, 5,5);
-            });
-        roleItem.setItemstack(itemBuilder.toItemStack());
-        addRoleItem(roleItem);*/
 
         for (int i = 0; i < 5; i++) {
             expToUnlockNextLevel.put(i,10);
@@ -109,6 +90,13 @@ public class Mark extends Role implements Listener {
         actionOnLevel.put(3, player ->  {
             levelRomain = "III";
             //Main Céleste Clef Casier
+            RoleItem clef = new RoleItem();
+            clef.setDroppableItem(true);
+            clef.setItemstack(new ItemBuilder(Material.NAME_TAG).setName("§eClef du casier").toItemStack());
+
+
+            addRoleItem(clef);
+            giveItem(player,clef);
         });
         actionOnLevel.put(4, player ->  {
             player.setMaxHealth(player.getMaxHealth()+2);
@@ -132,6 +120,7 @@ public class Mark extends Role implements Listener {
             //Unlock Ina Boost
         });
         actionOnLevel.put(9 , player ->  {
+            corrupttest++;
             //Poing de la Justice
             levelRomain = "IX";
         });
@@ -210,12 +199,11 @@ public class Mark extends Role implements Listener {
                 if( a > 1){
                     player.sendMessage(Preset.instance.p.prefixName()+"Il y a des joueurs de l'Académie-Alius autour de vous.");
                 }
-
                 i++;
             }
         });
 
-        addCommand("ina boost", new command() {
+        addCommand("boost", new command() {
             public int i = 0;
             @Override
             public void a(String[] args, Player player) {

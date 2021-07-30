@@ -36,8 +36,8 @@ public class Dvalin extends Role implements Listener {
     private boolean hasChoose = false;
     public Dvalin(IPreset preset) {
         super("Dvalin",preset);
-
-        addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
+        addDescription("https://app.gitbook.com/@inazumauhcpro/s/inazuma-gitbook/inazuma-eleven-uhc/roles/alius/dvalin");
+        /*addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
         CustomComponentBuilder c = new CustomComponentBuilder("");
         addDescription("§8- §7Vous disposez du §d§lCollier§7§l-§5§lAlius§7 qui vous donnera §b§lSpeed 1§7 pendant §a1 minute 30§7.");
         addDescription(" ");
@@ -67,7 +67,7 @@ public class Dvalin extends Role implements Listener {
         attakDesc.addExtra("§e- §9Vous renvoyez au tireur la flèche qu'il a voulue vous tirer dessus. (Passif)");
         attakButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,attakDesc.getExtra().toArray(new BaseComponent[0])));
         d.append(attakButton);
-        addDescription(d);
+        addDescription(d);*/
 
         setRoleCategory(Alius.class);
         Class<?> clazz = Capitaine.giveCapitaine(this.getClass());

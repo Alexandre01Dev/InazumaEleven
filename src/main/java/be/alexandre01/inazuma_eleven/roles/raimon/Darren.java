@@ -293,7 +293,7 @@ public class Darren extends Role implements Listener {
         Player darren = (Player) inazumaUHC.rm.getRole(Darren.class).getPlayers();
         if(coordonate){
             for (Player xavier : inazumaUHC.rm.getRole(Xavier.class).getPlayers()) {
-                xavier.sendMessage("Darren se trouve en " + "§fX §7: §2"+ darren.getLocation().getBlockX() + "","§fY §7: §2"+ darren.getLocation().getBlockY()+ "","§fZ §7: §2" + darren.getLocation().getBlockZ());
+                //xavier.sendMessage("Darren se trouve en " + "§fX §7: §2"+ darren.getLocation().getBlockX() + "","§fY §7: §2"+ darren.getLocation().getBlockY()+ "","§fZ §7: §2" + darren.getLocation().getBlockZ());
             }
         }
     }
