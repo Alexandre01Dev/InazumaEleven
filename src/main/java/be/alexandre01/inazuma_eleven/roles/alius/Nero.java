@@ -27,7 +27,7 @@ public class Nero extends Role implements Listener {
         addListener(this);
         setRoleCategory(Alius.class);
         setRoleToSpoil(Xavier.class);
-        addDescription("https://app.gitbook.com/@inazumauhcpro/s/inazuma-gitbook/inazuma-eleven-uhc/roles/alius/nero");
+        addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/alius/nero");
         addCommand("local", new command() {
 
 

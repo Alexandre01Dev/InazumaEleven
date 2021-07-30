@@ -60,7 +60,7 @@ public class Bellatrix extends Role implements Listener {
         super("Bellatrix",preset);
         setRoleCategory(Alius.class);
         setRoleToSpoil(Xavier.class);
-        addDescription("https://app.gitbook.com/@inazumauhcpro/s/inazuma-gitbook/inazuma-eleven-uhc/roles/alius/bellatrix");
+        addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/alius/bellatrix");
         /*addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
         addDescription("§8- §7Vous possédez l’effet §b§lSpeed 1§.");
         addDescription(" ");

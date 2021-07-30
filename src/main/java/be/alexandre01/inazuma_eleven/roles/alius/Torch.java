@@ -54,7 +54,7 @@ public class Torch  extends Role implements Listener {
 
     public Torch(IPreset preset) {
         super("Torch",preset);
-        addDescription("https://app.gitbook.com/@inazumauhcpro/s/inazuma-gitbook/inazuma-eleven-uhc/roles/alius/torch");
+        addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/alius/torch");
         /*addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
         addDescription("§8- §7Vous possédez l’effet §6§l§4§lForce 1 §7ainsi que §6§lFire Résistance§7.");
         addDescription(" ");

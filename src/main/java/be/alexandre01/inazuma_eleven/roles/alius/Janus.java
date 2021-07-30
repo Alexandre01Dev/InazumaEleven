@@ -57,7 +57,7 @@ public class  Janus extends Role implements Listener {
 
         super("Janus",preset);
         setRoleCategory(Alius.class);
-        addDescription("https://app.gitbook.com/@inazumauhcpro/s/inazuma-gitbook/inazuma-eleven-uhc/roles/alius/janus");
+        addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/alius/janus");
         /*addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
         addDescription("§8- §7Vous possédez l’effet §b§lSpeed 1§.");
         addDescription(" ");

@@ -62,7 +62,7 @@ public class David extends Role implements Listener {
         manchotButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,manchotDesc.getExtra().toArray(new BaseComponent[0])));
         c.append(manchotButton);
         addDescription(c);;*/
-        addDescription("https://app.gitbook.com/@inazumauhcpro/s/inazuma-gitbook/inazuma-eleven-uhc/roles/alius/david");
+        addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/alius/david");
 
         addListener(this);
         setRoleCategory(Alius.class);

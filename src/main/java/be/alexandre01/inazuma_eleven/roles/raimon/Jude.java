@@ -38,7 +38,7 @@ public class Jude extends Role implements Listener {
         playersTag = new HashMap<>();
         setRoleCategory(Raimon.class);
         addListener(this);
-        addDescription("https://app.gitbook.com/@inazumauhcpro/s/inazuma-gitbook/inazuma-eleven-uhc/roles/raimon/jude-sharp");
+        addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/raimon/jude-sharp");
         /*addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
         addDescription("§8- §7Vous possédez l’effet §b§lSpeed 1§7.");
         addDescription("§8- §7Vous voyez également la §4vie§7 des joueurs au-dessus de leurs têtes.");

@@ -42,7 +42,7 @@ public class William extends Role implements Listener {
     public William(IPreset preset) {
         super("William Glass",preset);
         setRoleCategory(Raimon.class);
-        addDescription("https://app.gitbook.com/@inazumauhcpro/s/inazuma-gitbook/inazuma-eleven-uhc/roles/raimon/william");
+        addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/raimon/william");
         /*addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
         addDescription("§8- §7Vous disposez de §8§lFaiblesse 1§7.");
         addDescription(" ");

@@ -97,7 +97,7 @@ public class Xavier extends Role implements Listener {
         addDescription(c);;
         addDescription(" ");
         addDescription("§8- §7Vous pouvez également voir ou se situent les différents ballons de §5Janus§7 avec le §5/inaball§7.");*/
-        addDescription("https://app.gitbook.com/@inazumauhcpro/s/inazuma-gitbook/inazuma-eleven-uhc/roles/alius/xavier-foster");
+        addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/alius/xavier-foster");
 
 
         addListener(this);

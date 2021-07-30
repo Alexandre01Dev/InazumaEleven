@@ -43,7 +43,7 @@ public class Joseph extends Role {
     public Joseph(IPreset preset) {
         super("Joseph King",preset);
         setRoleCategory(Alius.class);
-        addDescription("https://app.gitbook.com/@inazumauhcpro/s/inazuma-gitbook/inazuma-eleven-uhc/roles/alius/joseph");
+        addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/alius/joseph");
         /*addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
         CustomComponentBuilder c = new CustomComponentBuilder("");
         c.append("§8- §7Vous avez un iteme nommée ");

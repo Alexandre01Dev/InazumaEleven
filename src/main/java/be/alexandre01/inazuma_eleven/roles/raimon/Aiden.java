@@ -35,7 +35,7 @@ public class Aiden extends Role implements Listener {
         setRoleCategory(Raimon.class);
         setRoleToSpoil(Shawn.class);
         addListener(this);
-        addDescription("https://app.gitbook.com/@inazumauhcpro/s/inazuma-gitbook/inazuma-eleven-uhc/roles/raimon/aiden-frost");
+        addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/raimon/aiden-frost");
         /*addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
         addDescription("§8- §7Vous possédez l’effet §4§lForce 1§7.");
         addDescription(" ");

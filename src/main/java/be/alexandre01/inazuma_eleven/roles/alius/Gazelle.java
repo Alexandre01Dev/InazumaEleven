@@ -52,7 +52,7 @@ public class Gazelle extends Role implements Listener {
     World world;
     public Gazelle(IPreset preset) {
         super("Gazelle",preset);
-        addDescription("https://app.gitbook.com/@inazumauhcpro/s/inazuma-gitbook/inazuma-eleven-uhc/roles/alius/gazelle");
+        addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/alius/gazelle");
         /*addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
         addDescription("§8- §7Vous possédez l’effet §6§l§4§lForce 1 §7ainsi que §6§lHaste 1§7.");
         addDescription(" ");

@@ -58,7 +58,7 @@ public class Kim extends Role implements Listener {
         super("Kim Powell",preset);
         setRoleCategory(Alius.class);
         setRoleToSpoil(Xavier.class);
-        addDescription("https://app.gitbook.com/@inazumauhcpro/s/inazuma-gitbook/inazuma-eleven-uhc/roles/alius/kim-powell");
+        addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/alius/kim-powell");
         /*addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
         addDescription("§8- §7Vous possédez l’effet §6§l§4§lForce 1§7.");
         addDescription(" ");

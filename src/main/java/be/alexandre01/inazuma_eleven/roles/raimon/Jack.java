@@ -56,7 +56,7 @@ public class Jack extends Role implements Listener {
     private boolean register;
     public Jack(IPreset preset) {
         super("Jack Wallside",preset);
-        addDescription("https://app.gitbook.com/@inazumauhcpro/s/inazuma-gitbook/inazuma-eleven-uhc/roles/raimon/jack");
+        addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/raimon/jack");
         /*addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
         addDescription("§8- §7Vous disposez de §c§l3 §4❤§7 permanents supplémentaires.");
         addDescription(" ");

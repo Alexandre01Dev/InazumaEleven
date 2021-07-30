@@ -53,7 +53,7 @@ public class Mark extends Role implements Listener {
         setRoleCategory(Raimon.class);
        // setRoleToSpoil(Victoria);
         addListener(this);
-        addDescription("https://app.gitbook.com/@inazumauhcpro/s/inazuma-gitbook/inazuma-eleven-uhc/roles/raimon/mark-evans");
+        addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/raimon/mark-evans");
         /*addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
         addDescription("§8- §7Vous possédez l’effet §6§lRésistance 1§7.");
         addDescription(" ");

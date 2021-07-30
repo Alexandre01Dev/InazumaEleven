@@ -55,7 +55,7 @@ public class Axel extends Role implements Listener {
         super("§6Axel Blaze",preset);
         playersTag = new HashMap<>();
         setRoleCategory(Raimon.class);
-        addDescription("https://app.gitbook.com/@inazumauhcpro/s/inazuma-gitbook/inazuma-eleven-uhc/roles/raimon/axel-blaze");
+        addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/raimon/axel-blaze");
         addListener(this);
         /*addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
         addDescription("§8- §7Vous possédez l’effet §4§lForce 1 §7ainsi que §6§lFire Résistance§7.");

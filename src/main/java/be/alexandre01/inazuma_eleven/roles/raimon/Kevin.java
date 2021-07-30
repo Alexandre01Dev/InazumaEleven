@@ -22,7 +22,7 @@ public class Kevin extends Role {
     public Kevin(IPreset preset) {
         super("Kevin Dragonfly",preset);
         setRoleCategory(Raimon.class);
-        addDescription("https://app.gitbook.com/@inazumauhcpro/s/inazuma-gitbook/inazuma-eleven-uhc/roles/raimon/kevin-dragonfly");
+        addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/raimon/kevin-dragonfly");
         /*addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
         CustomComponentBuilder c = new CustomComponentBuilder("");
         c.append("§8- §7Vous avez une commande nommée ");

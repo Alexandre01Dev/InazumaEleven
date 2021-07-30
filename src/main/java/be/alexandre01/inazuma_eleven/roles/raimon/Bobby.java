@@ -50,7 +50,7 @@ public class Bobby extends Role implements Listener
         addListener(this);
 
 
-        addDescription("https://app.gitbook.com/@inazumauhcpro/s/inazuma-gitbook/inazuma-eleven-uhc/roles/raimon/bobby");
+        addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/raimon/bobby");
 
         RoleItem roleItem = new RoleItem();
         ItemBuilder ib = new ItemBuilder(Material.MAGMA_CREAM).setName("§c§lScie§r-§c§lCirculaire");
