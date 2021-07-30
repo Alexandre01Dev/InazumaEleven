@@ -178,8 +178,8 @@ public class LocalRaimon implements Listener {
                 force.setupInventory();
                 System.out.println("Rightclick ?");
                 force.setRightClick((player, casier) -> {
-                    if(!player.hasPotionEffect(PotionEffectType.DAMAGE_RESISTANCE))
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,Integer.MAX_VALUE, 0,false,false), true);
+                    if(!player.hasPotionEffect(PotionEffectType.INCREASE_DAMAGE))
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE,Integer.MAX_VALUE, 0,false,false), true);
                     HashMap<Player, Double> increased_damage = InazumaUHC.get.dm.getIncreased_damage();
                     if(increased_damage.containsKey(player)){
                         InazumaUHC.get.dm.addEffectPourcentage(player, DamageManager.EffectType.INCREASE_DAMAGE,1, (int) (((increased_damage.get(player)*100))+5));
@@ -211,9 +211,9 @@ public class LocalRaimon implements Listener {
                     if(!player.hasPotionEffect(PotionEffectType.DAMAGE_RESISTANCE))
                         player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,Integer.MAX_VALUE, 0,false,false), true);
                     if(resistanceH.containsKey(player)){
-                        InazumaUHC.get.dm.addEffectPourcentage(player, DamageManager.EffectType.INCREASE_DAMAGE,1, (int) (((resistanceH.get(player)*100))+5));
+                        InazumaUHC.get.dm.addEffectPourcentage(player, DamageManager.EffectType.RESISTANCE,1, (int) (((resistanceH.get(player)*100))+5));
                     }else {
-                        InazumaUHC.get.dm.addEffectPourcentage(player, DamageManager.EffectType.INCREASE_DAMAGE,1,105);
+                        InazumaUHC.get.dm.addEffectPourcentage(player, DamageManager.EffectType.RESISTANCE,1,105);
                     }
                     return true;
                 });

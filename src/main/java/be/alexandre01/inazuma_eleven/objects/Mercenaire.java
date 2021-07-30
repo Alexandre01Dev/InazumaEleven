@@ -114,6 +114,7 @@ public class Mercenaire{
                             target.sendMessage(mercenaireButton);
 
                             role.setRoleToSpoil(Axel.class);
+                            target.sendMessage("Axel est" + InazumaUHC.get.rm.getRole(Axel.class).getName());
 
                             role.addDescription(mercenaireButton);
 

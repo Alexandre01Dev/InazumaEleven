@@ -41,6 +41,7 @@ public class Darren extends Role implements Listener {
     public Darren(IPreset preset) {
         super("Darren LaChance",preset);
         setRoleCategory(Raimon.class);
+        setRoleToSpoil(Mark.class);
         addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/raimon/darren-lachance");
         /*addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
         addDescription("§8- §7Vous disposez de §c§l2 §4❤§7 permanent.");
