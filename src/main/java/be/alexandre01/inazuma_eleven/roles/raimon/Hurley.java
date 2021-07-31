@@ -228,6 +228,7 @@ public class Hurley extends Role implements Listener {
 
                     if(args.length == 0){
                         player.sendMessage(Preset.instance.p.prefixName()+" Merci de précisez le nom du joueur.");
+                        return;
                     }
 
                     if(target == null){

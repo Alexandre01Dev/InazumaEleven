@@ -48,6 +48,12 @@ public class Kevin extends Role {
                     player.sendMessage(Preset.instance.p.prefixName()+"§c Tu dois attendre "+ dateBuilderTimer.getLongBuild());
                     return;
                 }
+
+                if(args.length == 0){
+                    player.sendMessage(Preset.instance.p.prefixName()+" Merci de précisez le nom du joueur.");
+                    return;
+                }
+
                 Player target = Bukkit.getPlayer(args[0]);
                 if(target == null){
                     player.sendMessage(Preset.instance.p.prefixName()+" Le joueur n'est pas en game.");
