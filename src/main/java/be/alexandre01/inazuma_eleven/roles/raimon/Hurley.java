@@ -224,13 +224,11 @@ public class Hurley extends Role implements Listener {
                 public int i = 0;
                 @Override
                 public void a(String[] args, Player player) {
-                    Player target = Bukkit.getPlayer(args[0]);
-
                     if(args.length == 0){
                         player.sendMessage(Preset.instance.p.prefixName()+" Merci de précisez le nom du joueur.");
                         return;
                     }
-
+                    Player target = Bukkit.getPlayer(args[0]);
                     if(target == null){
                         player.sendMessage(Preset.instance.p.prefixName()+" Le joueur n'est pas en game.");
                         return;
