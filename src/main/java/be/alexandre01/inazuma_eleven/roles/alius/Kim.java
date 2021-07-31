@@ -25,6 +25,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -121,6 +122,7 @@ public class Kim extends Role implements Listener {
         RoleItem volSword = new RoleItem();
         ItemBuilder volAlius = new ItemBuilder(Material.DIAMOND_SWORD).setName("Vol");
         volAlius.setUnbreakable();
+        volAlius.addEnchant(Enchantment.DAMAGE_ALL,2);
         volSword.setItemstack(volAlius.toItemStack());
         addRoleItem(volSword);
 

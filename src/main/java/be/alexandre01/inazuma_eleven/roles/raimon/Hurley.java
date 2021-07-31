@@ -12,6 +12,7 @@ import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
 import be.alexandre01.inazuma.uhc.utils.PlayerUtils;
 import be.alexandre01.inazuma.uhc.utils.TitleUtils;
 import be.alexandre01.inazuma_eleven.categories.Raimon;
+import be.alexandre01.inazuma_eleven.objects.LocalRaimon;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -219,12 +220,16 @@ public class Hurley extends Role implements Listener {
         });
         addRoleItem(roleItem);
 
-            addCommand("ina sea", new command() {
+            addCommand("sea", new command() {
                 public int i = 0;
-
                 @Override
                 public void a(String[] args, Player player) {
                     Player target = Bukkit.getPlayer(args[0]);
+
+                    if(args.length == 0){
+                        player.sendMessage(Preset.instance.p.prefixName()+" Merci de précisez le nom du joueur.");
+                    }
+
                     if(target == null){
                         player.sendMessage(Preset.instance.p.prefixName()+" Le joueur n'est pas en game.");
                         return;
