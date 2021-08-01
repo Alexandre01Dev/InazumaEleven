@@ -67,14 +67,8 @@ public class Erik extends Role implements Listener {
 
         RoleItem roleItem = new RoleItem();
         roleItem.setItemstack(new ItemBuilder(Material.BOW).setName("§l§7Tir-§3Pegase").toItemStack());
-        roleItem.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
+      // roleItem.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
         roleItem.setPlaceableItem(true);
-        roleItem.setRightClick(player -> {
-            if(timer)
-            {
-
-            }
-        });
         addRoleItem(roleItem);
 
         RoleItem danse = new RoleItem();
@@ -167,6 +161,7 @@ public class Erik extends Role implements Listener {
                 {
                     System.out.println("fleche planté");
                     specialArrow.remove();
+                    timer = false;
                     cancel();
                 }
 
@@ -200,7 +195,7 @@ public class Erik extends Role implements Listener {
                     arrowTask = new BukkitRunnable() {
                         @Override
                         public void run() {
-                            System.out.println("flechheehdehjerejkhkhdgrk");
+
                             location = specialArrow.getLocation();
                             Bukkit.getScheduler().scheduleSyncDelayedTask(inazumaUHC, () -> destructionArrow(specialArrow, world, 3));
                             PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(EnumParticle.REDSTONE, true, ((float) location.getX()), (float) (location.getY()), ((float) location.getZ()), r / 255, g / 255, b / 255, 1, 0);
@@ -253,6 +248,7 @@ public class Erik extends Role implements Listener {
                         }
                         if(specialArrow.isOnGround())
                         {
+                            timer = false;
                             arrowTask.cancel();
                         }
                     }
@@ -304,6 +300,7 @@ public class Erik extends Role implements Listener {
             //block.setType(Material.AIR);
             if(finalArrow.isOnGround())
             {
+                timer = false;
                 arrowTask.cancel();
             }
             i++;
@@ -333,6 +330,7 @@ public class Erik extends Role implements Listener {
     @EventHandler
     void onEpisodeChange(EpisodeChangeEvent event)
     {
+        timer = false;
         canShoot = true;
     }
 }

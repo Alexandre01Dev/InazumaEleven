@@ -28,6 +28,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 
@@ -75,9 +77,7 @@ public class Mark extends Role implements Listener {
         addDescription("§8- §7Si §5Bellatrix§7 accepte de remplacer §5Xavier§7, vous aurez son pseudo.");*/
 
 
-        for (int i = 0; i < 5; i++) {
-            expToUnlockNextLevel.put(i,10);
-        }
+
 
         actionOnLevel.put(1, player ->  {
             player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 0,false,false), true);
@@ -108,10 +108,23 @@ public class Mark extends Role implements Listener {
         });
         actionOnLevel.put(6 , player ->  {
             levelRomain = "VI";
+
+            Role role =  inazumaUHC.rm.getRole(Darren.class);
+            role.getPlayers().forEach(d -> {
+                player.sendMessage(Preset.instance.p.prefixName()+" Darren est "+ d.getName());
+            });
             //Main Magique Darren pour V1
         });
         actionOnLevel.put(7 , player ->  {
             //Entrainement Darren SOON V1.?  ou Mate Random pour la V1
+            ArrayList<Role> roles = inazumaUHC.rm.getRoleCategory(Raimon.class).getRoles();
+            Collections.shuffle(roles);
+
+            if(!roles.isEmpty()){
+                roles.get(0).getPlayers().forEach(d -> {
+                    player.sendMessage(Preset.instance.p.prefixName()+ roles.get(0).getName()+"  est "+ d.getName());
+                });
+            }
             levelRomain = "VII";
         });
         actionOnLevel.put(8 , player ->  {
@@ -129,10 +142,9 @@ public class Mark extends Role implements Listener {
             inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.RESISTANCE,2,120);
             levelRomain = "X";
         });
-        expToUnlockNextLevel.put(6,10);
-        expToUnlockNextLevel.put(7,10);
-        expToUnlockNextLevel.put(8,10);
-        expToUnlockNextLevel.put(9,10);
+        for (int i = 0; i < 9; i++) {
+            expToUnlockNextLevel.put(i,10);
+        }
         expToUnlockNextLevel.put(10,-1);
 
 

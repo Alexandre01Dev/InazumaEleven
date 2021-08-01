@@ -19,6 +19,9 @@ public class Particles extends Command {
 
     @Override
     public boolean execute(CommandSender sender, String msg, String[] args) {
+        if(!sender.hasPermission("particules.admin")){
+            return false;
+        }
         if(sender instanceof Player){
             Player player = (Player) sender;
             BukkitTask b = null;

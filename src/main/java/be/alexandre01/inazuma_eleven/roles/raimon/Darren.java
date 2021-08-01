@@ -30,6 +30,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
+
 public class Darren extends Role implements Listener {
     private boolean markDead = false;
     private Player tracked = null;
@@ -291,10 +293,13 @@ public class Darren extends Role implements Listener {
     }
     @EventHandler
     public void onEpisode(EpisodeChangeEvent e){
-        Player darren = (Player) inazumaUHC.rm.getRole(Darren.class).getPlayers();
+        Role darren = inazumaUHC.rm.getRole(Darren.class);
         if(coordonate){
             for (Player xavier : inazumaUHC.rm.getRole(Xavier.class).getPlayers()) {
-                //xavier.sendMessage("Darren se trouve en " + "§fX §7: §2"+ darren.getLocation().getBlockX() + "","§fY §7: §2"+ darren.getLocation().getBlockY()+ "","§fZ §7: §2" + darren.getLocation().getBlockZ());
+                for(Player darr : darren.getPlayers()){
+                    xavier.sendMessage("Darren se trouve en " + "§fX §7: §2"+ darr.getLocation().getBlockX() + "§fY §7: §2"+ darr.getLocation().getBlockY()+ "§fZ §7: §2" + darr.getLocation().getBlockZ());
+                }
+
             }
         }
     }

@@ -65,7 +65,6 @@ public class LocalRaimon implements Listener {
         System.out.println("Dacodac");
         ChunksData c = ChunksData.get();
         System.out.println("OK1");
-        System.out.println("BIOMES "+ c.chunksByBiome.entrySet());
 
         if(!c.chunksByBiome.containsKey(Biome.PLAINS)){
             return spawnRandomized();
@@ -78,12 +77,19 @@ public class LocalRaimon implements Listener {
                 return spawnRandomized();
             }
 
-            chunks.removeIf(chunk -> (Math.abs(chunk.getX()*16) > 300 && Math.abs(chunk.getZ()*16) > 300) ||  Math.abs(chunk.getX()) > Preset.instance.p.getBorderSize(org.bukkit.World.Environment.NORMAL)-50 && Math.abs(chunk.getX()) > Preset.instance.p.getBorderSize(org.bukkit.World.Environment.NORMAL)-50 );
+        chunks.removeIf(chunk -> (Math.abs(chunk.getX()*16) > 300 && Math.abs(chunk.getZ()*16) > 300));
+
+        chunks.removeIf( chunk ->Math.abs(chunk.getX()) > Preset.instance.p.getBorderSize(org.bukkit.World.Environment.NORMAL)-100 && Math.abs(chunk.getX()) > Preset.instance.p.getBorderSize(org.bukkit.World.Environment.NORMAL)-100 );
 
 
+        if(chunks.isEmpty()){
+            return spawnRandomized();
+        }
         System.out.println("OK3");
         Collections.shuffle(chunks);
+        System.out.println();
        Chunk chunk = chunks.get(0);
+        System.out.println(chunk);
 
         location = new Location(chunk.getWorld(),chunk.getX()*16, 255, chunk.getZ()*16);
 
@@ -322,7 +328,6 @@ public class LocalRaimon implements Listener {
                     if(cuboid.contains(player.getLocation())){
                         player.teleport(getLocationFromSchematic(10,0,17,-179f,2.2f));
                         player.sendMessage("§cComme la structure vient d'apparaitre sur vous, vous venez d'être téléporté à l'entrée de celle-ci !");
-
                     }
                 }
                 return true;
@@ -346,8 +351,11 @@ public class LocalRaimon implements Listener {
     }
 
     private boolean spawnRandomized(){
+        int x = new Random().nextInt(450-100) + 100;
+        int z = new Random().nextInt(450-100) + 100;
+        location = new Location(InazumaUHC.get.worldGen.defaultWorld,x, 255, z);
 
-        return false;
+        return spawn(location);
     }
 
     public Location getLocationFromSchematic(double x, double y, double z){

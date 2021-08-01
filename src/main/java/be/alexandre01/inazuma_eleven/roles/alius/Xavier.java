@@ -63,6 +63,7 @@ public class Xavier extends Role implements Listener {
     private Inventory inventory;
     private boolean shootArrow = false;
     private int episode;
+    private int bowEpisode = 0;
     boolean meteor = false;
     boolean markDeath = false;
     boolean darrenAccept = false;
@@ -80,12 +81,6 @@ public class Xavier extends Role implements Listener {
         CustomComponentBuilder c = new CustomComponentBuilder("");
         c.append("§8- §7Vous avez une commande nommée ");
 
-        RoleItem meteor = new RoleItem();
-        ItemBuilder it = new ItemBuilder(Material.BOW).setName("Météore Géant");
-        meteor.setItemstack(it.toItemStack());
-        meteor.setPlaceableItem(true);
-        addRoleItem(meteor);
-
         BaseComponent inaballtpButton = new TextComponent("§5/inaballtp §7(§9Pseudo§7) §7*§8Curseur§7*");
 
         BaseComponent inaballtpDesc = new TextComponent();
@@ -99,6 +94,11 @@ public class Xavier extends Role implements Listener {
         addDescription("§8- §7Vous pouvez également voir ou se situent les différents ballons de §5Janus§7 avec le §5/inaball§7.");*/
         addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/alius/xavier-foster");
 
+        RoleItem meteor = new RoleItem();
+        ItemBuilder it = new ItemBuilder(Material.BOW).setName("Météore Géant");
+        meteor.setItemstack(it.toItemStack());
+        meteor.setPlaceableItem(true);
+        addRoleItem(meteor);
 
         addListener(this);
         setRoleToSpoil(Bellatrix.class);
@@ -402,8 +402,24 @@ public class Xavier extends Role implements Listener {
     public void onShoot(EntityShootBowEvent event){
         if(event.getEntity() instanceof  Player){
             Player player = (Player) event.getEntity();
+            if(event.getBow() == null)
+                return;
+            if(!event.getBow().hasItemMeta())
+                return;
+            if(!event.getBow().getItemMeta().hasDisplayName())
+                return;
+
+            if(!event.getBow().getItemMeta().getDisplayName().equalsIgnoreCase("Météore Géant"))
+                return;
             if(getPlayers().contains(player)){
+                if(bowEpisode == Episode.getEpisode()){
+                    for(Player p: getPlayers()){
+                        p.sendMessage("§cVous ne pouvez pas utiliser cette capacité à nouveau durant cet épisode.");
+                    }
+                 return;
+                }
                 shootArrow = true;
+                bowEpisode = Episode.getEpisode();
             }
         }
     }
@@ -421,6 +437,7 @@ public class Xavier extends Role implements Listener {
                 if (getPlayers().contains(player)) {
                     meteorDestruction(arrow.getLocation());
                 }
+                shootArrow = false;
             }
         }
     }

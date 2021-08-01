@@ -13,7 +13,9 @@ public class Structure extends Command {
 
     @Override
     public boolean execute(CommandSender sender, String msg, String[] args) {
-
+        if(!sender.hasPermission("structure.admin")){
+            return false;
+        }
 
         if(args.length == 0){
             localRaimon = new LocalRaimon();
