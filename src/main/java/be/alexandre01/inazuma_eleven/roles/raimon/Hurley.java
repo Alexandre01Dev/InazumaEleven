@@ -80,6 +80,7 @@ public class Hurley extends Role implements Listener {
         ItemBuilder depthBuilder = new ItemBuilder(Material.ENCHANTED_BOOK);
         EnchantmentStorageMeta meta = (EnchantmentStorageMeta)depthBuilder.toItemStack().getItemMeta();
         meta.addStoredEnchant(Enchantment.DEPTH_STRIDER,2, true);
+        depthBuilder.toItemStack().setItemMeta(meta);
         depthItem.setItemstack(depthBuilder.toItemStack());
         depthItem.setPlaceableItem(true);
 
@@ -220,58 +221,58 @@ public class Hurley extends Role implements Listener {
         });
         addRoleItem(roleItem);
 
-            addCommand("sea", new command() {
-                public int i = 0;
-                @Override
-                public void a(String[] args, Player player) {
-                    if(args.length == 0){
-                        player.sendMessage(Preset.instance.p.prefixName()+" Merci de précisez le nom du joueur.");
-                        return;
-                    }
-                    Player target = Bukkit.getPlayer(args[0]);
-                    if(target == null){
-                        player.sendMessage(Preset.instance.p.prefixName()+" Le joueur n'est pas en game.");
-                        return;
-                    }
-                    if(target == player){
-                        player.sendMessage(Preset.instance.p.prefixName()+" Vous essayez de voir vos effets mais en vain. Vous êtes (un peu) chelou.");
-                        return;
-                    }
-
-                    if(i > 2){
-                        player.sendMessage(Preset.instance.p.prefixName()+"§c Vous avez dépassé le nombre d'utilisation de cette commande");
-                        return;
-                    }
-                    player.sendMessage(Preset.instance.p.prefixName()+" Voici les effets de §e"+target.getName()+"§7:");
-                    for(PotionEffect potionEffect : target.getActivePotionEffects()){
-                        MobEffectList m = ((CraftPotionEffectType)potionEffect.getType()).getHandle();
-                        String e = m.a().replace("potion.","");
-                        String firstLetter = e.substring(0,1).toUpperCase();
-                        String afterLetter = e.substring(1);
-                        StringBuilder sb = new StringBuilder();
-                        for (int j = 0; j < afterLetter.length(); j++) {
-                            char ch = afterLetter.charAt(j);
-                            if(Character.isUpperCase(ch)){
-                                sb.append(" "+ Character.toLowerCase(ch));
-                                continue;
-                            }
-                            sb.append(ch);
-
-                        }
-
-                        player.sendMessage("§e-§9 "+  firstLetter+sb.toString());
-                    }
-                    i++;
-                    player.sendMessage(Preset.instance.p.prefixName()+" §cAttention§7, celui-ci sera prévenu dans 1 minute et 30 secondes que votre rôle a regardé ses effets.");
-                    Bukkit.getScheduler().runTaskLaterAsynchronously(inazumaUHC, new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            target.sendMessage(Preset.instance.p.prefixName() +" Vous venez d'apprendre qu'"+getRoleCategory().getPrefixColor()+getName()+"§7 connait désormais vos effets.");
-                        }
-                    }, 20 * 90);
-
+        addCommand("sea", new command() {
+            public int i = 0;
+            @Override
+            public void a(String[] args, Player player) {
+                if(args.length == 0){
+                    player.sendMessage(Preset.instance.p.prefixName()+" Merci de précisez le nom du joueur.");
+                    return;
                 }
-            });
+                Player target = Bukkit.getPlayer(args[0]);
+                if(target == null){
+                    player.sendMessage(Preset.instance.p.prefixName()+" Le joueur n'est pas en game.");
+                    return;
+                }
+                if(target == player){
+                    player.sendMessage(Preset.instance.p.prefixName()+" Vous essayez de voir vos effets mais en vain. Vous êtes (un peu) chelou.");
+                    return;
+                }
+
+                if(i > 2){
+                    player.sendMessage(Preset.instance.p.prefixName()+"§c Vous avez dépassé le nombre d'utilisation de cette commande");
+                    return;
+                }
+                player.sendMessage(Preset.instance.p.prefixName()+" Voici les effets de §e"+target.getName()+"§7:");
+                for(PotionEffect potionEffect : target.getActivePotionEffects()){
+                    MobEffectList m = ((CraftPotionEffectType)potionEffect.getType()).getHandle();
+                    String e = m.a().replace("potion.","");
+                    String firstLetter = e.substring(0,1).toUpperCase();
+                    String afterLetter = e.substring(1);
+                    StringBuilder sb = new StringBuilder();
+                    for (int j = 0; j < afterLetter.length(); j++) {
+                        char ch = afterLetter.charAt(j);
+                        if(Character.isUpperCase(ch)){
+                            sb.append(" "+ Character.toLowerCase(ch));
+                            continue;
+                        }
+                        sb.append(ch);
+
+                    }
+
+                    player.sendMessage("§e-§9 "+  firstLetter+sb.toString());
+                }
+                i++;
+                player.sendMessage(Preset.instance.p.prefixName()+" §cAttention§7, celui-ci sera prévenu dans 1 minute et 30 secondes que votre rôle a regardé ses effets.");
+                Bukkit.getScheduler().runTaskLaterAsynchronously(inazumaUHC, new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        target.sendMessage(Preset.instance.p.prefixName() +" Vous venez d'apprendre qu'"+getRoleCategory().getPrefixColor()+getName()+"§7 connait désormais vos effets.");
+                    }
+                }, 20 * 90);
+
+            }
+        });
         addRoleItem(depthItem);
     }
 
