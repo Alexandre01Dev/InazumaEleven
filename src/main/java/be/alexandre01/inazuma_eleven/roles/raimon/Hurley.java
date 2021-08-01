@@ -29,7 +29,9 @@ import org.bukkit.craftbukkit.v1_8_R3.potion.CraftPotionEffectType;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -76,20 +78,25 @@ public class Hurley extends Role implements Listener {
             }
         });
 
+
+        ItemStack itemStack = new ItemStack(Material.ENCHANTED_BOOK);
+        EnchantmentStorageMeta meta = (EnchantmentStorageMeta) itemStack.getItemMeta();
+        meta.setDisplayName("Depth Rider Book du futur");
+        meta.addStoredEnchant(Enchantment.DEPTH_STRIDER,3, true);
+        itemStack.setItemMeta(meta);
         RoleItem depthItem = new RoleItem();
-        ItemBuilder depthBuilder = new ItemBuilder(Material.ENCHANTED_BOOK);
-        EnchantmentStorageMeta meta = (EnchantmentStorageMeta)depthBuilder.toItemStack().getItemMeta();
-        meta.addStoredEnchant(Enchantment.DEPTH_STRIDER,2, true);
-        depthBuilder.toItemStack().setItemMeta(meta);
-        depthItem.setItemstack(depthBuilder.toItemStack());
+        depthItem.setItemstack(itemStack);
         depthItem.setPlaceableItem(true);
+        addRoleItem(depthItem);
+        //depthItem.setPlaceableItem(true);
 
         RoleItem roleItem = new RoleItem();
         ItemBuilder itemBuilder = new ItemBuilder(Material.BUCKET).setName("§7§lSceau §7§lDe §c§lVie");
         roleItem.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
         roleItem.setItemstack(itemBuilder.toItemStack());
+        roleItem.setPlaceableItem(false);
         //roleItem.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.USAGES, 1)));
-        roleItem.setRightClick(player -> {
+        /*roleItem.setRightClick(player -> {
             nearestPlayer = PlayerUtils.getNearestPlayerInSight(player, 500);
 
             Location location = player.getLocation();
@@ -117,7 +124,7 @@ public class Hurley extends Role implements Listener {
                         {
                             if(target.hasPotionEffect(PotionEffectType.REGENERATION))
                                 target.removePotionEffect(PotionEffectType.REGENERATION);
-                            target.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 4*20, 0));
+                            target.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 4*20, 0, false,false), true);
                             break;
                         }
                     }
@@ -139,7 +146,7 @@ public class Hurley extends Role implements Listener {
                             {
                                 if(nearestPlayer.hasPotionEffect(PotionEffectType.REGENERATION))
                                     nearestPlayer.removePotionEffect(PotionEffectType.REGENERATION);
-                                nearestPlayer.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 4*20, 0));
+                                nearestPlayer.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 4*20, 0,false,false), true);
                             }
 
                             if(distance == 0)
@@ -162,7 +169,7 @@ public class Hurley extends Role implements Listener {
                         {
                             if(nearestPlayer.hasPotionEffect(PotionEffectType.REGENERATION))
                                 nearestPlayer.removePotionEffect(PotionEffectType.REGENERATION);
-                            nearestPlayer.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 4*20, 0));
+                            nearestPlayer.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 4*20, 0,false,false), true);
                         }
                     }
 
@@ -177,7 +184,7 @@ public class Hurley extends Role implements Listener {
                                     if(hurley.hasPotionEffect(PotionEffectType.REGENERATION))
                                         hurley.removePotionEffect(PotionEffectType.REGENERATION);
 
-                                    hurley.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 4*20, 0));
+                                    hurley.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 4*20, 0,false,false), true);
                                 }
                             }
                         }
@@ -187,7 +194,7 @@ public class Hurley extends Role implements Listener {
             }.runTaskTimerAsynchronously(inazumaUHC,1,20*3);
 
 
-            /*World world = player.getLocation().getWorld();
+            *//*World world = player.getLocation().getWorld();
 
             double minX, maxX, minY, maxY, minZ, maxZ;
             minX = location.getX() - 9;
@@ -195,7 +202,7 @@ public class Hurley extends Role implements Listener {
             minY = location.getY() - 9;
             maxY = location.getY() + 9;
             minZ = location.getZ() - 9;
-            maxZ = location.getZ() + 9;*/
+            maxZ = location.getZ() + 9;*//*
 
 
             particleTask = new BukkitRunnable() {
@@ -218,10 +225,10 @@ public class Hurley extends Role implements Listener {
 
 
 
-        });
+        });*/
         addRoleItem(roleItem);
 
-        addCommand("sea", new command() {
+        /*addCommand("sea", new command() {
             public int i = 0;
             @Override
             public void a(String[] args, Player player) {
@@ -272,11 +279,10 @@ public class Hurley extends Role implements Listener {
                 }, 20 * 90);
 
             }
-        });
-        addRoleItem(depthItem);
+        });*/
     }
 
-    public List<Location> getHollowCube(Location corner1, Location corner2) {
+    /*public List<Location> getHollowCube(Location corner1, Location corner2) {
         List<Location> result = new ArrayList<Location>();
         World world = corner1.getWorld();
         double minX = Math.min(corner1.getX(), corner2.getX());
@@ -301,6 +307,6 @@ public class Hurley extends Role implements Listener {
         }
 
         return result;
-    }
+    }*/
 
 }

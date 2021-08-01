@@ -207,7 +207,8 @@ public class Kim extends Role implements Listener {
                             event.setDamage(0);
                             if(points>=10){
                                 if (damaged.getHealth() >= damaged.getMaxHealth()){
-                                    kim.sendMessage(Preset.instance.p.prefixName()+" Vous ne pouvez pas heal" + damaged.getCustomName() + " car il est full vie.");
+                                    kim.sendMessage(Preset.instance.p.prefixName()+" Vous ne pouvez pas heal " + damaged.getName() + " car il est full vie.");
+                                    event.setCancelled(true);
                                     return;
                                 }
                                 if (timer == 0){
