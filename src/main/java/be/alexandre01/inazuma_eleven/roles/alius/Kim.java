@@ -15,10 +15,7 @@ import lombok.Setter;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.minecraft.server.v1_8_R3.EnumParticle;
-import net.minecraft.server.v1_8_R3.Item;
-import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
-import net.minecraft.server.v1_8_R3.Tuple;
+import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -120,7 +117,7 @@ public class Kim extends Role implements Listener {
 
 
         RoleItem volSword = new RoleItem();
-        ItemBuilder volAlius = new ItemBuilder(Material.DIAMOND_SWORD).setName("Vol");
+        ItemBuilder volAlius = new ItemBuilder(Material.DIAMOND_SWORD).setName("Vol").addEnchant(Enchantment.DAMAGE_ALL, 1);
         volAlius.setUnbreakable();
         volAlius.addEnchant(Enchantment.DAMAGE_ALL,2);
         volSword.setItemstack(volAlius.toItemStack());
@@ -210,7 +207,8 @@ public class Kim extends Role implements Listener {
                             event.setDamage(0);
                             if(points>=10){
                                 if (damaged.getHealth() >= damaged.getMaxHealth()){
-                                    kim.sendMessage(Preset.instance.p.prefixName()+" Vous ne pouvez pas heal" + damaged.getCustomName() + " car il est full vie.");
+                                    kim.sendMessage(Preset.instance.p.prefixName()+" Vous ne pouvez pas heal " + damaged.getName() + " car il est full vie.");
+                                    event.setCancelled(true);
                                     return;
                                 }
                                 if (timer == 0){
@@ -266,6 +264,8 @@ public class Kim extends Role implements Listener {
                             else{
                                 kim.sendMessage(Preset.instance.p.prefixName()+"Il vous faut minimum 10% pour heal un joueur.");
                             }
+
+                            event.setCancelled(true);
 
                         }
 

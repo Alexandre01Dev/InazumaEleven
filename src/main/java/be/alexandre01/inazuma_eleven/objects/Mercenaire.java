@@ -45,6 +45,7 @@ public class Mercenaire{
 
 
     public ArrayList<Player> list;
+    private ArrayList<Player> deathPlayers = new ArrayList<>();
     boolean hasAxel = true;
     public Player mercenaire;
     public int ms = 0;
@@ -367,7 +368,7 @@ public class Mercenaire{
 
             Player target = list.get(i);
 
-            if(!InazumaUHC.get.getRemainingPlayers().contains(target))
+            if(deathPlayers.contains(target))
                 continue;
             sb.append(target.getName());
             if (i < list.size()-1){
@@ -381,6 +382,7 @@ public class Mercenaire{
     @EventHandler
     void onDeath(PlayerInstantDeathEvent event)
     {
+        deathPlayers.add(event.getPlayer());
         if(InazumaUHC.get.rm.getRole(event.getPlayer()) instanceof Axel)
             axelAlive = false;
     }
