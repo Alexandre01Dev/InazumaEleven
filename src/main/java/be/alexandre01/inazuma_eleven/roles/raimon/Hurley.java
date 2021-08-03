@@ -95,8 +95,8 @@ public class Hurley extends Role implements Listener {
         roleItem.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
         roleItem.setItemstack(itemBuilder.toItemStack());
         roleItem.setPlaceableItem(false);
-        //roleItem.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.USAGES, 1)));
-        /*roleItem.setRightClick(player -> {
+        roleItem.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.USAGES, 1)));
+        roleItem.setRightClick(player -> {
             nearestPlayer = PlayerUtils.getNearestPlayerInSight(player, 500);
 
             Location location = player.getLocation();
@@ -194,7 +194,7 @@ public class Hurley extends Role implements Listener {
             }.runTaskTimerAsynchronously(inazumaUHC,1,20*3);
 
 
-            *//*World world = player.getLocation().getWorld();
+            World world = player.getLocation().getWorld();
 
             double minX, maxX, minY, maxY, minZ, maxZ;
             minX = location.getX() - 9;
@@ -202,7 +202,7 @@ public class Hurley extends Role implements Listener {
             minY = location.getY() - 9;
             maxY = location.getY() + 9;
             minZ = location.getZ() - 9;
-            maxZ = location.getZ() + 9;*//*
+            maxZ = location.getZ() + 9;
 
 
             particleTask = new BukkitRunnable() {
@@ -225,10 +225,10 @@ public class Hurley extends Role implements Listener {
 
 
 
-        });*/
+        });
         addRoleItem(roleItem);
 
-        /*addCommand("sea", new command() {
+        addCommand("sea", new command() {
             public int i = 0;
             @Override
             public void a(String[] args, Player player) {
@@ -279,10 +279,11 @@ public class Hurley extends Role implements Listener {
                 }, 20 * 90);
 
             }
-        });*/
+        });
+        loadCommands();
     }
 
-    /*public List<Location> getHollowCube(Location corner1, Location corner2) {
+    public List<Location> getHollowCube(Location corner1, Location corner2) {
         List<Location> result = new ArrayList<Location>();
         World world = corner1.getWorld();
         double minX = Math.min(corner1.getX(), corner2.getX());
@@ -307,6 +308,6 @@ public class Hurley extends Role implements Listener {
         }
 
         return result;
-    }*/
+    }
 
 }

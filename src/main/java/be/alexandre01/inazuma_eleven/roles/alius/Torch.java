@@ -173,7 +173,7 @@ public class Torch  extends Role implements Listener {
                 if(role.getClass().equals(Torch.class)){
                     if(!isValidItem(torch.getItemInHand()))
                         return;
-                    if(getRoleItems().containsKey(torch.getItemInHand().getItemMeta().getDisplayName())){
+                    if(getRoleItems().containsKey(torch.getItemInHand().getItemMeta().getDisplayName()) && !torch.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase("§d§lCollier§7§l-§5§lAlius")){
                         if(i != 0){
 
                             if (changesword == 1){
