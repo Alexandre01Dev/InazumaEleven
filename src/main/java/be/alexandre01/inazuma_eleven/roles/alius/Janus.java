@@ -307,7 +307,7 @@ public class  Janus extends Role implements Listener {
 
                 if(trappedBalls.get(choosedBall - 1))
                 {
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20*30, 0));
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20*30, 0, false, false), true);
                     Location loc = player.getLocation();
                     if(inazumaUHC.rm.getRole(Scotty.class) != null)
                     {

@@ -72,7 +72,7 @@ public class Aiden extends Role implements Listener {
             public void execute(Player player, Player rightClicked) {
                 player.sendMessage(Preset.instance.p.prefixName()+"Vous avez utilisé votre §3Blizzard Eternel§7 sur §c"+ rightClicked.getName());
                 if(!inazumaUHC.rm.getRole(rightClicked).getClass().equals(Torch.class) && !inazumaUHC.rm.getRole(rightClicked).getClass().equals(Axel.class) &&  !inazumaUHC.rm.getRole(rightClicked).getClass().equals(Gazelle.class)){
-                    rightClicked.addPotionEffect(new PotionEffect(PotionEffectType.SLOW,20*10,1));
+                    rightClicked.addPotionEffect(new PotionEffect(PotionEffectType.SLOW,20*10,1,false, false), true);
                     rightClicked.sendMessage(Preset.instance.p.prefixName()+"§7Vous avez été touché par le §3Blizzard Eternel");
                 }
                 if(inazumaUHC.rm.getRole(rightClicked).getClass().equals(Torch.class) && inazumaUHC.rm.getRole(rightClicked).getClass().equals(Axel.class) &&  inazumaUHC.rm.getRole(rightClicked).getClass().equals(Gazelle.class)){

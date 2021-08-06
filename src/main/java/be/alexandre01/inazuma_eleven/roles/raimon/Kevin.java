@@ -75,7 +75,7 @@ public class Kevin extends Role {
                         target = near;
                     }
                 }
-                target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS,20,0,false,false));
+                target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS,20,0,false,false), true);
                 TitleUtils.sendActionBar(target, Preset.instance.p.prefixName()+" Tu as été intimidé par Kevin!");
                 target.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 30*20, 0,false,false), true);
                 target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 10*20, 1,false,false), true);

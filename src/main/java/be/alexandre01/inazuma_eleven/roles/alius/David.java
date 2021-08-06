@@ -100,8 +100,9 @@ public class David extends Role implements Listener {
 
 
         RoleItem manchot = new RoleItem();
-        manchot.setItemstack(new ItemBuilder(Material.NETHER_WARTS).setName("§c§lManchot §c§lEmpereur §4§lN°1").toItemStack());
+        manchot.setItemstack(new ItemBuilder(Material.RABBIT_HIDE).setName("§c§lManchot §c§lEmpereur §4§lN°1").toItemStack());
         manchot.deployVerificationsOnRightClick(manchot.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
+        manchot.setPlaceableItem(false);
         addRoleItem(manchot);
         manchot.setRightClick(player -> {
 
@@ -188,6 +189,7 @@ public class David extends Role implements Listener {
                         }.runTaskLaterAsynchronously(InazumaUHC.getGet(), 60*20);
                 }
             }
+            player.sendMessage(Preset.instance.p.prefixName() + "§cAucune utilisation disponible");
         });
 
     }
