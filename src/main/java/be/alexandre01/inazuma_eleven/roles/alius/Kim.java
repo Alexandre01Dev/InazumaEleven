@@ -136,6 +136,8 @@ public class Kim extends Role implements Listener {
         healSword.setItemstack(healAlius.toItemStack());
         healSword.deployVerificationsOnRightClick(healSword.generateVerification(new Tuple<>(RoleItem.VerificationType.COOLDOWN,10)));
 
+        addRoleItem(alius);
+
         healSword.setRightClick(player -> {
 
             if(points>=10){

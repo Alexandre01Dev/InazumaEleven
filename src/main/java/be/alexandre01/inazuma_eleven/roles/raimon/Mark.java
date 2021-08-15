@@ -432,7 +432,7 @@ public class Mark extends Role implements Listener {
         if(getPlayers().contains(event.getPlayer())){
             for(Role role : inazumaUHC.rm.getRoleCategory(Raimon.class).getRoles()){
                 role.getPlayers().forEach(p -> {
-                    p.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS,20*60*2,0),true);
+                    p.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS,20*60*2,0, false,false), true);
                 });
             }
         }
