@@ -236,7 +236,6 @@ public class Xavier extends Role implements Listener {
 
         });
         addRoleItem(roleItem);
-        setRoleToSpoil(Bellatrix.class, Janus.class);
         addCommand("inaball", new command() {
             @Override
             public void a(String[] args, Player player) {
