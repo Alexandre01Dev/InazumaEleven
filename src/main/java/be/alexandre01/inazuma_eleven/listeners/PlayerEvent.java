@@ -16,6 +16,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class PlayerEvent implements Listener {
@@ -63,6 +64,16 @@ public class PlayerEvent implements Listener {
             Bukkit.broadcastMessage(Preset.instance.p.prefixName() + " §c§l" + player.getName() + "§7 vient de mourir (PVE).");
             InazumaUHC.get.getRejoinManager().onKilled(player);
             event.getDrops().clear();
+        }
+    }
+
+    @EventHandler
+    public void AnimalSpiritEndermanNoPearlDamage(PlayerTeleportEvent event){
+        Player p = event.getPlayer();
+        if(event.getCause() == PlayerTeleportEvent.TeleportCause.ENDER_PEARL){
+            event.setCancelled(true);
+            p.setNoDamageTicks(1);
+            p.teleport(event.getTo());
         }
     }
 

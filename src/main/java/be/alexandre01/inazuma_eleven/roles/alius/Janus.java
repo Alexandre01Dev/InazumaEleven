@@ -90,8 +90,9 @@ public class  Janus extends Role implements Listener {
             Jack.nearAliusActivation(player.getLocation());
             player.sendMessage(Preset.instance.p.prefixName()+" Vous rentrez en résonance avec la §8§lpierre§7§l-§5§lalius.");
             inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.INCREASE_DAMAGE,1,110);
-            player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Integer.MAX_VALUE, 0,false,false), true);
+            player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 90*20, 0,false,false), true);
         });
+        addRoleItem(roleItem);
 
 
         inazumaEleven = (InazumaEleven) preset;

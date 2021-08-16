@@ -115,7 +115,7 @@ public class Mercenaire{
                             target.sendMessage(mercenaireButton);
 
                             role.setRoleToSpoil(Axel.class);
-                            target.sendMessage("Axel est" + InazumaUHC.get.rm.getRole(Axel.class).getName());
+                            target.sendMessage("Axel est" + InazumaUHC.get.rm.getRole(Axel.class).getPlayers());
 
                             role.addDescription(mercenaireButton);
 
@@ -341,6 +341,10 @@ public class Mercenaire{
 
                                             }
                                         }.runTaskLater(InazumaUHC.get, 20*60*5);
+                                    }
+                                    else{
+                                        player.sendMessage(Preset.instance.p.prefixName()+"Axel n'est pas proche de vous.");
+                                        return;
                                     }
                                 }
                             });
