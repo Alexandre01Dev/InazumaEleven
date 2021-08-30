@@ -45,11 +45,11 @@ public class GameScoreboard {
                     objectiveSign.setLine(5, "§e");
                     objectiveSign.setLine(6, "§8» §6§lTimer:");
                     objectiveSign.setLine(7, "  §8» §7Temps: §a"+inazuma.totalTimeValue);
-                    objectiveSign.setLine(8, "  §8» §7PvP: §c"+inazuma.pvpValue);
+                    objectiveSign.setLine(8, "  §8» §7PvP: §a"+inazuma.pvpValue);
                     if(inazuma.hasNether()){
-                        objectiveSign.setLine(10,"§7Meetup §f§l» §e" + inazuma.netherValue);
+                        objectiveSign.setLine(10,"§7Meetup §f§l» §a" + inazuma.netherValue);
                     }
-                    objectiveSign.setLine(9, "  §8» §7Meetup: §e"+inazuma.bordureValue);
+                    objectiveSign.setLine(9, "  §8» §7Meetup: §a"+inazuma.bordureValue);
                     objectiveSign.setLine(10, "§f");
                     objectiveSign.setLine(11, "§8» §6§lBordure:");
                     World world = player.getWorld();

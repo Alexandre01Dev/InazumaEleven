@@ -83,7 +83,7 @@ public class PlayerEvent implements Listener {
 
                 }
 
-            }.runTaskLater(InazumaUHC.get, 10);
+            }.runTaskLater(InazumaUHC.get, 5);
 
         }
     }
