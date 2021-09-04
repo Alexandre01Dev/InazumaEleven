@@ -1,6 +1,7 @@
 package be.alexandre01.inazuma_eleven.roles.alius;
 
 import be.alexandre01.inazuma.uhc.InazumaUHC;
+import be.alexandre01.inazuma.uhc.custom_events.episode.EpisodeChangeEvent;
 import be.alexandre01.inazuma.uhc.managers.damage.DamageManager;
 import be.alexandre01.inazuma.uhc.presets.IPreset;
 import be.alexandre01.inazuma.uhc.presets.Preset;
@@ -10,6 +11,7 @@ import be.alexandre01.inazuma.uhc.roles.RoleItem;
 import be.alexandre01.inazuma.uhc.utils.*;
 import be.alexandre01.inazuma_eleven.InazumaEleven;
 import be.alexandre01.inazuma_eleven.categories.Alius;
+import be.alexandre01.inazuma_eleven.listeners.EpisodeEvent;
 import be.alexandre01.inazuma_eleven.objects.Capitaine;
 import be.alexandre01.inazuma_eleven.roles.raimon.Jack;
 import be.alexandre01.inazuma_eleven.roles.raimon.Jude;
@@ -43,6 +45,7 @@ public class  Janus extends Role implements Listener {
     public ArrayList<Boolean> ballsAvailable = new ArrayList<>();
     public ArrayList<Boolean> trappedBalls = new ArrayList<>();
     ArrayList<Boolean> notifBalls = new ArrayList<>();
+    int cooldown = 1;
     int i = 0;
     int choosedBall = 0;
     Location xavierBall;
@@ -90,8 +93,9 @@ public class  Janus extends Role implements Listener {
             Jack.nearAliusActivation(player.getLocation());
             player.sendMessage(Preset.instance.p.prefixName()+" Vous rentrez en résonance avec la §8§lpierre§7§l-§5§lalius.");
             inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.INCREASE_DAMAGE,1,110);
-            player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Integer.MAX_VALUE, 0,false,false), true);
+            player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 20*90, 0,false,false), true);
         });
+        addRoleItem(roleItem);
 
 
         inazumaEleven = (InazumaEleven) preset;
@@ -421,7 +425,7 @@ public class  Janus extends Role implements Listener {
 
     }
     private void onClick(Player player,int i){
-        if(Episode.getEpisode() == this.episode){
+        if(Episode.getEpisode() == episode){
             player.sendMessage(Preset.instance.p.prefixName()+ " §cVous vous êtes déja téléporté cette épisode.");
             return;
         }
@@ -437,10 +441,10 @@ public class  Janus extends Role implements Listener {
             InazumaUHC.get.invincibilityDamager.addPlayer(player, 1000);
             player.playSound(player.getLocation(), Sound.ENDERMAN_TELEPORT, 1,1);
             player.sendMessage(Preset.instance.p.prefixName()+ " §cVous vous êtes téléporte au §7Ballon n°§e"+(i+1));
-            this.episode = Episode.getEpisode();
+            episode = Episode.getEpisode();
             return;
         }
-            player.sendMessage(Preset.instance.p.prefixName()+ " §cLe §7Ballon n°§e"+(i+1)+" n'existe pas");
+        player.sendMessage(Preset.instance.p.prefixName()+ " §cLe §7Ballon n°§e"+(i+1)+" n'existe pas");
     }
 
 
@@ -470,5 +474,6 @@ public class  Janus extends Role implements Listener {
         }
         return cLoc;
     }
+
 
 }
