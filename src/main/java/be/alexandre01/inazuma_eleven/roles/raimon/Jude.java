@@ -151,7 +151,7 @@ public class Jude extends Role implements Listener {
                     public void run() {
                         p.sendMessage(Preset.instance.p.prefixName()+"§e Les coordonnées sont en X:"+localRaimon.x+" | Z:"+localRaimon.z);
                     }
-                }.runTaskLaterAsynchronously(InazumaUHC.get,20*60*5);
+                }.runTaskLaterAsynchronously(InazumaUHC.get,20*60*2);
             }
         }
     }

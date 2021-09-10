@@ -14,6 +14,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class Nero extends Role implements Listener {
 
@@ -41,12 +42,19 @@ public class Nero extends Role implements Listener {
                     {
                         if(local != null)
                         {
-                            player.sendMessage("Le local de Raimon se trouve en X: " + local.x + " | Z: " + local.z);
+                            player.sendMessage(Preset.instance.p.prefixName() + "Le local de Raimon se trouve en X: " + local.x + " | Z: " + local.z);
                             PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() - 4);
+                            new BukkitRunnable() {
+                                @Override
+                                public void run() {
+                                    player.setMaxHealth(player.getMaxHealth()+4);
+                                    player.sendMessage(Preset.instance.p.prefixName() + "recup coeurs perma");
+                                }
+                            }.runTaskLaterAsynchronously(InazumaUHC.get,20*60*2);
                             for(Player byron : inazumaUHC.rm.getRole(Byron.class).getPlayers())
                             {
-                                byron.sendMessage("Nero a décidé de recevoir les coordonnées du local de raimon. Par conséquent vous allez vous aussi les recevoir");
-                                byron.sendMessage("Le local de Raimon se trouve en X: " + local.x + " | Z: " + local.z);
+                                byron.sendMessage(Preset.instance.p.prefixName() + "Nero a décidé de recevoir les coordonnées du local de raimon. Par conséquent vous allez vous aussi les recevoir");
+                                byron.sendMessage(Preset.instance.p.prefixName() + "Le local de Raimon se trouve en X: " + local.x + " | Z: " + local.z);
                             }
                         }
 

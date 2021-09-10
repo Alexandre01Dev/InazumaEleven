@@ -65,7 +65,7 @@ public class Joseph extends Role {
         onLoad(new load() {
             @Override
             public void a(Player player) {
-                inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.RESISTANCE,2,120);
+                inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.RESISTANCE,2,115);
 
                 new BukkitRunnable() {
                     @Override

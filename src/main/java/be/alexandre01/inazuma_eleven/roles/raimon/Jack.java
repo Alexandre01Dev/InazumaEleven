@@ -284,7 +284,7 @@ public class Jack extends Role implements Listener {
 
             }
              b = new BukkitRunnable() {
-                int i = 10;
+                int i = 5;
                 @Override
                 public void run() {
                     if(!player.isSneaking()){
