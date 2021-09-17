@@ -202,7 +202,7 @@ public class LocalRaimon implements Listener {
 
                 vitesse.setRightClick((player, casier) -> {
                     System.out.println("Click wow");
-                    player.setWalkSpeed(player.getWalkSpeed()+0.025F);
+                    player.setWalkSpeed(player.getWalkSpeed()+0.01F);
                     return true;
                 });
 

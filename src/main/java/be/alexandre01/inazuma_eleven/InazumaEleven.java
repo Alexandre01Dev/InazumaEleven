@@ -67,8 +67,8 @@ public class InazumaEleven extends PresetData implements IPreset{
         //INITIALZE OBJECTS
         ballonInv = new BallonInv();
         //INITIALIZE ROLESCATEGORIES
-        new Raimon("Équipe Raimon","§6", "blablabla raimon a gagné");
-        new Alius("Académie-Alius","§5","cc");
+        new Raimon("Équipe Raimon","§6", "§lVictoire de §6§lRaimon");
+        new Alius("Académie-Alius","§5","§lVictoire de §5§ll'Académie §lAlius");
         new Solo("Solo","§c","cc");
 
         Capitaine.init();
