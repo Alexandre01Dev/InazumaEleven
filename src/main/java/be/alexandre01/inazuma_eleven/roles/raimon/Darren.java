@@ -177,9 +177,11 @@ public class Darren extends Role implements Listener {
         loadCommands();
 
         for(Role role : inazumaUHC.rm.getRoleCategory(Raimon.class).getRoles()){
+            if(role instanceof William){
+                continue;
+            }
             role.getPlayers().forEach(p -> {
-                if(p.hasPotionEffect(PotionEffectType.WEAKNESS) && !(role instanceof William))
-                {
+                if(p.hasPotionEffect(PotionEffectType.WEAKNESS)){
                     p.removePotionEffect(PotionEffectType.WEAKNESS);
                 }
             });

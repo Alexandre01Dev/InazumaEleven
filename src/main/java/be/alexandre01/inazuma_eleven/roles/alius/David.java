@@ -100,7 +100,7 @@ public class David extends Role implements Listener {
 
 
         RoleItem manchot = new RoleItem();
-        manchot.setItemstack(new ItemBuilder(Material.RABBIT_HIDE).setName("§c§lManchot §c§lEmpereur §4§lN°1").toItemStack());
+        manchot.setItemstack(new ItemBuilder(Material.BLAZE_POWDER).setName("§c§lManchot §c§lEmpereur §4§lN°1").toItemStack());
         manchot.deployVerificationsOnRightClick(manchot.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
         manchot.setPlaceableItem(false);
         addRoleItem(manchot);

@@ -246,7 +246,7 @@ public class Hurley extends Role implements Listener {
                     return;
                 }
 
-                if(i > 2){
+                if(i >= 2){
                     player.sendMessage(Preset.instance.p.prefixName()+"§c Vous avez dépassé le nombre d'utilisation de cette commande");
                     return;
                 }

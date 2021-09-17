@@ -74,7 +74,6 @@ public class Shawn extends Role implements Listener {
             public void a(Player player) {
                 inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.RESISTANCE,1,110);
                 player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 0,false,false), true);
-                player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0,false,false), true);
 
                 if (InazumaUHC.get.rm.getRole(Aiden.class).getPlayers().size() == 0){
                     aidenDeath = true;
