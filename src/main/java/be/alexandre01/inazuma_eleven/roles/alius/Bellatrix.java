@@ -193,7 +193,7 @@ public class Bellatrix extends Role implements Listener {
                 sb.append(", ");
         }
 
-            player.sendMessage("Voici la liste de vos mates : " + sb);
+            player.sendMessage(Preset.instance.p.prefixName()+" Voici la liste de vos mates : " + sb);
 
         for(Player byron : inazumaUHC.rm.getRole(Byron.class).getPlayers()){
 
@@ -237,7 +237,7 @@ public class Bellatrix extends Role implements Listener {
                     xeneDead = true;
                     for(Player players : getPlayers()){
                         BaseComponent b = new TextComponent( Preset.instance.p.prefixName()+ role.getRoleCategory().getPrefixColor()+role.getName()+"§7 vient de mourir.\n");
-                        b.addExtra("§7Souhaitez vous le remplacer ?");
+                        b.addExtra(Preset.instance.p.prefixName()+" §7Souhaitez vous le remplacer ?");
                         BaseComponent yes = new TextComponent("§a[OUI]");
                         yes.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/xene accept"));
                         b.addExtra(yes);

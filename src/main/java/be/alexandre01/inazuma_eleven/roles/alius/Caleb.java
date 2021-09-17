@@ -255,7 +255,7 @@ public class Caleb extends Role implements Listener {
 
                         if(p.isEmpty())
                         {
-                            player.sendMessage("Tu as enlevés des coeurs a tout les joueurs de ton équipe.");
+                            player.sendMessage(Preset.instance.p.prefixName()+" Vous n'avez aucun joueur à qui retirer des coeurs.");
                             lastPlayer = null;
                             return;
                         }

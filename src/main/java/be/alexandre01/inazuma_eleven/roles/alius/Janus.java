@@ -201,7 +201,7 @@ public class  Janus extends Role implements Listener {
             @Override
             public void execute(Player player, Block block) {
                 if(xavierI >= 3){
-                    player.sendMessage(Preset.instance.p.prefixName()+" §c§lBUG ! La limite de ballons à déjà été atteint.");
+                    player.sendMessage(Preset.instance.p.prefixName()+" §c§lLa limite de ballons à déjà été atteint.");
                     return;
                 }
 
