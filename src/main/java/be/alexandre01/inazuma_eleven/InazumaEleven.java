@@ -67,7 +67,7 @@ public class InazumaEleven extends PresetData implements IPreset{
         //INITIALZE OBJECTS
         ballonInv = new BallonInv();
         //INITIALIZE ROLESCATEGORIES
-        new Raimon("Équipe Raimon","§6");
+        new Raimon("Équipe Raimon","§6", "blablabla raimon a gagné");
         new Alius("Académie-Alius","§5");
         new Solo("Solo","§c");
 
@@ -160,7 +160,6 @@ public class InazumaEleven extends PresetData implements IPreset{
             listeners.add(new EpisodeEvent());
             listeners.add(new ChatEvent());
             listeners.add(new WeatherEvent());
-            listeners.add(new WinEvent());
             listeners.add(new MysteryEvent());
             listeners.add(new ChunkSaver());
             listeners.add(ballonInv);
