@@ -85,7 +85,7 @@ public class Nathan extends Role {
 
 
         RoleItem roleItem = new RoleItem();
-        ItemBuilder itemBuilder = new ItemBuilder(Material.FEATHER).setName("§b§lSwitch §lSpeed");
+        ItemBuilder itemBuilder = new ItemBuilder(Material.SUGAR).setName("§b§lSwitch §lSpeed");
         roleItem.setItemstack(itemBuilder.toItemStack());
 
         roleItem.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.COOLDOWN,60*10)));
@@ -111,7 +111,7 @@ public class Nathan extends Role {
 
         //if (endurance >= 25)
         RoleItem dribble_rafale = new RoleItem();
-        ItemBuilder dr = new ItemBuilder(Material.SUGAR).setName("§b§lDribble Rafale");
+        ItemBuilder dr = new ItemBuilder(Material.FEATHER).setName("§b§lDribble Rafale");
         dribble_rafale.setItemstack(dr.toItemStack());
         addRoleItem(dribble_rafale);
 
