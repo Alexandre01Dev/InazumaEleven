@@ -66,7 +66,7 @@ public class Erik extends Role implements Listener {
         addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/raimon/eric");
 
         RoleItem roleItem = new RoleItem();
-        roleItem.setItemstack(new ItemBuilder(Material.BOW).setName("§l§7Tir-§3Pegase").toItemStack());
+        roleItem.setItemstack(new ItemBuilder(Material.BOW).setName("§l§7Tir-§3Hélicoptère").toItemStack());
       // roleItem.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
         roleItem.setPlaceableItem(true);
         addRoleItem(roleItem);
@@ -116,7 +116,7 @@ public class Erik extends Role implements Listener {
             force = event.getForce();
 
 
-            if(event.getBow().hasItemMeta() && event.getBow().getItemMeta().hasDisplayName() && event.getBow().getItemMeta().getDisplayName().equalsIgnoreCase("§l§7Tir-§3Pegase"))
+            if(event.getBow().hasItemMeta() && event.getBow().getItemMeta().hasDisplayName() && event.getBow().getItemMeta().getDisplayName().equalsIgnoreCase("§l§7Tir-§3Hélicoptère"))
             {
                 if(timer || !canShoot)
                 {
@@ -317,11 +317,11 @@ public class Erik extends Role implements Listener {
             if(it == null)
                 return;
 
-            if(!canShoot && it.getType() == Material.BOW && it.hasItemMeta() && it.getItemMeta().hasDisplayName() && it.getItemMeta().getDisplayName().equalsIgnoreCase("§l§7Tir-§3Pegase"))
+            if(!canShoot && it.getType() == Material.BOW && it.hasItemMeta() && it.getItemMeta().hasDisplayName() && it.getItemMeta().getDisplayName().equalsIgnoreCase("§l§7Tir-§3Hélicoptère"))
             {
                 if(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)
                 {
-                    event.getPlayer().sendMessage(Preset.instance.p.prefixName() + "§cVous avez déjà utilisé votre §l§7Tir-§3Pegase §r§ccet épisode");
+                    event.getPlayer().sendMessage(Preset.instance.p.prefixName() + "§cVous avez déjà utilisé votre §l§7Tir-§3Hélicoptère §r§ccet épisode");
                 }
             }
         }
