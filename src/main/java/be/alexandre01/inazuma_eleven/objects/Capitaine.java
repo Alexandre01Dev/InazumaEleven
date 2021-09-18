@@ -2,6 +2,7 @@ package be.alexandre01.inazuma_eleven.objects;
 
 import be.alexandre01.inazuma.uhc.InazumaUHC;
 import be.alexandre01.inazuma.uhc.custom_events.player.PlayerInstantDeathEvent;
+import be.alexandre01.inazuma.uhc.presets.Preset;
 import be.alexandre01.inazuma.uhc.roles.Role;
 import be.alexandre01.inazuma_eleven.categories.Alius;
 import be.alexandre01.inazuma_eleven.roles.alius.*;
@@ -36,8 +37,10 @@ public class Capitaine implements Listener{
                 @Override
                 public void a(String[] strings, Player player) {
                     if(strings.length == 0){
+                        player.sendMessage(Preset.instance.p.prefixName() + " Veuillez mettre un message après la commande.");
                         return;
                     }
+                    player.sendMessage(Preset.instance.p.prefixName() + " §aMessage enregistré !");
                     mdCommand.put(InazumaUHC.get.rm.getRole(player), strings);
                 }
             });
