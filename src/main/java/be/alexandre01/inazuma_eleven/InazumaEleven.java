@@ -162,6 +162,7 @@ public class InazumaEleven extends PresetData implements IPreset{
             listeners.add(new WeatherEvent());
             listeners.add(new MysteryEvent());
             listeners.add(new ChunkSaver());
+            listeners.add(new Capitaine());
             listeners.add(ballonInv);
         }
         return listeners;
