@@ -28,6 +28,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 
@@ -43,7 +45,7 @@ public class Mark extends Role implements Listener {
     float death = 0;
     float time = 0;
     float minage = 0;
-    float multiplicateur = 1;
+    public float multiplicateur = 1;
     public int corrupttest = 0;
     public int inaboost = 0;
     float total = death + time + minage;
@@ -53,7 +55,8 @@ public class Mark extends Role implements Listener {
         setRoleCategory(Raimon.class);
        // setRoleToSpoil(Victoria);
         addListener(this);
-        addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
+        addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/raimon/mark-evans");
+        /*addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
         addDescription("§8- §7Vous possédez l’effet §6§lRésistance 1§7.");
         addDescription(" ");
         addDescription("§8- §7A chaque mort d'un joueur de §6§lRaimon§7, vous perdrez §c§l0.5 §4❤§7 permanent.");
@@ -71,27 +74,10 @@ public class Mark extends Role implements Listener {
         c.append(corruptButton);
         addDescription(c);
         addDescription(" ");
-        addDescription("§8- §7Si §5Bellatrix§7 accepte de remplacer §5Xavier§7, vous aurez son pseudo.");
+        addDescription("§8- §7Si §5Bellatrix§7 accepte de remplacer §5Xavier§7, vous aurez son pseudo.");*/
 
 
 
-
-        RoleItem roleItem = new RoleItem();
-        ItemBuilder itemBuilder = new ItemBuilder(Material.BOOK).setName("§6§lCahier de §7§lDavid §lEvans");
-
-            roleItem.setRightClick(player -> {
-                roleItem.updateItem(new ItemStack(Material.AIR));
-                player.updateInventory();
-                multiplicateur += 0.25f;
-                player.sendMessage(Preset.instance.p.prefixName()+" §7§lFélicitation, vous avez trouvé le §6§lCahier §7de §7§lDavis Evans, désormais tout vos points gagné serront §c§lmultiplié §7par §c§l125% !");
-                player.playSound(player.getLocation(), Sound.ORB_PICKUP, 5,5);
-            });
-        roleItem.setItemstack(itemBuilder.toItemStack());
-        addRoleItem(roleItem);
-
-        for (int i = 0; i < 5; i++) {
-            expToUnlockNextLevel.put(i,10);
-        }
 
         actionOnLevel.put(1, player ->  {
             player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 0,false,false), true);
@@ -102,10 +88,15 @@ public class Mark extends Role implements Listener {
             levelRomain = "II";
         });
         actionOnLevel.put(3, player ->  {
-            player.getInventory().addItem(new ItemStack(Material.GOLDEN_APPLE, 2));
-            player.updateInventory();
             levelRomain = "III";
-            //Main Céleste
+            //Main Céleste Clef Casier
+            RoleItem clef = new RoleItem();
+            clef.setDroppableItem(true);
+            clef.setItemstack(new ItemBuilder(Material.NAME_TAG).setName("§eClef du casier").toItemStack());
+
+
+            addRoleItem(clef);
+            giveItem(player,clef);
         });
         actionOnLevel.put(4, player ->  {
             player.setMaxHealth(player.getMaxHealth()+2);
@@ -116,13 +107,24 @@ public class Mark extends Role implements Listener {
             levelRomain = "V";
         });
         actionOnLevel.put(6 , player ->  {
-            player.getInventory().addItem(new ItemStack(Material.GOLDEN_APPLE, 2));
-            player.updateInventory();
             levelRomain = "VI";
-            //Main Magique
+
+            Role role =  inazumaUHC.rm.getRole(Darren.class);
+            role.getPlayers().forEach(d -> {
+                player.sendMessage(Preset.instance.p.prefixName()+" Darren est "+ d.getName());
+            });
+            //Main Magique Darren pour V1
         });
         actionOnLevel.put(7 , player ->  {
             //Entrainement Darren SOON V1.?  ou Mate Random pour la V1
+            ArrayList<Role> roles = inazumaUHC.rm.getRoleCategory(Raimon.class).getRoles();
+            Collections.shuffle(roles);
+
+            if(!roles.isEmpty()){
+                roles.get(0).getPlayers().forEach(d -> {
+                    player.sendMessage(Preset.instance.p.prefixName()+ roles.get(0).getName()+"  est "+ d.getName());
+                });
+            }
             levelRomain = "VII";
         });
         actionOnLevel.put(8 , player ->  {
@@ -131,6 +133,7 @@ public class Mark extends Role implements Listener {
             //Unlock Ina Boost
         });
         actionOnLevel.put(9 , player ->  {
+            corrupttest++;
             //Poing de la Justice
             levelRomain = "IX";
         });
@@ -139,10 +142,9 @@ public class Mark extends Role implements Listener {
             inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.RESISTANCE,2,120);
             levelRomain = "X";
         });
-        expToUnlockNextLevel.put(6,10);
-        expToUnlockNextLevel.put(7,10);
-        expToUnlockNextLevel.put(8,10);
-        expToUnlockNextLevel.put(9,10);
+        for (int i = 0; i < 9; i++) {
+            expToUnlockNextLevel.put(i,10);
+        }
         expToUnlockNextLevel.put(10,-1);
 
 
@@ -209,12 +211,11 @@ public class Mark extends Role implements Listener {
                 if( a > 1){
                     player.sendMessage(Preset.instance.p.prefixName()+"Il y a des joueurs de l'Académie-Alius autour de vous.");
                 }
-
                 i++;
             }
         });
 
-        addCommand("ina boost", new command() {
+        addCommand("boost", new command() {
             public int i = 0;
             @Override
             public void a(String[] args, Player player) {
@@ -431,7 +432,7 @@ public class Mark extends Role implements Listener {
         if(getPlayers().contains(event.getPlayer())){
             for(Role role : inazumaUHC.rm.getRoleCategory(Raimon.class).getRoles()){
                 role.getPlayers().forEach(p -> {
-                    p.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS,60*2,0),true);
+                    p.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS,20*60*2,0, false,false), true);
                 });
             }
         }

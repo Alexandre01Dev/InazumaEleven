@@ -1,6 +1,8 @@
 package be.alexandre01.inazuma_eleven.roles.alius;
 
 import be.alexandre01.inazuma.uhc.InazumaUHC;
+import be.alexandre01.inazuma.uhc.custom_events.episode.EpisodeChangeEvent;
+import be.alexandre01.inazuma.uhc.managers.damage.DamageManager;
 import be.alexandre01.inazuma.uhc.presets.IPreset;
 import be.alexandre01.inazuma.uhc.presets.Preset;
 
@@ -9,8 +11,12 @@ import be.alexandre01.inazuma.uhc.roles.RoleItem;
 import be.alexandre01.inazuma.uhc.utils.*;
 import be.alexandre01.inazuma_eleven.InazumaEleven;
 import be.alexandre01.inazuma_eleven.categories.Alius;
+import be.alexandre01.inazuma_eleven.listeners.EpisodeEvent;
 import be.alexandre01.inazuma_eleven.objects.Capitaine;
+import be.alexandre01.inazuma_eleven.roles.raimon.Jack;
+import be.alexandre01.inazuma_eleven.roles.raimon.Jude;
 import be.alexandre01.inazuma_eleven.roles.raimon.Scotty;
+import net.minecraft.server.v1_8_R3.Tuple;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -39,6 +45,7 @@ public class  Janus extends Role implements Listener {
     public ArrayList<Boolean> ballsAvailable = new ArrayList<>();
     public ArrayList<Boolean> trappedBalls = new ArrayList<>();
     ArrayList<Boolean> notifBalls = new ArrayList<>();
+    int cooldown = 1;
     int i = 0;
     int choosedBall = 0;
     Location xavierBall;
@@ -52,20 +59,19 @@ public class  Janus extends Role implements Listener {
     public Janus(IPreset preset) {
 
         super("Janus",preset);
-
-        addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
+        setRoleCategory(Alius.class);
+        addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/alius/janus");
+        /*addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
         addDescription("§8- §7Vous possédez l’effet §b§lSpeed 1§.");
         addDescription(" ");
         addDescription("§8- §7Vous disposez de 3 ballons que vous pourrez placer et vous y téléporter une fois par épisode avec le §5/inaball§7");
         addDescription(" ");
-        addDescription("§8- §7Et également un ballon réservé à §5Xavier§7, ou vous devrez lui donner les coordonnées et il pourra y téléporter 2 joueurs durant la game.");
+        addDescription("§8- §7Et également un ballon réservé à §5Xavier§7, ou vous devrez lui donner les coordonnées et il pourra y téléporter 2 joueurs durant la game.");*/
 
         Class<?> clazz = Capitaine.giveCapitaine(this.getClass());
-        System.out.println("apparement toi la tu connais lui : " + clazz);
         if(clazz != null)
             setRoleToSpoil(clazz);
 
-        setRoleCategory(Alius.class);
         addListener(this);
 
         if(inazumaEleven != null)
@@ -77,6 +83,19 @@ public class  Janus extends Role implements Listener {
                     player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0,false,false), true);
             }
         });
+
+        RoleItem roleItem = new RoleItem();
+        ItemBuilder itemBuilder = new ItemBuilder(Material.NETHER_STAR).setName("§d§lCollier§7§l-§5§lAlius");
+        roleItem.setItemstack(itemBuilder.toItemStack());
+        roleItem.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
+        roleItem.setRightClick(player -> {
+            Jude.collierAlliusNotif(player.getLocation());
+            Jack.nearAliusActivation(player.getLocation());
+            player.sendMessage(Preset.instance.p.prefixName()+" Vous rentrez en résonance avec la §8§lpierre§7§l-§5§lalius.");
+            inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.INCREASE_DAMAGE,1,110);
+            player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 20*90, 0,false,false), true);
+        });
+        addRoleItem(roleItem);
 
 
         inazumaEleven = (InazumaEleven) preset;
@@ -182,7 +201,7 @@ public class  Janus extends Role implements Listener {
             @Override
             public void execute(Player player, Block block) {
                 if(xavierI >= 3){
-                    player.sendMessage(Preset.instance.p.prefixName()+" §c§lBUG ! La limite de ballons à déjà été atteint.");
+                    player.sendMessage(Preset.instance.p.prefixName()+" §c§lLa limite de ballons à déjà été atteint.");
                     return;
                 }
 
@@ -292,7 +311,7 @@ public class  Janus extends Role implements Listener {
 
                 if(trappedBalls.get(choosedBall - 1))
                 {
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20*30, 0));
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20*30, 0, false, false), true);
                     Location loc = player.getLocation();
                     if(inazumaUHC.rm.getRole(Scotty.class) != null)
                     {
@@ -356,31 +375,6 @@ public class  Janus extends Role implements Listener {
         }
     }
 
-    @EventHandler
-    public void onInventoryClick(InventoryClickEvent event){
-        if(event.getClickedInventory() == null){
-            return;
-        }
-        Player player = (Player) event.getWhoClicked();
-        if(inazumaUHC.rm.getRole(player) instanceof Janus){
-
-        switch (event.getSlot()){
-            case 10:
-                onClick(player,0);
-                break;
-            case 12:
-                onClick(player,1);
-                break;
-            case 14:
-                onClick(player,2);
-                break;
-            case 16:
-                player.sendMessage(Preset.instance.p.prefixName()+" §cCe ballon est réservé à §5§lXavier§c.");
-                break;
-            }
-
-        }
-    }
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event){
@@ -405,7 +399,6 @@ public class  Janus extends Role implements Listener {
                 ballsAvailable.set(2, true);
                 break;
 
-
         }
         ballonsLoc.remove(ballonsBlock.get(event.getBlock()));
         ballonsBlock.remove(event.getBlock());
@@ -428,12 +421,11 @@ public class  Janus extends Role implements Listener {
             }
 
             ItemStack barrier = new ItemBuilder(Material.BARRIER).setName("§cCassé").toItemStack();
-            inventory.setItem(16,barrier);
         }
 
     }
     private void onClick(Player player,int i){
-        if(Episode.getEpisode() == this.episode){
+        if(Episode.getEpisode() == episode){
             player.sendMessage(Preset.instance.p.prefixName()+ " §cVous vous êtes déja téléporté cette épisode.");
             return;
         }
@@ -449,10 +441,10 @@ public class  Janus extends Role implements Listener {
             InazumaUHC.get.invincibilityDamager.addPlayer(player, 1000);
             player.playSound(player.getLocation(), Sound.ENDERMAN_TELEPORT, 1,1);
             player.sendMessage(Preset.instance.p.prefixName()+ " §cVous vous êtes téléporte au §7Ballon n°§e"+(i+1));
-            this.episode = Episode.getEpisode();
+            episode = Episode.getEpisode();
             return;
         }
-            player.sendMessage(Preset.instance.p.prefixName()+ " §cLe §7Ballon n°§e"+(i+1)+" n'existe pas");
+        player.sendMessage(Preset.instance.p.prefixName()+ " §cLe §7Ballon n°§e"+(i+1)+" n'existe pas");
     }
 
 
@@ -482,5 +474,6 @@ public class  Janus extends Role implements Listener {
         }
         return cLoc;
     }
+
 
 }

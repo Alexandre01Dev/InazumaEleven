@@ -56,13 +56,14 @@ public class Jack extends Role implements Listener {
     private boolean register;
     public Jack(IPreset preset) {
         super("Jack Wallside",preset);
-        addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
+        addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/raimon/jack");
+        /*addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
         addDescription("§8- §7Vous disposez de §c§l3 §4❤§7 permanents supplémentaires.");
         addDescription(" ");
         addDescription("§8- §7Lorsque vous vous trouvez proche d'un joueur ayant activé son collier-alius dans un rayon de 20 blocks, étant très peureux vous aurez §b§lSpeed 1§7 pendant 1 minute.");
         addDescription(" ");
         addDescription("§8- §7Si vous restez accroupi, au bout de 10 secondes vous deviendrez invisible sauf si un joueur se trouve dans un rayon de 20 blocks durant les 10 secondes.");
-        addDescription("§8- §7Il vous suffira de vous desneak pour redevenir visible (Votre armure sera invisible ainsi que vos items dans votre main.");
+        addDescription("§8- §7Il vous suffira de vous desneak pour redevenir visible (Votre armure sera invisible ainsi que vos items dans votre main.");*/
 
         setRoleCategory(Raimon.class);
         onLoad(new load() {
@@ -103,7 +104,8 @@ public class Jack extends Role implements Listener {
         };
 
         RoleItem roleItem = new RoleItem();
-        roleItem.setItemstack(new ItemBuilder(Material.CARROT_ITEM).setName("Mur").toItemStack());
+        roleItem.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
+        roleItem.setItemstack(new ItemBuilder(Material.BRICK).setName("Mur").toItemStack());
         roleItem.setRightClick(new RoleItem.RightClick() {
             @Override
             public void execute(Player player) {
@@ -172,7 +174,7 @@ public class Jack extends Role implements Listener {
                     int s = 0;
                     @Override
                     public void run() {
-                        Material[] mat = {Material.WOOD, Material.MOSSY_COBBLESTONE,Material.DIRT,Material.BEDROCK};
+                        Material[] mat = {Material.COBBLESTONE, Material.MOSSY_COBBLESTONE,Material.OBSIDIAN,Material.BEDROCK};
                         int k = 0;
                         if(d > locs.size()-1){
                             d = locs.size();
@@ -282,7 +284,7 @@ public class Jack extends Role implements Listener {
 
             }
              b = new BukkitRunnable() {
-                int i = 10;
+                int i = 5;
                 @Override
                 public void run() {
                     if(!player.isSneaking()){

@@ -12,6 +12,7 @@ import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
 import be.alexandre01.inazuma.uhc.utils.PlayerUtils;
 import be.alexandre01.inazuma.uhc.utils.TitleUtils;
 import be.alexandre01.inazuma_eleven.categories.Raimon;
+import be.alexandre01.inazuma_eleven.objects.LocalRaimon;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -28,7 +29,9 @@ import org.bukkit.craftbukkit.v1_8_R3.potion.CraftPotionEffectType;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -50,8 +53,8 @@ public class Hurley extends Role implements Listener {
         super("Hurley Kane",preset);
         addListener(this);
         setRoleCategory(Raimon.class);
-
-            addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
+        addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/raimon/hurley-kane");
+            /*addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
             addDescription("§8- §7Vous possédez l’effet §b§lSpeed 1 §7ainsi qu'un livre §3Depth Strider II§7.");
             addDescription(" ");
             CustomComponentBuilder c = new CustomComponentBuilder("");
@@ -66,7 +69,7 @@ public class Hurley extends Role implements Listener {
             c.append(seaeffectButton);
             addDescription(c);
             addDescription(" ");
-            addDescription("§8- §7Toutes les attaques de §4feu§7 ne vous atteignent pas.");
+            addDescription("§8- §7Toutes les attaques de §4feu§7 ne vous atteignent pas.");*/
 
         onLoad(new load() {
             @Override
@@ -75,24 +78,26 @@ public class Hurley extends Role implements Listener {
             }
         });
 
+
+        ItemStack itemStack = new ItemStack(Material.ENCHANTED_BOOK);
+        EnchantmentStorageMeta meta = (EnchantmentStorageMeta) itemStack.getItemMeta();
+        meta.setDisplayName("Depth Rider Book du futur");
+        meta.addStoredEnchant(Enchantment.DEPTH_STRIDER,3, true);
+        itemStack.setItemMeta(meta);
         RoleItem depthItem = new RoleItem();
-        ItemBuilder depthBuilder = new ItemBuilder(Material.ENCHANTED_BOOK);
-        EnchantmentStorageMeta meta = (EnchantmentStorageMeta)depthBuilder.toItemStack().getItemMeta();
-        meta.addStoredEnchant(Enchantment.DEPTH_STRIDER,2, true);
-        depthItem.setItemstack(depthBuilder.toItemStack());
+        depthItem.setItemstack(itemStack);
         depthItem.setPlaceableItem(true);
+        addRoleItem(depthItem);
+        //depthItem.setPlaceableItem(true);
 
         RoleItem roleItem = new RoleItem();
         ItemBuilder itemBuilder = new ItemBuilder(Material.BUCKET).setName("§7§lSceau §7§lDe §c§lVie");
-
+        roleItem.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
         roleItem.setItemstack(itemBuilder.toItemStack());
-        //roleItem.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.USAGES, 1)));
+        roleItem.setPlaceableItem(false);
+        roleItem.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.USAGES, 1)));
         roleItem.setRightClick(player -> {
             nearestPlayer = PlayerUtils.getNearestPlayerInSight(player, 500);
-            if(nearestPlayer != null)
-            {
-                Bukkit.broadcastMessage(nearestPlayer.getName());
-            }
 
             Location location = player.getLocation();
 
@@ -119,7 +124,7 @@ public class Hurley extends Role implements Listener {
                         {
                             if(target.hasPotionEffect(PotionEffectType.REGENERATION))
                                 target.removePotionEffect(PotionEffectType.REGENERATION);
-                            target.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 4*20, 0));
+                            target.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 4*20, 0, false,false), true);
                             break;
                         }
                     }
@@ -141,7 +146,7 @@ public class Hurley extends Role implements Listener {
                             {
                                 if(nearestPlayer.hasPotionEffect(PotionEffectType.REGENERATION))
                                     nearestPlayer.removePotionEffect(PotionEffectType.REGENERATION);
-                                nearestPlayer.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 4*20, 0));
+                                nearestPlayer.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 4*20, 0,false,false), true);
                             }
 
                             if(distance == 0)
@@ -164,7 +169,7 @@ public class Hurley extends Role implements Listener {
                         {
                             if(nearestPlayer.hasPotionEffect(PotionEffectType.REGENERATION))
                                 nearestPlayer.removePotionEffect(PotionEffectType.REGENERATION);
-                            nearestPlayer.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 4*20, 0));
+                            nearestPlayer.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 4*20, 0,false,false), true);
                         }
                     }
 
@@ -179,7 +184,7 @@ public class Hurley extends Role implements Listener {
                                     if(hurley.hasPotionEffect(PotionEffectType.REGENERATION))
                                         hurley.removePotionEffect(PotionEffectType.REGENERATION);
 
-                                    hurley.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 4*20, 0));
+                                    hurley.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 4*20, 0,false,false), true);
                                 }
                             }
                         }
@@ -189,7 +194,7 @@ public class Hurley extends Role implements Listener {
             }.runTaskTimerAsynchronously(inazumaUHC,1,20*3);
 
 
-            /*World world = player.getLocation().getWorld();
+            World world = player.getLocation().getWorld();
 
             double minX, maxX, minY, maxY, minZ, maxZ;
             minX = location.getX() - 9;
@@ -197,7 +202,7 @@ public class Hurley extends Role implements Listener {
             minY = location.getY() - 9;
             maxY = location.getY() + 9;
             minZ = location.getZ() - 9;
-            maxZ = location.getZ() + 9;*/
+            maxZ = location.getZ() + 9;
 
 
             particleTask = new BukkitRunnable() {
@@ -223,56 +228,59 @@ public class Hurley extends Role implements Listener {
         });
         addRoleItem(roleItem);
 
-            addCommand("ina sea", new command() {
-                public int i = 0;
-
-                @Override
-                public void a(String[] args, Player player) {
-                    Player target = Bukkit.getPlayer(args[0]);
-                    if(target == null){
-                        player.sendMessage(Preset.instance.p.prefixName()+" Le joueur n'est pas en game.");
-                        return;
-                    }
-                    if(target == player){
-                        player.sendMessage(Preset.instance.p.prefixName()+" Vous essayez de voir vos effets mais en vain. Vous êtes (un peu) chelou.");
-                        return;
-                    }
-
-                    if(i > 2){
-                        player.sendMessage(Preset.instance.p.prefixName()+"§c Vous avez dépassé le nombre d'utilisation de cette commande");
-                        return;
-                    }
-                    player.sendMessage(Preset.instance.p.prefixName()+" Voici les effets de §e"+target.getName()+"§7:");
-                    for(PotionEffect potionEffect : target.getActivePotionEffects()){
-                        MobEffectList m = ((CraftPotionEffectType)potionEffect.getType()).getHandle();
-                        String e = m.a().replace("potion.","");
-                        String firstLetter = e.substring(0,1).toUpperCase();
-                        String afterLetter = e.substring(1);
-                        StringBuilder sb = new StringBuilder();
-                        for (int j = 0; j < afterLetter.length(); j++) {
-                            char ch = afterLetter.charAt(j);
-                            if(Character.isUpperCase(ch)){
-                                sb.append(" "+ Character.toLowerCase(ch));
-                                continue;
-                            }
-                            sb.append(ch);
-
-                        }
-
-                        player.sendMessage("§e-§9 "+  firstLetter+sb.toString());
-                    }
-                    i++;
-                    player.sendMessage(Preset.instance.p.prefixName()+" §cAttention§7, celui-ci sera prévenu dans 1 minute et 30 secondes que votre rôle a regardé ses effets.");
-                    Bukkit.getScheduler().runTaskLaterAsynchronously(inazumaUHC, new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            target.sendMessage(Preset.instance.p.prefixName() +" Vous venez d'apprendre qu'"+getRoleCategory().getPrefixColor()+getName()+"§7 connait désormais vos effets.");
-                        }
-                    }, 20 * 90);
-
+        addCommand("sea", new command() {
+            public int i = 0;
+            @Override
+            public void a(String[] args, Player player) {
+                if(args.length == 0){
+                    player.sendMessage(Preset.instance.p.prefixName()+" Merci de précisez le nom du joueur.");
+                    return;
                 }
-            });
-        addRoleItem(depthItem);
+                Player target = Bukkit.getPlayer(args[0]);
+                if(target == null){
+                    player.sendMessage(Preset.instance.p.prefixName()+" Le joueur n'est pas en game.");
+                    return;
+                }
+                if(target == player){
+                    player.sendMessage(Preset.instance.p.prefixName()+" Vous essayez de voir vos effets mais en vain. Vous êtes (un peu) chelou.");
+                    return;
+                }
+
+                if(i >= 2){
+                    player.sendMessage(Preset.instance.p.prefixName()+"§c Vous avez dépassé le nombre d'utilisation de cette commande");
+                    return;
+                }
+                player.sendMessage(Preset.instance.p.prefixName()+" Voici les effets de §e"+target.getName()+"§7:");
+                for(PotionEffect potionEffect : target.getActivePotionEffects()){
+                    MobEffectList m = ((CraftPotionEffectType)potionEffect.getType()).getHandle();
+                    String e = m.a().replace("potion.","");
+                    String firstLetter = e.substring(0,1).toUpperCase();
+                    String afterLetter = e.substring(1);
+                    StringBuilder sb = new StringBuilder();
+                    for (int j = 0; j < afterLetter.length(); j++) {
+                        char ch = afterLetter.charAt(j);
+                        if(Character.isUpperCase(ch)){
+                            sb.append(" "+ Character.toLowerCase(ch));
+                            continue;
+                        }
+                        sb.append(ch);
+
+                    }
+
+                    player.sendMessage("§e-§9 "+  firstLetter+sb.toString());
+                }
+                i++;
+                player.sendMessage(Preset.instance.p.prefixName()+" §cAttention§7, celui-ci sera prévenu dans 1 minute et 30 secondes que votre rôle a regardé ses effets.");
+                Bukkit.getScheduler().runTaskLaterAsynchronously(inazumaUHC, new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        target.sendMessage(Preset.instance.p.prefixName() +" Vous venez d'apprendre qu'"+getRoleCategory().getPrefixColor()+getName()+"§7 connait désormais vos effets.");
+                    }
+                }, 20 * 90);
+
+            }
+        });
+        loadCommands();
     }
 
     public List<Location> getHollowCube(Location corner1, Location corner2) {

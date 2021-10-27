@@ -30,6 +30,7 @@ import java.util.HashMap;
 public class Jude extends Role implements Listener {
 
     private Scoreboard score = null;
+    private boolean isSpawned = false;
     private boolean isStructureSpawned = false;
     private HashMap<Player,Long> playersTag;
     public Jude(IPreset preset) {
@@ -37,11 +38,11 @@ public class Jude extends Role implements Listener {
         playersTag = new HashMap<>();
         setRoleCategory(Raimon.class);
         addListener(this);
-
-        addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
+        addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/raimon/jude-sharp");
+        /*addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
         addDescription("§8- §7Vous possédez l’effet §b§lSpeed 1§7.");
         addDescription("§8- §7Vous voyez également la §4vie§7 des joueurs au-dessus de leurs têtes.");
-        addDescription("§8- §7Vous recevrez les coordonnées approximatives à chaque utilisation d'un §d§lCollier§7§l-§5§lAlius§7.");
+        addDescription("§8- §7Vous recevrez les coordonnées approximatives à chaque utilisation d'un §d§lCollier§7§l-§5§lAlius§7.");*/
 
 
         onLoad(new load() {
@@ -109,6 +110,7 @@ public class Jude extends Role implements Listener {
 
     @EventHandler
     public void onDeathDuringTag(PlayerInstantDeathEvent event){
+        if(isSpawned) return;
         Player player = event.getPlayer();
         if(playersTag.containsKey(player)){
             if(new Date().getTime()-playersTag.get(player) > 30000){
@@ -126,7 +128,7 @@ public class Jude extends Role implements Listener {
                     @Override
                     public void run(){
 
-                        p.sendMessage(Preset.instance.p.prefixName()+" "+ player+" vient de mourir, vous allez recevoir les cordonnées dans 5 minutes.");
+                        p.sendMessage(Preset.instance.p.prefixName()+" "+ player.getName()  +" vient de mourir, vous allez recevoir les cordonnées du Local dans 5 minutes.");
 
                     }
 
@@ -135,6 +137,7 @@ public class Jude extends Role implements Listener {
 
                 LocalRaimon localRaimon = new LocalRaimon();
                 localRaimon.spawn();
+                isSpawned = true;
 
                 if(inazumaUHC.rm.getRole(Nero.class) != null)
                 {
@@ -148,7 +151,7 @@ public class Jude extends Role implements Listener {
                     public void run() {
                         p.sendMessage(Preset.instance.p.prefixName()+"§e Les coordonnées sont en X:"+localRaimon.x+" | Z:"+localRaimon.z);
                     }
-                }.runTaskLaterAsynchronously(InazumaUHC.get,20*60*5);
+                }.runTaskLaterAsynchronously(InazumaUHC.get,20*60*2);
             }
         }
     }

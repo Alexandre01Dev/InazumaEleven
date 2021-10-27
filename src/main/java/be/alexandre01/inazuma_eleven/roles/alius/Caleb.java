@@ -47,17 +47,17 @@ public class Caleb extends Role implements Listener {
     public Caleb(IPreset preset) {
         super("Caleb Stonewall",preset);
 
-        addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
+        /*addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
         addDescription(" ");
         addDescription("§8- §7A chaque début d'§eEpisode§7, un choix s'offre à vous :");
         addDescription("§8- §7Faire perdre ou non 2 coeurs permanents durant §e1 Epsiode§7 à un mate random.");
-        addDescription("§8- §7Afin d'obtenir §4§lForce 1 et §c§l2 §4❤§7§7 permanent pendant l'Episode.");
+        addDescription("§8- §7Afin d'obtenir §4§lForce 1 et §c§l2 §4❤§7 permanent pendant l'Episode.");
         addDescription("§c⚠§7 Vous avez §a5 minutes§7 à chaque début d'§eEpisode§7 pour faire votre choix.");
-        addDescription("§8- §c§l⚠ §7Vous pouvez également faire §5/power §aaccept§7 ou §5/power §crefuse§7.");
+        addDescription("§8- §c§l⚠ §7Vous pouvez également faire §5/power §aaccept§7 ou §5/power §crefuse§7.");*/
+        addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/alius/caleb");
 
         setRoleCategory(Alius.class);
         Class<?> clazz = Capitaine.giveCapitaine(this.getClass());
-        System.out.println("apparement toi la tu connais lui : " + clazz);
         if(clazz != null)
             setRoleToSpoil(clazz);
 
@@ -138,7 +138,6 @@ public class Caleb extends Role implements Listener {
                 return true;
             }
             if(players.contains(player)){
-                player.sendMessage("FDP, TU VEUX TRICHER, TA VIE SE RESUME À ÇA ???");
                 return false;
             }
 
@@ -160,10 +159,8 @@ public class Caleb extends Role implements Listener {
 
             if(inazumaUHC.rm.getRole(player) instanceof David){
                 David david = (David) inazumaUHC.rm.getRole(player);
-                Bukkit.broadcastMessage("1");
                 if(!david.useFirstPierre)
                 {
-                    Bukkit.broadcastMessage("2");
                     if (player.hasPotionEffect(PotionEffectType.WEAKNESS))
                         player.removePotionEffect(PotionEffectType.WEAKNESS);
                     if(david.firstUse)
@@ -203,14 +200,13 @@ public class Caleb extends Role implements Listener {
             }
 
             PatchedEntity.setMaxHealthInSilent(player, player.getMaxHealth() + 2);
-            player.sendMessage("Tu as menti zebi à Calebounet et il va le savoir bientot (1min) et te tuer car tu es une sous merde.");
-            player.sendMessage("CAVALE ZEBI");
+            player.sendMessage(Preset.instance.p.prefixName()+" Vous avez mentis à §5§lCaleb§7, vous avez donc gagné §c§l1 §4❤§7 permanent mais il sera tenu informé dans §a1 minute§7.");
 
             new BukkitRunnable() {
                 @Override
                 public void run() {
                     for(Player p : inazumaUHC.rm.getRole(Caleb.class).getPlayers()){
-                        p.sendMessage("Tu es une sous merde, Tu t'es fais douillé par celui a qui tu as donner ta pierre, donc tu mérite la peine de mort.");
+                        p.sendMessage(Preset.instance.p.prefixName() + "§c§l"+ player.getName() + "§7 vous a menti et a donc §agagné§7 §c§l1 §4❤§7 permanent.");
                     }
                 }
             }.runTaskLaterAsynchronously(inazumaUHC,20*60);
@@ -259,7 +255,7 @@ public class Caleb extends Role implements Listener {
 
                         if(p.isEmpty())
                         {
-                            player.sendMessage("Tu as enlevés des coeurs a tout les joueurs de ton équipe.");
+                            player.sendMessage(Preset.instance.p.prefixName()+" Vous n'avez aucun joueur à qui retirer des coeurs.");
                             lastPlayer = null;
                             return;
                         }

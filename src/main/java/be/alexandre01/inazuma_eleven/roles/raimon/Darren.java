@@ -1,6 +1,7 @@
 package be.alexandre01.inazuma_eleven.roles.raimon;
 
 import be.alexandre01.inazuma.uhc.InazumaUHC;
+import be.alexandre01.inazuma.uhc.custom_events.episode.EpisodeChangeEvent;
 import be.alexandre01.inazuma.uhc.custom_events.player.PlayerInstantDeathEvent;
 import be.alexandre01.inazuma.uhc.presets.IPreset;
 import be.alexandre01.inazuma.uhc.presets.Preset;
@@ -12,6 +13,7 @@ import be.alexandre01.inazuma_eleven.categories.Alius;
 import be.alexandre01.inazuma_eleven.categories.Raimon;
 import be.alexandre01.inazuma_eleven.listeners.CustomGlasses;
 import be.alexandre01.inazuma_eleven.roles.alius.Bellatrix;
+import be.alexandre01.inazuma_eleven.roles.alius.Gazelle;
 import be.alexandre01.inazuma_eleven.roles.alius.Xavier;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -28,19 +30,22 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
+
 public class Darren extends Role implements Listener {
     private boolean markDead = false;
     private Player tracked = null;
     private boolean revenge = false;
     private boolean hasChoose = false;
     public boolean accepted = false;
+    public boolean coordonate = false;
 
     public Darren(IPreset preset) {
         super("Darren LaChance",preset);
-        setRoleToSpoil(Mark.class);
         setRoleCategory(Raimon.class);
-
-        addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
+        setRoleToSpoil(Mark.class);
+        addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/raimon/darren-lachance");
+        /*addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
         addDescription("§8- §7Vous disposez de §c§l2 §4❤§7 permanent.");
         addDescription(" ");
         addDescription("§8- §7Lors de la mort de §6Mark§7, 2 choix s'offrent à vous, qui sont de le §aremplacer§7 ou §cnon§7.");
@@ -53,7 +58,7 @@ public class Darren extends Role implements Listener {
         addDescription("§8- §7Vous pouvez également §crefuser§7 cette demande.");
         addDescription("§8- §7Si vous §crefusez§7 de le remplacer, vous obtiendrez un item pour traquer son assassin.");
         addDescription("§8- §7Également vous perdrez 2 coeurs permanents mais l'assassin aura §8Faiblesse 1§7 pendant §a5 minutes§7.");
-        addDescription("§8- §7Si vous tuez son assassin, vous récupérerez vos §c§l2 §4❤§7 mais également la §6§lRésistance§7 de §6Mark§7.");
+        addDescription("§8- §7Si vous tuez son assassin, vous récupérerez vos §c§l2 §4❤§7 mais également la §6§lRésistance§7 de §6Mark§7.");*/
 
 
 
@@ -85,7 +90,7 @@ public class Darren extends Role implements Listener {
                     player.sendMessage(Preset.instance.p.prefixName()+" §aTu viens d'accepter la proposition.");
                     hasChoose = true;
                     accepted = true;
-                    accept();
+                    accept(player);
                     return;
                 }
                 if (args[0].equalsIgnoreCase("refuse")) {
@@ -121,24 +126,27 @@ public class Darren extends Role implements Listener {
             return;
         }
 
-        player.sendMessage(Preset.instance.p.prefixName()+" Vous avez refusé de remplacer Mark ! Vous traquez désormais son assassin et vous disposez du /ina revenge qui en revanche de vos 2 coeurs lui mettra Faiblesse durant 5 minutes.");
-
-            addCommand("ina revenge", new command() {
+        player.sendMessage(Preset.instance.p.prefixName()+" Vous avez refusé de remplacer Mark ! Vous traquez désormais son assassin et vous disposez du /revenge qui en revanche de vos 2 coeurs lui mettra Faiblesse durant 5 minutes.");
+        tracker.setTargetToPlayer(player,tracked);
+            addCommand("revenge", new command() {
                 public int i = 0;
                 @Override
                 public void a(String[] args, Player player) {
 
-                    tracker.setTargetToPlayer(player,tracked);
+
                     player.setMaxHealth(player.getMaxHealth()-4);
                     tracked.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 60*5*20, 0,false,false), true);
                     player.sendMessage(Preset.instance.p.prefixName()+" Tu as perdu 2 §ccoeurs§7... Mais en echange son assassin est devenu plus faible, bat-le pour devenir plus fort. ");
                     revenge = true;
-
                 }
             });
             loadCommands();
 
 
+    }
+
+    private void accept(Player player){
+        coordonate = true;
         addCommand("corrupt", new command() {
             public int i = 0;
             @Override
@@ -168,58 +176,27 @@ public class Darren extends Role implements Listener {
         });
         loadCommands();
 
-    }
-
-    private void accept(){
-
-
-        addCommand("corrupt", new command() {
-            public int i = 0;
-            @Override
-            public void a(String[] args, Player player) {
-                if(i >= 2){
-                    player.sendMessage(Preset.instance.p.prefixName()+" Vous avez dépassé le nombre d'utilisation de cette commande");
-                    return;
-                }
-                int a = 0;
-                for(Player p : PlayerUtils.getNearbyPlayersFromPlayer(player,15,15,15)){
-                    if(inazumaUHC.rm.getRole(p).getRoleCategory() == null){
-                        System.out.println(inazumaUHC.rm.getRole(p).getName());
-                        continue;
-                    }
-                    if(inazumaUHC.rm.getRole(p).getRoleCategory().getClass().equals(Alius.class)){
-                        a++;
-                    }
-                }
-                if( a == 0){
-                    player.sendMessage(Preset.instance.p.prefixName()+"Il n'y a aucun joueur(s) de l'Académie-Alius autour de vous.");
-                }
-                if( a > 0){
-                    player.sendMessage(Preset.instance.p.prefixName()+"Il y a "+a+" joueur(s) de l'Académie-Alius proche de vous.");
-                }
-                i++;
-            }
-        });
-
         for(Role role : inazumaUHC.rm.getRoleCategory(Raimon.class).getRoles()){
+            if(role instanceof William){
+                continue;
+            }
             role.getPlayers().forEach(p -> {
-                if(p.hasPotionEffect(PotionEffectType.WEAKNESS) && !(role instanceof William))
-                {
+                if(p.hasPotionEffect(PotionEffectType.WEAKNESS)){
                     p.removePotionEffect(PotionEffectType.WEAKNESS);
                 }
             });
         }
-        loadCommands();
 
         Tracker tracker = Tracker.getOrCreate();
-        for(Player player : inazumaUHC.rm.getRole(Xavier.class).getPlayers()){
+        System.out.println("Role >" + inazumaUHC.rm.getRole(Xavier.class));
+        System.out.println( inazumaUHC.rm.getRole(Xavier.class).getPlayers());
+        for(Player players : inazumaUHC.rm.getRole(Xavier.class).getPlayers()){
             for(Player d : getPlayers()){
-                tracker.setTargetToPlayer(player,d);
-                player.sendMessage(Preset.instance.p.prefixName()+" Darren vient de remplacer Mark, C'est "+d.getName());
+                tracker.setTargetToPlayer(players,d);
+                players.sendMessage(Preset.instance.p.prefixName()+" Darren vient de remplacer Mark.");
             }
 
         }
-
 
     }
 
@@ -229,6 +206,10 @@ public class Darren extends Role implements Listener {
         Player player = event.getPlayer();
         Player killer = event.getKiller();
         Role role = inazumaUHC.rm.getRole(player);
+
+        if(inazumaUHC.rm.getRole(player.getUniqueId()).getClass().equals(Darren.class)){
+            coordonate = false;
+        }
 
         //MARK DEATH ✝
         if(role.getClass() == Mark.class){
@@ -286,7 +267,7 @@ public class Darren extends Role implements Listener {
                     @Override
                     public void run(){
 
-                        killer.sendMessage(Preset.instance.p.prefixName()+" Vous avez tué §cl'assassin §7, vous recevez tes 2 Résistance permanent ! ");
+                        killer.sendMessage(Preset.instance.p.prefixName()+" Vous avez tué §cl'assassin §7, vous recevez Résistance permanent ! ");
 
                     }
 
@@ -303,11 +284,23 @@ public class Darren extends Role implements Listener {
                     @Override
                     public void run(){
 
-                        killer.sendMessage(Preset.instance.p.prefixName()+" Vous avez tué §cl'assassin §7, vous recevez tes 2 Résistance permanent et récupéré vos 2 coeurs ! ");
+                        killer.sendMessage(Preset.instance.p.prefixName()+" Vous avez tué §cl'assassin §7, vous recevez Résistance permanent et récupéré vos 2 coeurs ! ");
 
                     }
 
                 }.runTaskLater(InazumaUHC.get, 1);
+
+            }
+        }
+    }
+    @EventHandler
+    public void onEpisode(EpisodeChangeEvent e){
+        Role darren = inazumaUHC.rm.getRole(Darren.class);
+        if(coordonate){
+            for (Player xavier : inazumaUHC.rm.getRole(Xavier.class).getPlayers()) {
+                for(Player darr : darren.getPlayers()){
+                    xavier.sendMessage("Darren se trouve en " + "§fX §7: §2"+ darr.getLocation().getBlockX() + "§fY §7: §2"+ darr.getLocation().getBlockY()+ "§fZ §7: §2" + darr.getLocation().getBlockZ());
+                }
 
             }
         }

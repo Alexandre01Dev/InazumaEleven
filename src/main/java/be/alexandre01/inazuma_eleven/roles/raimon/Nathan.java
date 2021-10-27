@@ -28,9 +28,9 @@ public class Nathan extends Role {
     public Nathan(IPreset preset) {
         super("Nathan Swift",preset);
         setRoleCategory(Raimon.class);
+        addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/raimon/nathan-swift");
 
-
-        addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
+        /*addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
         addDescription("§8- §7Vous possédez l’effet §b§lSpeed 1§7.");
         addDescription(" ");
         CustomComponentBuilder c = new CustomComponentBuilder("");
@@ -56,7 +56,7 @@ public class Nathan extends Role {
         dashButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,dashDesc.getExtra().toArray(new BaseComponent[0])));
         d.append(dashButton);
         addDescription(d);
-        addDescription(" ");
+        addDescription(" ");*/
 
         onLoad(new load() {
             @Override
@@ -85,7 +85,7 @@ public class Nathan extends Role {
 
 
         RoleItem roleItem = new RoleItem();
-        ItemBuilder itemBuilder = new ItemBuilder(Material.FEATHER).setName("§b§lSwitch §lSpeed");
+        ItemBuilder itemBuilder = new ItemBuilder(Material.SUGAR).setName("§b§lSwitch §lSpeed");
         roleItem.setItemstack(itemBuilder.toItemStack());
 
         roleItem.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.COOLDOWN,60*10)));
@@ -111,7 +111,7 @@ public class Nathan extends Role {
 
         //if (endurance >= 25)
         RoleItem dribble_rafale = new RoleItem();
-        ItemBuilder dr = new ItemBuilder(Material.SUGAR).setName("§b§lDribble Rafale");
+        ItemBuilder dr = new ItemBuilder(Material.FEATHER).setName("§b§lDribble Rafale");
         dribble_rafale.setItemstack(dr.toItemStack());
         addRoleItem(dribble_rafale);
 

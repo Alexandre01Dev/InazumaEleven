@@ -54,8 +54,8 @@ public class Torch  extends Role implements Listener {
 
     public Torch(IPreset preset) {
         super("Torch",preset);
-
-        addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
+        addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/alius/torch");
+        /*addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
         addDescription("§8- §7Vous possédez l’effet §6§l§4§lForce 1 §7ainsi que §6§lFire Résistance§7.");
         addDescription(" ");
         CustomComponentBuilder c = new CustomComponentBuilder("");
@@ -72,16 +72,13 @@ public class Torch  extends Role implements Listener {
         c.append(fire_swordButton);
         addDescription(c);
         addDescription(" ");
-        addDescription("§8- §7Les attaques de §bGazelle§7, §6Axel§7 et §6Shawn§7 ne vous atteignent pas.");
+        addDescription("§8- §7Les attaques de §bGazelle§7, §6Axel§7 et §6Shawn§7 ne vous atteignent pas.");*/
 
         setRoleCategory(Alius.class);
         Class<?> clazz = Capitaine.giveCapitaine(this.getClass(), Gazelle.class);
-        System.out.println("apparement toi la tu connais lui : " + clazz);
         if(clazz != null)
             setRoleToSpoil(clazz);
 
-        //A retirer ????
-        setRoleToSpoil(Xavier.class);
         addListener(this);
 
         RoleItem roleItem = new RoleItem();
@@ -157,7 +154,9 @@ public class Torch  extends Role implements Listener {
         colierAllius.deployVerificationsOnRightClick(colierAllius.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
         colierAllius.setRightClick(player -> {
             Jude.collierAlliusNotif(player.getLocation());
+            Jack.nearAliusActivation(player.getLocation());
             player.sendMessage(Preset.instance.p.prefixName()+" Vous rentrez en résonance avec la §8§lpierre§7§l-§5§lalius.");
+            inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.INCREASE_DAMAGE,1,110);
             player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 90*20, 0,false,false), true);
         });
         addRoleItem(colierAllius);
@@ -174,7 +173,7 @@ public class Torch  extends Role implements Listener {
                 if(role.getClass().equals(Torch.class)){
                     if(!isValidItem(torch.getItemInHand()))
                         return;
-                    if(getRoleItems().containsKey(torch.getItemInHand().getItemMeta().getDisplayName())){
+                    if(getRoleItems().containsKey(torch.getItemInHand().getItemMeta().getDisplayName()) && !torch.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase("§d§lCollier§7§l-§5§lAlius")){
                         if(i != 0){
 
                             if (changesword == 1){

@@ -15,16 +15,14 @@ import lombok.Setter;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.minecraft.server.v1_8_R3.EnumParticle;
-import net.minecraft.server.v1_8_R3.Item;
-import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
-import net.minecraft.server.v1_8_R3.Tuple;
+import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -58,7 +56,8 @@ public class Kim extends Role implements Listener {
         super("Kim Powell",preset);
         setRoleCategory(Alius.class);
         setRoleToSpoil(Xavier.class);
-        addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
+        addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/alius/kim-powell");
+        /*addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
         addDescription("§8- §7Vous possédez l’effet §6§l§4§lForce 1§7.");
         addDescription(" ");
         addDescription("§8- §7Vous disposez du §d§lCollier§7§l-§5§lAlius§7 qui vous donnera §b§lSpeed 1 §7et §6§lRésistance 1§7 (NERF) pendant §a1 minute 30§7.");
@@ -76,7 +75,7 @@ public class Kim extends Role implements Listener {
         c.append(inaballtpButton);
         addDescription(c);;
         addDescription(" ");
-        addDescription("§8- §7Vous pouvez également voir ou se situent les différents ballons de §5Janus§7 avec le §5/inaball§7.");
+        addDescription("§8- §7Vous pouvez également voir ou se situent les différents ballons de §5Janus§7 avec le §5/inaball§7.");*/
 
 
         addListener(this);
@@ -85,7 +84,6 @@ public class Kim extends Role implements Listener {
             @Override
             public void a(Player player) {
 
-                particles(player);
                 Bukkit.getScheduler().scheduleSyncDelayedTask(InazumaUHC.get, new Runnable() {
                     @Override
                     public void run() {
@@ -118,17 +116,27 @@ public class Kim extends Role implements Listener {
         });
 
 
+        RoleItem alius = new RoleItem();
+        alius.setItemstack(new ItemBuilder(Material.NETHER_STAR).setName("§d§lCollier§7§l-§5§lAlius").toItemStack());
+        alius.deployVerificationsOnRightClick(alius.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES, 1)));
+        alius.setRightClick(player -> {
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20*90, 0, false, false), true);
+        });
+
         RoleItem volSword = new RoleItem();
-        ItemBuilder volAlius = new ItemBuilder(Material.DIAMOND_SWORD).setName("Vol");
+        ItemBuilder volAlius = new ItemBuilder(Material.DIAMOND_SWORD).setName("Vol").addEnchant(Enchantment.DAMAGE_ALL, 1);
         volAlius.setUnbreakable();
+        volAlius.addEnchant(Enchantment.DAMAGE_ALL,2);
         volSword.setItemstack(volAlius.toItemStack());
         addRoleItem(volSword);
 
         RoleItem healSword = new RoleItem();
-        ItemBuilder healAlius = new ItemBuilder(Material.DIAMOND_SWORD).setName("Heal");
+        ItemBuilder healAlius = new ItemBuilder(Material.DIAMOND_SWORD).setName("Vie");
         healAlius.setUnbreakable();
         healSword.setItemstack(healAlius.toItemStack());
         healSword.deployVerificationsOnRightClick(healSword.generateVerification(new Tuple<>(RoleItem.VerificationType.COOLDOWN,10)));
+
+        addRoleItem(alius);
 
         healSword.setRightClick(player -> {
 
@@ -204,11 +212,12 @@ public class Kim extends Role implements Listener {
                                 points = points +5;
                             }
                         }
-                        else if(kim.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase("Heal")) {
+                        else if(kim.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase("Vie")) {
                             event.setDamage(0);
                             if(points>=10){
                                 if (damaged.getHealth() >= damaged.getMaxHealth()){
-                                    kim.sendMessage(Preset.instance.p.prefixName()+" Vous ne pouvez pas heal" + damaged.getCustomName() + " car il est full vie.");
+                                    kim.sendMessage(Preset.instance.p.prefixName()+" Vous ne pouvez pas heal " + damaged.getName() + " car il est full vie.");
+                                    event.setCancelled(true);
                                     return;
                                 }
                                 if (timer == 0){
@@ -265,6 +274,8 @@ public class Kim extends Role implements Listener {
                                 kim.sendMessage(Preset.instance.p.prefixName()+"Il vous faut minimum 10% pour heal un joueur.");
                             }
 
+                            event.setCancelled(true);
+
                         }
 
 
@@ -273,34 +284,5 @@ public class Kim extends Role implements Listener {
             }
         }
 
-    }
-
-    private void particles(Player damaged)
-    {
-        new BukkitRunnable() {
-            double varX = 0;
-            double varZ = 0;
-            double secondVar = 0;
-            double y;
-            Location loc, first;
-            @Override
-            public void run() {
-                secondVar += Math.PI / 6;
-                loc = damaged.getLocation();
-
-                y = Math.sin(secondVar) / 2 + 0.5;
-
-                    varX += Math.PI / 8;
-                    varZ += Math.PI / 8;
-                        double x = Math.sin(varX) / 2;
-                        double z = Math.cos(varZ) / 2;
-
-                        first = loc.clone().add(x, y, z);
-                    PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(EnumParticle.HEART,true, (float) (first.getX() + x), (float) (first.getY() + y), (float) (first.getZ() + z), 0, 0, 0, 0, 1);
-                    for(Player online : Bukkit.getOnlinePlayers()) {
-                        ((CraftPlayer) online).getHandle().playerConnection.sendPacket(packet);
-                    }
-            }
-        }.runTaskTimerAsynchronously(inazumaUHC, 1,1);
     }
 }

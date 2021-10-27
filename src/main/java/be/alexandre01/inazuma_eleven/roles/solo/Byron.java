@@ -40,9 +40,8 @@ public class Byron extends Role implements Listener {
 
     public Byron(IPreset preset) {
         super("Byron Love",preset);
-
-
-        addDescription("§8- §7Votre objectif est de gagner §c§lSeul");
+        addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/solo/byron-love");
+        /*addDescription("§8- §7Votre objectif est de gagner §c§lSeul");
         addDescription("§8- §7Vous possédez l’effet §4§lForce 1 et §c§l2 §4❤§7§7 permanent");
         addDescription(" ");
         CustomComponentBuilder c = new CustomComponentBuilder("");
@@ -75,7 +74,7 @@ public class Byron extends Role implements Listener {
 
         addDescription("§8- §7A chaque §4§lkill§7, vous gagnerez §c§l0.5 §4❤§7 permanent");
         addDescription(" ");
-        addDescription("§8- §7Vous pouvez également lire les messages entre §cTorch§7 et §bGazelle§7.");
+        addDescription("§8- §7Vous pouvez également lire les messages entre §cTorch§7 et §bGazelle§7.");*/
 
         setRoleCategory(Solo.class);
         onLoad(new load() {
@@ -113,8 +112,8 @@ public class Byron extends Role implements Listener {
         pot1.setItemMeta(meta);
         meta.addCustomEffect(new PotionEffect(PotionEffectType.REGENERATION, 15*20, 1,false,false), true);
         meta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, 20*20, 0,false,false), true);
-        meta.setDisplayName("§f§lNectar §7§lDivin");
-        meta.setLore(Arrays.asList("Boisson Divine légué par §fDieu§r lui même","cette boisson vous rendra §fimmortel§r durant un certain moment."));
+        meta.setDisplayName("§f§lNectar des §7§lDieux");
+        meta.setLore(Arrays.asList("Boisson Divine légué par §fDieu§r lui même","cette boisson vous rendra §fimmortel§r durant un cours délais."));
         List<String> potLore = new ArrayList<String>();
         meta.setLore(potLore);
         pot1.setItemMeta(meta);
@@ -136,7 +135,7 @@ public class Byron extends Role implements Listener {
             @Override
             public boolean verification(Player player) {
                 if(InazumaUHC.get.lm.listeners.containsKey(FreezePlayerListener.class)){
-                    player.sendMessage(Preset.instance.p.prefixName()+" Tu ne peux pas utiliser l'§7§lInstant Céleste§7 en ce moment.");
+                    player.sendMessage(Preset.instance.p.prefixName()+" Vous ne pouvez pas utiliser l'§7§lInstant Céleste§7 en ce moment.");
                     return false;
                 }
              return true;
@@ -146,33 +145,38 @@ public class Byron extends Role implements Listener {
 
         timeStop.deployVerificationsOnRightClick(timeStop.generateVerification(verificationGenerations,new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
 
-
         timeStop.setRightClick(new RoleItem.RightClick() {
-
-
             int i = 0;
             @Override
             public void execute(Player player) {
-                FreezePlayerListener f = new FreezePlayerListener();
-                Freeze freeze = new Freeze(10);
-                ArrayList<Player> p = new ArrayList<>();
-                System.out.println("target");
-                player.sendMessage(Preset.instance.p.prefixName()+" Vous venez d'utiliser l'§7§lInstant Céleste§7.");
-                player.playSound(player.getLocation(),"instantceleste",5,1);
-                for(Player target : PlayerUtils.getNearbyPlayersFromPlayer(player,25,25,25)){
-                        freeze.freezePlayer(target);
-                        p.add(target);
-                        TitleUtils.sendTitle(target,20,20*8,20,"§7§lINSTANT CELESTE§7"," ");
-                        target.playSound(player.getLocation(),"instantceleste",5,1);
-                }
-                f.setP(p);
-                InazumaUHC.get.lm.addListener(f);
-                freeze.setOnStop((() -> {
-                    InazumaUHC.get.lm.removeListener(f.getClass());
-                }));
 
-                freeze.launchTimer();
-                i++;
+                player.playSound(player.getLocation(),"instantceleste",5,1);
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        FreezePlayerListener f = new FreezePlayerListener();
+                        Freeze freeze = new Freeze(10);
+                        ArrayList<Player> p = new ArrayList<>();
+                        player.sendMessage(Preset.instance.p.prefixName()+" Vous venez d'utiliser l'§7§lInstant Céleste§7.");
+                        for(Player target : PlayerUtils.getNearbyPlayersFromPlayer(player,25,25,25)){
+                            freeze.freezePlayer(target);
+                            p.add(target);
+                            TitleUtils.sendTitle(target,20,20*8,20,"§7§lINSTANT CELESTE§7"," ");
+                            target.playSound(player.getLocation(),"instantceleste",5,1);
+                        }
+                        f.setP(p);
+                        InazumaUHC.get.lm.addListener(f);
+                        freeze.setOnStop((() -> {
+                            InazumaUHC.get.lm.removeListener(f.getClass());
+                        }));
+
+                        freeze.launchTimer();
+                        i++;
+
+                    }
+                }.runTaskLater(inazumaUHC,20*2);
+
+
             }
         });
         addRoleItem(timeStop);

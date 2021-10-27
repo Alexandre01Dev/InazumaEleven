@@ -15,6 +15,7 @@ import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
 import be.alexandre01.inazuma_eleven.categories.Alius;
 import be.alexandre01.inazuma_eleven.objects.Capitaine;
 import be.alexandre01.inazuma_eleven.roles.raimon.Axel;
+import be.alexandre01.inazuma_eleven.roles.raimon.Jack;
 import be.alexandre01.inazuma_eleven.roles.raimon.Jude;
 import be.alexandre01.inazuma_eleven.roles.raimon.Shawn;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -51,8 +52,8 @@ public class Gazelle extends Role implements Listener {
     World world;
     public Gazelle(IPreset preset) {
         super("Gazelle",preset);
-
-        addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
+        addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/alius/gazelle");
+        /*addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
         addDescription("§8- §7Vous possédez l’effet §6§l§4§lForce 1 §7ainsi que §6§lHaste 1§7.");
         addDescription(" ");
         CustomComponentBuilder c = new CustomComponentBuilder("");
@@ -69,9 +70,8 @@ public class Gazelle extends Role implements Listener {
         c.append(fire_swordButton);
         addDescription(c);
         addDescription(" ");
-        addDescription("§8- §7Les attaques de §cTorch§7, §6Axel§7 et §6Shawn§7 ne vous atteignent pas.");
+        addDescription("§8- §7Les attaques de §cTorch§7, §6Axel§7 et §6Shawn§7 ne vous atteignent pas.");*/
         Class<?> clazz = Capitaine.giveCapitaine(this.getClass(), Torch.class);
-        System.out.println("apparement toi la tu connais lui : " + clazz);
         if(clazz != null)
             setRoleToSpoil(clazz);
 
@@ -152,6 +152,7 @@ public class Gazelle extends Role implements Listener {
         colierAllius.deployVerificationsOnRightClick(colierAllius.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
         colierAllius.setRightClick(player -> {
             Jude.collierAlliusNotif(player.getLocation());
+            Jack.nearAliusActivation(player.getLocation());
             player.sendMessage(Preset.instance.p.prefixName()+" Vous rentrez en résonance avec la §8§lpierre§7§l-§5§lalius.");
             player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 20*60*2, 0,false,false), true);
         });

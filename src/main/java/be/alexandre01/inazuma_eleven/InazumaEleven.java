@@ -56,7 +56,7 @@ public class InazumaEleven extends PresetData implements IPreset{
         pvpTime = 20*60;
         netherTime = 55*60;
         bordureTime = 100*60;
-        borderSize = 50;
+        borderSize = 100;
         borderSizeNether = 150;
         endBordureTime = 60*15;
         endBordureSize = 250*2;
@@ -67,9 +67,9 @@ public class InazumaEleven extends PresetData implements IPreset{
         //INITIALZE OBJECTS
         ballonInv = new BallonInv();
         //INITIALIZE ROLESCATEGORIES
-        new Raimon("Équipe Raimon","§6");
-        new Alius("Académie-Alius","§5");
-        new Solo("Solo","§c");
+        new Raimon("Équipe Raimon","§6", "§lVictoire de §6§lRaimon");
+        new Alius("Académie-Alius","§5","§lVictoire de §5§ll'Académie §lAlius");
+        new Solo("Solo","§c","cc");
 
         Capitaine.init();
         Capitaine.addCapitaine(Dvalin.class, Torch.class, Gazelle.class, Janus.class, Xavier.class);
@@ -162,6 +162,7 @@ public class InazumaEleven extends PresetData implements IPreset{
             listeners.add(new WeatherEvent());
             listeners.add(new MysteryEvent());
             listeners.add(new ChunkSaver());
+            listeners.add(new Capitaine());
             listeners.add(ballonInv);
         }
         return listeners;

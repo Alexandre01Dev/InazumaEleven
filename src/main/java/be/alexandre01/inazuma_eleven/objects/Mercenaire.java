@@ -32,6 +32,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
 import java.text.Format;
@@ -44,18 +45,21 @@ public class Mercenaire{
 
 
     public ArrayList<Player> list;
+    private ArrayList<Player> deathPlayers = new ArrayList<>();
     boolean hasAxel = true;
     public Player mercenaire;
     public int ms = 0;
-    public int totalms = 1000*60*5;
+    public int totalms = 300000;
     boolean axelAlive;
+    BukkitTask particlesTask;
+    BukkitTask fireTask;
 
     public void onPvP(){
 
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (InazumaUHC.get.rm.getRole(Axel.class) == null)
+                if (InazumaUHC.get.rm.getRole(Axel.class).getPlayers().size() == 0)
                     return;
 
                 new BukkitRunnable(){
@@ -94,7 +98,7 @@ public class Mercenaire{
 
 
                             target.sendMessage(Preset.instance.p.prefixName()+" §7Vous êtes le §c§lMercenaire§7 de §d§lJulia§7.");
-                            target.sendMessage("§8- §7Vous disposez de §c§l2 §4❤§7 permanents supplémentaires.");
+                            target.sendMessage("§8- §7Vous disposez de §c§l2 §4❤§7 permanents supplémentaires des qu'Axel quitte Raimon et quand il va quiiter.");
                             target.sendMessage(Preset.instance.p.prefixName()+" §7Votre objectif est de faire en sorte qu'§c§lAlex§7 ne soit plus avec §6§lRaimon§7.");
                             target.sendMessage(" ");
                             BaseComponent mercenaireButton = new TextComponent("§8- §7Vous avez une commande : " + "§5/kidnapping");
@@ -111,6 +115,7 @@ public class Mercenaire{
                             target.sendMessage(mercenaireButton);
 
                             role.setRoleToSpoil(Axel.class);
+                            target.sendMessage("Axel est" + InazumaUHC.get.rm.getRole(Axel.class).getPlayers());
 
                             role.addDescription(mercenaireButton);
 
@@ -139,9 +144,10 @@ public class Mercenaire{
 
                                     if (mercenaireloc.distance(axelloc) /2 <= 15){
 
+                                        axelAlive = true;
                                         kidnacommand = true;
                                         target.setMaxHealth(target.getMaxHealth()+2);
-                                        player.sendMessage(Preset.instance.p.prefixName()+"Axel quiterra Raimon dans 2 minutes et vous gagnez 1 coeur.");
+                                        player.sendMessage(Preset.instance.p.prefixName()+"Axel quiterra Raimon dans 5 minutes et vous gagnez 1 coeur.");
 
                                         new BukkitRunnable() {
                                             Format m = new SimpleDateFormat("mm");
@@ -166,7 +172,7 @@ public class Mercenaire{
                                                     StringBuilder sb = new StringBuilder();
 
                                                     sb.append("§7Départ d'§c§lAxel §f§l: §a§l ");
-                                                    sb.append(minute + "m ");
+                                                    sb.append(minute + "m");
                                                     sb.append(second+"s");
 
                                                     TitleUtils.sendActionBar(target,sb.toString());
@@ -186,6 +192,8 @@ public class Mercenaire{
                                             @Override
                                             public void run(){
 
+                                                target.setMaxHealth(target.getMaxHealth()+2);
+                                                target.sendMessage(Preset.instance.p.prefixName()+"Axel a quitté Raimon et vous gagnez 1 coeur.");
                                                 r_axel.setRoleCategory(Solo.class);
                                                 r_axel.isSolo = true;
 
@@ -220,9 +228,9 @@ public class Mercenaire{
 
                                                     RoleItem TempeteDeFeu = new RoleItem();
                                                     TempeteDeFeu.setItemstack(new ItemBuilder(Material.BLAZE_POWDER).setName("Tempête de Feu").toItemStack());
-                                                    //TempeteDeFeu.deployVerificationsOnRightClick(TempeteDeFeu.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
+                                                    TempeteDeFeu.deployVerificationsOnRightClick(TempeteDeFeu.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
                                                     TempeteDeFeu.setRightClick(player -> {
-                                                        player.sendMessage(Preset.instance.p.prefixName()+" Vous venez d'activer votre Tornade de Feu.");
+                                                        player.sendMessage(Preset.instance.p.prefixName()+" Vous venez d'activer la tempête de Feu.");
 
                                                             for(Player target : PlayerUtils.getNearbyPlayersFromPlayer(axel,15,15,15)) {
                                                                 World world = axel.getWorld();
@@ -230,26 +238,24 @@ public class Mercenaire{
                                                                 Bukkit.broadcastMessage(player.getLocation().getBlockX() + 2 + "  " + player.getLocation().getBlockY() + "   " + player.getLocation().getBlockZ());
                                                                 Location location = target.getLocation();
                                                                 location.setY(player.getLocation().getY());
-                                                                Vector v = location.add(new Vector(0, 0, 0)).toVector();
-                                                                /*target.setVelocity(v);*/
+                                                                Vector v = target.getLocation().toVector().subtract(player.getLocation().toVector()).normalize().multiply(4);
+                                                                v.add(new Vector(0,1,0));
+                                                                if(v.getY() > 2)
+                                                                    v.setY(2);
+                                                                if(v.getX() > 2)
+                                                                    v.setX(2);
+                                                                if(v.getY() > 2)
+                                                                    v.setY(2);
+                                                                target.setVelocity(v);
+                                                                target.setFireTicks(20 * 5);
 
 
                                                                 if (InazumaUHC.get.rm.getRole(player).getClass().equals(Gazelle.class) && InazumaUHC.get.rm.getRole(player).getClass().equals(Torch.class) && InazumaUHC.get.rm.getRole(player).getClass().equals(Shawn.class) && InazumaUHC.get.rm.getRole(player).getClass().equals(Hurley.class)) {
                                                                     return;
                                                                 }
-                                                                new BukkitRunnable() {
-                                                                    int i = 0;
-                                                                    @Override
-                                                                    public void run() {
-                                                                        i++;
-                                                                        target.setFireTicks(20 * 5);
-                                                                        if(i == 30)
-                                                                            cancel();
-                                                                    }
-                                                                }.runTaskTimerAsynchronously(InazumaUHC.get, 40, 10);
                                                             }
 
-                                                            new BukkitRunnable() {
+                                                            particlesTask = new BukkitRunnable() {
 
                                                                 double var = 0;
                                                                 Location loc, first, second;
@@ -294,6 +300,25 @@ public class Mercenaire{
                                                                 }
                                                             }.runTaskTimerAsynchronously(InazumaUHC.get, 1, 1);
 
+
+                                                            fireTask = new BukkitRunnable() {
+                                                                @Override
+                                                                public void run() {
+                                                                    for (Player target : PlayerUtils.getNearbyPlayersFromPlayer(axel, 5,5,5))
+                                                                    {
+                                                                        target.setFireTicks(20*5);
+                                                                    }
+                                                                }
+                                                            }.runTaskTimerAsynchronously(InazumaUHC.get, 20, 20);
+
+                                                        new BukkitRunnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                particlesTask.cancel();
+                                                                fireTask.cancel();
+                                                            }
+                                                        }.runTaskLaterAsynchronously(InazumaUHC.get, 20*60*3);
+
                                                     });
                                                     r_axel.addRoleItem(TempeteDeFeu);
                                                     r_axel.giveItem(axel, TempeteDeFeu);
@@ -315,15 +340,18 @@ public class Mercenaire{
                                                 r_axel.loadCommands();
 
                                             }
-
-                                        }.runTaskLater(InazumaUHC.get, 20*10);
+                                        }.runTaskLater(InazumaUHC.get, 20*60*5);
+                                    }
+                                    else{
+                                        player.sendMessage(Preset.instance.p.prefixName()+"Axel n'est pas proche de vous.");
+                                        return;
                                     }
                                 }
                             });
                             role.loadCommands();
                         }
                     }
-                }.runTaskLater(InazumaUHC.get, 20*60*5);
+                }.runTaskLater(InazumaUHC.get, 20*60);
 
             }
 
@@ -344,7 +372,7 @@ public class Mercenaire{
 
             Player target = list.get(i);
 
-            if(!InazumaUHC.get.getRemainingPlayers().contains(target))
+            if(deathPlayers.contains(target))
                 continue;
             sb.append(target.getName());
             if (i < list.size()-1){
@@ -358,6 +386,7 @@ public class Mercenaire{
     @EventHandler
     void onDeath(PlayerInstantDeathEvent event)
     {
+        deathPlayers.add(event.getPlayer());
         if(InazumaUHC.get.rm.getRole(event.getPlayer()) instanceof Axel)
             axelAlive = false;
     }

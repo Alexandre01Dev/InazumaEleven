@@ -60,8 +60,8 @@ public class Bellatrix extends Role implements Listener {
         super("Bellatrix",preset);
         setRoleCategory(Alius.class);
         setRoleToSpoil(Xavier.class);
-
-        addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
+        addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/alius/bellatrix");
+        /*addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
         addDescription("§8- §7Vous possédez l’effet §b§lSpeed 1§.");
         addDescription(" ");
         addDescription("§8- §7Vous disposez du §d§lCollier§7§l-§5§lAlius§7 qui vous donnera §6§lRésistance 1§7 (NERF) pendant §a1 minute 30§7.");
@@ -76,7 +76,8 @@ public class Bellatrix extends Role implements Listener {
         addDescription("§8- §7Vous pouvez également §crefuser§7 cette demande.");
         addDescription("§8- §7Si vous §crefusez§7 de le remplacer, vous obtiendrez l’effet §4§lForce 1 et §c§l1 §4❤§7§7 permanent.");
         addDescription(" ");
-        addDescription("§8- §7Une annonces sera faites comme quoi vous avez §crefusé§7 de le remplacer.");
+        addDescription("§8- §7Une annonces sera faites comme quoi vous avez §crefusé§7 de le remplacer.");*/
+
 
 
         addListener(this);
@@ -92,6 +93,7 @@ public class Bellatrix extends Role implements Listener {
         colierAllius.deployVerificationsOnRightClick(colierAllius.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
         colierAllius.setRightClick(player -> {
             Jude.collierAlliusNotif(player.getLocation());
+            Jack.nearAliusActivation(player.getLocation());
             player.sendMessage(Preset.instance.p.prefixName()+" Vous rentrez en résonance avec la §8§lpierre§7§l-§5§lalius.");
             player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 90*20, 0,false,false), true);
         });
@@ -134,7 +136,7 @@ public class Bellatrix extends Role implements Listener {
         player.sendMessage(Preset.instance.p.prefixName()+" Vous avez refusé de remplacer Xavier, vous gagnez donc 1 coeur permanent et 1 utilisation de la météorite.");
         player.setMaxHealth(player.getMaxHealth()+2);
         revenge = true;
-
+        player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0,false,false), true);
         message = Preset.instance.p.prefixName()+" §cBellatrix a §c§lrefusé de remplacer Xavier !";
 
         Bukkit.broadcastMessage(message);
@@ -150,7 +152,7 @@ public class Bellatrix extends Role implements Listener {
             @Override
             public void run() {
 
-                if(PlayerUtils.getNearbyPlayersFromPlayer(player,20,20,20).size() >= 3) {
+                if(PlayerUtils.getNearbyPlayersFromPlayer(player,20,20,20).size() > 3) {
                     player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20*5, 0,false,false), true);
                 }
 
@@ -191,7 +193,7 @@ public class Bellatrix extends Role implements Listener {
                 sb.append(", ");
         }
 
-            player.sendMessage("Voici la liste de vos mates : " + sb);
+            player.sendMessage(Preset.instance.p.prefixName()+" Voici la liste de vos mates : " + sb);
 
         for(Player byron : inazumaUHC.rm.getRole(Byron.class).getPlayers()){
 
@@ -235,7 +237,7 @@ public class Bellatrix extends Role implements Listener {
                     xeneDead = true;
                     for(Player players : getPlayers()){
                         BaseComponent b = new TextComponent( Preset.instance.p.prefixName()+ role.getRoleCategory().getPrefixColor()+role.getName()+"§7 vient de mourir.\n");
-                        b.addExtra("§7Souhaitez vous le remplacer ?");
+                        b.addExtra(Preset.instance.p.prefixName()+" §7Souhaitez vous le remplacer ?");
                         BaseComponent yes = new TextComponent("§a[OUI]");
                         yes.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/xene accept"));
                         b.addExtra(yes);

@@ -23,6 +23,7 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import net.minecraft.server.v1_8_R3.Tuple;
 import org.bukkit.*;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -43,6 +44,7 @@ import java.util.HashMap;
 public class Axel extends Role implements Listener {
 
     public boolean isSolo = false;
+    int cc = 0;
     private HashMap<Player,Long> playersTag;
     Mercenaire mercenaire = new Mercenaire();
     public boolean feu = false;
@@ -50,13 +52,12 @@ public class Axel extends Role implements Listener {
 
 
     public Axel(IPreset preset) {
-        super("Axel Blaze",preset);
+        super("§6Axel Blaze",preset);
         playersTag = new HashMap<>();
         setRoleCategory(Raimon.class);
-        setRoleToSpoil(Jude.class);
-
+        addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/raimon/axel-blaze");
         addListener(this);
-        addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
+        /*addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
         addDescription("§8- §7Vous possédez l’effet §4§lForce 1 §7ainsi que §6§lFire Résistance§7.");
         addDescription(" ");
         CustomComponentBuilder c = new CustomComponentBuilder("");
@@ -73,7 +74,7 @@ public class Axel extends Role implements Listener {
         addDescription(" ");
         addDescription("§8- §7A chaque §4§lkill§7, vous gagnerez §e1 gapple §7supplémentaire.");
         addDescription(" ");
-        addDescription("§8- §7Les attaques de §cTorch§7, §bGazelle§7 et §6Shawn§7 ne vous atteignent pas.");
+        addDescription("§8- §7Les attaques de §cTorch§7, §bGazelle§7 et §6Shawn§7 ne vous atteignent pas.");*/
 
         onLoad(new load() {
             @Override
@@ -98,6 +99,7 @@ public class Axel extends Role implements Listener {
 
                         feu = false;
                         player.setWalkSpeed(0.2F);
+                        cc = 0;
 
                     }
                 }.runTaskLater(inazumaUHC,20*90);
@@ -115,90 +117,6 @@ public class Axel extends Role implements Listener {
 
         });
         addRoleItem(roleItem);
-
-        /*RoleItem TempeteDeFeu = new RoleItem();
-        TempeteDeFeu.setItemstack(new ItemBuilder(Material.BLAZE_POWDER).setName("Tempête de Feu").toItemStack());
-        //TempeteDeFeu.deployVerificationsOnRightClick(TempeteDeFeu.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
-        TempeteDeFeu.setRightClick(player -> {
-            player.sendMessage(Preset.instance.p.prefixName()+" Vous venez d'activer votre Tempete de Feu.");
-
-            for(Player axel : getPlayers())
-            {
-                for(Player target : PlayerUtils.getNearbyPlayersFromPlayer(axel,15,15,15)) {
-                    Bukkit.broadcastMessage(player.getLocation().getBlockX() + 2 + "  " + player.getLocation().getBlockY() + "   " + player.getLocation().getBlockZ());
-                    Location location = target.getLocation();
-                    location.setY(player.getLocation().getY());
-                    Vector v = location.add(new Vector(0, 5, 0)).toVector();
-                    target.setVelocity(v);
-
-
-                    if (InazumaUHC.get.rm.getRole(player).getClass().equals(Gazelle.class) && InazumaUHC.get.rm.getRole(player).getClass().equals(Torch.class) && InazumaUHC.get.rm.getRole(player).getClass().equals(Shawn.class) && InazumaUHC.get.rm.getRole(player).getClass().equals(Hurley.class) && InazumaUHC.get.rm.getRole(player).getClass().equals(Hurley.class)) {
-                        return;
-                    }
-                    new BukkitRunnable() {
-                        int i = 0;
-                        @Override
-                        public void run() {
-                            i++;
-                            target.setFireTicks(20 * 5);
-                            if(i == 30)
-                                cancel();
-                        }
-                    }.runTaskTimerAsynchronously(inazumaUHC, 20, 10);
-
-                }
-
-                new BukkitRunnable() {
-
-                    double var = 0;
-                    Location loc, first, second;
-                    @Override
-                    public void run() {
-
-                        Location loc = player.getLocation();
-                        *//*int radius = 2;
-
-                        for(double y = 0; y <= 50; y+=0.05) {
-                            double x = radius * Math.cos(y);
-                            double z = radius * Math.sin(y);
-                            PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(EnumParticle.BARRIER,true, (float) (loc.getX() + x), (float) (loc.getY() + y), (float) (loc.getZ() + z), 0, 0, 0, 0, 1);
-                            for(Player online : Bukkit.getOnlinePlayers()) {
-                                ((CraftPlayer) online).getHandle().playerConnection.sendPacket(packet);
-                            }
-                        }*//*
-
-                        var += Math.PI / 8;
-
-                        double x = Math.cos(var) / 2;
-                        double y = Math.sin(var) / 2 + 0.5;
-                        double z = Math.sin(var) / 2;
-
-                        double x2 = Math.cos(var + Math.PI) / 2;
-                        double y2 = Math.sin(var) / 2 + 0.5;
-                        double z2 = Math.sin(var + Math.PI) / 2;
-
-                        loc = axel.getLocation();
-                        first = loc.clone().add(x, y, z);
-                        second = loc.clone().add(x2, y2, z2);
-
-                        PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(EnumParticle.FLAME,true, (float) (first.getX() + x), (float) (first.getY() + y), (float) (first.getZ() + z), 0, 0, 0, 0, 1);
-                        PacketPlayOutWorldParticles reversPacket = new PacketPlayOutWorldParticles(EnumParticle.FLAME,true, (float) (second.getX() + x2), (float) (second.getY() + y2), (float) (second.getZ() + z2), 0, 0, 0, 0, 1);
-                        for(Player online : Bukkit.getOnlinePlayers()) {
-                            ((CraftPlayer) online).getHandle().playerConnection.sendPacket(packet);
-                            ((CraftPlayer) online).getHandle().playerConnection.sendPacket(reversPacket);
-                        }
-
-                        //axel.getWorld().spigot().playEffect(first, Effect.FLAME, 0,0,0f,0f,0f,0f,1,1);
-                        //axel.getWorld().spigot().playEffect(second, Effect.FLAME, 0,0,0f,0f,0f,0f,1,1);
-                    }
-                }.runTaskTimerAsynchronously(inazumaUHC, 1, 1);
-
-
-            }
-        });
-
-        Bukkit.broadcastMessage("Role ITEMMMMM");
-        addRoleItem(TempeteDeFeu);*/
     }
 
     @EventHandler
@@ -209,7 +127,7 @@ public class Axel extends Role implements Listener {
 
                 if(isSolo)
                 {
-                    if(mercenaire.list.size() > 1)
+                    if(mercenaire != null && mercenaire.list != null && mercenaire.list.size() > 1)
                     {
                         Collections.shuffle(mercenaire.list);
                         if(mercenaire.list.get(0) == mercenaire.mercenaire)
@@ -272,6 +190,7 @@ public class Axel extends Role implements Listener {
                         new BukkitRunnable() {
                             @Override
                             public void run() {
+
                                 axel.sendMessage(Preset.instance.p.prefixName() + "Vous avez tué votre méga giga super poto le merce. Vous revenez donc à Raimon. Oh mince c'est plus drole !");
                             }
                         }.runTaskLaterAsynchronously(inazumaUHC, 1);
@@ -302,36 +221,39 @@ public class Axel extends Role implements Listener {
 
     @EventHandler
     public void onBurning(EntityDamageByEntityEvent event) {
-        Player axel = (Player) event.getDamager();
-        Player player = (Player) event.getEntity();
-        Role role = inazumaUHC.rm.getRole(axel);
 
-        if(role.getClass().equals(Axel.class)){
+        if(event.getDamager() instanceof Player)
+        {
+            Player axel = (Player) event.getDamager();
+            Entity entity = event.getEntity();
+            Role role = inazumaUHC.rm.getRole(axel);
+            float walkspeed = axel.getWalkSpeed();
+            if(role.getClass().equals(Axel.class)){
 
-            if(feu){
-                if(!inazumaUHC.rm.getRole(player).getClass().equals(Gazelle.class) && !inazumaUHC.rm.getRole(player).getClass().equals(Axel.class) && !inazumaUHC.rm.getRole(player).getClass().equals(Shawn.class) &&  !inazumaUHC.rm.getRole(player).getClass().equals(Hurley.class)&&  !inazumaUHC.rm.getRole(player).getClass().equals(Aiden.class)){
-                    player.setFireTicks(20*5);
+                if(feu){
+                    if(entity instanceof Player)
+                    {
+                        Player player = (Player)entity;
+                        if(!inazumaUHC.rm.getRole(player).getClass().equals(Gazelle.class) && !inazumaUHC.rm.getRole(player).getClass().equals(Axel.class) && !inazumaUHC.rm.getRole(player).getClass().equals(Shawn.class) &&  !inazumaUHC.rm.getRole(player).getClass().equals(Hurley.class)&&  !inazumaUHC.rm.getRole(player).getClass().equals(Aiden.class)){
+                            player.setFireTicks(20*5);
+                        }
+                    }
+                    else {
+                        entity.setFireTicks(20*5);
+                    }
+
+
+                    if(!isSolo){
+                        if(cc== 0){
+                            axel.setWalkSpeed(walkspeed+0.025F);
+                            speed = true;
+                            cc = 1;
+                        }
+
+                    }
                 }
-
-                if(!isSolo){
-
-                    axel.setWalkSpeed(0.225F);
-                    speed = true;
-
-                }
-
             }
-
-
-
         }
-
-
-
-
-
-
-
     }
 
     private void addEffectAfter(Player player, long l, Nathan.action a, PotionEffect... potionEffects){

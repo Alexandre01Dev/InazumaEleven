@@ -35,7 +35,8 @@ public class Aiden extends Role implements Listener {
         setRoleCategory(Raimon.class);
         setRoleToSpoil(Shawn.class);
         addListener(this);
-        addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
+        addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/raimon/aiden-frost");
+        /*addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
         addDescription("§8- §7Vous possédez l’effet §4§lForce 1§7.");
         addDescription(" ");
         CustomComponentBuilder c = new CustomComponentBuilder("");
@@ -50,7 +51,7 @@ public class Aiden extends Role implements Listener {
         c.append(blizzardButton);
         addDescription(c);
         addDescription(" ");
-        addDescription("§8- §7Les attaques de §bShawn§7 ne vous atteignent pas.");
+        addDescription("§8- §7Les attaques de §bShawn§7 ne vous atteignent pas.");*/
         onLoad(new load() {
             @Override
             public void a(Player player) {
@@ -71,7 +72,7 @@ public class Aiden extends Role implements Listener {
             public void execute(Player player, Player rightClicked) {
                 player.sendMessage(Preset.instance.p.prefixName()+"Vous avez utilisé votre §3Blizzard Eternel§7 sur §c"+ rightClicked.getName());
                 if(!inazumaUHC.rm.getRole(rightClicked).getClass().equals(Torch.class) && !inazumaUHC.rm.getRole(rightClicked).getClass().equals(Axel.class) &&  !inazumaUHC.rm.getRole(rightClicked).getClass().equals(Gazelle.class)){
-                    rightClicked.addPotionEffect(new PotionEffect(PotionEffectType.SLOW,20*10,1));
+                    rightClicked.addPotionEffect(new PotionEffect(PotionEffectType.SLOW,20*10,1,false, false), true);
                     rightClicked.sendMessage(Preset.instance.p.prefixName()+"§7Vous avez été touché par le §3Blizzard Eternel");
                 }
                 if(inazumaUHC.rm.getRole(rightClicked).getClass().equals(Torch.class) && inazumaUHC.rm.getRole(rightClicked).getClass().equals(Axel.class) &&  inazumaUHC.rm.getRole(rightClicked).getClass().equals(Gazelle.class)){

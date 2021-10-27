@@ -36,8 +36,8 @@ public class Dvalin extends Role implements Listener {
     private boolean hasChoose = false;
     public Dvalin(IPreset preset) {
         super("Dvalin",preset);
-
-        addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
+        addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/alius/dvalin");
+        /*addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
         CustomComponentBuilder c = new CustomComponentBuilder("");
         addDescription("§8- §7Vous disposez du §d§lCollier§7§l-§5§lAlius§7 qui vous donnera §b§lSpeed 1§7 pendant §a1 minute 30§7.");
         addDescription(" ");
@@ -67,11 +67,10 @@ public class Dvalin extends Role implements Listener {
         attakDesc.addExtra("§e- §9Vous renvoyez au tireur la flèche qu'il a voulue vous tirer dessus. (Passif)");
         attakButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,attakDesc.getExtra().toArray(new BaseComponent[0])));
         d.append(attakButton);
-        addDescription(d);
+        addDescription(d);*/
 
         setRoleCategory(Alius.class);
         Class<?> clazz = Capitaine.giveCapitaine(this.getClass());
-        System.out.println("apparement toi la tu connais lui : " + clazz);
         if(clazz != null)
             setRoleToSpoil(clazz);
 
@@ -118,13 +117,13 @@ public class Dvalin extends Role implements Listener {
 
                 if(args[0].equalsIgnoreCase("gardien")){
                     hasChoose = true;
-                    troueDeVer(player);
+                    gardien(player);
 
                     return;
                 }
                 if (args[0].equalsIgnoreCase("attaque")) {
                     hasChoose = true;
-                    gungnir(player);
+                    attaquant(player);
 
                     return;
                 }
@@ -134,8 +133,8 @@ public class Dvalin extends Role implements Listener {
 
 
     }
-    private void troueDeVer(Player player){
-        player.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez de choisir d'être §c§lAttaquant §7!");
+    private void gardien(Player player){
+        player.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez de choisir d'être §6§lGardien§7!");
         inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.RESISTANCE,1,110);
         player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 0,false,false), true);
         RoleItem roleItem = new RoleItem();
@@ -152,8 +151,8 @@ public class Dvalin extends Role implements Listener {
         addRoleItem(roleItem);
         giveItem(player,roleItem);
     }
-    private void gungnir(Player player){
-        player.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez de choisir d'être §6§lGardien§7!");
+    private void attaquant(Player player){
+        player.sendMessage(Preset.instance.p.prefixName()+" §7Vous venez de choisir d'être §c§lAttaquant §7!");
         inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.INCREASE_DAMAGE,1,110);
         player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Integer.MAX_VALUE, 0,false,false), true);
         addListener(this);

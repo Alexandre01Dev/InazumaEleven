@@ -1,5 +1,6 @@
 package be.alexandre01.inazuma_eleven.roles.raimon;
 
+import be.alexandre01.inazuma.uhc.InazumaUHC;
 import be.alexandre01.inazuma.uhc.presets.IPreset;
 import be.alexandre01.inazuma.uhc.presets.Preset;
 
@@ -21,8 +22,8 @@ public class Kevin extends Role {
     public Kevin(IPreset preset) {
         super("Kevin Dragonfly",preset);
         setRoleCategory(Raimon.class);
-
-        addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
+        addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/raimon/kevin-dragonfly");
+        /*addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
         CustomComponentBuilder c = new CustomComponentBuilder("");
         c.append("§8- §7Vous avez une commande nommée ");
 
@@ -33,7 +34,7 @@ public class Kevin extends Role {
         intimidateDesc.addExtra("§e- §9Donne au joueur §7ciblé, §8Faiblesse§9 et §8Slowness 1§7 pendant §a20 secondes");
         intimidateButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,intimidateDesc.getExtra().toArray(new BaseComponent[0])));
         c.append(intimidateButton);
-        addDescription(c);
+        addDescription(c);*/
 
         addCommand("intimidate", new command() {
         public int i = 0;
@@ -47,6 +48,12 @@ public class Kevin extends Role {
                     player.sendMessage(Preset.instance.p.prefixName()+"§c Tu dois attendre "+ dateBuilderTimer.getLongBuild());
                     return;
                 }
+
+                if(args.length == 0){
+                    player.sendMessage(Preset.instance.p.prefixName()+" Merci de précisez le nom du joueur.");
+                    return;
+                }
+
                 Player target = Bukkit.getPlayer(args[0]);
                 if(target == null){
                     player.sendMessage(Preset.instance.p.prefixName()+" Le joueur n'est pas en game.");
@@ -61,7 +68,14 @@ public class Kevin extends Role {
                     player.sendMessage(Preset.instance.p.prefixName()+"§c Vous avez dépassé le nombre d'utilisation de cette commande");
                     return;
                 }
-                target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS,20,0,false,false));
+
+                if(InazumaUHC.get.rm.getRole(target) instanceof William){
+                    Player near = William.williamLunette(player,target);
+                    if(near != null){
+                        target = near;
+                    }
+                }
+                target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS,20,0,false,false), true);
                 TitleUtils.sendActionBar(target, Preset.instance.p.prefixName()+" Tu as été intimidé par Kevin!");
                 target.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 30*20, 0,false,false), true);
                 target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 10*20, 1,false,false), true);

@@ -16,10 +16,7 @@ import be.alexandre01.inazuma_eleven.InazumaEleven;
 import be.alexandre01.inazuma_eleven.categories.Alius;
 import be.alexandre01.inazuma_eleven.objects.MeteorEntity;
 import be.alexandre01.inazuma_eleven.objects.Sphere;
-import be.alexandre01.inazuma_eleven.roles.raimon.Darren;
-import be.alexandre01.inazuma_eleven.roles.raimon.Jack;
-import be.alexandre01.inazuma_eleven.roles.raimon.Jude;
-import be.alexandre01.inazuma_eleven.roles.raimon.Mark;
+import be.alexandre01.inazuma_eleven.roles.raimon.*;
 import be.alexandre01.inazuma_eleven.roles.solo.Byron;
 import be.alexandre01.inazuma_eleven.timer.DelayedTimeChangeTimer;
 import lombok.Setter;
@@ -66,6 +63,7 @@ public class Xavier extends Role implements Listener {
     private Inventory inventory;
     private boolean shootArrow = false;
     private int episode;
+    private int bowEpisode = 0;
     boolean meteor = false;
     boolean markDeath = false;
     boolean darrenAccept = false;
@@ -74,19 +72,14 @@ public class Xavier extends Role implements Listener {
      @Setter  Location location = null;
     public Xavier(IPreset preset) {
         super("Xavier Foster",preset);
-        addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
+
+        /*addDescription("§8- §7Votre objectif est de gagner avec §5§ll'§5§lAcadémie §5§lAlius");
         addDescription("§8- §7Vous possédez l’effet §6§l§4§lForce 1§7.");
         addDescription(" ");
         addDescription("§8- §7Vous disposez du §d§lCollier§7§l-§5§lAlius§7 qui vous donnera §b§lSpeed 1 §7et §6§lRésistance 1§7 (NERF) pendant §a1 minute 30§7.");
         addDescription(" ");
         CustomComponentBuilder c = new CustomComponentBuilder("");
         c.append("§8- §7Vous avez une commande nommée ");
-
-        RoleItem meteor = new RoleItem();
-        ItemBuilder it = new ItemBuilder(Material.BOW).setName("Météore Géant");
-        meteor.setItemstack(it.toItemStack());
-        meteor.setPlaceableItem(true);
-        addRoleItem(meteor);
 
         BaseComponent inaballtpButton = new TextComponent("§5/inaballtp §7(§9Pseudo§7) §7*§8Curseur§7*");
 
@@ -98,12 +91,19 @@ public class Xavier extends Role implements Listener {
         c.append(inaballtpButton);
         addDescription(c);;
         addDescription(" ");
-        addDescription("§8- §7Vous pouvez également voir ou se situent les différents ballons de §5Janus§7 avec le §5/inaball§7.");
+        addDescription("§8- §7Vous pouvez également voir ou se situent les différents ballons de §5Janus§7 avec le §5/inaball§7.");*/
+        addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/alius/xavier-foster");
 
+        RoleItem meteor = new RoleItem();
+        ItemBuilder it = new ItemBuilder(Material.BOW).setName("Météore Géant");
+        meteor.setItemstack(it.toItemStack());
+        meteor.setPlaceableItem(true);
+        addRoleItem(meteor);
 
         addListener(this);
         setRoleToSpoil(Bellatrix.class);
-        setRoleToSpoil(Janus.class);
+        setRoleToSpoil(Kim.class);
+        setRoleToSpoil(Nero.class);
         setRoleCategory(Alius.class);
 
         onLoad(new load() {
@@ -223,9 +223,19 @@ public class Xavier extends Role implements Listener {
             Jack.nearAliusActivation(player.getLocation());
             player.sendMessage(Preset.instance.p.prefixName()+" Vous rentrez en résonance avec la §8§lpierre§7§l-§5§lalius.");
             player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60*2*20, 0,false,false), true);
+            inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.INCREASE_DAMAGE,1,115);
+
+            new BukkitRunnable(){
+                @Override
+                public void run(){
+
+                    inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.INCREASE_DAMAGE,1,110);
+                }
+            }.runTaskLater(inazumaUHC,20*2*60);
+
+
         });
         addRoleItem(roleItem);
-        setRoleToSpoil(Bellatrix.class, Janus.class);
         addCommand("inaball", new command() {
             @Override
             public void a(String[] args, Player player) {
@@ -241,7 +251,6 @@ public class Xavier extends Role implements Listener {
                 }
                 if(i >= 2){
                     player.sendMessage(Preset.instance.p.prefixName()+ " §cTu ne peux téléporter quelqu'un que 2x en total");
-
                     return;
                 }
                 if(Episode.getEpisode() == episode){
@@ -256,10 +265,11 @@ public class Xavier extends Role implements Listener {
                     player.sendMessage(Preset.instance.p.prefixName()+"§c Le joueur n'existe pas");
                 }
 
-                if(!canTeleportPlayer(p)){
+                if(!canTeleportPlayer(player,p)){
                     player.sendMessage(Preset.instance.p.prefixName()+" §cVous ne pouvez pas téléporter le joueur à votre ballon, car celui-ci est obstrué par plus de 3 blocks.");
                 }else {
-                    player.sendMessage(Preset.instance.p.prefixName()+" §aLe joueur a bien été téléporté.");
+
+                    player.sendMessage(Preset.instance.p.prefixName()+" §aLe joueur va bien être téléporté.");
                     episode = Episode.getEpisode();
                     i++;
                 }
@@ -299,7 +309,7 @@ public class Xavier extends Role implements Listener {
         }
         }
     }
-    private boolean canTeleportPlayer(Player player){
+    private boolean canTeleportPlayer(Player xene,Player player){
         Location tpLoc = getTop(location);
         if(tpLoc == null){
             return false;
@@ -310,21 +320,28 @@ public class Xavier extends Role implements Listener {
             player.sendMessage(Preset.instance.p.prefixName()+ " §cVous allez être téléporté à votre §5ballon§c dans §a10 secondes§c.");
             return true;
         }
+        if(InazumaUHC.get.rm.getRole(player) instanceof William){
+            Player p = William.williamLunette(xene,player);
+            if(p != null){
+                player = p;
+            }
+        }
         player.playSound(player.getLocation(), Sound.NOTE_PLING,5,1);
         player.sendMessage(Preset.instance.p.prefixName()+ " §c⚠ Attention, vous allez être téléporté au §5ballon§c de §5Xavier§c dans §a10 secondes§c en X:" + tpLoc.getBlockX() + "Z:" + tpLoc.getBlockZ());
 
 
+        Player finalPlayer = player;
         new BukkitRunnable(){
             @Override
             public void run(){
 
-                player.teleport(tpLoc);
-                InazumaUHC.get.invincibilityDamager.addPlayer(player, 1000);
-                player.playSound(player.getLocation(), Sound.ENDERMAN_TELEPORT, 1,1);
+                finalPlayer.teleport(tpLoc);
+                InazumaUHC.get.invincibilityDamager.addPlayer(finalPlayer, 1000);
+                finalPlayer.playSound(finalPlayer.getLocation(), Sound.ENDERMAN_TELEPORT, 1,1);
 
             }
 
-            }.runTaskLaterAsynchronously(InazumaUHC.get, 20*10);
+            }.runTaskLater(InazumaUHC.get, 20*10);
 
         return true;
 
@@ -337,7 +354,7 @@ public class Xavier extends Role implements Listener {
         }
 
         if(location != null){
-          if(!canTeleportPlayer(player)){
+          if(!canTeleportPlayer(player,player)){
               player.sendMessage(Preset.instance.p.prefixName()+" §cVous ne pouvez pas vous téléportez à votre ballon, car celui-ci est obstrué par plus de 3 blocks.");
               return;
           }else {
@@ -384,8 +401,24 @@ public class Xavier extends Role implements Listener {
     public void onShoot(EntityShootBowEvent event){
         if(event.getEntity() instanceof  Player){
             Player player = (Player) event.getEntity();
+            if(event.getBow() == null)
+                return;
+            if(!event.getBow().hasItemMeta())
+                return;
+            if(!event.getBow().getItemMeta().hasDisplayName())
+                return;
+
+            if(!event.getBow().getItemMeta().getDisplayName().equalsIgnoreCase("Météore Géant"))
+                return;
             if(getPlayers().contains(player)){
+                if(bowEpisode == Episode.getEpisode()){
+                    for(Player p: getPlayers()){
+                        p.sendMessage("§cVous ne pouvez pas utiliser cette capacité à nouveau durant cet épisode.");
+                    }
+                 return;
+                }
                 shootArrow = true;
+                bowEpisode = Episode.getEpisode();
             }
         }
     }
@@ -403,6 +436,7 @@ public class Xavier extends Role implements Listener {
                 if (getPlayers().contains(player)) {
                     meteorDestruction(arrow.getLocation());
                 }
+                shootArrow = false;
             }
         }
     }
@@ -506,16 +540,16 @@ public class Xavier extends Role implements Listener {
     void onEpisodeChange(EpisodeChangeEvent event)
     {
         Darren darren = (Darren)inazumaUHC.rm.getRole(Darren.class);
-        if(darren == null)
+        if(darren.getPlayers().isEmpty())
         {
-            Bukkit.broadcastMessage("pas de darren");
+            System.out.println("pas de darren");
             return;
         }
 
 
         if(!darren.accepted)
         {
-            Bukkit.broadcastMessage("darren bah il est mechant et il a pas accepté");
+            System.out.println("darren bah il est mechant et il a pas accepté");
             return;
         }
 
