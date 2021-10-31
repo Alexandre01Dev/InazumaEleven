@@ -34,7 +34,7 @@ public class Capitaine implements Listener{
     public void giveMdCommand(){
         try {
             for (Role role : capitaineList) {
-                role.addCommand("md", new Role.command() {
+                role.addCommand("cdm", new Role.command() {
                     @Override
                     public void a(String[] strings, Player player) {
                         if(strings.length == 0){
