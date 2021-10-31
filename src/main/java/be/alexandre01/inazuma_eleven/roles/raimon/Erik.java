@@ -11,6 +11,8 @@ import be.alexandre01.inazuma.uhc.utils.PlayerUtils;
 import be.alexandre01.inazuma.uhc.worlds.executors.ArrowToCenter;
 import be.alexandre01.inazuma_eleven.categories.Raimon;
 import be.alexandre01.inazuma_eleven.objects.Sphere;
+import be.alexandre01.inazuma_eleven.roles.alius.Gazelle;
+import be.alexandre01.inazuma_eleven.roles.alius.Torch;
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -73,33 +75,40 @@ public class Erik extends Role implements Listener {
 
         RoleItem danse = new RoleItem();
         danse.setItemstack(new ItemBuilder(Material.BLAZE_ROD).setName("§l§cDanse§7-§eArdente").toItemStack());
-        danse.deployVerificationsOnRightClick(danse.generateVerification(new Tuple<>(RoleItem.VerificationType.COOLDOWN,60*10)));
-        danse.setRightClick(player -> {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 20*150, 0, false, false), true);
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20*150, 0, false, false), true);
+        danse.deployVerificationsOnRightClickOnPlayer(danse.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
+        danse.setRightClickOnPlayer(15,new RoleItem.RightClickOnPlayer() {
+            @Override
+            public void execute(Player player, Player rightClicked) {
+                player.sendMessage(Preset.instance.p.prefixName()+"Vous avez utilisé votre §l§cDanse§7-§eArdente§7 sur §c"+ rightClicked.getName());
+                particleTask = new BukkitRunnable() {
+                    double var = 0;
+                    @Override
+                    public void run() {
+                        var += Math.PI / 8;
+                        Location loc = rightClicked.getLocation();
+                        double x = Math.cos(var);
+                        double z = Math.sin(var);
 
-            particleTask = new BukkitRunnable() {
-                double var = 0;
-                @Override
-                public void run() {
-                    var += Math.PI / 8;
-                    Location loc = player.getLocation();
-                    double x = Math.cos(var);
-                    double z = Math.sin(var);
+                        rightClicked.setFireTicks(20*2);
 
-                    PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(EnumParticle.FLAME,true, (float) (loc.getX() + x), (float) (player.getEyeLocation().getY() - 0.7), (float) (loc.getZ() + z), 0, 0, 0, 0, 1);
-                    for(Player online : PlayerUtils.getNearbyPlayers(player.getLocation(), 100, 100, 100)) {
-                        ((CraftPlayer) online).getHandle().playerConnection.sendPacket(packet);
+                        PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(EnumParticle.FLAME,true, (float) (loc.getX() + x), (float) (rightClicked.getEyeLocation().getY() - 0.7), (float) (loc.getZ() + z), 0, 0, 0, 0, 1);
+                        for(Player online : PlayerUtils.getNearbyPlayers(rightClicked.getLocation(), 100, 100, 100)) {
+                            ((CraftPlayer) online).getHandle().playerConnection.sendPacket(packet);
+                        }
                     }
-                }
-            }.runTaskTimerAsynchronously(inazumaUHC, 1,1);
+                }.runTaskTimerAsynchronously(inazumaUHC, 1,1);
 
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    particleTask.cancel();
-                }
-            }.runTaskLaterAsynchronously(inazumaUHC, 20*150);
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        particleTask.cancel();
+                    }
+                }.runTaskLaterAsynchronously(inazumaUHC, 20*30);
+            }
+
+
+
+
 
         });
         addRoleItem(danse);

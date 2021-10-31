@@ -32,19 +32,24 @@ public class Capitaine implements Listener{
     }
 
     public void giveMdCommand(){
-        for (Role role : capitaineList) {
-            role.addCommand("md", new Role.command() {
-                @Override
-                public void a(String[] strings, Player player) {
-                    if(strings.length == 0){
-                        player.sendMessage(Preset.instance.p.prefixName() + " Veuillez mettre un message après la commande.");
-                        return;
+        try {
+            for (Role role : capitaineList) {
+                role.addCommand("md", new Role.command() {
+                    @Override
+                    public void a(String[] strings, Player player) {
+                        if(strings.length == 0){
+                            player.sendMessage(Preset.instance.p.prefixName() + " Veuillez mettre un message après la commande.");
+                            return;
+                        }
+                        player.sendMessage(Preset.instance.p.prefixName() + " §aMessage enregistré !");
+                        mdCommand.put(InazumaUHC.get.rm.getRole(player), strings);
                     }
-                    player.sendMessage(Preset.instance.p.prefixName() + " §aMessage enregistré !");
-                    mdCommand.put(InazumaUHC.get.rm.getRole(player), strings);
-                }
-            });
+                });
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
     }
 
     void onDeath(PlayerInstantDeathEvent event){

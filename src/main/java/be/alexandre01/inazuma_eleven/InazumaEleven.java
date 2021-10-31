@@ -74,6 +74,7 @@ public class InazumaEleven extends PresetData implements IPreset{
         Capitaine.init();
         Capitaine.addCapitaine(Dvalin.class, Torch.class, Gazelle.class, Janus.class, Xavier.class);
 
+
         //INITIALIZE ROLES
 
         Role.addRoles(Axel.class,
@@ -108,6 +109,7 @@ public class InazumaEleven extends PresetData implements IPreset{
         );
 
         Role.initializeRoles();
+        Capitaine.getInstance().giveMdCommand();
       //  new Bellatrix(this);
         ClipboardFormat clipboardFormat = ClipboardFormat.findByFile(new File(InazumaUHC.get.getDataFolder().getAbsolutePath()+"/schematics/fawetest.fawe"));
 

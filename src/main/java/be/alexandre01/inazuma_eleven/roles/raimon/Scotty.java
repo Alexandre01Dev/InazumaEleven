@@ -9,6 +9,7 @@ import be.alexandre01.inazuma.uhc.roles.Role;
 import be.alexandre01.inazuma.uhc.roles.RoleItem;
 import be.alexandre01.inazuma.uhc.utils.*;
 import be.alexandre01.inazuma_eleven.categories.Raimon;
+import be.alexandre01.inazuma_eleven.roles.alius.Gazelle;
 import be.alexandre01.inazuma_eleven.roles.alius.Janus;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -24,6 +25,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 public class Scotty extends Role {
 
@@ -70,6 +72,22 @@ public class Scotty extends Role {
             @Override
             public void a(Player player) {
                 player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0,false,false), true);
+
+                new BukkitRunnable(){
+                    @Override
+                    public void run(){
+
+                        for(Player target : PlayerUtils.getNearbyPlayersFromPlayer(player,15,15,15)) {
+
+                            target.sendMessage("§3§lScotty§8»§3 Hihihihi");
+                            player.sendMessage("§3§lScotty§8»§3 Hihihihi");
+
+                        }
+
+                    }
+
+                }.runTaskTimerAsynchronously(InazumaUHC.get, 1,20*60*5);
+
             }
 
 
@@ -319,6 +337,7 @@ public class Scotty extends Role {
             }
         }
     }
+
 
 }
 
