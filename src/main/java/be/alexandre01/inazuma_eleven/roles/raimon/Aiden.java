@@ -173,10 +173,6 @@ public class Aiden extends Role implements Listener {
 
                     }.runTaskLater(InazumaUHC.get, 1);
 
-
-
-
-
                 }
             }
         if(shawnKiller != null && shawnKiller == event.getPlayer() && !inazumaUHC.rm.getRole(killer.getUniqueId()).getClass().equals(Aiden.class)){

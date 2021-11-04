@@ -9,10 +9,7 @@ import be.alexandre01.inazuma.uhc.presets.Preset;
 
 import be.alexandre01.inazuma.uhc.roles.Role;
 import be.alexandre01.inazuma.uhc.roles.RoleItem;
-import be.alexandre01.inazuma.uhc.utils.Episode;
-import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
-import be.alexandre01.inazuma.uhc.utils.PlayerUtils;
-import be.alexandre01.inazuma.uhc.utils.Tracker;
+import be.alexandre01.inazuma.uhc.utils.*;
 import be.alexandre01.inazuma_eleven.InazumaEleven;
 import be.alexandre01.inazuma_eleven.categories.Alius;
 import be.alexandre01.inazuma_eleven.categories.Raimon;
@@ -90,12 +87,55 @@ public class Bellatrix extends Role implements Listener {
         });
         RoleItem colierAllius = new RoleItem();
         colierAllius.setItemstack(new ItemBuilder(Material.NETHER_STAR).setName("§d§lCollier§7§l-§5§lAlius").toItemStack());
-        colierAllius.deployVerificationsOnRightClick(colierAllius.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
-        colierAllius.setRightClick(player -> {
-            Jude.collierAlliusNotif(player.getLocation());
-            Jack.nearAliusActivation(player.getLocation());
-            player.sendMessage(Preset.instance.p.prefixName()+" Vous rentrez en résonance avec la §8§lpierre§7§l-§5§lalius.");
-            player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 90*20, 0,false,false), true);
+        colierAllius.deployVerificationsOnRightClick(colierAllius.generateVerification(new Tuple<>(RoleItem.VerificationType.COOLDOWN,3)));
+        colierAllius.setRightClick(new RoleItem.RightClick() {
+            boolean activate = false;
+            BukkitTask bukkitTask = null;
+            int defaultRemaining = 3*6;
+            int remaining = defaultRemaining;
+            Integer episode = null;
+            @Override
+           public void execute(Player player) {
+                Jude.collierAlliusNotif(player.getLocation());
+                Jack.nearAliusActivation(player.getLocation());
+
+                if(episode == null){
+                    episode = Episode.getEpisode();
+                }else if(episode != Episode.getEpisode()){
+                    episode = Episode.getEpisode();
+                    remaining = defaultRemaining;
+                }
+
+
+                if(!activate){
+                    player.playSound(player.getLocation(),"block.lever.click",1,1);
+                    player.sendMessage(Preset.instance.p.prefixName()+" Vous rentrez en résonance avec la §8§lpierre§7§l-§5§lalius.");
+                    //Placer l'effet à désirer
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 90*20, 0,false,false), true);
+                    bukkitTask = new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            remaining--;
+                            if(remaining == 0){
+                                player.sendMessage(Preset.instance.p.prefixName()+" Vous avez surchargé l'utilisation de la §8§lpierre§7§l-§5§lalius, vous prendrez des dégats toutes les 10 secondes");
+                            }
+                            if(remaining < 0){
+                                PatchedEntity.damage(player,2,true);
+                            }
+                        }
+                    }.runTaskTimerAsynchronously(InazumaUHC.get,0,20*10);
+                }else {
+                    player.playSound(player.getLocation(),"block.lever.click",1,1);
+                    player.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
+                    if(bukkitTask != null){
+                        bukkitTask.cancel();
+                        if(remaining < 0){
+                            remaining = 0;
+                        }
+                    }
+                }
+
+            }
         });
         addRoleItem(colierAllius);
 

@@ -252,7 +252,6 @@ public class Mark extends Role implements Listener {
         } else {
             TitleUtils.sendActionBar(player,"§7§lEntrainement §7Terminé");
         }
-
     }
 
     @EventHandler
