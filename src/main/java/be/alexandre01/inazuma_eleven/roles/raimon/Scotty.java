@@ -73,7 +73,7 @@ public class Scotty extends Role {
             public void a(Player player) {
                 player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0,false,false), true);
 
-                new BukkitRunnable(){
+                /*new BukkitRunnable(){
                     @Override
                     public void run(){
 
@@ -86,7 +86,7 @@ public class Scotty extends Role {
 
                     }
 
-                }.runTaskTimerAsynchronously(InazumaUHC.get, 1,20*60*5);
+                }.runTaskTimerAsynchronously(InazumaUHC.get, 1,20*60*5);*/
 
             }
 
