@@ -5,6 +5,7 @@ import be.alexandre01.inazuma.uhc.generations.Plateform;
 import be.alexandre01.inazuma.uhc.presets.IPreset;
 import be.alexandre01.inazuma.uhc.presets.PresetData;
 import be.alexandre01.inazuma.uhc.roles.Role;
+import be.alexandre01.inazuma.uhc.roles.RoleManager;
 import be.alexandre01.inazuma.uhc.scenarios.betazombie.BetaZombie;
 import be.alexandre01.inazuma.uhc.scenarios.cancelenchant.CancelEnchant;
 import be.alexandre01.inazuma.uhc.scenarios.cateyes.CatEyes;
@@ -74,6 +75,7 @@ public class InazumaEleven extends PresetData implements IPreset{
         Capitaine.init();
         Capitaine.addCapitaine(Dvalin.class, Torch.class, Gazelle.class, Janus.class, Xavier.class);
 
+
         //INITIALIZE ROLES
 
         Role.addRoles(Axel.class,
@@ -108,6 +110,9 @@ public class InazumaEleven extends PresetData implements IPreset{
         );
 
         Role.initializeRoles();
+
+
+        Capitaine.getInstance().giveMdCommand();
       //  new Bellatrix(this);
         ClipboardFormat clipboardFormat = ClipboardFormat.findByFile(new File(InazumaUHC.get.getDataFolder().getAbsolutePath()+"/schematics/fawetest.fawe"));
 
@@ -158,7 +163,6 @@ public class InazumaEleven extends PresetData implements IPreset{
             listeners.add(new TimerEvent());
             listeners.add(new TeamsEvent());
             listeners.add(new EpisodeEvent());
-            listeners.add(new ChatEvent());
             listeners.add(new WeatherEvent());
             listeners.add(new MysteryEvent());
             listeners.add(new ChunkSaver());

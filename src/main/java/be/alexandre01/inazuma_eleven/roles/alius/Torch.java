@@ -246,7 +246,7 @@ public class Torch  extends Role implements Listener {
     {
         Player player = event.getPlayer();
 
-        if(inazumaUHC.rm.getRole(player.getUniqueId()).getClass().equals(Torch.class)){
+        if(inazumaUHC.rm.getRole(player.getUniqueId()).getClass().equals(Torch.class) && inazumaUHC.rm.getRole(Torch.class) != null){
 
             world = player.getWorld();
             loc = player.getLocation();

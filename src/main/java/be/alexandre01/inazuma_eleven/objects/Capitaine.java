@@ -8,6 +8,8 @@ import be.alexandre01.inazuma_eleven.categories.Alius;
 import be.alexandre01.inazuma_eleven.roles.alius.*;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -32,19 +34,34 @@ public class Capitaine implements Listener{
     }
 
     public void giveMdCommand(){
-        for (Role role : capitaineList) {
-            role.addCommand("md", new Role.command() {
-                @Override
-                public void a(String[] strings, Player player) {
-                    if(strings.length == 0){
-                        player.sendMessage(Preset.instance.p.prefixName() + " Veuillez mettre un message après la commande.");
-                        return;
+        try {
+                InazumaUHC.get.registerCommand("cdm", new Command("cdm") {
+                    @Override
+                    public boolean execute(CommandSender sender, String msg, String[] args) {
+                        if(!(sender instanceof Player))return false;
+
+                        Player player = (Player) sender;
+                        Role r = InazumaUHC.get.rm.getRole(player);
+                        if(r != null){
+                            if(capitaineList.contains(r)){
+                                if(args.length == 0){
+                                    player.sendMessage(Preset.instance.p.prefixName() + " Veuillez mettre un message après la commande.");
+                                    return false;
+                                }
+                                player.sendMessage(Preset.instance.p.prefixName() + " §aMessage enregistré !");
+                                mdCommand.put(InazumaUHC.get.rm.getRole(player), args);
+                            }else {
+                                player.sendMessage("§cVous n'êtes pas capitaine et vous ne pouvez donc éxecuter cette commande !");
+                            }
+                        }
+                        return true;
                     }
-                    player.sendMessage(Preset.instance.p.prefixName() + " §aMessage enregistré !");
-                    mdCommand.put(InazumaUHC.get.rm.getRole(player), strings);
-                }
-            });
+                });
+
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
     }
 
     void onDeath(PlayerInstantDeathEvent event){

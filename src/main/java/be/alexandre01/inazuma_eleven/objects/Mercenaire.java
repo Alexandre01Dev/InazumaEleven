@@ -96,10 +96,10 @@ public class Mercenaire{
 
                             mercenaire = role.getPlayers().get(0);
 
-
+                            TitleUtils.sendTitle(target, 10,30,25,"§c§lVous êtes le §lMercenaire","§7§lObjectif : §7Kidnapper §d§lJuliaJulia");
                             target.sendMessage(Preset.instance.p.prefixName()+" §7Vous êtes le §c§lMercenaire§7 de §d§lJulia§7.");
-                            target.sendMessage("§8- §7Vous disposez de §c§l2 §4❤§7 permanents supplémentaires des qu'Axel quitte Raimon et quand il va quiiter.");
-                            target.sendMessage(Preset.instance.p.prefixName()+" §7Votre objectif est de faire en sorte qu'§c§lAlex§7 ne soit plus avec §6§lRaimon§7.");
+                            target.sendMessage("§8- §7Vous obtiendrez de §c§l2 §4❤§7 permanents supplémentaires si vous arrivez à kidnapper §d§lJulia§7.");
+                            target.sendMessage(Preset.instance.p.prefixName()+" §7Pour ce faire, .");
                             target.sendMessage(" ");
                             BaseComponent mercenaireButton = new TextComponent("§8- §7Vous avez une commande : " + "§5/kidnapping");
 

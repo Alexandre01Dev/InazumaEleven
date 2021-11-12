@@ -252,7 +252,6 @@ public class Mark extends Role implements Listener {
         } else {
             TitleUtils.sendActionBar(player,"§7§lEntrainement §7Terminé");
         }
-
     }
 
     @EventHandler
@@ -433,6 +432,17 @@ public class Mark extends Role implements Listener {
             for(Role role : inazumaUHC.rm.getRoleCategory(Raimon.class).getRoles()){
                 role.getPlayers().forEach(p -> {
                     p.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS,20*60*2,0, false,false), true);
+
+                    new BukkitRunnable(){
+                        @Override
+                        public void run(){
+
+                            p.sendMessage(Preset.instance.p.prefixName()+" §6§lMark§7 vient de mourir, vous éccoez donc de l'effet §8§lFaiblesse§7 durant §a2 minutes§7.");
+
+                        }
+
+                    }.runTaskLater(InazumaUHC.get, 1);
+
                 });
             }
         }

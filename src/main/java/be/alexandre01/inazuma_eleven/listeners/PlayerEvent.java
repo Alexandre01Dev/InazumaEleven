@@ -34,29 +34,37 @@ public class PlayerEvent implements Listener {
 
 
         if (gameState.contains(State.PLAYING) || gameState.contains(State.STOPPING)) {
+            event.setJoinMessage(Preset.instance.p.prefixName() +"§a" + player.getName() + "§e a rejoint la partie");
+            return;
+        }
+        if (GameState.get().contains(State.WAITING) || (GameState.get().contains(State.PREPARING))) {
             event.setJoinMessage("");
+            Bukkit.getOnlinePlayers().forEach((p) -> {
+                TitleUtils.sendActionBar(p, "§a" + player.getName() + "§e a rejoint la partie");
+            });
             return;
         }
 
-        Bukkit.getOnlinePlayers().forEach((p) -> {
-            TitleUtils.sendActionBar(p, "§a" + player.getName() + "§e a rejoint la partie");
-        });
-
-        event.setJoinMessage("");
     }
 
     @EventHandler
     public void onLeave(PlayerQuitEvent event) {
+        if (gameState == null) {
+            gameState = GameState.get();
+        }
+        Player player = event.getPlayer();
+
         if (GameState.get().contains(State.PLAYING) || GameState.get().contains(State.STOPPING)) {
-            event.setQuitMessage("");
+            event.setQuitMessage(Preset.instance.p.prefixName() +"§c" + player.getName() + "§e a quitté la partie");
             return;
         }
         if (GameState.get().contains(State.WAITING) || (GameState.get().contains(State.PREPARING))) {
+            event.setQuitMessage("");
             Bukkit.getOnlinePlayers().forEach((p) -> {
-                TitleUtils.sendActionBar(p, "§c" + event.getPlayer().getName() + "§e a quitté la partie");
+                TitleUtils.sendActionBar(p, "§c" + player.getName() + "§e a quitté la partie");
             });
+            return;
         }
-
     }
 
     @EventHandler
