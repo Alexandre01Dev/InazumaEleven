@@ -14,6 +14,7 @@ import be.alexandre01.inazuma.uhc.timers.utils.MSToSec;
 import be.alexandre01.inazuma.uhc.utils.*;
 import be.alexandre01.inazuma_eleven.InazumaEleven;
 import be.alexandre01.inazuma_eleven.categories.Alius;
+import be.alexandre01.inazuma_eleven.objects.CollierExecutor;
 import be.alexandre01.inazuma_eleven.objects.MeteorEntity;
 import be.alexandre01.inazuma_eleven.objects.Sphere;
 import be.alexandre01.inazuma_eleven.roles.raimon.*;
@@ -214,27 +215,7 @@ public class Xavier extends Role implements Listener {
             }
         });*/
 
-        RoleItem roleItem = new RoleItem();
-        ItemBuilder itemBuilder = new ItemBuilder(Material.NETHER_STAR).setName("§d§lCollier§7§l-§5§lAlius");
-        roleItem.setItemstack(itemBuilder.toItemStack());
-        roleItem.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
-        roleItem.setRightClick(player -> {
-            Jude.collierAlliusNotif(player.getLocation());
-            Jack.nearAliusActivation(player.getLocation());
-            player.sendMessage(Preset.instance.p.prefixName()+" Vous rentrez en résonance avec la §8§lpierre§7§l-§5§lalius.");
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60*2*20, 0,false,false), true);
-            inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.INCREASE_DAMAGE,1,115);
-
-            new BukkitRunnable(){
-                @Override
-                public void run(){
-
-                    inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.INCREASE_DAMAGE,1,110);
-                }
-            }.runTaskLater(inazumaUHC,20*2*60);
-
-
-        });
+        RoleItem roleItem = new CollierExecutor();
         addRoleItem(roleItem);
         addCommand("inaball", new command() {
             @Override

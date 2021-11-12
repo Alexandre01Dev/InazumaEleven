@@ -14,6 +14,7 @@ import be.alexandre01.inazuma.uhc.utils.CustomComponentBuilder;
 import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
 import be.alexandre01.inazuma_eleven.categories.Alius;
 import be.alexandre01.inazuma_eleven.objects.Capitaine;
+import be.alexandre01.inazuma_eleven.objects.CollierExecutor;
 import be.alexandre01.inazuma_eleven.roles.raimon.Axel;
 import be.alexandre01.inazuma_eleven.roles.raimon.Jack;
 import be.alexandre01.inazuma_eleven.roles.raimon.Jude;
@@ -147,15 +148,8 @@ public class Gazelle extends Role implements Listener {
             }
         });
 
-        RoleItem colierAllius = new RoleItem();
-        colierAllius.setItemstack(new ItemBuilder(Material.NETHER_STAR).setName("§d§lCollier§7§l-§5§lAlius").toItemStack());
-        colierAllius.deployVerificationsOnRightClick(colierAllius.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
-        colierAllius.setRightClick(player -> {
-            Jude.collierAlliusNotif(player.getLocation());
-            Jack.nearAliusActivation(player.getLocation());
-            player.sendMessage(Preset.instance.p.prefixName()+" Vous rentrez en résonance avec la §8§lpierre§7§l-§5§lalius.");
-            player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 20*60*2, 0,false,false), true);
-        });
+        RoleItem colierAllius = new CollierExecutor();
+
         addRoleItem(colierAllius);
 
     }

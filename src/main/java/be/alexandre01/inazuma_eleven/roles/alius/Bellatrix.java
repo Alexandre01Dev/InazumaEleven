@@ -14,6 +14,7 @@ import be.alexandre01.inazuma_eleven.InazumaEleven;
 import be.alexandre01.inazuma_eleven.categories.Alius;
 import be.alexandre01.inazuma_eleven.categories.Raimon;
 import be.alexandre01.inazuma_eleven.categories.Solo;
+import be.alexandre01.inazuma_eleven.objects.CollierExecutor;
 import be.alexandre01.inazuma_eleven.roles.raimon.*;
 import be.alexandre01.inazuma_eleven.roles.solo.Byron;
 import lombok.Setter;
@@ -85,58 +86,7 @@ public class Bellatrix extends Role implements Listener {
                     player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0,false,false), true);
             }
         });
-        RoleItem colierAllius = new RoleItem();
-        colierAllius.setItemstack(new ItemBuilder(Material.NETHER_STAR).setName("§d§lCollier§7§l-§5§lAlius").toItemStack());
-        colierAllius.deployVerificationsOnRightClick(colierAllius.generateVerification(new Tuple<>(RoleItem.VerificationType.COOLDOWN,3)));
-        colierAllius.setRightClick(new RoleItem.RightClick() {
-            boolean activate = false;
-            BukkitTask bukkitTask = null;
-            int defaultRemaining = 3*6;
-            int remaining = defaultRemaining;
-            Integer episode = null;
-            @Override
-           public void execute(Player player) {
-                Jude.collierAlliusNotif(player.getLocation());
-                Jack.nearAliusActivation(player.getLocation());
-
-                if(episode == null){
-                    episode = Episode.getEpisode();
-                }else if(episode != Episode.getEpisode()){
-                    episode = Episode.getEpisode();
-                    remaining = defaultRemaining;
-                }
-
-
-                if(!activate){
-                    player.playSound(player.getLocation(),"block.lever.click",1,1);
-                    player.sendMessage(Preset.instance.p.prefixName()+" Vous rentrez en résonance avec la §8§lpierre§7§l-§5§lalius.");
-                    //Placer l'effet à désirer
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 90*20, 0,false,false), true);
-                    bukkitTask = new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            remaining--;
-                            if(remaining == 0){
-                                player.sendMessage(Preset.instance.p.prefixName()+" Vous avez surchargé l'utilisation de la §8§lpierre§7§l-§5§lalius, vous prendrez des dégats toutes les 10 secondes");
-                            }
-                            if(remaining < 0){
-                                PatchedEntity.damage(player,2,true);
-                            }
-                        }
-                    }.runTaskTimerAsynchronously(InazumaUHC.get,0,20*10);
-                }else {
-                    player.playSound(player.getLocation(),"block.lever.click",1,1);
-                    player.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
-                    if(bukkitTask != null){
-                        bukkitTask.cancel();
-                        if(remaining < 0){
-                            remaining = 0;
-                        }
-                    }
-                }
-
-            }
-        });
+        RoleItem colierAllius = new CollierExecutor();
         addRoleItem(colierAllius);
 
     addCommand("xene", new command() {

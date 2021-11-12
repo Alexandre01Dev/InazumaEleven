@@ -10,6 +10,7 @@ import be.alexandre01.inazuma.uhc.roles.RoleItem;
 import be.alexandre01.inazuma.uhc.utils.*;
 import be.alexandre01.inazuma_eleven.InazumaEleven;
 import be.alexandre01.inazuma_eleven.categories.Alius;
+import be.alexandre01.inazuma_eleven.objects.CollierExecutor;
 import be.alexandre01.inazuma_eleven.roles.raimon.Jude;
 import lombok.Setter;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -116,12 +117,8 @@ public class Kim extends Role implements Listener {
         });
 
 
-        RoleItem alius = new RoleItem();
-        alius.setItemstack(new ItemBuilder(Material.NETHER_STAR).setName("§d§lCollier§7§l-§5§lAlius").toItemStack());
-        alius.deployVerificationsOnRightClick(alius.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES, 1)));
-        alius.setRightClick(player -> {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20*90, 0, false, false), true);
-        });
+        RoleItem collierAlius = new CollierExecutor();
+      
 
         RoleItem volSword = new RoleItem();
         ItemBuilder volAlius = new ItemBuilder(Material.DIAMOND_SWORD).setName("Vol").addEnchant(Enchantment.DAMAGE_ALL, 1);
@@ -136,7 +133,7 @@ public class Kim extends Role implements Listener {
         healSword.setItemstack(healAlius.toItemStack());
         healSword.deployVerificationsOnRightClick(healSword.generateVerification(new Tuple<>(RoleItem.VerificationType.COOLDOWN,10)));
 
-        addRoleItem(alius);
+        addRoleItem(collierAlius);
 
         healSword.setRightClick(player -> {
 

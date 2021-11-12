@@ -13,6 +13,7 @@ import be.alexandre01.inazuma_eleven.InazumaEleven;
 import be.alexandre01.inazuma_eleven.categories.Alius;
 import be.alexandre01.inazuma_eleven.listeners.EpisodeEvent;
 import be.alexandre01.inazuma_eleven.objects.Capitaine;
+import be.alexandre01.inazuma_eleven.objects.CollierExecutor;
 import be.alexandre01.inazuma_eleven.roles.raimon.Jack;
 import be.alexandre01.inazuma_eleven.roles.raimon.Jude;
 import be.alexandre01.inazuma_eleven.roles.raimon.Scotty;
@@ -84,17 +85,7 @@ public class  Janus extends Role implements Listener {
             }
         });
 
-        RoleItem roleItem = new RoleItem();
-        ItemBuilder itemBuilder = new ItemBuilder(Material.NETHER_STAR).setName("§d§lCollier§7§l-§5§lAlius");
-        roleItem.setItemstack(itemBuilder.toItemStack());
-        roleItem.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.EPISODES,1)));
-        roleItem.setRightClick(player -> {
-            Jude.collierAlliusNotif(player.getLocation());
-            Jack.nearAliusActivation(player.getLocation());
-            player.sendMessage(Preset.instance.p.prefixName()+" Vous rentrez en résonance avec la §8§lpierre§7§l-§5§lalius.");
-            inazumaUHC.dm.addEffectPourcentage(player, DamageManager.EffectType.INCREASE_DAMAGE,1,110);
-            player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 20*90, 0,false,false), true);
-        });
+        RoleItem roleItem = new CollierExecutor();
         addRoleItem(roleItem);
 
 

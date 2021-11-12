@@ -7,6 +7,7 @@ import be.alexandre01.inazuma.uhc.roles.Role;
 import be.alexandre01.inazuma.uhc.roles.RoleItem;
 import be.alexandre01.inazuma.uhc.utils.CustomComponentBuilder;
 import be.alexandre01.inazuma.uhc.utils.ItemBuilder;
+import be.alexandre01.inazuma.uhc.utils.LocationUtils;
 import be.alexandre01.inazuma.uhc.utils.TitleUtils;
 import be.alexandre01.inazuma_eleven.categories.Raimon;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -16,20 +17,27 @@ import net.minecraft.server.v1_8_R3.Tuple;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class Nathan extends Role {
+import java.util.Random;
+
+public class Nathan extends Role implements Listener {
 
     int endurance = 0;
+    boolean isOverkill = false;
 
     public Nathan(IPreset preset) {
         super("Nathan Swift",preset);
         setRoleCategory(Raimon.class);
         addDescription("https://blog.inazumauhc.fr/inazuma-eleven-uhc/roles/raimon/nathan-swift");
-
+        addListener(this);
         /*addDescription("§8- §7Votre objectif est de gagner avec §6§lRaimon");
         addDescription("§8- §7Vous possédez l’effet §b§lSpeed 1§7.");
         addDescription(" ");
@@ -117,11 +125,29 @@ public class Nathan extends Role {
 
         dribble_rafale.deployVerificationsOnRightClick(roleItem.generateVerification(new Tuple<>(RoleItem.VerificationType.COOLDOWN,60*10)));
         dribble_rafale.setRightClick(player -> {
-            Location location = player.getLocation().clone();
+            //OLD DASH
+            /*Location location = player.getLocation().clone();
             location.setPitch(location.getPitch()/8f);
 
             player.setVelocity( location.getDirection().normalize().multiply(2.5d));
-            InazumaUHC.get.noFallDamager.addPlayer(player,1000*4);
+            InazumaUHC.get.noFallDamager.addPlayer(player,1000*4);*/
+
+            isOverkill = true;
+            new BukkitRunnable() {
+                int second = 0;
+                @Override
+                public void run() {
+                    second ++;
+
+                    if(second == 15){
+                        TitleUtils.sendActionBar(player,"§cTu n'es plus invincible");
+                        isOverkill = false;
+                        cancel();
+                    }else {
+                        TitleUtils.sendActionBar(player,"§eTu es invincible pendant "+ second+" seconde(s)");
+                    }
+                }
+            }.runTaskTimer(InazumaUHC.get,0,20);
         });
         //if (endurance >= 75)
 
@@ -138,9 +164,54 @@ public class Nathan extends Role {
                 }
                 a.a();
             }
-
         },l);
     }
+
+    @EventHandler
+    public void onDamageReceived(EntityDamageByEntityEvent event){
+        if(event.getEntity() instanceof Player){
+            Player player = (Player) event.getEntity();
+            if(getPlayers().contains(player)){
+                if(isOverkill){
+                    if(event.getDamager() instanceof Player){
+                        Player damager = (Player) event.getDamager();
+                        event.setCancelled(true);
+                        int x = new Random().nextInt(10-5) + 5;
+                        int z = new Random().nextInt(10-5) + 5;
+
+                        if(new Random().nextBoolean()){
+                            x *= -1;
+                        }
+                        if(new Random().nextBoolean()){
+                            z *= -1;
+                        }
+
+                        Location location = damager.getLocation();
+                        location.add(x,0,z);
+                        boolean find = false;
+                        int aY = location.getBlockY();
+                        for (int i = -7; i < 7; i++) {
+                            location.setY(aY+i);
+                            if(location.getBlock().getType() == Material.AIR){
+                                find = true;
+                                break;
+                            }
+                        }
+
+                        if(!find){
+                            LocationUtils.getTop(location);
+                        }
+
+                        player.teleport(location);
+
+                        location.getWorld().playSound(location, Sound.ENDERMAN_TELEPORT,1,1);
+                    }
+                }
+            }
+
+        }
+    }
+
     public interface action{
         public void a();
     }
