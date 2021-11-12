@@ -254,6 +254,14 @@ public class Torch  extends Role implements Listener {
             player.getWorld().playSound(loc, Sound.GHAST_FIREBALL, 1, 0.8f);
             loc = loc.getBlock().getLocation();
 
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    loc.getBlock().setType(Material.AIR);
+                    loc = null;
+                }
+            }.runTaskLater(InazumaUHC.get,20*60*3);
+
             if(inazumaUHC.rm.getRole(Gazelle.class) != null)
             {
                 for (Player gazelle : inazumaUHC.rm.getRole(Gazelle.class).getPlayers()) {

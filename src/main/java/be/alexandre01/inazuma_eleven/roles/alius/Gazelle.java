@@ -250,6 +250,14 @@ public class Gazelle extends Role implements Listener {
             loc.getBlock().setType(Material.LAPIS_BLOCK);
             player.getWorld().playSound(loc, Sound.SPLASH, 1, 1);
 
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    loc.getBlock().setType(Material.AIR);
+                    loc = null;
+                }
+            }.runTaskLater(InazumaUHC.get,20*60*3);
+
             if(inazumaUHC.rm.getRole(Torch.class) != null)
             {
                 for (Player torch : inazumaUHC.rm.getRole(Torch.class).getPlayers()) {
